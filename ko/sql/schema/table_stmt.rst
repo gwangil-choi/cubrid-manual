@@ -167,19 +167,33 @@ CREATE TABLE
 
 **DEFAULT**\ 의 값으로 허용되는 의사 칼럼(pseudocolumn)과 함수는 다음과 같다.
 
-+---------------+---------------+
-| DEFAULT 값    | 데이터 타입   |
-+===============+===============+
-| SYS_TIMESTAMP | TIMESTAMP     |
-+---------------+---------------+
-| SYS_DATETIME  | DATETIME      |
-+---------------+---------------+
-| SYS_DATE      | DATE          |
-+---------------+---------------+
-| SYS_TIME      | TIME          |
-+---------------+---------------+
-| USER, USER()  | STRING        |
-+---------------+---------------+
++-------------------------------+---------------+
+| DEFAULT Value                 | Data Type     |
++===============================+===============+
+| SYS_TIMESTAMP                 | TIMESTAMP     |
++-------------------------------+---------------+
+| UNIX_TIMESTAMP()              | INTEGER       |
++-------------------------------+---------------+
+| CURRENT_TIMESTAMP             | TIMESTAMP     |
++-------------------------------+---------------+
+| SYS_DATETIME                  | DATETIME      |
++-------------------------------+---------------+
+| CURRENT_DATETIME              | DATETIME      |
++-------------------------------+---------------+
+| SYS_DATE                      | DATE          |
++-------------------------------+---------------+
+| CURRENT_DATE                  | DATE          |
++-------------------------------+---------------+
+| SYS_TIME                      | TIME          |
++-------------------------------+---------------+
+| CURRENT_TIME                  | TIME          |
++-------------------------------+---------------+
+| USER, USER()                  | STRING        |
++-------------------------------+---------------+
+| TO_CHAR(date_time[, format])  | STRING        |
++-------------------------------+---------------+
+| TO_CHAR(number[, format])     | STRING        |
++-------------------------------+---------------+
 
 .. note::
 
@@ -234,6 +248,21 @@ CREATE TABLE
                 5  'BBB'                 '000-0000'
                 6  'BBB'                 '111-1111'
 
+
+.. code-block:: sql
+
+    --use DEFAULT TO_CHAR in CREATE TABLE statement
+    CREATE TABLE t1(id1 INT, id2 VARCHAR(20) DEFAULT TO_CHAR(12345,'S999999'));
+    INSERT INTO t1 (id1) VALUES (1);
+    SELECT * FROM t1;
+
+::
+
+              id1  id2
+    ===================================
+                1  ' +12345'
+
+
 하나 이상의 칼럼에 의사 칼럼의 **DEFAULT** 값 지정이 가능하다.
 
 .. code-block:: sql
@@ -241,6 +270,8 @@ CREATE TABLE
     CREATE TABLE tbl (date1 DATE DEFAULT SYSDATE, date2 DATE DEFAULT SYSDATE);
     CREATE TABLE tbl (date1 DATE DEFAULT SYSDATE,
                       ts1   TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+    CREATE TABLE t1(id1 INT, id2 VARCHAR(20) DEFAULT TO_CHAR(12345,'S999999'), id3 VARCHAR(20) DEFAULT TO_CHAR(SYS_TIME, 'HH24:MI:SS'));
+    ALTER TABLE t1 add column id4 varchar (20) default TO_CHAR(SYS_DATETIME, 'yyyy/mm/dd hh:mi:ss'), id5 DATE DEFAULT SYSDATE;
 
 자동 증가 특성(AUTO INCREMENT)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -992,16 +1023,17 @@ ADD COLUMN 절
     INSERT INTO a_tbl(age) VALUES(20),(30),(40);
 
     ALTER TABLE a_tbl ADD COLUMN phone VARCHAR(13) DEFAULT '000-0000-0000' AFTER name;
-     
+    ALTER TABLE a_tbl ADD COLUMN birthday VARCHAR(20) DEFAULT TO_CHAR(SYSDATE,'YYYY-MM-DD'); 
     SELECT * FROM a_tbl;
      
 ::
 
-       id  name                  phone                         age
-    ==============================================================
-        1  NULL                  '000-0000-0000'                20
-        2  NULL                  '000-0000-0000'                30
-        3  NULL                  '000-0000-0000'                40
+      id  name                  phone                         age  birthday
+    ============================================================================================
+       1  NULL                  '000-0000-0000'                20  '2017-05-24'
+       2  NULL                  '000-0000-0000'                30  '2017-05-24'
+       3  NULL                  '000-0000-0000'                40  '2017-05-24'
+
      
     --adding multiple columns
     ALTER TABLE a_tbl ADD COLUMN (age1 int, age2 int, age3 int);
@@ -1215,6 +1247,27 @@ ALTER COLUMN ... SET DEFAULT 절
      <Constraints>
      
          UNIQUE u_a_tbl_id ON a_tbl (id)
+.. code-block:: sql
+
+    CREATE TABLE t1(id1 VARCHAR(20), id2 VARCHAR(20) DEFAULT '');
+    ALTER TABLE t1 ALTER COLUMN id1 SET DEFAULT TO_CHAR(SYS_DATETIME, 'yyyy/mm/dd hh:mi:ss');
+
+::
+
+     csql> ;schema t1
+
+     === <Help: Schema of a Class> ===
+
+
+     <Class Name>
+
+         t1
+
+     <Attributes>
+
+         id1                  CHARACTER VARYING(20) DEFAULT TO_CHAR(SYS_DATETIME, 'yyyy/mm/dd hh:mi:ss')
+         id2                  CHARACTER VARYING(20) DEFAULT ''
+
 
 .. _alter-auto-increment:
 
@@ -1336,6 +1389,23 @@ CHANGE/MODIFY 절
                 33            3
 
 .. code-block:: sql
+
+    ALTER TABLE t1 MODIFY i1 VARCHAR (200) DEFAULT TO_CHAR (SYS_DATE);
+    INSERT INTO t1(i0) VALUES (17);
+    SELECT * FROM t1 ORDER BY 1;
+
+::
+
+              i0  i1
+    ===================================
+              11  '1'
+              17  '05/24/2017'
+              22  '2'
+              33  '3'
+
+.. code-block:: sql
+
+
 
     -- adding NOT NULL constraint (strict)
     SET SYSTEM PARAMETERS 'alter_table_change_type_strict=yes';
