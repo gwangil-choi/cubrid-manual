@@ -1819,18 +1819,50 @@ Linux
 CUBRID가 생성한 타임존 라이브러리는 타임존 데이터에 MD5 체크섬을 포함하고 있다. 이 해쉬는 이 라이브러리에 의해서 생성된 모든 데이터베이스에 저장되어있다. 구체적으로 **db_root** 시스템 테이블의 **timezone_checksum** 컬럼에 있다. 타임존 라이브러리가 변경되거나 (새로운 타임존 데이터와 같이 재 컴파일) 체크섬이 변경된 경우에 CUBRID server나 기타 어떤 CUBRID 도구도 기존의 데이터베이스를 이용하여 시작할 수 없다.
 이러한 비 호환성을 피하기 위해서, make_tz 도구의 인수를 확장하기 위한 옵션이 사용된다. 이 옵션이 주어지면, 데이터베이스의 **timezone_checksum** 값도 새로운 타임존 라이브러리의 새로운 MD5 체크섬으로 변경된다.
 
+The extend feature should be used when you decide to use a different version of timezone library from the IANA site. It does two things:
+
+-   It generates a new library by merging the old timezone data with the new timezone data.
+    After the merge, all the timezone regions that aren't present in the new timezone database are kept in order to ensure backward compatibility
+    with the data in the database tables.
+
+-   The second thing that it does is to update the timezone data in the tables in the situation when backward compatibility
+    could not be ensured in the first phase when the new timezone library was generated. This situation can occur
+    when an offset rule or a daylight saving rule changes.
+
+When you run make_tz with the extend option all the databases in your database directory file (databases.txt) are updated together with the MD5 checksum.
+There are some corner cases:
+
+-   There is the situation when multiple users share the same CUBRID installation and an extend is done by one of them. If that user doesn't have access
+    rights on the files that contain the databases of the other users, those databases will not be updated. After that, if a different user for whom
+    the update wasn't made will try to do an extend on his or her databases, he or she will not be able to do this because the checksum of the library will be
+    different from the one in his or her databases.
+-   Also, if the CUBRID_DATABASES environment variable has a different value for some users, they will have different databases.txt files.
+    In this situation, currently, the update of all the databases at once will not be possible.
+
+There would be two solutions for this with the current implementation:
+
+-   Each user grants access to the folders that contain his or her databases and also the CUBRID_DATABASES variable must have the same value.
+-   If this is is not possible, then we can do the following for each user except the last one:
+
+    -   Backup the current timezone library and the databases.txt file
+    -   Delete from the databases.txt file all the databases except for the ones of the current user
+    -   Run the extend
+    -   Restore the databases.txt file and the timezone library
+
+For the last user the single difference is that only the databases.txt file should be backed up and restored.
+
 In Linux:
 
     ::
 
-        make_tz.sh -g extend -d basic
+        make_tz.sh -g extend 
 
 
 In Windows:
 
         ::
 
-         make_tz.bat /extend basic
+         make_tz.bat /extend 
          
 JDBC에서 타임존 데이터 타입의 사용
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
