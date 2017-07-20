@@ -679,35 +679,25 @@ Volume_id                           INT             Volume identifier
 Magic_symbol                        VARCHAR(100)    Magic value for for
 a volume file
 Io_page_size                        INT             Size of DB volume
-Purpose                             VARCHAR(32)     Volume purposes, 'Permanent
-data purpose' or 'Temporary data purpose'
-Type                                VARCHAR(32)     Volume type, 'Permanent
-Volume' or 'Temporary Volume'
+Purpose                             VARCHAR(32)     Volume purposes, 'Permanent data purpose' or 'Temporary data purpose'
+Type                                VARCHAR(32)     Volume type, 'Permanent Volume' or 'Temporary Volume'
 Sector_size_in_pages                INT             Size of sector in pages
 Num_total_sectors                   INT             Total number of sectors
 Num_free_sectors                    INT             Number of free sectors
 Num_max_sectors                     INT             Maximum number of sectors
-Hint_alloc_sector                   INT             Hint for next sector to be
-allocated
-Sector_alloc_table_size_in_pages    INT             Size of sector allocation
-table in page
-Sector_alloc_table_first_page       INT             First page of sector
-allocation table
-Page_alloc_table_size_in_pages      INT             Size of page allocation
-table in page
-Page_alloc_table_first_page         INT             First page of page
-allocation table
+Hint_alloc_sector                   INT             Hint for next sector to be allocated
+Sector_alloc_table_size_in_pages    INT             Size of sector allocation table in page
+Sector_alloc_table_first_page       INT             First page of sector allocation table
+Page_alloc_table_size_in_pages      INT             Size of page allocation table in page
+Page_alloc_table_first_page         INT             First page of page allocation table
 Last_system_page                    INT             Last system page
 Creation_time                       DATETIME        Database creation time
 Db_charset                          INT             Charset number of database
-Checkpoint_lsa                      VARCHAR(64)     Lowest log sequence address
-to start the recovery process of this volume
-Boot_hfid                           VARCHAR(64)     System Heap file for
-booting purposes and multi volumes
+Checkpoint_lsa                      VARCHAR(64)     Lowest log sequence address to start the recovery process of this volume
+Boot_hfid                           VARCHAR(64)     System Heap file for booting purposes and multi volumes
 Full_name                           VARCHAR(255)    The full path of volume
 Next_volume_id                      INT             Next volume identifier
-Next_vol_full_name                  VARCHAR(255)    The full path of next
-volume
+Next_vol_full_name                  VARCHAR(255)    The full path of next volume
 Remarks                             VARCHAR(64)     Volume remarks
 =================================== =============== ======================================================================================================================================
 
