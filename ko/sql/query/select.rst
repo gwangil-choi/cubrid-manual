@@ -577,15 +577,24 @@ LIMIT 절
 
     LIMIT {[offset,] row_count | row_count [OFFSET offset]}
 
-*   *offset*: 출력할 레코드의 시작 행 오프셋 값을 지정한다. 결과 셋의 시작 행 오프셋 값은 0이다. 생략할 수 있으며, 기본값은 **0** 이다.
-*   *row_count*: 출력하고자 하는 레코드 개수를 명시한다. 0보다 큰 정수를 지정할 수 있다.
+    <offset> ::= <limit_expression>
+    <row_count> ::= <limit_expression>
+
+    <limit_expression> ::= <limit_term> | <limit_expression> + <limit_term> | <limit_expression> - <limit_term>
+    <limit_term> ::= <limit_factor> | <limit_term> * <limit_factor> | <limit_term> / <limit_factor>
+    <limit_factor> ::= <unsigned int> | <input_hostvar> | ( <limit_expression> )
+
+*   *offset*: Specifies the offset of the starting row to be displayed. The offset of the starting row of the result set is 0; it can be omitted and the default value is **0**. It can be one of unsigned int, a host variable or a simple expression.
+*   *row_count*: Specifies the number of records to be displayed. It can be one of unsigned integer, a host variable or a simple expression.
 
 .. code-block:: sql
 
     -- LIMIT clause can be used in prepared statement
     PREPARE stmt FROM 'SELECT * FROM sales_tbl LIMIT ?, ?';
     EXECUTE stmt USING 0, 10;
-     
+
+.. code-block:: sql
+
     -- selecting rows with LIMIT clause
     SELECT * 
     FROM sales_tbl
@@ -621,6 +630,15 @@ LIMIT 절
               201  'George'                        2           250
               201  'Laura'                         2           500
               301  'Max'                           1           300
+
+.. code-block:: sql
+
+    -- LIMIT clause allows simple expressions for both offset and row_count
+    SELECT *
+    FROM sales_tbl
+    WHERE sales_amount > 100
+    LIMIT ? * ?, (? * ?) + ?;
+
 
 .. _join-query:
               
