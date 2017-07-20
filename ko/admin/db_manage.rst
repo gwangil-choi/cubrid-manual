@@ -52,74 +52,83 @@ CUBRID 데이터베이스의 볼륨은 크게 영구적 볼륨, 일시적 볼륨
 
 *   영구적 볼륨 중
  
-    *   데이터베이스 볼륨에는 범용(generic), 데이터(data), 인덱스(index), 임시(temp) 볼륨이 있고, 
-    *   로그 볼륨에는 활성(active) 로그, 보관(archiving) 로그, 백그라운드 보관(background archiving) 로그가 있다.
+    *   there are data volumes, that usually store permanent data, but can also store temporary data.
+    *   there are log volumes, that can be further classified as: one active log, archive logs and one background archiving log.
     
-*   일시적 볼륨에는 일시적 임시(temporary temp) 볼륨이 있다.
+*   In the temporary volumes, only temporary data is stored.
 
 볼륨에 대한 자세한 내용은 :ref:`database-volume-structure`\ 를 참고한다.
 
 다음은 *testdb* 데이터베이스를 운영할 때 발생하는 데이터베이스 관련 파일의 예이다.
 
 +----------------+-------+-----------------+----------------+------------------------------------------------------------------------------------------------------+
-| 파일 이름      | 크기  | 종류            | 분류           | 설명                                                                                                 |
+| File name      | Size  | Purpose         | Classification | Description                                                                                          |
 +================+=======+=================+================+======================================================================================================+
-| testdb         | 40MB  | generic         | 데이터베이스   | DB 생성 시 최초로 생성되는 볼륨. **generic** 볼륨으로 사용되며, DB의 메타 정보를 포함한다.           |
-|                |       |                 | 볼륨           | cubrid.conf의 db_volume_size를 40M로 명시한 후 "cubrid createdb"를 수행했거나 "cubrid createdb"      |
-|                |       |                 |                | 수행 시 --db-volume-size를 40M로 명시했기 때문에 파일의 크기는 40MB가 되었다.                        |
-|                |       |                 |                |                                                                                                      |
+| testdb         | 512MB | | permanent     | | Database     | | The firstly created volume when DB is created.                                                     |
+|                |       | | data          | | volume       | | This volume stores permanent data (system, heap and index files).                                  |
+|                |       |                 |                | | This volume includes database meta information.                                                    |
+|                |       |                 |                | | **cubrid createdb** uses by default the size specified by **db_volume_size** in **cubrid.conf**.   |
 +----------------+-------+-----------------+                +------------------------------------------------------------------------------------------------------+
-| testdb_x001    | 40MB  | generic, data   |                | 자동으로 생성된 **generic** 파일 또는 사용자의 볼륨 추가 명령으로 생성된 파일.                       |
-|                |       | index           |                | cubrid.conf의 db_volume_size를 40M로 명시한 후 DB를 시작했기                                         |
-|                |       | 중 하나         |                | 때문에 자동으로 생성되는 **generic** 파일의 크기는 40MB가 되었다.                                    |
+| testdb_perm    | 512MB | | permanent     |                | | Manually added volume using **cubrid addvoldb** utility                                            |
+|                |       | | data          |                | | This volume stores permanent data (system, heap and index files).                                  |
 +----------------+-------+-----------------+                +------------------------------------------------------------------------------------------------------+
-| testdb_x002    | 40MB  | generic, data   |                | 자동으로 생성된 **generic** 파일 또는 사용자의 볼륨 추가 명령으로 생성된 파일                        |
-|                |       | index  중 하나  |                |                                                                                                      |
+| testdb_temp    | 512MB | | temporary     |                | | Manually added volume using **cubrid addvoldb** utility                                            |
+|                |       | | data          |                | | This volume stores temporary data (query results, list files, sort files, join object hashes).     |
 +----------------+-------+-----------------+                +------------------------------------------------------------------------------------------------------+
-| testdb_x003    | 40MB  | generic, data   |                | 자동으로 생성된 **generic** 파일 또는 사용자의 볼륨 추가 명령으로 생성된 파일                        |
-|                |       | index 중 하나   |                |                                                                                                      |
+| testdb_x003    | 512MB | | permanent     |                | | Automatically created when database requires more space.                                           |
+|                |       | | data          |                | | This volume stores permanent data (system, heap and index files).                                  |
 +----------------+-------+-----------------+                +------------------------------------------------------------------------------------------------------+
-| testdb_x004    | 40MB  | generic, data   |                | 자동으로 생성된 **generic** 파일 또는 사용자의 볼륨 추가 명령으로 생성된 파일                        |
-|                |       | index 중 하나   |                |                                                                                                      |
+| testdb_x004    | 512MB | | permanent     |                | | Automatically created when database requires more space.                                           |
+|                |       | | data          |                | | This volume stores permanent data (system, heap and index files).                                  |
 +----------------+-------+-----------------+                +------------------------------------------------------------------------------------------------------+
-| testdb_x005    | 40MB  | generic, data   |                | 자동으로 생성된 **generic** 파일 또는 사용자의 볼륨 추가 명령으로 생성된 파일                        |
-|                |       | index 중 하나   |                |                                                                                                      |
+| testdb_x005    | 512MB | | permanent     |                | | Automatically created when database requires more space.                                           |
+|                |       | | data          |                | | This volume stores permanent data (system, heap and index files).                                  |
 +----------------+-------+-----------------+                +------------------------------------------------------------------------------------------------------+
-| testdb_x006    | 2GB   | generic, data   |                | 자동으로 생성된 **generic** 파일 또는 사용자의 볼륨 추가 명령으로 생성된 파일.                       |
-|                |       | index 중 하나   |                |                                                                                                      |
-|                |       |                 |                |                                                                                                      |
+| testdb_x006    | 64MB  | | permanent     |                | | Automatically created when database requires more space.                                           |
+|                |       | | data          |                | | This volume stores permanent data (system, heap and index files).                                  |
+|                |       |                 |                | | The size of volume is not maximized (yet).                                                         |
 +----------------+-------+-----------------+----------------+------------------------------------------------------------------------------------------------------+
-| testdb_t32766  | 360MB | temporary temp  | Temp Volume    | **temp** 볼륨이 필요한 질의(예: 정렬, 스캐닝, 인덱스 생성) 실행 중 **temp** 볼륨의 공간이            |
-|                |       |                 |                | 부족할 때 임시로 생성되는 파일. DB를 재시작하면 삭제된다. 하지만 임의로 삭제하면 안 된다.            |
-|                |       |                 |                |                                                                                                      |
+| testdb_t32766  | 512MB | | temporary     | | Temporary    | | Automatically created when database requires more space.                                           |
+|                |       | | data          | | Volume       | | This volume stores temporary data (query results, list files, sort files, join object hashes).     |
 +----------------+-------+-----------------+----------------+------------------------------------------------------------------------------------------------------+
-| testdb_lgar_t  | 40MB  | background      | 로그 볼륨      | 백그라운드 보관(background archiving) 기능과 관련된 로그 파일.                                       |
-|                |       | archiving       |                | 보관 로그를 저장할 때 사용된다.                                                                      |
+| testdb_lgar_t  | 512MB | | background    | | Log          | | A log file which is related to the background archiving feature.                                   |
+|                |       | | archiving     | | volume       | | This is used when storing the archiving log.                                                       |
 +----------------+-------+-----------------+                +------------------------------------------------------------------------------------------------------+
-| testdb_lgar224 | 40MB  | archiving       |                | 보관 로그(archiving log)가 계속 쌓이면서 세 자리 숫자로 끝나는 파일들이 생성되는데,                  |
-|                |       |                 |                | cubrid backupdb -r 옵션 또는 cubrid.conf의 log_max_archives 파라미터의 설정으로 인해 001~223까지의   |
-|                |       |                 |                | 보관 로그들은 정상적으로 삭제된 것으로 보인다. 보관 로그가  삭제되는 경우, lginf 파일의 REMOVE       |
-|                |       |                 |                | 섹션에서 삭제된 보관 로그 번호를 확인할 수 있다. :ref:`managing-archive-logs`\ 를 참고한다.          |
+| testdb_lgar224 | 512MB | | archive       |                | | Archiving logs are continuously archived and the files ending with three digits are created.       |
+|                |       |                 |                | | At this time, archiving logs from 001~223 seem to be removed normally by **cubrid backupdb** -r    |
+|                |       |                 |                | | option or the setting of **log_max_archives** in **cubrid.conf**. When archiving logs are removed, |
+|                |       |                 |                | | you can see the removed archiving log numbers in the REMOVE section of lginf file.                 |
+|                |       |                 |                | | See :ref:`managing-archive-logs`.                                                                  |
 +----------------+-------+-----------------+                +------------------------------------------------------------------------------------------------------+
-| testdb_lgat    | 40MB  | active          |                | 활성 로그(active log) 파일                                                                           |
+| testdb_lgat    | 512MB | | active        |                | | Active log file                                                                                    |
 +----------------+-------+-----------------+----------------+------------------------------------------------------------------------------------------------------+
 
 *   데이터베이스 볼륨 파일
 
-    *   위의 예에서 *testdb*, *testdb_x001* ~ *testdb_x006* 이 데이터베이스 볼륨 파일에 해당된다.
-    *   "cubrid createdb", "cubrid addvoldb" 명령 수행 시 "--db-volume-size" 옵션에 의해 크기가 정해진다. 
-    *   자동으로 생성되는 볼륨은 항상 **generic** 타입이다.
+    *  In the table above, *testdb*, *testdb_perm*, *testdb_temp*, *testdb_x003* ~ *testdb_x006* are classified as the database volume files.
+    *  File size is determined by **db_volume_size** in **cubrid.conf** or the **--db-volume-size** option of **cubrid createdb** and **cubrid addvoldb**.
+    *  When database remains out of space, it automatically expands existing volumes and creates new volumes.
+
+*   Temporary volume
+
+    *  Temporary volumes are usually used to store temporary data. They are automatically created and destroyed by database.
+    *  File size is determined by **db_volume_size** in **cubrid.conf**.
+
     
 *   로그 볼륨 파일
 
     *   위의 예에서 *testdb_lgar_t*, *testdb_lgar224*, *testdb_lgat* 가 로그 볼륨 파일에 해당된다.
-    *   "cubrid createdb" 명령 수행 시 "--log-volume-size" 옵션에 의해 크기가 정해진다.  
+    *   File size is determined by **log_volume_size** in **cubrid.conf** or the **--log-volume-size** option of **cubrid createdb**.
 
 .. note::
 
-    임시 볼륨은 질의 처리 및 정렬(sorting)을 수행할 때 중간, 최종 결과를 임시로 저장하는 공간으로, 일시적 임시 볼륨과 영구적 임시 볼륨으로 구분한다.
+    Any data that has to be persistent over database restart and crash is stored in the database volumes created for permanent data purpose. The volumes store table rows (heap files), indexes (b-tree files) and several system files.
 
-    영구적 또는 일시적 임시 볼륨을 사용할 수 있는 질의의 예는 다음과 같다.
+    Intermediate and final results of query processing and sorting need only temporary storage. Based on the size of required temporary data, it will be first stored in memory (the space size is determined by the system parameter **temp_file_memory_size_in_pages** specified in **cubrid.conf**). Exceeding data has to be stored on disk.
+
+    Database will usually create and use temporary volumes to allocate disk space for temporary data. Administrator may however assign permanent database volumes with the purpose of storing temporary data using by running **cubrid addvoldb -p temp** command. If such volumes exist, they will have priority over temporary volumes when disk space is allocated for temporary data.
+
+    The examples of queries that can use temporary data are as follows:
 
     *   **SELECT** 문 등 질의 결과가 생성되는 질의
     *   **GROUP BY** 나 **ORDER BY** 가 포함된 질의
@@ -127,16 +136,9 @@ CUBRID 데이터베이스의 볼륨은 크게 영구적 볼륨, 일시적 볼륨
     *   정렬 병합(sort-merge) 조인이 수행되는 질의
     *   **CREATE INDEX** 문이 포함된 질의
 
-    위와 같은 질의를 수행할 때 **SELECT** 결과를 저장하거나 데이터를 정렬하기 위해 지정한 메모리 공간 (**cubrid.conf** 에서 지정하는 시스템 파라미터인 **temp_file_memory_size_in_pages**\에 의해 메모리 공간의 크기가 결정됨)을 소진하면 임시 볼륨 공간을 사용한다. 질의 처리 및 정렬 결과를 저장하기 위해 사용하는 저장 공간의 순서는 다음과 같으며, 위의 저장 공간을 모두 소진하면 아래의 저장 공간을 사용한다.
+    To have complete control on the disk space used for temporary data and to prevent it from consuming all system disk space, our recommendation is to:
 
-    *   **temp_file_memory_size_in_pages** 시스템 파라미터에 의해 확보된 메모리
-    *   영구적 임시 볼륨
-    *   일시적 임시 볼륨
+       *   create permanent database volumes in advance to secure the required space for temporary data
+       *   limit the size of the space used in the temporary volumes when a queries are executed by setting **temp_file_max_size_in_pages** parameter in **cubrid.conf** (there is no limit by default).
 
-    (큰 크기의 임시 공간이 필요한 질의를 수행하면서 일시적 임시 볼륨이 기대 이상으로 증가함으로 인해) 디스크의 여유 공간이 부족해져 시스템 운영에 문제가 발생하는 것을 예방하려면, 
-    
-    *   예상하는 영구적 임시 볼륨을 미리 확보하고, 
-    *   일시적 임시 볼륨에서 하나의 질의가 수행될 때 사용되는 공간의 최대 크기를 제한하는 것이 좋다. 
-    
-    영구적 임시 볼륨은 "cubrid addvoldb -p temp" 명령을 실행하여 확보하며, 하나의 질의가 수행되는 동안 차지하는 일시적 임시 공간의 최대 크기는 **cubrid.conf**\의 **temp_file_max_size_in_pages** 파라미터에 의해 제한한다(기본값은 -1로 무제한).
 
