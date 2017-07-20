@@ -323,12 +323,12 @@ CUBRID는 데이터베이스 서버, 브로커, CUBRID 매니저로 구성된다
 
 .. _lpg:
     
-*   log_page_size: :ref:`데이터베이스 생성<creating-database>` 시 **--log-page-size** 옵션으로 지정한 로그 볼륨 페이지 크기. 기본값: 16KB. 관련 파라미터의 설정 값은 페이지 단위로 버림된다.
+*   **log_page_size**: :ref:`데이터베이스 생성<creating-database>` 시 **--log-page-size** 옵션으로 지정한 로그 볼륨 페이지 크기. 기본값: 16KB. 관련 파라미터의 설정 값은 페이지 단위로 버림된다.
     예를 들어 checkpoint_every_size 의 값은 16KB로 나누어 소수점 이하를 버림한 값에 16KB를 곱한 값이 된다.
 
 .. _dpg:
 
-*   db_page_size: :ref:`데이터베이스 생성<creating-database>` 시 **--db-page-size** 옵션으로 지정한 DB 볼륨 페이지 크기. 기본값: 16KB. 관련 파라미터의 설정 값은 페이지 단위로 버림된다. 
+*   **db_page_size**: :ref:`데이터베이스 생성<creating-database>` 시 **--db-page-size** 옵션으로 지정한 DB 볼륨 페이지 크기. 기본값: 16KB. 관련 파라미터의 설정 값은 페이지 단위로 버림된다. 
     예를 들어 data_buffer_size 의 값은 16KB로 나누어 소수점 이하를 버림한 값에 16KB를 곱한 값이 된다.
 
 파라미터의 섹션별 분류
@@ -795,11 +795,11 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **error_log_level**
 
-    **error_log_level**\ 은 에러 심각성(severity) 수준에 따라 에러 로그 파일에 저장할 에러 메시지를 지정할 수 있는 서버 파라미터이다. 에러 심각성 수준은 가장 낮은 수준인 **NOTIFICATION** 부터 가장 심각한 수준인 **FATAL** 까지 총 5단계로 구성되며, 그에 따른 에러 메시지 포함 관계는 **FATAL** < **ERROR** < **SYNTAX** < **WARNING** < **NOTIFICATION**\ 이다. 기본값은 **SYNTAX**\ 이며, 이 경우 **FATAL**, **ERROR**, **SYNTAX** 에 해당하는 에러 메시지만 에러 로그 파일에 기록된다.
+    **error_log_level** is a server parameter to configure an error message to be stored based on severity. There are five different levels which range from **WARNING** (lowest level), to **FATAL** (highest level). The inclusion relation in messages is **FATAL** < **ERROR** < **SYNTAX** < **NOTIFICATION** < **WARNING**. The default is **NOTIFICATION**. If severity of error is **NOTIFICATION**, error messages with **NOTIFICATION**, **SYNTAX**, **ERROR** and **FATAL** levels are written to the log file.
 
 **error_log_warning**
 
-    **error_log_warning**\ 은 에러 심각성(severity) 수준이 **WARNING** 인 에러 메시지의 출력 여부를 설정할 수 있는 서버 파라미터이다. 기본값은 **no**\ 이므로, **error_log_level** 의 값이 **NOTIFICATION** 으로 설정된 경우에도 **WARNING** 메시지를 제외한 나머지 수준의 에러 메시지만 저장될 것이다. 따라서, **WARNING** 메시지가 에러 로그 파일에 저장되도록 하려면, **error_log_warning** 의 값을 **yes**\ 로 설정해야 한다.
+    **error_log_warning** is a parameter to configure whether or not error messages with a severity level of **WARNING** are to be displayed. Its default value is **no**. For this reason, you must set **error_log_warning** to **yes** to store **WARNING** messages to an error log file.
 
 **error_log_size**
 
@@ -957,15 +957,15 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **checkpoint_sleep_msecs**
 
-    체크포인트가 발생할 때 버퍼의 데이터를 디스크에 플러시하는 작업을 천천히 진행하게 하는 파라미터이다. 기본값은 1(밀리초)이다.
+    체크포인트가 발생할 때 버퍼의 데이터를 디스크에 플러시하는 작업을 천천히 진행하게 하는 파라미터이다. 기본값은 **1** (밀리초)이다.
 
 **force_remove_log_archives**
 
     **force_remove_log_archives**\ 는 **log_max_archives**\ 로 지정한 개수의 최근 보관 로그(log archive) 파일을 제외한 나머지 파일의 삭제 허용 여부를 지정하는 파라미터로서, 기본값은 **yes**\ 이다.
 
-    파라미터 값을 yes로 설정하면, **log_max_archives**\ 로 지정한 개수의 최근 보관 로그 파일을 제외한 나머지 파일이 삭제된다.
+    파라미터 값을 **yes** 로 설정하면, **log_max_archives**\ 로 지정한 개수의 최근 보관 로그 파일을 제외한 나머지 파일이 삭제된다.
 
-    파라미터 값을 no로 설정하면, 보관 로그 파일이 삭제되지 않지만, 예외적으로 **ha_mode**\ 를 on으로 설정하면 HA 관련 프로세스에 필요한 보관 로그 파일과 **log_max_archvies**\ 로 지정한 개수의 최근 보관 로그 파일을 제외한 나머지 파일이 삭제된다.
+    파라미터 값을 **no** 로 설정하면, 보관 로그 파일이 삭제되지 않지만, 예외적으로 **ha_mode**\ 를 on으로 설정하면 HA 관련 프로세스에 필요한 보관 로그 파일과 **log_max_archvies**\ 로 지정한 개수의 최근 보관 로그 파일을 제외한 나머지 파일이 삭제된다.
 
     CUBRID HA 환경을 구축하고자 하는 사용자는 :ref:`ha-configuration`\ 을 참고한다.
 

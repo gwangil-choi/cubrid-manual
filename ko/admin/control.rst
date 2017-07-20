@@ -173,13 +173,13 @@ Windows 환경에서는 시스템 권한을 가진 사용자로 로그인한 경
     @ cubrid server start: demodb
 
     This may take a long time depending on the amount of recovery works to do.
-    CUBRID 9.2
+    CUBRID 10.1 
 
     ++ cubrid server start: success
     @ cubrid server start: testdb
 
     This may take a long time depending on the amount of recovery works to do.
-    CUBRID 9.2
+    CUBRID 10.1 
 
     ++ cubrid server start: success
     @ cubrid broker start
@@ -254,14 +254,14 @@ CUBRID 서비스를 재구동하려면 다음과 같이 입력한다. 사용자�
 
     This may take a long time depending on the amount of recovery works to do.
 
-    CUBRID 10.0
+    CUBRID 10.1
 
     ++ cubrid server start: success
     @ cubrid server start: testdb
 
     This may take a long time depending on the amount of recovery works to do.
 
-    CUBRID 10.0
+    CUBRID 10.1
 
     ++ cubrid server start: success
     @ cubrid broker start
@@ -280,8 +280,8 @@ CUBRID 서비스를 재구동하려면 다음과 같이 입력한다. 사용자�
     ++ cubrid master is running.
     @ cubrid server status
 
-    Server testdb (rel 9.2, pid 31059)
-    Server demodb (rel 9.2, pid 30950)
+    Server testdb (rel 10.1, pid 31059)
+    Server demodb (rel 10.1, pid 30950)
 
     @ cubrid broker status
     % query_editor
@@ -316,7 +316,7 @@ CUBRID는 cubrid 유틸리티의 수행 결과에 대한 로깅 기능을 제공
  
 **로깅 내용**
  
-$CUBRID/log/cubrid_utility.log 파일에 다음의 내용들이 로깅된다.
+**$CUBRID/log/cubrid_utility.log** 파일에 다음의 내용들이 로깅된다.
  
 *   cubrid 유틸리티를 통해 수행된 모든 명령:  usage, version, parsing 에러는 제외
     
@@ -326,7 +326,7 @@ $CUBRID/log/cubrid_utility.log 파일에 다음의 내용들이 로깅된다.
  
 **로그 파일 크기** 
  
-cubrid_utility.log 파일의 크기는 cubrid.conf의 error_log_size 파라미터에 설정한 값만큼 커지고, 해당 크기만큼 커지면 cubrid_utility.log.bak 파일로 백업된다.
+**cubrid_utility.log** 파일의 크기는 cubrid.conf의 error_log_size 파라미터에 설정한 값만큼 커지고, 해당 크기만큼 커지면 **cubrid_utility.log.bak** 파일로 백업된다.
  
 **로그 포맷**
  
@@ -348,7 +348,7 @@ cubrid_utility.log 파일의 크기는 cubrid.conf의 error_log_size 파라미�
     13-11-19 15:27:31.671 (17868) cubrid service stop
     13-11-19 15:27:34.909 (17868) SUCCESS
  
-단, Windows 환경에서는 일부 cubrid 명령이 서비스 프로세스를 통해 다시 실행되는 구조이므로 Linux와 달리 중첩된 정보가 출력될 수 있다.
+단, Windows 환경에서는 일부 **cubrid** 명령이 서비스 프로세스를 통해 다시 실행되는 구조이므로 Linux와 달리 중첩된 정보가 출력될 수 있다.
  
 ::
  
@@ -357,7 +357,7 @@ cubrid_utility.log 파일의 크기는 cubrid.conf의 error_log_size 파라미�
     13-11-13 17:17:56.027 ( 7848) SUCCESS
     13-11-13 17:17:57.136 ( 3820) SUCCESS
 
-또한 Windows 환경에서는 서비스 프로세스를 통해 수행되는 프로세스는 오류 메시지를 출력하지 못하므로, 서비스 구동과 관련된 오류메시지는 반드시 cubrid_utility.log를 통해 확인해야 한다.
+또한 Windows 환경에서는 서비스 프로세스를 통해 수행되는 프로세스는 오류 메시지를 출력하지 못하므로, 서비스 구동과 관련된 오류메시지는 반드시 **cubrid_utility.log** 를 통해 확인해야 한다.
 
 .. _control-cubrid-server:
 
@@ -377,7 +377,7 @@ cubrid_utility.log 파일의 크기는 cubrid.conf의 error_log_size 파라미�
 
     This may take a long time depending on the amount of recovery works to do.
 
-    CUBRID 9.2
+    CUBRID 10.1 
 
     ++ cubrid server start: success
 
@@ -393,7 +393,7 @@ cubrid_utility.log 파일의 크기는 cubrid.conf의 error_log_size 파라미�
 
     This may take a long time depending on the amount of recovery works to do.
 
-    CUBRID 9.2
+    CUBRID 10.1 
 
     ++ cubrid server start: success
 
@@ -450,7 +450,7 @@ cubrid_utility.log 파일의 크기는 cubrid.conf의 error_log_size 파라미�
 
     This may take a long time depending on the amount of recovery works to do.
 
-    CUBRID 9.2
+    CUBRID 10.1 
 
     ++ cubrid server start: success
 
@@ -464,8 +464,8 @@ cubrid_utility.log 파일의 크기는 cubrid.conf의 error_log_size 파라미�
     % cubrid server status
     
     @ cubrid server status
-    Server testdb (rel 9.2, pid 24465)
-    Server demodb (rel 9.2, pid 24342)
+    Server testdb (rel 10.1, pid 24465)
+    Server demodb (rel 10.1, pid 24342)
 
 마스터 프로세스가 중지된 상태라면, 다음과 같은 메시지가 출력된다. 
 
@@ -553,7 +553,7 @@ cubrid_utility.log 파일의 크기는 cubrid.conf의 error_log_size 파라미�
     Time: 10/29/10 17:32:42.360 - ERROR *** ERROR CODE = -1022, Tran = 0, CLIENT = (unknown):(unknown)(-1), EID = 2
     Address(10.24.18.66) is not authorized.
 
-데이터베이스 서버의 에러 로그는 $CUBRID/log/server 디렉터리에 생성되며, 파일 이름은 <db_name>_<yyyymmdd>_<hhmi>.err 형식으로 저장된다. 확장자는 .err이다.
+데이터베이스 서버의 에러 로그는 **$CUBRID/log/server** 디렉터리에 생성되며, 파일 이름은 <db_name>_<yyyymmdd>_<hhmi>.err 형식으로 저장된다. 확장자는 .err이다.
  
 ::
  
@@ -570,9 +570,9 @@ cubrid_utility.log 파일의 크기는 cubrid.conf의 error_log_size 파라미�
  
 질의 성능에 영향을 주는 이벤트가 발생하면 해당 이벤트를 이벤트 로그에 기록한다.
 
-이벤트 로그에 저장되는 이벤트는 SLOW_QUERY, MANY_IOREADS, LOCK_TIMEOUT, DEADLOCK, 그리고 TEMP_VOLUME_EXPAND가 있다.
+이벤트 로그에 저장되는 이벤트는 *SLOW_QUERY*, *MANY_IOREADS*, *LOCK_TIMEOUT*, *DEADLOCK*, 그리고 *TEMP_VOLUME_EXPAND* 가 있다.
 
-해당 로그 파일은 $CUBRID/log/server 디렉터리에 생성되며, 파일 이름은 <db_name>_<yyyymmdd>_<hhmi>.event 형식으로 저장된다. 확장자는 .event이다.
+해당 로그 파일은 **$CUBRID/log/server** 디렉터리에 생성되며, 파일 이름은 <db_name>_<yyyymmdd>_<hhmi>.event 형식으로 저장된다. 확장자는 .event이다.
  
 ::
  
