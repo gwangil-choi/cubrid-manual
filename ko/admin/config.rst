@@ -143,8 +143,6 @@ CUBRID는 데이터베이스 서버, 브로커, CUBRID 매니저로 구성된다
 |                               +-------------------------------------+-------------------------+---------+----------+--------------------------------+-----------------+
 |                               | dont_reuse_heap_file                | 서버                    |         | bool     | no                             |                 |
 |                               +-------------------------------------+-------------------------+---------+----------+--------------------------------+-----------------+
-|                               | generic_vol_prealloc_size           | 서버                    |         | byte     | 50M                            |                 |
-|                               +-------------------------------------+-------------------------+---------+----------+--------------------------------+-----------------+
 |                               | log_volume_size                     | 서버                    |         | byte     | 512M                           |                 |
 |                               +-------------------------------------+-------------------------+---------+----------+--------------------------------+-----------------+
 |                               | temp_file_max_size_in_pages         | 서버                    |         | int      | -1                             |                 |
@@ -192,7 +190,7 @@ CUBRID는 데이터베이스 서버, 브로커, CUBRID 매니저로 구성된다
 |                               +-------------------------------------+-------------------------+---------+----------+--------------------------------+-----------------+
 |                               | force_remove_log_archives           | 서버                    |         | bool     | yes                            | DBA만 가능      |
 |                               +-------------------------------------+-------------------------+---------+----------+--------------------------------+-----------------+
-|                               | log_buffer_size                     | 서버                    |         | byte     | 128 *                          |                 |
+|                               | log_buffer_size                     | 서버                    |         | byte     | 16k *                          |                 |
 |                               |                                     |                         |         |          | :ref:`log_page_size <lpg>`     |                 |
 |                               +-------------------------------------+-------------------------+---------+----------+--------------------------------+-----------------+
 |                               | log_max_archives                    | 서버                    |         | int      | INT_MAX                        | DBA만 가능      |
@@ -398,7 +396,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
     data_buffer_size=512M
      
     # Size of log buffer are using K, M, G, T unit
-    log_buffer_size=4M
+    log_buffer_size=256M
      
     # Size of sort buffer are using K, M, G, T unit
     # The sort buffer should be allocated per thread.
@@ -421,7 +419,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
     [common]
      
     data_buffer_size=512M
-    log_buffer_size=4M
+    log_buffer_size=256M
     sort_buffer_size=2M
     max_clients=100
      
@@ -577,10 +575,10 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
     임시 결과를 저장하는 공간은 다음과 같다. 
     
     *   임시 결과 캐시 버퍼(**temp_file_memory_size_in_pages** 시스템 파라미터에 의해 확보된 메모리)
-    *   영구적 임시 볼륨
-    *   일시적 임시 볼륨
+    *   Permanent volumes with the purpose of storing temporary data.
+    *   Temporary volumes
     
-    임시 결과 캐싱 버퍼 -> 영구적 임시 볼륨 -> 일시적 임시 볼륨의 순으로, 앞의 공간이 소진되면 다음 공간이 사용된다.
+    If the previous space is exhausted, then the next space is used as the following order: Cache buffer for storing temporary result -> Permanent volumes -> Temporary volumes.
 
 **thread_stacksize**
 
@@ -596,7 +594,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 +-----------------------------+--------+---------+---------+---------+
 | 파라미터 이름               | 타입   | 기본값  | 최소값  | 최대값  |
 +=============================+========+=========+=========+=========+
-| db_volume_size              | byte   | 512M    | 20M     | 20G     |
+| db_volume_size              | byte   | 512M    | 0       | 20G     |
 +-----------------------------+--------+---------+---------+---------+
 | dont_reuse_heap_file        | bool   | no      |         |         |
 +-----------------------------+--------+---------+---------+---------+
@@ -618,13 +616,15 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
     **db_volume_size**\ 는 다음과 같은 값을 설정하는 파라미터이다. 값 뒤에 B, K, M, G, T로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes, Terabytes를 의미한다. 단위를 생략하면 바이트 단위가 적용된다. 기본값은 **512M**\ 이다.
 
     *   **cubrid createdb**\ 와 **cubrid addvoldb** 유틸리티에서 **--db-volume-size** 옵션을 생략했을 때 생성되는 데이터베이스 볼륨의 기본 크기
-    *   데이터베이스 볼륨 공간을 모두 사용하면 자동으로 추가되는 범용(generic) 볼륨의 기본 크기
+    *   The default size of volume that is added automatically when database is full.
+
+.. note::
+
+    The actual volume size will always be rounded up to a multiple of the size of 64 sectors. Sector size depends on page size, therefore 64 sectors size is 16M, 32M or 64M for page size 4k, 8k or 16k respectively.
 
 **dont_reuse_heap_file**
 
-    **dont_reuse_heap_file**\ 은 테이블 삭제(**DROP TABLE**)로 인해 삭제된 힙 파일을 새로운 테이블 생성(**CREATE TABLE**) 시 재사용하지 않도록 설정하는 파라미터로, no로 설정되면 삭제된 힙 파일을 재사용하고, yes로 설정되면 삭제된 힙 파일을 새로운 테이블 생성 시 재사용하지 않는다. 기본값은 **no**\ 이다.
-
-**generic_vol_prealloc_size**
+        **dont_reuse_heap_file** is a parameter to configure whether or not heap files, which are deleted when deleting the table (**DROP TABLE**), are to be reused when creating a new table (**CREATE TABLE**). If this parameter is set to no, the deleted heap files can be reused; if it is set to yes, the deleted heap files are not used when creating a new table. The default value is **no**.
 
     **generic** 볼륨이 항상 유지해야 할 여유 공간(free space)의 크기를 지정한다. 여유 공간이 지정한 값보다 줄어들게 되면 **generic** 볼륨의 여유 공간을 추가로 확보한다.
 
@@ -638,12 +638,13 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **temp_file_max_size_in_pages**
 
-    **temp_file_max_size_in_pages**\는 질의 또는 인덱스 생성 등을 위해 데이터를 정렬하는 과정에서 중간 결과 및 최종 결과를 저장하기 위해 일시적 임시 볼륨(temporary temp volume)이 사용될 때, 질의 하나가 수행될 때 사용할 수 있는 임시 공간의 최대 크기를 페이지 개수로 명시하는 파라미터로 기본값은 **-1**\이다. 
+    **temp_file_max_size_in_pages** is a parameter to configure the maximum number of pages to which temporary volumes can be extended. By default, this value is **-1**, which means that temporary volumes can occupy an unlimited disk space. A positive value will set a limit to these values (exceeding it may show an error and cancel some big queries).
+
+    If the parameter is configured to **0**, temporary volumes are not created automatically; the administrator must create permanent volumes with the purpose of storing temporary data by using the **cubrid addvoldb** utility.
+
+    For more details see :ref:`temporary-volumes`
+
     
-    중간 결과 저장소의 크기와 최종 결과 저장소의 크기는 각각 별개로 측정되므로, 그들 중 하나의 크기가 파라미터가 명시한 크기보다 큰 경우 에러가 발생하면서 해당 질의의 수행이 취소된다. 기본값으로 설정되면 temp_volume_path 파라미터에서 지정된 디스크 공간 이내에서 무제한으로 일시적 임시 볼륨(temporary temp volume)이 저장되고, 0으로 설정되면 일시적 임시 볼륨이 생성되지 않는다.
-
-    질의 수행 시 필요한 임시 볼륨(temp volume)은 일시적 임시 볼륨과 영구적 임시 볼륨으로 구분되는데, 이 파라미터의 값은 일시적 임시 볼륨에만 적용된다. (큰 크기의 임시 공간이 필요한 질의를 수행하면서 일시적 임시 볼륨이 기대 이상으로 증가함으로 인해) 디스크의 여유 공간이 부족해져 시스템 운영에 문제가 발생하는 것을 예방하려면, 예상하는 영구적 임시 볼륨을 미리 확보하고, 하나의 질의가 수행될 때 일시적 임시 볼륨에서 사용되는 공간의 최대 크기를 제한하는 것이 좋다. 
-
 **temp_volume_path**
 
     **temp_volume_path**\ 는 복잡한 질의문이나 정렬 수행을 위하여 자동으로 생성되는 일시적 임시 볼륨(temporary temp volume)의 디렉터리를 지정하는 파라미터로 기본값은 데이터베이스 생성 시에 설정된 볼륨 위치이다.
@@ -902,7 +903,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 +-------------------------------------+--------+----------------------------+----------------------------+----------------------------+
 | force_remove_log_archives           | bool   | yes                        |                            |                            |
 +-------------------------------------+--------+----------------------------+----------------------------+----------------------------+
-| log_buffer_size                     | byte   | 128 *                      | 128 *                      | INT_MAX *                  |
+| log_buffer_size                     | byte   | 16k *                      | 128 *                      | INT_MAX *                  |
 |                                     |        | :ref:`log_page_size <lpg>` | :ref:`log_page_size <lpg>` | :ref:`log_page_size <lpg>` |
 +-------------------------------------+--------+----------------------------+----------------------------+----------------------------+
 | log_max_archives                    | int    | INT_MAX                    | 0                          | INT_MAX                    |
@@ -972,7 +973,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
     **log_buffer_size**\ 는 메모리에 캐시되는 로그 버퍼의 크기를 설정하는 파라미터이다. 값 뒤에 B, K, M, G, T로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes, Terabytes를 의미한다. 단위를 생략하면 바이트 단위가 적용된다. 기본값은 128 * :ref:`log_page_size <dpg>` (log_page_size가 16K이면 **2M**) 이다.
 
-    **log_buffer_size** 파라미터의 설정값이 크면 데이터베이스 수정 연산이 많고, 길고 큰 트랜잭션이 많은 환경에서는 디스크 I/O가 감소되어 성능이 향상될 수 있다. CUBRID가 설치된 시스템의 메모리 크기 및 작업 연산의 크기를 고려하여 적당한 값으로 설정할 것을 권장한다.
+    If the value of the **log_buffer_size** parameter is large, performance can be improved (due to the decrease in disk I/O) in an environment where transactions are long and numerous. Moreover, CUBRID Multiversion Concurrency Control system relies on log to access previous row versions and to vacuum invisible versions from database. It is recommended to configure an appropriate value considering the memory size and operations of the system where CUBRID is installed.
 
     *   필요한 메모리 크기 = 로그 버퍼 크기(**log_buffer_size**)
 
@@ -2228,7 +2229,7 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
     소수점을 사용하여 밀리초(msec) 단위의 값을 설정할 수 있다. 예를 들어 500밀리초로 설정하려면 값을 0.5로 설정한다. 
     
-    파라미터 값을 0으로 설정하면 장기 실행 질의를 판단하지 않는다.
+    파라미터 값을 **0**으로 설정하면 장기 실행 질의를 판단하지 않는다.
 
 **LONG_TRANSACTION_TIME**
 
@@ -2236,7 +2237,7 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
     소수점을 사용하여 밀리초(msec) 단위의 값을 설정할 수 있다. 예를 들어 값을 0.5로 설정하여 500밀리초로 설정할 수 있다. 
     
-    파라미터 값을 0으로 설정하면 장기 실행 트랜잭션을 판단하지 않는다.
+    파라미터 값을 **0**으로 설정하면 장기 실행 트랜잭션을 판단하지 않는다.
 
 .. _max-prepared-stmt-count:
 
