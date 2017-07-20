@@ -56,8 +56,7 @@ Windows 환경에서는 다음과 같은 방법으로 CUBRID 서비스를 시작
 데이터베이스 생성
 -----------------
 
-데이터베이스 볼륨 및 로그 볼륨이 위치할 디렉터리에서 **cubrid createdb** 유틸리티를 실행하여 데이터베이스를 생성할 수 있다.
-**--db-volume-size**, **--log-volume-size** 와 같은 별도의 옵션을 지정하지 않으면 기본적으로 범용 볼륨(generic volume) 512MB, 활성 로그(active log) 512MB, 백그라운드 보관 로그(background archive log) 512MB, 총 1.5GB의 볼륨 파일이 생성된다. ::
+You can create databases by using the **cubrid createdb** utility and execute it where database volumes and log volumes are located. If you do not specify additional options such as **--d      b-volume-size** or **--log-volume-size**, 1.5 GB volume files are created by default (data volume is set to 512 MB, active log is set to 512 MB, and background archive log is set to 512 MB      ). ::
 
     % cd testdb
     % cubrid createdb testdb en_US
@@ -69,10 +68,9 @@ Windows 환경에서는 다음과 같은 방법으로 CUBRID 서비스를 시작
     -rw------- 1 cubrid dbms       176 Jan 11 15:04 testdb_lginf
     -rw------- 1 cubrid dbms       183 Jan 11 15:04 testdb_vinf
 
-위에서 testdb는 범용 볼륨 파일, testdb_lgar_t는 백그라운드 보관 로그 파일, testdb_lgat는 활성 로그 파일, testdb_lginf는 로그 정보 파일, testdb_vinf는 볼륨 정보 파일이다.
+In the above, *testdb* represents a data volume file, testdb_lgar_t represents a background archive log file, testdb_lgat represents an active log file, testdb_lginf represents a log information file, and testdb_vinf represents a volume information file.
 
-볼륨에 대한 자세한 정보는 :ref:`database-volume-structure` 를 참고하고, 볼륨 생성에 대한 자세한 정보는
-:ref:`creating-database` 을 참고한다. 볼륨을 생성할 때에는 **cubrid addvoldb** 유틸리티를 이용하여 용도별로 볼륨을 추가하는 것을 권장하며, 이에 대한 자세한 정보는 :ref:`adding-database-volume` 를 참고한다.
+For details on volumes, see :ref:`database-volume-structure` . For details on creating volumes, see :ref:`creating-database`. It is recommended to classify and add volumes based on purpose by using the **cubrid addvoldb** utility. For details, see :ref:`adding-database-volume`.
 
 데이터베이스 시작
 -----------------
