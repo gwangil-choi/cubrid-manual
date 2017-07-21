@@ -104,18 +104,31 @@ CUBRID는 상속의 개념을 사용하는 객체 관계형 데이터베이스 �
 버전 명 및 버전 스트링 규약
 ---------------------------
 
-CUBRID 9.0 이상 버전의 버전 명 및 버전 스트링은 다음과 같이 표기한다.
+Rules for version naming and string since CUBRID 10.1 are as follows:
 
-*   버전 명: CUBRID x.x Patch x (major 버전, minor 버전, patch 버전을 표기)
-    예: CUBRID 9.2 Patch 1
+*  Version name: CUBRID M.m Patch p (Major version, Minor version, Patch version if necessary)
+   CUBRID 10.1 Patch 1 (CUBRID 10.1 P1 in short)
 
-*   버전 스트링: x.x.x.x (major 버전, minor 버전, patch 버전, build 번호를 표기)
-    예: 9.2.1.0012
+*  Version string: M.m.p.build_number (Major version, Minor version, Patch version, Build number)
+   10.1.0.7595-d652d64
 
-CUBRID 9.0 미만 버전의 버전 명과 버전 스트링은 다음과 같이 표기한다.
+   Build number consists of two parts which are separated by a hyphen.  The former is the number of changes from the base revision, which monotonically increases. The later is the SHA-1 hash of the build
+         built.
 
-*   버전 명: CUBRID 2008 Rx.x Patch x (major 버전은 2008, minor 버전, patch 버전, build 번호 일부를 표기)
-    예: CUBRID 2008 R4.1 Patch 1
+Rules for version naming and string since CUBRID 9.0 are as follows:
 
-*   버전 스트링: 8.x.x.x (major 버전, minor 버전, patch 버전, build 번호를 표기)
-    예: 8.4.1.1001
+*  Version name: CUBRID M.m Patch p (Major version, Minor version, Patch version if necessary)
+   CUBRID 9.2 Patch 1 (CUBRID 9.2 P1 in short)
+
+*  Version string: M.m.p.build_number (Major version, Minor version, Patch version, Build number)
+   9.2.1.0012
+
+Rules for version naming and string before CUBRID 9.0 are as follows:
+
+*  Version name: CUBRID 2008 RM.m Patch p (2008 for Major version, Minor version, Patch version, Build number)
+   CUBRID 2008 R4.1 Patch 1
+
+*  Version string: 8.m.p.build_number (Major version, Minor version, Patch version, Build number)
+   8.4.1.1001
+
+
