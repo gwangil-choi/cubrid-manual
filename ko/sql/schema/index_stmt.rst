@@ -117,7 +117,7 @@ ALTER INDEX
     CREATE INDEX i_game_medal ON game(medal);
     ALTER INDEX i_game_medal ON game COMMENT 'rebuild index comment' REBUILD ;
 
-인덱스의 재생성 잆이 인덱스의 커멘트를 추가 또는 변경하고 싶은 경우, 다음과 같이 COMMENT 문은 추가하고 REBUILD 키워드는 제거한다.
+인덱스의 재생성 잆이 인덱스의 커멘트를 추가 또는 변경하고 싶은 경우, 다음과 같이 **COMMENT** 문은 추가하고 **REBUILD** 키워드는 제거한다.
 
 ::
 
