@@ -99,8 +99,8 @@ CSQL 인터프리터에서 자동 커밋 모드를 설정하는 세션 명령어
 
 .. code-block:: sql
 
-    ALTER TABLE code DROP s_name;
-    INSERT INTO code (f_name) VALUES ('Diamond');
+    ALTER TABLE code2 DROP s_name;
+    INSERT INTO code2 (f_name) VALUES ('Diamond');
 
     COMMIT WORK;
 
@@ -113,24 +113,26 @@ CSQL 인터프리터에서 자동 커밋 모드를 설정하는 세션 명령어
 
 세이브포인트는 길고 복잡한 프로그램을 통제할 수 있도록 중간 단계를 만들고 이름을 붙일 수 있기 때문에 유용하다. 예를 들어, 많은 갱신 연산 수행 시 세이브포인트를 사용하면 실수를 했을 때 모든 문장을 다시 수행할 필요가 없다. ::
 
-    SAVEPOINT mark;
-    mark:
-    _ a SQL identifier
-    _ a host variable (starting with :)
+    SAVEPOINT <mark>;
+
+    <mark>:
+    - a SQL identifier
+    - a host variable (starting with :)
 
 같은 트랜잭션 내에 여러 개의 세이브포인트를 지정할 때 *mark* 를 같은 값으로 하면 마지막 세이브포인트만 부분 롤백에 나타난다. 그리고 앞의 세이브포인트는 제일 마지막 세이브포인트로 부분 롤백할 때까지 감춰졌다가 제일 마지막 세이브포인트가 사용된 후 없어지면 나타난다. ::
 
-    ROLLBACK [WORK] [TO [SAVEPOINT] mark] ;
+    ROLLBACK [WORK] [TO [SAVEPOINT] <mark> ;
+
     mark:
-    _ a SQL identifier
-    _ a host variable (starting with :)
+    - a SQL identifier
+    - a host variable (starting with :)
 
 앞에서는 **ROLLBACK WORK** 문이 마지막 트랜잭션 이후로 입력된 모든 데이터베이스의 갱신을 제거하였다. **ROLLBACK WORK** 문은 특정 세이브포인트 이후로 트랜잭션의 갱신을 되돌리는 부분 롤백에도 사용된다.
 
 *mark* 의 값이 주어지지 않으면 트랜잭션은 모든 갱신을 취소하면서 종료한다. 여기에는 트랜잭션에 만들어진 모든 세이브포인트도 포함한다. *mark* 가 주어지면 지정한 세이브포인트 이후의 것은 취소되고, 세이브포인트를 포함한 이전의 것은 갱신 사항이 남는다.
 
 다음 예제는 트랜잭션의 일부를 롤백하는 방법을 보여준다.
-먼저 savepoint SP1, SP2를 설정한다.
+먼저 savepoint *SP1*, *SP2* 를 설정한다.
 
 .. code-block:: sql
 
@@ -161,8 +163,8 @@ CSQL 인터프리터에서 자동 커밋 모드를 설정하는 세션 명령어
     SELECT * FROM athlete2;
     ROLLBACK WORK TO SP2;
 
-위에서 'Lim Jin-Suk' 을 삭제한 것은 이후에 진행되는 rollback work to SP2 명령문에 의해서 취소되었다.
-다음은 SP1으로 롤백하는 경우이다.
+위에서 'Lim Jin-Suk' 을 삭제한 것은 이후에 진행되는 rollback work to *SP2* 명령문에 의해서 취소되었다.
+다음은 *SP1* 으로 롤백하는 경우이다.
 
 .. code-block:: sql
 
