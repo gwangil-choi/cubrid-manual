@@ -55,7 +55,7 @@ CUBRID는 응용 프로그램-브로커-DB 서버의 3 계층 구조로 되어 �
 몇가지 예는 다음과 같다. 
  
 *   응용 프로그램-브로커 사이에서 네트워크 통신 속도가 저하되었는지 확인해 본다. 
-*   브로커 로그($CUBRID/log/broker 디렉터리 이하에 존재)에 기록되는 정보를 통해 CAS가 재시작된 경우가 있는지 확인한다. CAS 개수가 부족한 것으로 파악되면 CAS 개수를 늘리는데, 이를 위해 cubrid_broker.conf의 :ref:`MAX_NUM_APPL_SERVER <max-num-appl-server>`\ 값을 적절히 늘려야 한다. 이와 함께 cubrid.conf의 :ref:`max_clients <max_clients>` 값도 늘리는 것을 고려해야 한다. 
+*   브로커 로그( **$CUBRID/log/broker** 디렉터리 이하에 존재)에 기록되는 정보를 통해 CAS가 재시작된 경우가 있는지 확인한다. CAS 개수가 부족한 것으로 파악되면 CAS 개수를 늘리는데, 이를 위해 cubrid_broker.conf의 :ref:`MAX_NUM_APPL_SERVER <max-num-appl-server>`\ 값을 적절히 늘려야 한다. 이와 함께 cubrid.conf의 :ref:`max_clients <max_clients>` 값도 늘리는 것을 고려해야 한다. 
 
 응용 프로그램 로그와 CAS의 SQL 로그에 둘 다 슬로우 쿼리로 출력되고 둘 사이에 해당 질의의 수행 시간 차이가 거의 없다면, 브로커-DB 서버 사이에서 속도가 저하된 원인이 존재할 것이다. 한 예로, DB 서버에서 질의를 처리하는데 시간이 걸렸을 것이다. 
 
@@ -88,7 +88,7 @@ CUBRID는 응용 프로그램-브로커-DB 서버의 3 계층 구조로 되어 �
 서버 에러 로그
 ==============
 
-cubrid.conf의 error_log_level 파라미터의 설정에 따라 서버 에러 로그에서 다양한 정보를 얻을 수 있다. error_log_level 파라미터의 기본값은 ERROR이다. NOTIFICATION 메시지를 출력하려면 cubrid.conf의 error_log_level 파라미터의 값을 NOTIFICATION으로 지정해야 한다. 관련 파라미터 설정 방법은 :ref:`error-parameters`\ 를 참고한다.
+cubrid.conf의 error_log_level 파라미터의 설정에 따라 서버 에러 로그에서 다양한 정보를 얻을 수 있다. error_log_level 파라미터의 기본값은 **NOTIFICATION** 이다.  관련 파라미터 설정 방법은 :ref:`error-parameters`\ 를 참고한다.
 
 .. 4957
 
@@ -97,7 +97,7 @@ cubrid.conf의 error_log_level 파라미터의 설정에 따라 서버 에러 �
 오버플로우 키 또는 오버플로우 페이지 감지
 -----------------------------------------
 
-오버플로우 키나 오버플로우 페이지가 발생하면 서버 에러 로그 파일에 NOTIFICATION 메시지를 출력한다. 사용자는 이 메시지를 통해 오버플로우 키 또는 오버플로우 페이지로 인해 DB 성능이 느려졌음을 감지할 수 있다. 가능하다면 오버플로우 키나 오버플로우 페이지가 발생하지 않도록 하는 것이 좋다. 즉, 크기가 큰 칼럼에 인덱스를 사용하지 않는 것이 좋으며, 레코드의 크기를 너무 크게 잡지 않는 것이 좋다.
+오버플로우 키나 오버플로우 페이지가 발생하면 서버 에러 로그 파일에 **NOTIFICATION** 메시지를 출력한다. 사용자는 이 메시지를 통해 오버플로우 키 또는 오버플로우 페이지로 인해 DB 성능이 느려졌음을 감지할 수 있다. 가능하다면 오버플로우 키나 오버플로우 페이지가 발생하지 않도록 하는 것이 좋다. 즉, 크기가 큰 칼럼에 인덱스를 사용하지 않는 것이 좋으며, 레코드의 크기를 너무 크게 잡지 않는 것이 좋다.
 
 ::
 
@@ -117,7 +117,7 @@ cubrid.conf의 error_log_level 파라미터의 설정에 따라 서버 에러 �
 로그 회복 시간 감지
 -------------------
 
-DB 서버 시작이나 백업 볼륨 복구 시 서버 에러 로그 또는 restoredb 에러 로그 파일에 로그 회복(log recovery) 시작 시간과 종료 시간에 대한 NOTIFICATION 메시지를 출력하여, 해당 작업의 소요 시간을 확인할 수 있다. 해당 메시지에는 적용(redo)해야할 로그의 개수와 로그 페이지 개수가 함께 기록된다. 
+DB 서버 시작이나 백업 볼륨 복구 시 서버 에러 로그 또는 restoredb 에러 로그 파일에 로그 회복(log recovery) 시작 시간과 종료 시간에 대한 **NOTIFICATION** 메시지를 출력하여, 해당 작업의 소요 시간을 확인할 수 있다. 해당 메시지에는 적용(redo)해야할 로그의 개수와 로그 페이지 개수가 함께 기록된다. 
 
 :: 
   
@@ -132,7 +132,7 @@ DB 서버 시작이나 백업 볼륨 복구 시 서버 에러 로그 또는 rest
 교착 상태 감지
 --------------
 
-cubrid.conf의 error_log_level 시스템 파라미터의 값이 NOTIFICATION일 때 교착 상태(deadlock)가 발생하면 서버 에러 로그 파일에 잠금 관련 정보를 기록한다.
+Locks related information is written to the server error log.
 
 ::
 
@@ -140,7 +140,7 @@ cubrid.conf의 error_log_level 시스템 파라미터의 값이 NOTIFICATION일 
     
           ...
 
-    Your transaction (index 1, public@testhost|csql(21541)) timed out waiting on    X_LOCK lock on instance 0|650|3 of class t because of deadlock. You are waiting for user(    s) public@testhost|csql(21529) to finish.
+    Your transaction (index 1, public@testhost|csql(21541)) timed out waiting on    X_LOCK lock on instance 0|650|3 of class t because of deadlock. You are waiting for user(s) public@testhost|csql(21529) to finish.
 
           ...
 
@@ -148,7 +148,7 @@ cubrid.conf의 error_log_level 시스템 파라미터의 값이 NOTIFICATION일 
 HA 상태 변경 감지 
 ================= 
   
-HA 상태 변경은 cub_master 프로세스의 로그 파일에서 확인할 수 있다. 로그 파일은 $CUBRID/log 디렉터리에 <host_name>.cub_master.err 이름으로 저장된다. 
+HA 상태 변경은 cub_master 프로세스의 로그 파일에서 확인할 수 있다. 로그 파일은 **$CUBRID/log** 디렉터리에 *<host_name>.cub_master.err* 이름으로 저장된다. 
   
 HA split-brain 감지 
 ------------------- 
@@ -213,16 +213,16 @@ HA 구동 실패
 
 *   서버의 복구에 실패한 경우
 
-이와 같이 복제 볼륨의 자동 복구가 불가능한 경우 "cubrid heartbeat start" 명령 수행에 실패하는데, 각각의 경우에 맞게 조치한다.
+이와 같이 복제 볼륨의 자동 복구가 불가능한 경우 **"cubrid heartbeat start"** 명령 수행에 실패하는데, 각각의 경우에 맞게 조치한다.
 
 
 대표적인 복구 불가능 장애
 -------------------------
 
 사용자의 개입 없이 자동으로 복제되는 DB 볼륨의 복구가 불가능한 경우 중 서버 프로세스가 원인인 경우는 워낙 다양하므로 설명을 생략한다
-copylogdb 또는 applylogdb 프로세스가 원인인 경우 에러 메시지는 다음과 같다.
+**copylogdb** 또는 **applylogdb** 프로세스가 원인인 경우 에러 메시지는 다음과 같다.
 
-*   copylogdb가 원인인 경우
+*   **copylogdb** 가 원인인 경우
 
     +------------------------------------------------------------+--------------------------------------------------------------------------------------------------+
     | 원인                                                       |  에러 메시지                                                                                     |
@@ -232,7 +232,7 @@ copylogdb 또는 applylogdb 프로세스가 원인인 경우 에러 메시지는
     | 이전 복사되던 DB와 다른 DB의 로그로 판단됨                 | Log \"/home1/cubrid/DB/tdb01_cdbs037.cub/tdb01_lgat\" does not belong to the given database.     |
     +------------------------------------------------------------+--------------------------------------------------------------------------------------------------+
 
-*   applylogdb가 원인인 경우
+*   **applylogdb** 가 원인인 경우
 
     +------------------------------------------------------------+--------------------------------------------------------------------------------------------------+
     | 원인                                                       |  에러 메시지                                                                                     |
