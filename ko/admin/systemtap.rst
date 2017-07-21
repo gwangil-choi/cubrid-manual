@@ -153,10 +153,7 @@ CUBRID 소스를 빌드하여 SystemTap을 사용하려면, "./configure"를 실
 
 ::
 
-    ./autogen.sh
-    ./configure -prefix=$CUBRID --enable-systemtap --enable-64bit
-    make
-    make install
+    build.sh -m release
 
 SystemTap 스크립트 실행
 -----------------------
@@ -199,10 +196,11 @@ SystemTap의 가장 유용한 기능은 마커를 사용자 소스 코드(CUBRID
 
 .. function:: conn_start(connection_id, user)
 
-    연결이 성립되고 로그인이 성공적으로 완료되면 이 마커가 발동된다(triggered).
+    This marker is triggered when the query execution process on the server has begun.
 
-    :param connection_id: 연결 ID
-    :param user: 연결에서 사용된 사용자 이름
+    :param connection_id: an integer containing the connection ID.
+    :param user: The username used by this connection.
+
     
 .. function:: conn_end(connection_id, user)
 
@@ -344,20 +342,6 @@ SystemTap의 가장 유용한 기능은 마커를 사용자 소스 코드(CUBRID
     :param index_name: 대상 인덱스 이름
     :param status: 연산의 성공 여부를 나타내는 값
     
-.. function:: idx_read_start(classname, index_name)
-
-    이 마커는 B-Tree에서 인덱스 노드를 읽기 전에 발동된다.
-
-    :param classname: 대상 인덱스의 테이블 이름
-    :param index_name: 대상 인덱스 이름
-    
-.. function:: idx_read_end(classname, index_name, status)
-
-    이 마커는 B-Tree에서 인덱스 노드를 읽은 후에 발동된다.
-
-    :param classname: 대상 인덱스의 테이블 이름
-    :param index_name: 대상 인덱스 이름
-    :param status: 연산의 성공 여부를 나타내는 값
 
 잠금(locking) 마커
 ------------------
@@ -372,14 +356,13 @@ SystemTap의 가장 유용한 기능은 마커를 사용자 소스 코드(CUBRID
     :param table: 객체를 유지하고 있는 테이블
     :param type: 잠금 타입(X_LOCK, S_LOCK 등)
     
-.. function:: lock_acquire_end(OID, table, type, status)
+.. function:: lock_acquire_end(OID, table, type)
 
     이 마커는 잠금 요청이 완료된 이후에 발동된다.
 
     :param OID: 잠금 요청 대상 객체 ID
     :param table: 객체를 유지하고 있는 테이블
     :param type: 잠금 타입(X_LOCK, S_LOCK etc.)
-    :param status: 요청이 허가되었는지 여부를 나타내는 값
     
 .. function:: lock_release_start(OID, table, type)
 
