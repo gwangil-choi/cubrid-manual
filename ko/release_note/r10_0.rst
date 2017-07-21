@@ -1,0 +1,556 @@
+:tocdepth: 3
+
+****************
+10.0 릴리스 노트
+****************
+
+.. contents::
+
+릴리스 노트 정보
+================
+
+이 문서는 CUBRID 10.0(빌드번호, 10.0.0.1376)의 정보를 포함한다.
+CUBRID 10.0은 CUBRID 9.3 버전에서 발견된 오류의 수정과 향상된 기능이 적용되었으며, CUBRID 9.3에 적용된 이전의 모든 버전에 대한 오류 수정 및 기능 향상 역시 포함되어있다.
+
+CUBRID 9.3 또는 이전 버전에 대한 상세 정보는 http://www.cubrid.org/manual/93/en/release_note/index.html 를 참조.
+
+CUBRID 2008 R4.3 이나 이하의 버전에 대해서는, http://release.cubrid.org/ko 참조.
+
+개  요
+======
+
+CUBRID 10.0은 CUBRID 9.3에서의 주 업그레이드 버전이다.
+
+CUBRID 10.0
+
+* 다중 동시성 제어(MVCC) 프로토콜에 기반한 스냅샷의 격리 기능을 제공한다.
+* 성능과 확장성이 상당히 개선되었다
+* TIMEZONE 데이터 타입과 함수를 제공한다
+* 문자열 타입에에 BINARY 문자셋을 제공한다
+* 다수의 SQL 확장과 함수/연산자를 포함한다
+* 다수의 중대한 버그가 수정되었다
+
+
+CUBRID 10.0 의 데이터베이스 볼륨은 9.x 나 이전 버전과 호환되지 않는다. 따라서, 만약 9.3 또는 그 이전 버전을 사용하고 있다면 반드시 새 버전으로의 **데이터베이스 마이그레이션** 을 실시하여야 한다. 이것에 관해서는 :doc:`/upgrade` 을 참조한다.
+
+.. TODO: coming soon
+
+드라이버 호환성
+===============
+
+* CUBRID 10.0의 JDBC와 CCI 드라이버는 CUBRID 9.1, 9.2, 2008 R4.1, R4.3, R4.4와 호환된다.
+* 드라이버들을 업그레이드 하는 것이 강력히 권고된다.
+
+우리는 당신의 드라이버들 역시 CUBRID 10.0을 사용하도록 업그레이드 할 것을 강력히 권고한다. 몇몇의 새로운 기능들, 특히 TIMEZONE 데이터 타입은 오직 10.0 드라이버들에서만 지원된다.
+
+자세한 사항은 다음을 참조한다. 이전 버전의 사용자들은 :ref:`changed-behaviors100` 와 :ref:`new-cautions100` 단락을 반드시 참조하여야 한다.
+
+
+
+새로운  기능들
+==============
+
+* 새로운 문자셋과 콜레이션이 시스템 카타로그에 추가됨 (_db_charset and db_charset. db_collation, db_class이 추가되었고 db_attribute이 수정되었음) (CUBRIDSUS-10948)
+* 복제 일관성을 검사하기 위한 체크섬 도구, checksumdb가 추가됨 (CUBRIDSUS-6214)
+* CRC32 함수가 추가됨 (CUBRIDSUS-15470)
+* JDBC 컨스트럭터(CUBRIDTimestamptz)와 세터(setTimestamptz)가 추가됨 (CUBRIDSUS-15407)
+* KILL 문장이 추가됨 (CUBRIDSUS-13845)
+* 집계나 분석 함수로 사용이 가능한 PERCENTILE_DISC와 PERCENTILE_CONT 함수가 추가됨 (CUBRIDSUS-11089)(CUBRIDSUS-11088) 
+* restoreslave 도구가 추가됨 (CUBRIDSUS-10843)
+* checkdb 도구에 다수 옵션이 추가됨 (CUBRIDSUS-11292)
+* SHOW CRITICAL SECTION 문이 추가됨 (CUBRIDSUS-14037)
+* SHOW JOB QUEUE 문이 추가됨 (CUBRIDSUS-14036)
+* SHOW THREADS 문이 추가됨 (CUBRIDSUS-14038)
+* SHOW TIMEZONES 문이 추가됨 (CUBRIDSUS-14186)
+* SHOW TRANSACTION TABLES 문이 추가됨 (CUBRIDSUS-14039)
+* SLEEP 문이 추가됨 (CUBRIDSUS-14217)
+* SYS_GUID 문이 추가됨 (CUBRIDSUS-6555)
+* vacuumdb 도구가 추가되어 checkdb 도구에 전부 손실된 레코드 중 비어있지 않은 레코드의 검사 기능이 제공됨 CUBRIDSUS-10842)
+* 다중 버전 동시성 제어(MVCC) 프로토콜을 채용하여 스냅샷 격리를 제공함 (CUBRIDSUS-14097)
+* SET SYSTEM PARAMETER 문장에서 DEFAULT 키워드가 해당 시스템 변수를 기본값으로 설정함 (CUBRIDSUS-15529)
+* ha_make_slavedb 스크립트가 사용이 편리하게 향상됨 (CUBRIDSUS-10842)
+* 문자열을 위한 데이터 타입(CHAR, VARCHAR, ENUM)의 문자셋에 BINARY 추가됨 (CUBRIDSUS-16066)
+* table, column, view, index, JSP, trigger, serial, user와 같은 스키마 오브젝트에 COMMENT 지원. 시스템 카타로그가 주석을 보여주기 위해서 수정됨 (CUBRIDSUS-12367)
+* NATURAL JOIN을 지원함 (CUBRIDSUS-12401)
+* 동적 추적과 성능 분석을 위한 systemtap을 텝을 지원함 (CUBRIDSUS-11626)
+* TIMEZONE 데이터 타입과 함수를 제공함 (CUBRIDSUS-5765)
+* CREATE OR REPLACE PROCEDURE/FUNCTION을 제공함 (CUBRIDSUS-6542)
+* DROP TABLE 문에서 CASCADE CONSTRAINTS 를 지원함 (CUBRIDSUS-9830)
+* CREATE TABLE IF NOT EXISTS 문을 지원함 (CUBRIDSUS-12366)
+
+.. _changed-behaviors100:
+
+동작 변경
+=========
+
+* ORDER BY FOR 절에 부 쿼리가 허용되지 않음 (CUBRIDSUS-13210)
+* 기본 빌드 타겟이 64bit로 변경됨 (CUBRIDSUS-16770)
+* make_locale.sh의 기본 빌드 타겟이 64bit로 변경됨 (CUBRIDSUS-17755)
+* make_tz.sh의 기본 빌드 타겟이 64bit로 변경됨 (CUBRIDSUS-15812)
+* ALTER INDEX와 DROP INDEX 문이 해당 인덱스가 속한 테이블 이름을 요구하는 형태로 변경됨 (CUBRIDSUS-11308)
+* 분할하는 키가 주키(parimary)의 일부분인 동시에 모든 고유한 인덱스 정의의 일부분이어야 하는 형태로 변경됨 (CUBRIDSUS-13412)
+* preparedStatement.setBoolean 메소드의 동작이 변경됨 (CUBRIDSUS-14857)
+* 클라이언트들이 현재 디렉터리의 cubrid.conf 파일을 읽지 않는 형태로 변경됨 (CUBRIDSUS-10929)
+* 보통의 컬럼이 공유되는 형태로 변경되거나 반대의 경우 모두 허용되지 않도록 변경됨 (CUBRIDSUS-11135)
+* REPLACE와 GROUP_CONCAT 함수가 빈 변수를 널이 아닌 빈 문자열로 간주하도록 한다. 이 기능은 oracle_style_empty_string 시스템 변수가 on 상태라도 유효함 (CUBRIDSUS-9864)
+* java_stored_procedure = on 이고 $CUBRID/java/jspserver.jar이 없는 경우에 서버가 시작하지 않도록 변경됨 (CUBRIDSUS-9846)
+* SHOW INDEX의 결과 셋이 (key_name, seq_in_index)를 기준으로 정렬되도록 변경됨 (CUBRIDSUS-12021)
+* cci_schema_info 함수의 CCI_SCH_ATTRIBUTE를 위한 DEFAULT 컬럼이 문자열 타입으로 변경됨 (CUBRIDSUS-13898)
+* 이후부터 CURDATE(), CURRENT_DATE, CURRENT_DATE(), CURRENT_DATETIME, CURRENT_DATETIME(), NOW(), CURTIME(), CURRENT_TIME, CURRENT_TIME(), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP(), LOCALTIME, LOCALTIME(), LOCALTIMESTAMP, LOCALTIMESTAMP() 이 세션의 날짜와 시간을 참조함 (CUBRIDSUS-17377)(CUBRIDSUS-17343)(CUBRIDSUS-17337)(CUBRIDSUS-16222)
+* 10.0의 데이터베이스 볼륨은 9.x나 이전 버전과 호환되지 않음 (CUBRIDSUS-11317)
+* 값이 널이고 타입이 CCI_A_TYPE_STR, CCI_A_TYPE_SET, CCI_A_TYPE_BLOB, CCI_A_TYPE_CLOB 일때 cci_get_data 함수의 리턴값이 널로 설정되도록 수정됨 (CUBRIDSUS-8104)
+* 인수가 컬럼이 아닐때 CCI_GET_RESULT_INFO_IS_NON_NULL이 0을 리턴하도록 수정됨 (CUBRIDSUS-8106)
+* Connection.connect와 cci_connect_with_url가 사용자 이름과 패스워드가 생략된 것과 빈문자열(\u2018\u2019)을 구분하도록 수정됨 (CUBRIDSUS-11383)
+* ha_copy_log_timeout 시스템 변수가 SYNC 로그 복사 모드에서만 동작하도록 수정됨 (CUBRIDSUS-16990)
+* 자동 증가를 위한 시리얼의 캐싱이 허가되지 않도록 수정됨 (CUBRIDSUS-16264).
+* 능동적인 사용자가 있는 경우에 해당 사용자 계정 삭제가 허용되지 않도록 수정됨 (CUBRIDSUS-16937)
+* ResultSet.findColumn이 같은 이름의 컬럼이 여러개 있을 때 첫번째 일치하는 컬럼의 값을 리턴하도록 수정됨 (CUBRIDSUS-7374)
+* 범위 파티션에 대해서 각 파티션의 엄격한 증가 순서만을 강제하도록 수정됨 (CUBRIDSUS-15360)
+* 브로커가 시작될 때 현재 디렉터리의 cubrid_broker.conf 가 무시되도록 수정됨 (CUBRIDSUS-14207)
+* float, double, monetary 타입의 컬럼에 대해서 범위를 값이 기본값으로 주어졌을 때 오류로 리턴됨 (CUBRIDSUS-7720)
+* UPDATE STATISTICS 문이 슬레이브와 복제 노드에 전파되도록 수정됨 (CUBRIDSUS-12550)
+* 기본 격리가 "READ COMMITTED"로 변경됨
+* "REPEATABLE READ SCHEMA, READ UNCOMMITTED INSTANCES", "READ COMMITTED SCHEMA, READ UNCOMMITTED INSTANCES", "READ COMMITTED SCHEMA, READ UNCOMMITTED INSTANCES" 와 같은 3 개의 격리 단계가 제거됨 (CUBRIDSUS-14377)
+* 파티션 표현식의 길이가 1K로 제한됨 (CUBRIDSUS-17772)
+* max_clients 변수의 최대치가 2,000으로 제한됨 (CUBRIDSUS-14894)
+* 이후부터 UPDATE STATISTICS이 표본 기반으로 동작함. WITH FULLSCAN 절은 전체 레코드를 이용하여 통계를 계산함 (CUBRIDSUS-11962)
+* UPDATE 문에서 속성 참조를 사용하는 것을 지원함. 이 동작은 update_use_attribute_references 변수에 의해서 변경될 수 있음 (UBRIDSUS-8202)
+
+개선 및 버그 수정
+=================
+
+* 페일 오버 시간이 줄어듬 (CUBRIDSUS-16045)
+* 복제 성능이 향상됨 (CUBRIDSUS-6162)
+* 고장 수리를 위해서 csql log에 연결 상태에 관한 부가적인 경고들이 추가됨 (CUBRIDSUS-12212)
+* 부질의의  WHERE 절이 false이면 semantic 오류를 반환하는 버그 수정됨 (CUBRIDSUS-12326)
+* 데이터베이스의 이진 값이 JDBC에서 16 진수로 표시되는 현상 수정됨 (CUBRIDSUS-18057) 
+* CREATE TABLE 문 뒤의 cci_schema_info 함수로 인해서 스키마 정보를 탐색하는 데 실패할 수 있었던 현상 수정됨 (CUBRIDSUS-13617) 
+* 데드락의 희생자를 선택하는 정책이 작은 양의 작업이 실행된 트랜잭션을 선택하도록 변경됨 (CUBRIDSUS-14790) 
+* 윈도우의 LOB 경로의 구분자가 \u2018\\u2019 로 수정됨 (CUBRIDSUS-11391) 
+* 포트 값의 범위가 unsigned short로 제한되도록 수정됨 (CUBRIDSUS-8539)
+* 이후부터 큐브리브 핫빗 도구가 원격지 컴퓨터에 copylogdb, applylogdb, status 명령의 실행을 허용함 (CUBRIDSUS-14318)
+* 카타로그 db_attribute의 정보 조회 시에 default_value 필드의 값(DEFAULT로 지정된 값) \u2018\u2019 이 NULL로 보여지는 현상 해결 (CUBRIDSUS-12406) 
+* statistics 과 statdump가 시간을 추적할 수 있도록 확장됨 (CUBRIDSUS-17445)
+* cgywin의 gcc 환경에서 dbi.h 의 빌드 이슈가 해결됨 (CUBRIDSUS-12329)
+* 윈도우에서 cci_get_cas_info 함수를 참조하는 빌드 이슈가 해결됨 (CUBRIDSUS-14000)
+* cubrid_broker.conf의 ACCESS_LOG_MAX_SIZE 변수가 윈도우에서 동작하도록 수정됨 (CUBRIDSUS-14232)
+* INSERT ODKU 문 실행시 클라이언트 중단 현상 해결됨 (CUBRIDSUS-16648)
+* 질의 파싱중에 인터럽트와 같은 예측하지 못한 오류에 의한 클라이언트 중단 현상 해결됨 (CUBRIDSUS-14509)
+* CREATE/ALTER INDEX 문에 유효하지 않은 인덱스가 주어졌을 때 클라이언트가 중단되는 현상 해결 (CUBRIDSUS-13899)
+* 삭제된 기본 테이블을 참조하는 뷰에 대해서 SHOW CREATE VIEW 문을 실행할 때 클라이언트 중단 현상 해결 (CUBRIDSUS-11618)
+* 메소드나 JSP가 포함된 질의 실행중에 클라이언트가 중단되는 현상 해결 (CUBRIDSUS-15037)
+* 연결 재 시작 도중에 클라이언트 중단 현상 해결 (CUBRIDSUS-15165)
+* Windows 버전의 클라이언트 중단 현상 해결 (CUBRIDSUS-15133)
+* 볼륨 추가 과정에서 발생한 중단의 복구 실패 해결 (CUBRIDSUS-18118)
+* adddate 와 subdate와 함수가 윤년을 인식하도록 수정 (CUBRIDSUS-18104)
+* 파티션 테이블에 대해서 잘못된 고유 제약 조건 위반 감지가 되는 버그 수정됨 (CUBRIDSUS-14134)
+* loose index scan 이슈 해결 (CUBRIDSUS-13812)
+* ALTER INDEX REBUILD문에 주어진 특성을 무시하고 인덱스를 현재의 특성으로 재 생성하도록 수정됨 (CUBRIDSUS-12624) 
+* INHERIT 절을 포함하는 ALTER TABLE ADD SUPERCLASS 문이 복제에 실패하는 현상 해결 (CUBRIDSUS-11409) 
+* ALTER TABLE이 PRIMARY KEY와 NOT NULL 이 같이 주어진 것을 인식하도록 수정됨 (CUBRIDSUS-13234)
+* CCI 드라이버의 메모리 누수 수정되어 cci_datasource_borrow 함수에 관한 이슈 해결. (CUBRIDSUS-17300)
+* 시스템 스래드가 마스터 노드가 종료되고 아직 써지지 않은 로그 레코드를 복사하려고 하는 것에 관련된 오류 해결 (CUBRIDSUS-15755)
+* 변수가 생략된 상태일 때 STR_TO_DATE 함수의 에러 메시지 수정됨 (CUBRIDSUS-9798)
+* 뷰가 set 연산자와 LIMIT 절이 포함된 문을 포함하고 있을 때 뷰가 잘못 변환되는 오류 수정 (CUBRIDSUS-10265)
+* db_ha_apply_info.committed_rep_pageid 이 널 이거나 committed_rep_offset 이 널인 경우 applylogdb가 로그의 복제를 건너뛰는 이슈 해결 (CUBRIDSUS-16288)
+* 문장 집합 질의어 오류 해결, 즉, UNION ALL 질의 결과의 count 결과 오류 해결 (CUBRIDSUS-17842) 
+* Windows 버전의 cub_master가 성공적으로 시작되지 못하는 이슈 해결 (CUBRIDSUS-14421)
+* DELETE 절을 포함한 MERGE 문에 관한 이슈 해결 (CUBRIDSUS-16658)
+* 비 원자적인 볼륨 페이지 반환에 관련된 이슈 해결. 볼륨 헤더와 페이지 비트맵이 일치하지 않는 문제 해결 (CUBRIDSUS-18027)
+* 중첩된 다수의 세이브포인트에 대한 일련의 부분 롤백에 관련된 이슈 해결 (CUBRIDSUS-7908)
+* LIMIT 절을 포함하고 있는 수정 가능한 뷰에 대한 insert나 update에 관한 이슈 해결 (CUBRIDSUS-10853)
+* JSP를 포함한 아우터 조인이나 계층적 쿼리가 잘못된 결과를 리턴하는 문제 해결 (CUBRIDSUS-14073)
+* cci_datasource_borrow() 함수를 통해서 연결을 획득하는 과정에서 무한정 대기로 타임 아웃을 야기시키는 이슈 해결 (CUBRIDSUS-14064)
+* set 데이터 타입에 관련된 union 호환성 이슈 해결 (CUBRIDSUS-11790)
+* PARTITON 관련 질의문에서 WHERE 절에 집계나 분석 함수가 포함된 질의문이 허용되지 않는데도 사용할 경우 오류 메시지 잘못 내보는 경우에 대한 해결 (CUBRIDSUS-14905) 
+* \u201cSELECT * FROM (t1 JOIN t2)\u201d 형태의 질의 파싱 오류 해결 (CUBRIDSUS-6045) 
+* 파티션 키 표현식에 사용되는 TO_CHAR 함수에 문자열 형의 인수 가 사용되었을 때 발생하는 파싱 오류 해결 (CUBRIDSUS-15112) 
+* applylogdb 가 스키마 복제를 실패했을 때 서버의 오류 메시지를 같이 보여주도록 수정. (CUBRIDSUS-11426)
+* 부질의가 잘못된 where 절을 포함하고 있고 set을 포함한 올바르지 않게 감싸진 질의에 관한 이슈 해결. 부질의에 ORDER BY나 LIMIT 절이 있는 set 질의가 무시되는 문제 해결 (CUBRIDSUS-12326)
+* JAVA stored procedure나 메소드와 GROUP BY 절을 포함한 질의 파싱 오류 해결. (CUBRIDSUS-12856)
+* 유효하지 않은 세션 상태를 참조하는 서버의 경합조건 문제 해결 (CUBRIDSUS-15223)
+* 다수의 클라이언트들이 동시에 DDL을 실행할 때 서버의 경합조건 문제 해결 (CUBRIDSUS-15026)
+* 인용부호 없이 예약어를 별칭으로 사용했을 때 발생되는 문제 해결 (CUBRIDSUS-8909)
+* 인터럽트가 발생했을 때 서버가 중단되는 문제 해결 (CUBRIDSUS-13886)
+* 메소드나 JSP가 중첩된 상태에서 독립모드의 클라이언트가 중단되는 문제 해결. (CUBRIDSUS-15590)
+* 트랜잭션 비 일관성 문제 해결, 길게 커밋을 하는 트랜잭션 다음에 짧은 트랜잭션이 실행될 때, 긴 트랜잭션이 커밋이 되지 않은 상태에서 장애가 발생하는 경우에 대한 해결 (CUBRIDSUS-17881) 
+* cci_get_class_num_objs 함수가 뷰에서도 동작하도록 수정됨 (CUBRIDSUS-7734)
+* checkdb가 필터 인덱스 술어를 만족하지 않는 레코드를 고려하도록 수정됨 (CUBRIDSUS-13686) 
+* CHR 함수가 이진 문자셋에 동작하도록 수정 (CUBRIDSUS-17783)
+* 호스트 변수를 포함한 표현식을 가진 질의문에 RECOMPILE 힌트 부여 후 재실행하면 해당 표현식의 콜레이션이 기본 콜레이션으로 변경되는 현상 해결 (CUBRIDSUS-14787)
+* ENUM 타입에서의 콜레이션 설정 문제 해결 (CUBRIDSUS-16702) 
+* ALTER, DROP 테이블이 실행될 때 SCH_M_LOCK을 획득하려는 DDL들 사이의 교착상태 문제가 해결됨 (CUBRIDSUS-13540)
+* copylogdb가 두차례 실행될 때 잘못된 오류 메시지 수정됨 (CUBRIDSUS-12043)
+* Windows 버전에서 createdb가 lob-base-path의 드라이브명을 잘못 처리하는 것이 수정됨 (CUBRIDSUS-10590)
+* 데이터베이스 연결 과정에서 할당된 CAS가 다른 응용 프로그램에 의해 사용된 이후 cci_get_db_parameter 함수가 호출되면 함수 수행 이후에도 트랜잭션이 진행 중인 상태로 남아있는 현상 해결 (CUBRIDSUS-13265) 
+* 올바르지 않은 범위 병합 최적화 오류 수정 (CUBRIDSUS-17449)
+* INSERT ODKU를 파티션 테이블에 적용할 때 삽입/갱신될 대상에서 중복값 감지 관련 문제 해결됨 (CUBRIDSUS-16067)
+* installdb 도구가 디렉터리 파일(databases.txt)에 기본 lob 경로를 추가하도록 수정됨 (CUBRIDSUS-14816)
+* 몇몇의 DDL이 슬레이브에 복제되지 않는 이슈가 해결됨 (CUBRIDSUS-16827)(CUBRIDSUS-11430)
+* 로깅 변수가 설정도었을 때 JDBC와 CGI 드라이버가 로그 디렉터리를 생성하도록 수정됨 (CUBRIDSUS-11320)
+* CSQL 번역기의 kill 세션문이 종료된 트랜잭션의 수를 보여주도록 수정됨 (CUBRIDSUS-14288)
+* loaddb가 내보내지는 스키마 정의가 8K 보다 클 경우도 허용되도록 수정됨 (CUBRIDSUS-7890)
+* loaddb가 오브젝트의 로딩중에 에러가 발생하면 부가적인 오류 메시지를 보여주도록 수정됨 ((CUBRIDSUS-7905)
+* 인수에 CAST 연산자를 포함하여 MEDIAN 함수가 호출되었을 때 잘못된 결과를 리턴하는 오류가 수정됨 (CUBRIDSUS-13916)
+* SA 모드에 메모리 누수 수정 (CUBRIDSUS-14141)
+* UPDATE 절에 DELETE 절을 포함하고 있는 MERGE 문에서 발생하는 런타임 오류 수정 (CUBRIDSUS-15691)
+* 충분한 빈 페이지가 있는 볼륨이 있을 때 새볼륨을 추가하지 않도록 하는 기능 추가됨 (CUBRIDSUS-16219)
+* NOT NULL 제약조건이 있는 컬럼에 대해서 SET DEFAULT NULL을 허용하지 않도록 수정 (CUBRIDSUS-8035)
+* 인덱스를 생성하는 전체 기간에 SELECT 명령이 블록되지 않도록 수정됨 (CUBRIDSUS-9576)
+* ha_mode가 오프 상태에 있을 때, HA 모드의 변경 알림인 -970 오류를 출력하지 않도록 수정 (CUBRIDSUS-12336)
+* 데이터베이스 생성시 오류가 발생하면 부가적인 심각한 오류를 발생하지 않도록 수정 (CUBRIDSUS-14647)
+* 클라이언트가 prepared 질의를 실행할 때, 뷰나 트리거에 관련된, 오래되어 쓸모없는 캐쉬 항목을 참조하지 않도록 수정 (CUBRIDSUS-14856) 
+* XAConnection의 NullpointerException 문제 해결 (CUBRIDSUS-14678)
+* 분할 테이블에서 분할 추가 시 date 타입 변환 에러 해결 (CUBRIDSUS-15106)
+* 통계 갱신 요청들이 동시에 실행중일 때 서버의 교착상태 문제 수정됨 (CUBRIDSUS-17000)
+* 기본 사용자 계정에 대한 rpm 패키지 수정됨 (CUBRIDSUS-13842)
+* 참조 일관성에 관련된 몇가지 예외사항 수정됨 (CUBRIDSUS-12781) (CUBRIDSUS-12782) (CUBRIDSUS-12783) (CUBRIDSUS-12784) 
+* 몇몇의 교착상태 가능성 관련 수정 (CUBRIDSUS-10332)(CUBRIDSUS-5084)(CUBRIDSUS-5011)(CUBRIDSUS-5008)(CUBRIDSUS-5004)(CUBRIDSUS-9469)
+* 동시에 실행되는 UPDATE STATISTICS 명령들에 의한 경합 조건 및 장애 해결 (CUBRIDSUS-16773) 
+* 페이지 할돵과 반환에 관한 볼륨 헤더와 시스템 헤더의 복구에 관련된 이슈 해결 (CUBRIDSUS-17835)
+* temp_volume_path 사스템 변수가 동작하도록 수정됨 (CUBRIDSUS-9484)
+* DBA가 테이블을 분할하였더라도 원래 테이블의 소유자가 분할을 소유하도록 수정됨 (CUBRIDSUS-11407)
+* 64bit 빌드가 32bit Windows에서 설치 중단되도록 수정됨 (CUBRIDSUS-13822)
+* 연결 특성에 대한 부가적인 검사를 추가함 (CUBRIDSUS-7581)
+* GROUP BY 절에 인용된 예약어가 허용되도록 수정됨 (CUBRIDSUS-13468)
+* BIGINT 타입에 문자열을 과학적 표시로 변환을 허용하도록 수정됨 (CUBRIDSUS-14254)
+* UNIQUE를 언급하지 않고도 고유한 인덱스를 삭제할 수 있도록 수정됨 (CUBRIDSUS-9352)
+* TO_CHAR와 TO_NUMBER 함수가 EUCKR 채우기를 수용하도록 수정됨 (CUBRIDSUS-17953)
+* 계층적 질의가 실행중에 오류가 발생되면 스캔을 중지하도록 수정됨 (CUBRIDSUS-17951)
+* 화폐 관련 부호셋을 고려하도록 수정됨 (CUBRIDSUS-17942)
+* 영구적인 임시 볼륨을 다 사용한 후에 임시 볼륨을 추가하도록 수정됨 (CUBRIDSUS-17989)
+* Windows 32bit 빌드에서 타임스탬프의 최대치가 올바르게 취급될 수 있도록 수정됨 (CUBRIDSUS-9398)
+* 특정 테이블의 전체 인텍스 통계가 수정될 수 있도록 테이블의 인덱스가 생성, 수정, 삭제되도록 수정 (CUBRIDSUS-12053)
+* restoredb에 잘못된 조합의 다계층의 백업 볼륨이 주어진 것을 감지하도록 수정됨 (CUBRIDSUS-13646)
+* UPDATE문이 레코드를 한 파티션에서 다른 파티션으로 이동할때 DELETE 트리거 대신에  UPDATE 트리거가 동작하도록 수정됨 (CUBRIDSUS-12472)
+* 명시적인 이너조인에서 ON절이 생략될 수 있도록 수정됨 (CUBRIDSUS-8714)
+* INST_NUM 이나 ORDERBY_NU나을 참조하는 유효하지 않은 질의에 대해서 적절한 오류를 발생하도록 수정됨 (CUBRIDSUS-12843)
+* 원시 테이블이나 중첩된 뷰가 수정될 때 뷰의 정의를 다시 캐시하도록 수정됨 (CUBRIDSUS-17971)
+* 예상하지 못한 db_ha_apply_info 카타로그 테이블의 삭제에 의한 복제 실패가 복구되도록 수정됨 (CUBRIDSUS-12065)
+* 다계층 백업에 대해서 restoredb를 실행할 때 메모리의 사용을 줄이도록 수정됨 (CUBRIDSUS-11868)
+* CONV 함수에 유효하지 않은 인자가 주어졌을 때 오류를 반환하도록 수정됨 (CUBRIDSUS-9434)
+* return_null_on_errors=no 상태에서 zero date와 더하기 또는 빼기 연산이 실행되면 오류를 반환하도록 수정됨 (CUBRIDSUS-9449)
+* 고유 제약을 위반한 경우에 인덱스 이름을 보여주도록 수정됨 (CUBRIDSUS-14946)
+* cubrid.conf의 서비스 변수가 유효하지 않을 때 상세한 오류 메시지를 보여주도록 수정됨 (CUBRIDSUS-9256)
+* 로딩중 고유 제약 조건의 위배를 감지하였을 때 관련된 인덱스의 이름을 보여주도록 수정됨 (CUBRIDSUS-11739)
+* CSQL 번역기를 위한 세션 명령에서 뒤에 붙은 빈칸들을 잘라내도록 수정됨 (CUBRIDSUS-13266)
+* 자동증가 컬럼의 타입이 변경될 때 max_val이 변경되도록 수정됨 (CUBRIDSUS-13154)
+* UTC_TIME 함수가 서머타임을 고려하도록 수정됨 (CUBRIDSUS-9328)
+* csql에 -t -N 옵션이 추가됨 (CUBRIDSUS-14406)
+* 뷰가 그 자신 뿐 아니라 UNION ALL을 포함하고 있는 뷰의 변환시에 LIMIT, ORDER BY 절이 무시되도록 수정됨 (CUBRIDSUS-8059)
+* 세미콜론으로 분리되지 않은 여러 개의 DDL 문장은 슬레이브로 복제되지 않는다 (CUBRIDSUS-16954)
+* 온라인 백업이 가끔 동시 실행되는 DDL 문장에 의해서 실패된다 (CUBRIDSUS-7335)
+* SHOW INDEX HEADER 문이 개정되었다 (CUBRIDSUS-13637)
+* cci_connect 함수를 위한 서버 이름에 대한 주소가 유효하지 않을 때의 오류 메시지가 개정되었다 (CUBRIDSUS-11253)
+* SHOW CREATE TABLE이 외부키의 참조 컬럼명까지를 보여준다 (CUBRIDSUS-12184)
+* SHOW LOG HEADER 문이 다계층 동시성 제어(MVCC) 관련 정보를 보여준다 (CUBRIDSUS-14709)
+* SHOW SLOTTED PAGER HEADER문이 다계층 동시성 제어(MVCC) 관련 정보를 보여준다 (CUBRIDSUS-14780)
+* unloaddb가 테이블의 고유한 인덱스가 있는 경우에도 역 인덱스의 내보내기가 생략되는 경우가 있다  (CUBRIDSUS-12476)
+* UPDATE, DELETE, MERGE, SELECT 문에 상관 부 질의문이 있을 경우 오류나던 문제 해결 (CUBRIDSUS-11685)
+* 조인을 포함하는 변경가능한 뷰에 UPDATE 허용, 단, 뷰에 조인하는 테이블중 하나에만 UPDATE할 경우(CUBRIDSUS-8110)
+* UTC_DATE 함수가 서머타임을 고려함 (CUBRIDSUS-14774)
+    
+주의 사항
+=========
+
+.. _new-cautions100:
+
+신규 주의 사항
+--------------
+
+CUBRID 10.0 볼륨은 CUBRID 9.x나 하위 버전의 볼륨과 호환성이 없다.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+기존 주의 사항
+--------------
+
+데이터베이스 생성 시에 로켈(언어 및 문자셋) 명시
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+데이터베이스 생성 시에 로켈을 지정하도록 변경되었다.
+
+CUBRID_CHARSET 환경 변수 제거
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+데이터베이스 생성 시에 로켈을 지정하도록 변경됨으로 인하여 9.2부터는 CUBRID_CHARSET 환경변수는 더 이상 사용되지 않는다.
+
+.. 4.4new
+
+[JDBC] 연결 URL의 zeroDateTimeBehavior 속성 값이 "round"일 때 TIMESTAMP의 zero date가 0001-01-01 00:00:00에서 1970-01-01 00:00:00(GST)로 변경됨(CUBRIDSUS-11612)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+2008 R4.4부터, 연결 URL의 zeroDateTimeBehavior 속성 값이 "round"일 때 TIMESTAMP의 zero date 값이 0001-01-01 00:00:00에서 1970-01-01 00:00:00(GST)로 변경되었으므로, 응용 프로그램에서 zero date를 사용하는 경우 주의해야 한다.
+
+
+AIX용 CUBRID를 SH 패키지로 설치 시 권장 사항(CUBRIDSUS-12251)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+AIX OS에서 ksh를 사용하여 CUBRID SH 설치 패키지를 설치하는 경우, 다음의 경고 메시지와 함께 실패하므로, 
+  
+:: 
+  
+    0403-065 An incomplete or invalid multibyte character encountered. 
+  
+CUBRID SH 설치 패키지를 실행하려면 ksh 대신 ksh93 또는 bash를 사용할 것을 권장한다. 
+  
+:: 
+  
+    $ ksh93 ./CUBRID-9.2.0.0146-AIX-ppc64.sh 
+    $ bash ./CUBRID-9.2.0.0146-AIX-ppc64.sh 
+
+CUBRID_LANG 환경 변수 제거, CUBRID_MSG_LANG 환경 변수 추가
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+9.1 버전부터 CUBRID_LANG 환경 변수는 더 이상 사용되지 않는다.
+유틸리티 메시지 및 오류 메시지를 출력할 때는 CUBRID_MSG_LANG 환경 변수를 사용한다. 
+
+
+CCI 응용 프로그램에서 여러 개의 질의를 한 번에 수행한 결과의 배열에 대한 에러 처리 방식 수정(CUBRIDSUS-9364)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+CCI 응용에서 여러 개의 질의를 한 번에 수행할 때 2008 R3.0부터 2008 R4.1 버전까지는 cci_execute_array 함수, cci_execute_batch 함수 또는 cci_execute_result 함수에 의한 질의 수행 결과들 중 하나만 에러가 발생해도 해당 질의의 에러 코드를 반환했으나, 2008 R4.3 버전 및 9.1 버전부터는 전체 질의 개수를 반환하고 CCI_QUERY_RESULT_* 매크로들을 통해 개별 질의에 대한 에러를 확인할 수 있도록 수정했다.
+
+수정 이전 버전에서는 에러가 발생한 경우에도 배열 내 각각의 질의들의 성공 실패 여부를 알 수 없으므로, 이를 판단해야 한다.
+
+.. code-block:: c
+
+    ...
+    char *query = "INSERT INTO test_data (id, ndata, cdata, sdata, ldata) VALUES (?, ?, A, ABCD, 1234)";
+    ...
+    req = cci_prepare (con, query, 0, &cci_error);
+    ...
+    error = cci_bind_param_array_size (req, 3);
+    ...
+    error = cci_bind_param_array (req, 1, CCI_A_TYPE_INT, co_ex, null_ind, CCI_U_TYPE_INT);
+    ...
+    n_executed = cci_execute_array (req, &result, &cci_error);
+
+    if (n_executed < 0)
+      {
+        printf ("execute error: %d, %s\n", cci_error.err_code, cci_error.err_msg);
+
+        for (i = 1; i <= 3; i++)
+          {
+            printf ("query %d\n", i);
+            printf ("result count = %d\n", CCI_QUERY_RESULT_RESULT (result, i));
+            printf ("error message = %s\n", CCI_QUERY_RESULT_ERR_MSG (result, i));
+            printf ("statement type = %d\n", CCI_QUERY_RESULT_STMT_TYPE (result, i));
+          }
+      }
+    ...
+    
+수정 이후 버전에서는 에러가 발생하면 전체 질의가 실패한 것이며, 에러가 발생하지 않은 경우에 대해 배열 내 각 질의들의 성공 실패 여부를 판단한다.
+
+.. code-block:: c
+
+    ...
+    char *query = "INSERT INTO test_data (id, ndata, cdata, sdata, ldata) VALUES (?, ?, A, ABCD, 1234)";
+    ...
+    req = cci_prepare (con, query, 0, &cci_error);
+    ...
+    error = cci_bind_param_array_size (req, 3);
+    ...
+    error = cci_bind_param_array (req, 1, CCI_A_TYPE_INT, co_ex, null_ind, CCI_U_TYPE_INT);
+    ...
+    n_executed = cci_execute_array (req, &result, &cci_error);
+    if (n_executed < 0)
+      {
+        printf ("execute error: %d, %s\n", cci_error.err_code, cci_error.err_msg);
+      }
+    else
+      {
+        for (i = 1; i <= 3; i++)
+          {
+            printf ("query %d\n", i);
+            printf ("result count = %d\n", CCI_QUERY_RESULT_RESULT (result, i));
+            printf ("error message = %s\n", CCI_QUERY_RESULT_ERR_MSG (result, i));
+            printf ("statement type = %d\n", CCI_QUERY_RESULT_STMT_TYPE (result, i));
+          }
+      }
+    ...
+
+javax.sql.XAConnection 인터페이스에서 HOLD_CURSORS_OVER_COMMIT 미지원(CUBRIDSUS-10800)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+CUBRID는 현재 javax.sql.XAConnection 인터페이스에서 ResultSet.HOLD_CURSORS_OVER_COMMIT을 지원하지 않는다.
+
+9.0 버전부터 STRCMP는 대소문자를 구분하여 문자열을 비교
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+9.0 이전 버전까지는 STRCMP가 대소문자를 구분하지 않고 문자열을 비교했으나, 
+9.0 버전부터는 대소문자를 구분하여 문자열을 비교한다. STRCMP가 대소문자를 구분하지 않고 동작하게 하려면 문자열에 대소문자를 구분하지 않는 콜레이션(예: utf8_en_ci)을 지정해야 한다.
+    
+.. code-block:: sql
+
+    -- In previous version of 9.0 STRCMP works case-insensitively
+    SELECT STRCMP (ABC,abc);
+    0
+    
+    -- From 9.0 version, STRCMP distinguish the uppercase and the lowercase when the collation is case-sensitive.
+    -- charset is en_US.iso88591
+    
+    SELECT STRCMP (ABC,abc);
+    -1
+    
+    -- If the collation is case-insensitive, it distinguish the uppercase and the lowercase.
+    -- charset is en_US.iso88591
+
+    SELECT STRCMP (ABC COLLATE utf8_en_ci ,abc COLLATE utf8_en_ci);
+    0
+
+2008 R4.1 버전부터 CCI_DEFAULT_AUTOCOMMIT 의 기본값이 ON으로 바뀜(CUBRIDSUS-5879)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+2008 R4.1 버전부터 CCI 인터페이스로 개발된 응용 프로그램의 자동 커밋 모드에 영향을 주는 브로커 파라미터인 CCI_DEFAULT_AUTOCOMMIT의 기본값이 ON으로 변경되었다. 따라서 CCI 및 CCI로 개발된 인터페이스(PHP, ODBC, OLE DB 등) 사용자는 응용 프로그램의 자동 커밋 모드가 이에 적합한지 살펴보아야 한다.
+
+2008 R4.0 버전부터 페이지 단위의 옵션 및 파라미터가 볼륨 크기 단위로 바뀜(CUBRIDSUS-5136)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+cubrid createdb 유틸리티의 DB 볼륨 크기 및 로그 볼륨 크기를 지정할 때 페이지 단위를 사용하는 옵션들(-p, -l, -s)은 제거될 예정이므로, 2008 R4.0 Beta 이후 새로 추가된 옵션들(--db-volume-size, --log-volume-size, --db-page-size, --log-page-size)을 사용한다.
+
+cubrid addvoldb 유틸리티의 DB 볼륨 크기를 지정하는 경우에도 페이지 단위를 사용하지 않고 2008 R4.0 Beta 이후 새로 추가된 옵션(--db-volume-size)을 사용한다.
+페이지 단위의 시스템 파라미터들은 추후 제거될 예정이므로 바이트 단위의 새로운 시스템 파라미터를 사용할 것을 권장한다. 관련 시스템 파라미터들에 대한 내용은 아래를 참고한다.
+
+2008 R4.0 Beta 미만 사용자는 DB 볼륨 크기 설정 시 주의(CUBRIDSUS-4222)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+2008 R4.0 Beta 버전부터 DB 생성 시 데이터 페이지 및 로그 페이지의 크기 기본값이 4KB에서 16KB로 변경되었으므로, DB 볼륨을 페이지 개수로 지정하여 생성하는 경우 볼륨의 바이트 크기가 기대와 다를 수 있음에 주의한다. 아무런 옵션도 주지 않을 경우 이전 버전에서는 4KB의 페이지 크기로 100MB의 DB 볼륨을 생성했으나, 2008 R4.0 버전부터는 16KB의 페이지 크기로 512MB의 DB 볼륨을 생성하게 된다.
+
+그리고, DB 볼륨의 생성 가능한 최소 크기를 20MB로 제한했으므로 이보다 작은 크기의 DB 볼륨은 생성할 수 없다.
+
+2008 R4.0 미만 버전의 일부 시스템 파라미터들의 기본값 변경(CUBRIDSUS-4095)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+2008 R4.0부터 다음 시스템 파라미터들의 기본값이 변경되었다.
+
+DB 서버가 허용하는 동시 연결 개수를 설정하는 max_clients의 기본값, 인덱스 페이지 생성 시 향후 업데이트를 대비하여 확보하는 여유 공간 비율을 설정하는 index_unfill_factor의 기본값이 변경되었으며, 바이트 단위 시스템 파라미터의 기본값이 기존 페이지 단위 시스템 파라미터의 기본값보다 커져서 별도의 설정을 하지 않는 경우 더 많은 메모리를 사용하게 되었다.
+
++-----------------------------+----------------------------+----------------------+--------------------+ 
+| 기존                        | 추가된                     | 기존                 | 변경된             | 
+| 시스템 파라미터             | 시스템  파라미터           | 기본값               | 기본값             |
+|                             |                            |                      | (단위: 바이트)     | 
++=============================+============================+======================+====================+ 
+| max_clients                 | 없음                       | 50                   | 100                | 
++-----------------------------+----------------------------+----------------------+--------------------+ 
+| index_unfill_factor         | 없음                       | 0.2                  | 0.05               | 
++-----------------------------+----------------------------+----------------------+--------------------+
+| data_buffer_pages           | data_buffer_size           | 100M(페이지 크기=4K) | 512M               | 
++-----------------------------+----------------------------+----------------------+--------------------+
+| log_buffer_pages            | log_buffer_size            | 200K(페이지 크기=4K) | 4M                 | 
+|                             |                            |                      |                    |
++-----------------------------+----------------------------+----------------------+--------------------+
+| sort_buffer_pages           | sort_buffer_size           | 64K(페이지 크기=4K)  | 2M                 | 
+|                             |                            |                      |                    | 
++-----------------------------+----------------------------+----------------------+--------------------+
+| index_scan_oid_buffer_pages | index_scan_oid_buffer_size | 16K(페이지 크기=4K)  | 64K                | 
+|                             |                            |                      |                    | 
++-----------------------------+----------------------------+----------------------+--------------------+
+
+또한, cubrid createdb로 DB 생성 시 데이터 페이지 크기와 로그 페이지 크기의 최소값이 1K에서 4K로 변경되었다.
+
+시스템 파라미터를 잘못 설정하면 DB 서비스, 유틸리티 및 응응 프로그램이 구동되지 않음(CUBRIDSUS-5375)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+cubrid.conf 또는 cubrid_ha.conf에 정의되지 않은 시스템 파라미터를 설정하거나, 페이지 단위의 시스템 파라미터와 바이트 단위의 시스템 파라미터가 동시에 사용되거나, 시스템 파라미터 값이 허용 범위를 벗어나면 이와 관련된 DB 서비스, 유틸리티 및 응응 프로그램이 구동되지 않는다.
+
+CUBRID 32bit 버전에서 data_buffer_size에 2G를 초과하는 값을 설정하면 DB 구동에 실패함(CUBRIDSUS-5349)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+CUBRID 32bit 버전에서 data_buffer_size가 2G를 초과하는 값으로 설정되는 경우 DB 구동에 실패한다. 32bit 버전에서는 OS의 한계로 인해 설정값이 2G를 초과할 수 없음에 주의한다.
+
+Windows Vista 이상 버전에서 CUBRID 유틸리티를 사용한 서비스 제어 시 권장 사항(CUBRIDSUS-4186)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Windows Vista 이상 버전에서 cubrid 유틸리티를 사용하여 서비스를 제어하려면 명령 프롬프트 창을 관리자 권한으로 구동한 후 사용하는 것을 권장한다.
+
+명령 프롬프트 창을 관리자 권한으로 구동하지 않고 cubrid 유틸리티를 사용하는 경우 UAC(User Account Control) 대화 상자를 통하여 관리자 권한으로 수행될 수 있으나 수행 결과 메시지를 확인할 수 없다.
+
+Windows Vista 이상 버전에서 명령 프롬프트 창을 관리자 권한으로 구동하는 방법은 다음과 같다.
+
+*   [시작> 모든 프로그램> 보조 프로그램> 명령 프롬프트]에서 마우스 오른쪽 버튼을 클릭한다.
+*   [관리자 권한으로 실행(A)]을 선택하면 권한 상승을 확인하는 대화 상자가 활성화되고, "예"를 클릭하여 관리자 권한으로 구동한다.
+
+CUBRID 소스 빌드 후 실행 시, 매니저 서버 프로세스 관련 오류 발생(CUBRIDSUS-3553)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+사용자가 직접 빌드하여 설치하는 경우, CUBRID와 CUBRID 매니저를 각각 빌드하여 설치해야 한다. 만약, CUBRID 소스만 checkout하여 빌드 후 cubrid service start 또는 cubrid manager start를 실행하면, cubrid manager server is not installed라는 오류가 발생한다.
+
+
+2008 R3.0 이하 버전에서 사용하던 GLO 클래스 지원 중단(CUBRIDSUS-3826)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+CUBRID 2008 R3.0 이하 버전은 glo (Generalized Large Object) 클래스를 사용하여 Large Object를 처리했으나, CUBRID 2008 R3.1 이상 버전 glo 클래스를 제거하고 BLOB, CLOB 타입(이하 LOB)을 지원한다. LOB 데이터 타입에 대한 자세한 내용은 :ref:`blob-clob` 절을 참고하면 된다.
+
+기존의 glo 클래스 사용자는 다음과 같이 작업할 것을 권장한다.
+
+*   GLO 데이터를 파일로 저장한 후 어플리케이션 및 DB 스키마에서 GLO를 사용하지 않도록 수정한다.    
+*   unloaddb, loaddb 유틸리티를 이용하여 DB 마이그레이션을 한다.
+*   변경한 어플리케이션에 맞게 파일을 LOB 데이터로 로딩하는 작업을 수행하도록 한다.
+*   수정한 어플리케이션이 정상 동작하는지 확인한다.
+
+참고로, cubrid loaddb 유틸리티는 GLO 클래스를 상속받거나 GLO 클래스 타입을 가진 테이블을 로딩하려는 경우 " Error occurred during schema loading " 오류 메시지와 함께 데이터 로딩을 중지한다.
+
+GLO 클래스의 지원 중단에 따라 각 인터페이스 별로 삭제한 함수는 다음과 같다.
+
++------------+----------------------------+
+| 인터페이스 | 삭제한 함수                |
++============+============================+
+| CCI        | cci_glo_append_data        |
+|            |                            |
+|            | cci_glo_compress_data      |
+|            |                            |
+|            | cci_glo_data_size          |
+|            |                            |
+|            | cci_glo_delete_data        |
+|            |                            |
+|            | cci_glo_destroy_data       |
+|            |                            |
+|            | cci_glo_insert_data        |
+|            |                            |
+|            | cci_glo_load               |
+|            |                            |
+|            | cci_glo_new                |
+|            |                            |
+|            | cci_glo_read_data          |
+|            |                            |
+|            | cci_glo_save               |
+|            |                            |
+|            | cci_glo_truncate_data      |
+|            |                            |
+|            | cci_glo_write_data         |
+|            |                            |
++------------+----------------------------+
+| JDBC       | CUBRIDConnection.getNewGLO |
+|            |                            |
+|            | CUBRIDOID.loadGLO          |
+|            |                            |
+|            | CUBRIDOID.saveGLO          |
+|            |                            |
++------------+----------------------------+
+| PHP        | cubrid_new_glo             |
+|            |                            |
+|            | cubrid_save_to_glo         |
+|            |                            |
+|            | cubrid_load_from_glo       |
+|            |                            |
+|            | cubrid_send_glo            |
+|            |                            |
++------------+----------------------------+
+
+마스터 프로세스와 서버 프로세스 간 프로토콜 변경 및 두 개 버전을 동시에 운영하는 경우 포트 설정 필요(CUBRIDSUS-3564)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+마스터 프로세스(cub_master)와 서버 프로세스(cub_server) 간 통신 프로토콜 변경으로 인해 CUBRID 2008 R3.0 이상 버전의 마스터 프로세스는 하위 버전의 서버 프로세스와 통신할 수 없고, 하위 버전의 마스터 프로세스도 2008 R3.0 이상 버전의 서버 프로세스와 통신할 수 없다. 따라서, 이미 하위 버전이 설치되어 있는 환경에서 새 버전을 추가 설치하여, 두 개 버전의 CUBRID를 동시에 운영하는 경우 각각 서로 다른 포트를 사용하도록 cubrid.conf의 cubrid_port_id 시스템 파라미터를 수정해야 한다.
+
+JDBC에서 연결 정보를 URL 스트링으로 입력하는 경우 물음표를 반드시 명시(CUBRIDSUS-3217)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+JDBC에서 URL 스트링으로 연결 정보를 입력하는 경우 수정 전 버전에서는 물음표(?)를 입력하지 않더라도 속성(PROPERTY) 정보가 적용되었으나, CUBRID 2008 R3.0부터는 문법에 따라 반드시 물음표를 명시해야 하고 이를 생략할 경우 에러를 출력한다. 또한, 연결 정보 중 USERNAME과 PASSWORD가 없더라도 반드시 콜론( : )을 명시해야 한다. ::
+
+    URL=jdbc:CUBRID:127.0.0.1:31000:db1:::altHosts=127.0.0.2:31000,127.0.0.3:31000 -에러 처리
+    URL=jdbc:CUBRID:127.0.0.1:31000:db1:::?altHosts=127.0.0.2:31000,127.0.0.3:31000 -정상 처리
+
+DB 이름에 @를 포함할 수 없음(CUBRIDSUS-2828)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+DB 이름에 @이 포함되는 경우 호스트 이름이 명시된 것으로 해석될 수 있으므로 이를 방지하기 위하여 cubrid createdb, cubrid renamedb, cubrid copydb 유틸리티 실행 시 DB 이름에 @를 포함할 수 없도록 수정했다.
