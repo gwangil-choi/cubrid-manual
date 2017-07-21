@@ -604,10 +604,10 @@ CSQL 인터프리터에서 작업 중인 데이터베이스 이름 및 호스트
  
     ;trace {on | off} [{text | json}]
  
-*   on: SQL 트레이스를 on한다.
-*   off: SQL 트레이스를 off한다.
-*   text: 일반 TEXT 형식으로 출력한다. OUTPUT 이하 절을 생략하면 일반 TEXT 형식으로 출력한다.
-*   json: JSON 형식으로 출력한다.
+*   **on**: SQL 트레이스를 on한다.
+*   **off**: SQL 트레이스를 off한다.
+*   **text**: 일반 TEXT 형식으로 출력한다. OUTPUT 이하 절을 생략하면 일반 TEXT 형식으로 출력한다.
+*   **json**: JSON 형식으로 출력한다.
 
 .. note:: 독립 모드(-S 옵션 사용)로 실행한 CSQL 인터프리터는 SQL 트레이스 기능을 지원하지 않는다.
 
