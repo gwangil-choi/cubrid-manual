@@ -220,6 +220,45 @@ DEFAULT
 .. note::
 
     CUBRID 9.0 미만 버전에서는 테이블 생성 시 DATE, DATETIME, TIME, TIMESTAMP 칼럼의 DEFAULT 값을 SYS_DATE, SYS_DATETIME, SYS_TIME, SYS_TIMESTAMP로 지정하면, CREATE TABLE 시점의 값이 저장된다. 따라서 데이터가 INSERT되는 시점의 값을 입력하려면 INSERT 구문의 VALUES 절에 해당 함수를 입력해야 한다.
+
+DISK_SIZE
+=========
+
+.. function:: DISK_SIZE(expr)
+
+    This function returns the size in bytes required to store the value of *expr* after evaluation. Main usage is to get necessary size for storing values in database heap file.
+
+    :param expr: Target expression to get the size.
+
+    :rtype: INTEGER
+
+.. code-block:: sql
+
+     SELECT DISK_SIZE('abc'), DISK_SIZE(1);
+
+::
+
+       disk_size('abc')   disk_size(1)
+    ==================================
+                      7              4
+
+
+The size depends on the actual content of value, :ref:`string compression<string_compression>` is also taken into account:
+
+.. code-block:: sql
+
+     CREATE TABLE t1(s1 VARCHAR(10), s2 VARCHAR(300), c1 CHAR(10), c2 CHAR(300));
+     INSERT INTO t1 VALUES(REPEAT('a', 10), REPEAT('b', 300), REPEAT('c', 10), REPEAT('d', 300));
+     INSERT INTO t1 VALUES('a', 'b', 'c', 'd');
+     SELECT DISK_SIZE(s1), DISK_SIZE(s2), DISK_SIZE(c1), DISK_SIZE(c2) FROM t1;
+
+::
+
+       disk_size(s1)   disk_size(s2)   disk_size(c1)   disk_size(c2)
+    ================================================================
+                  12              24              10             300
+                   4               4              10             300
+
     
 INDEX_CARDINALITY
 =================
