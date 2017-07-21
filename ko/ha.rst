@@ -493,8 +493,6 @@ CUBRID HA 기능을 설정하는 파라미터이다. 기본값은 **off** 이다
 *   **on** : CUBRID HA 기능을 사용하며, 해당 노드는 failover의 대상이 된다.
 *   **replica** : CUBRID HA 기능을 사용하며, 해당 노드는 failover의 대상이 되지 않는다.
 
-**ha_mode** 파라미터는 **[@<database>]** 섹션에서 재설정할 수 있으나, **off** 만 입력할 수 있다. **[@<database>]** 섹션에 **off** 가 아닌 값을 입력하면 오류가 출력된다.
-
 **ha_mode** 가 **on** 이면 **cubrid_ha.conf** 를 읽어 CUBRID HA를 설정한다.
 
 이 파라미터는 동적으로 변경할 수 없으며, 변경하면 해당 노드를 다시 시작해야 한다.
