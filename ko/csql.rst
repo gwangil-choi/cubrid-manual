@@ -2,7 +2,7 @@
 CSQL 인터프리터
 ***************
 
-CUBRID에서 SQL 문을 실행하는 방법은 GUI(Graphical User Interface) 기반의 `CUBRID Query Browser <http://www.cubrid.org/wiki_tools/entry/cubrid-query-browser>`_\ 를 이용하거나, 콘솔 기반의 CSQL 인터프리터를 이용하는 것이다.
+CUBRID에서 SQL 문을 실행하는 방법은 GUI(Graphical User Interface) 기반의 CUBRID Manager  를 이용하거나, 콘솔 기반의 CSQL 인터프리터를 이용하는 것이다.
 
 CSQL은 CUBRID에서 명령어 방식으로 SQL 문을 사용할 수 있는 프로그램이다. 여기에서는 CSQL 인터프리터의 간단한 사용법과 관련 명령어를 설명한다.
 
