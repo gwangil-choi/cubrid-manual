@@ -8,11 +8,8 @@ CUBRID의 다양한 도구 및 드라이버는 http://www.cubrid.org/downloads\ 
 
 CUBRID가 제공하는 다음 도구를 사용하면 GUI를 통해 편리하게 CUBRID의 기능을 이용할 수 있다.
 
-*   `CUBRID 쿼리 브라우저 <http://www.cubrid.org/wiki_tools/entry/cubrid-query-browser>`_
 
 *   `CUBRID 매니저 <http://www.cubrid.org/wiki_tools/entry/cubrid-manager>`_
-
-*   `CUBRID 웹 매니저 <http://www.cubrid.org/wiki_tools/entry/cubrid-web-manager>`_
 
 *   `CUBRID 마이그레이션 툴킷 <http://www.cubrid.org/wiki_tools/entry/cubrid-migration-toolkit>`_
 
