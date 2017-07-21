@@ -498,9 +498,7 @@ FOREIGN KEY 제약
 
     [CONSTRAINT constraint_name] FOREIGN KEY [foreign_key_name] (<column_name_comma_list1>) REFERENCES [referenced_table_name] (<column_name_comma_list2>) [<referential_triggered_action> ...]
      
-        <referential_triggered_action> ::=
-            ON UPDATE <referential_action> |
-            ON DELETE <referential_action>
+        <referential_triggered_action> ::= ON UPDATE <referential_action> | ON DELETE <referential_action>
 
             <referential_action> ::= CASCADE | RESTRICT | NO ACTION  | SET NULL
 
@@ -522,6 +520,8 @@ FOREIGN KEY 제약
     *   **SET NULL**: 기본키가 삭제되거나 업데이트되면, 이를 참조하는 외래키 칼럼 값을 **NULL**\ 로 업데이트한다.
     *   **NO ACTION**: **RESTRICT** 옵션과 동일하게 동작한다.
 
+For each row R1 of the referencing table, there should be some row R2 of the referenced table such that the value of each referencing column in R1 is either **NULL** or is equal to the value of the corresponding referenced column in R2.
+
 .. code-block:: sql
 
     -- creating two tables where one is referencing the other
@@ -531,7 +531,7 @@ FOREIGN KEY 제약
     );
      
     CREATE TABLE b_tbl (
-        ID INT NOT NULL,
+        id INT NOT NULL,
         name VARCHAR (10) NOT NULL,
         CONSTRAINT pk_id PRIMARY KEY (id),
         CONSTRAINT fk_id FOREIGN KEY (id) REFERENCES a_tbl (id)
