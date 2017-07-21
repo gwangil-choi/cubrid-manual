@@ -297,44 +297,70 @@ MVCC는 각 데이터베이스 레코드에 대해 다중 버전을 유지한다
 
 트랜잭션 T1이 새 레코드를 삽입할 때, 그 트랜잭션은 그 레코드의 첫 버전을 생성하고 그것에 대한 유일한 식별자 MVCCID1 를 삽입ID 로 설정한다. 이  MVCCID는 레코드 헤더의 메타 데이터로 저장된다. 
 
-.. image:: /images/transaction_inserted_record.png
++------------------+-------------+---------------+
+| OTHER META-DATA  | MVCCID1     | RECORD DATA   |
++------------------+-------------+---------------+
 
 트랜잭션 T1 이 완료(commit)할 때까지는 다른 트랜잭션은 이 레코드의 새 값을 보지 못한다. MVCCID가 그 레코드의 변경자를 식별하는 데 도움을 주며, 변경 시점을 지정하게 해준다. 이렇게 함으로써 다른 트랜잭션이 그 변경에 대해서 타당한 지 아닌 지 알수 있도록 해준다. 이러한 경우에, 이 레코드를 체크하는 임의의 트랜잭션은 MVCCID1 을 발견하게 되고, 그 변경자가 여전히 활성 상태인 것을 알게 됨으로써, 그 변경은 여전히 자신이 참조할 수 있는 상태가 아니라는 것을 알게된다. 
 
 트랜잭션 T1 이 완료한 이후에는, 새 트랜잭션 T2가 T1이 변경했던 레코드를 참조할 수 있고, 삭제하기로 결정한다. T2는 실제로 그 레코드를 삭제하지는 않음으로써 다른 트랜잭션이 참조하도록 허용한다. 대신에, 그 레코드에 대한 독점 잠금을 획득하여 다른 트랜잭션이 변경하지 못하도록 하고, 삭제되었음을 그 레코드에 표시한다. 이 트랜잭션은 삭제 시 또 다른 MVCCID를 부여함으로써 다른 트랜잭션들이 그 레코드의 삭제자를 식별할 수 있도록 한다. 
 
-.. image:: /images/transaction_deleted_record.png
++------------------+-------------+---------------+---------------+
+| OTHER META-DATA  | MVCCID1     | MVCCID2       | RECORD DATA   |
++------------------+-------------+---------------+---------------+
 
-만일 트랜재션 T2가 한 레코드 값을 변경하고자 하면, 기존 버전과 유사한 새 버전을 생성해야 한다. 두 버전은 트랜잭션 T2의 MVCCID로 표시되며, 기존 버전은 삭제용, 새 버전은 삽입용으로 표시된다. 기존 버전은 또한 새 버전에 대한 링크를 저장한다. 이러한 레코드의 관계는 다음 그림과 같이 표현된다. 
+If *T2* decides instead to update one of the record values, it must update the row to a new version and store the old version in log. The new row consists of new data, transaction MVCCID as insert MVCCID and the address of log entry storing previous version. The row representations looks like this:
 
-.. image:: /images/transaction_updated_record.png
+HEAP file contains a single row identified by an OID:
 
-현재, T2만이 레코드의 새 버전을 볼 수 있으며, 반면에 다른 모든 트랜잭션들은 기존의 첫 버전만을 참조하게 될 것이다. 실행 중인 트랜잭션에 의해서 해당 버전을 볼 수 있느냐 없는냐 하는 특성은 가시성(visibility)이라 한다. 이 가시성은 각 트랜잭션에 상대적이며, 일부 트랜잭션은 그 버전을 볼 수 있고 다른 트랜잭션들은 볼 수 없게 된다. 
++------------------+-------------+--------------------+---------------+
+| OTHER META-DATA  | MVCCID_INS1 | PREV_VERSION_LSA1  |  RECORD DATA  |
++------------------+-------------+--------------------+---------------+
 
-트랜잭션 T2가 레코드를 변경한 후 완료하지는 않은 상태에서 시작하는 트랜잭션 T3는 변경된 레코드의 새 버전을 보지 못한다. 심지어 T2가 완료된 이후에도 마찬가지다. 한 버전의 T3에 대한 가시성은 T3가 시작할 때 그 버전의 삽입자와 삭제자의 상태에 달려있다. 또한, T3의 생존기간 동안에 동일하게 유지된다. 
+LOG file has a chain of log entries, the undo part of each log entry contains the original heap record before modification:
 
-사실상, 데이터베이스의 모든 버전의 가시성은 트랜잭션이 시작한 이후에 발생한 변경에 의존적이지는 않다. 더구나, 추가된 새 버젼은 그 트랜잭션에게는 무시된다. 결과적으로, 데이터베이스에서 모든 가시적인 버전의 집합은 변하지 않고 남아있게 되며 그 트랜잭션에 대한 스냅샷을 형성한다.  그러므로, 이 MVCC에 의해서 스냅샷 격리(snapshot isolation)가 제공되며 각 트랜잭션에서 수행되는 모든 read 질의문이 데이터베이스 일관성있는 뷰를 보는 것이 보장된다. 
++----------------------+------------------+-------------+--------------------+---------------+
+| LOG ENTRY META-DATA  | OTHER META-DATA  | MVCCID_INS2 | PREV_VERSION_LSA2  |  RECORD DATA  |
++----------------------+------------------+-------------+--------------------+---------------+
 
-CUBRID 10.0 에서, 스냅샷은 모든 타당하지 못한 MVCCID에 대한 필터(filter)이다. 스냅샷이 지정되기 전에 완료되지 않은 트랜잭션의 MVCCID는 모두 타당하지 못하다. 새 트랜잭션이 시작할 때마다 스냅샷 필터를 변경하는 것을 피하기 위해서, 스냅샷은 두 개의 경계 MVCCID로 결정된다: 즉, 활성 트랜잭션중 가장 적은 MVCCID와 완료된 트랜잭션중 가장 큰 MVCCID로 결정된다. 경계 사이에 존재하는 활성 MVCCID 의 목록만이 저장된다. 완료 트랜잭션 중 가장 큰 MVCCID 보다 큰 MVCCID를 갖도록 스냅샷이 보장된 이후에 시작한 트랜잭션은 자동적으로 타당하지 못한 것으로 결정된다. 가장 작은 활성 MVCCID보다 적은 임의의 MVCCID는 자동적으로 타당한 것으로 결정된다. 
++----------------------+------------------+-------------+--------------------+---------------+
+| LOG ENTRY META-DATA  | OTHER META-DATA  | MVCCID_INS3 | NULL               |  RECORD DATA  |
++----------------------+------------------+-------------+--------------------+---------------+
 
-버전 가시성을 결정하는 스냅샷 필터 알고리즘은 삽입과 삭제에 사용된 MVCCID 표시자를 질의하여 처리한다. 
+Other transactions may need to walk the log chain of previous version LSA of multiple log record until one record satisfies the visibility condition, determined by the values of insert and delete MVCCID of each record.
 
-+--------------------------------------+-----------------------------------------------------+
-|                                      | Delete MVCCID                                       |
-|                                      +--------------------------+--------------------------+
-|                                      | Valid                    | Invalid                  |
-+--------------------+-----------------+--------------------------+--------------------------+
-| Insert MVCCID      | Valid           | Not visible              | Visible                  |
-|                    +-----------------+--------------------------+--------------------------+
-|                    | Invalid         | Impossible               | Not visible              |
-+--------------------+-----------------+--------------------------+--------------------------+
+    .. note::
 
-Table 설명:
+         *   Previous version used the heap (another OID) to store the old and new version of the updated rows. In fact, old version was the the row which remained unchanged, which was appended with and OID link to the new version. Both new version and old version were located in the heap.
 
-* **Valid Insert MVCCID, valid delete MVCCID:** 스냅샷 이전에 버전 삽입/삭제 (그리고 완료됨), 그러므로 참조 가능.
-* **Valid Insert MVCCID, invalid delete MVCCID:** 버전 삽입 및 완료, 그러나 삭제 안됨 또는 최근 삭제됨, 그러므로 가시적.
-* **Invalid Insert MVCCID, invalid delete MVCCID:** 스냅샷 이전에 삽입자 완료 안한 상태, 레코드 삭제 안됨 또는 완료 안됨, 그러므로 가시적이지 않음.
-* **invalid Insert MVCCID, valid delete MVCCID:** 삽입자는 완료 안함, 삭제자는 완료함 - 불가능 경우. 만일 삭제자가 삽입자와 같지 않다면, 버전 보지 못함. 만일 같다면, 삽입/삭제 MVCCID 는 타당 또는 타당하지 않음.
+Currently, only *T2* can see the updated row, while other transactions will access the row version contained on the log page and accessible through the LSA obtained from heap row. The property of a version to be seen or not to be seen by running transactions is called **visibility**. The visibility property is relative to each transaction, some can consider it true, whereas others can consider it false.
+
+A transaction *T3* that starts after *T2* executes row update, but before *T2* commits, will not be able to see its new version, not even after *T2* commits. The visibility of one version towards *T3* depends on the state of its inserter and deleter when *T3* started and preserves its status for the lifetime of *T3*.
+
+As a matter of fact, the visibility of all versions in database towards on transaction does not depend on the changes that occur after transaction is started. Moreover, any new version added is also ignored. Consequently, the set of all visible versions in the database remains unchanged and form the snapshot of the transaction. Hence, **snapshot isolation** is provided by MVCC and it is a guarantee that all read queries made in a transaction see a consistent view of the database.
+
+In CUBRID 10.0, **snapshot** is a filter of all invalid MVCCID's. An MVCCID is invalid if it is not committed before the snapshot is taken.  To avoid updating the snapshot filter whenever a new transaction starts, the snapshot is defined using two border MVCCID's: the lowest active MVCCID and the highest committed MVCCID. Only a list of active MVCCID values between the border is saved. Any transaction starting after snapshot is guaranteed to have an MVCCID bigger than highest committed and is automatically considered invalid. Any MVCCID below lowest active must be committed and is automatically considered valid.
+
+The snapshot filter algorithm that decides a version visibility queries the MVCCID markers used for insert and delete. The snapshot starts by checking the *last version* stored in heap and, based on result, it can either fetch version from heap, fetch older version from log or can ignore row:
+
++--------------------+--------------------------+---------------------+--------------------------------------------------------+
+| Insert MVCCID      | Previous version LSA     | Delete MVCCID       | Snapshot test result                                   |
++====================+==========================+=====================+========================================================+
+| Not visible        | NULL                     | None or not visible | | Version is too *new* and is not visible              |
+|                    |                          |                     | | Row has no previous version, so it is ignored        |
+|                    +--------------------------+---------------------+--------------------------------------------------------+
+|                    | LSA                      | None or not visible | | Version is too *new* and is not visible              |
+|                    |                          |                     | | Row has previous version and snapshot must check it  |
++--------------------+--------------------------+---------------------+--------------------------------------------------------+
+| None or visible    | LSA or NULL              | None or not visible | | Version is visible and its data is fetched           |
+|                    |                          |                     | | It does not matter if row has previous versions      |
+|                    |                          +---------------------+--------------------------------------------------------+
+|                    |                          | Visible             | | Version is too old, was deleted and is not visible   |
+|                    |                          |                     | | It does not matter if row has previous versions      |
++--------------------+--------------------------+---------------------+--------------------------------------------------------+
+
+
+If version is too new, but it has a previous version stored in log, the same checks are repeated on previous version. The checks stop when no previous versions are found (the entire row chain is too new for this transaction), or when a visible version is found.
 
 이제 스냅샷이 어떻게 동작하는 지 확인해 보자 (**REPEATABLE READ** 격리 수준을 사용하여 전체 트랜잭션 동안의 동일 스냅샷 유지)
 
@@ -553,13 +579,27 @@ Table 설명:
 +-------------------------------------------------------------------+----------------------------------------+----------------------------------------+
 | session 1                                                         | session 2                              | session 3                              |
 +===================================================================+========================================+========================================+
+| .. code-block:: sql                                               | ..  code-block:: sql                   | .. code-block:: sql                    |
+|                                                                   |                                        |                                        |
+|   csql> ;autocommit off                                           |   csql> ;autocommit off                |   csql> ;autocommit off                |
+|                                                                   |                                        |                                        |
+|   AUTOCOMMIT IS OFF                                               |   AUTOCOMMIT IS OFF                    |   AUTOCOMMIT IS OFF                    |
+|                                                                   |                                        |                                        |
+|   csql> set transaction isolation level REPEATABLE READ;          |   csql> set transaction isolation      |   csql> set transaction isolation      |
+|                                                                   |   level REPEATABLE READ;               |   level REPEATABLE READ;               |
+|                                                                   |                                        |                                        |
+|   Isolation level set to:                                         |   Isolation level set to:              |   Isolation level set to:              |
+|   REPEATABLE READ                                                 |   REPEATABLE READ                      |   REPEATABLE READ                      |
+|                                                                   |                                        |                                        |
++-------------------------------------------------------------------+----------------------------------------+----------------------------------------+
 | .. code-block:: sql                                               |                                        |                                        |
 |                                                                   |                                        |                                        |
+|   csql> CREATE TABLE tbl(host_year integer, nation_code char(3)); |                                        |                                        |
 |   csql> INSERT INTO tbl VALUES (2008, 'AUS');                     |                                        |                                        |
 |   csql> COMMIT WORK;                                              |                                        |                                        |
 |                                                                   |                                        |                                        |
 +-------------------------------------------------------------------+----------------------------------------+----------------------------------------+
-| .. code-block:: sql                                               | .. code-block:: sql                    |                                        |
+| .. code-block:: sql                                               | ..  code-block:: sql                   |                                        |
 |                                                                   |                                        |                                        |
 |   -- update row                                                   |                                        |                                        |
 |   csql> UPDATE tbl SET host_year = 2012 WHERE nation_code = 'AUS';|                                        |                                        |
@@ -587,7 +627,6 @@ Table 설명:
 |            2016  'AUS'                                            |            2008  'AUS'                 |            2012  'AUS'                 |
 |                                                                   |                                        |                                        |
 +-------------------------------------------------------------------+----------------------------------------+----------------------------------------+
-
 
 VACUUM
 ------
