@@ -289,6 +289,8 @@ CUBRID는 데이터베이스 서버, 브로커, CUBRID 매니저로 구성된다
 |                               +-------------------------------------+-------------------------+---------+----------+--------------------------------+-----------------+
 |                               | auto_restart_server                 | 서버                    | O       | bool     | yes                            | DBA만 가능      |
 |                               +-------------------------------------+-------------------------+---------+----------+--------------------------------+-----------------+
+|                               | enable_string_compression           | 클라이언트/서버         | O       | bool     | yes                            |                 |
+|                               +-------------------------------------+-------------------------+---------+----------+--------------------------------+-----------------+
 |                               | index_scan_in_oid_order             | 클라이언트              | O       | bool     | no                             | 가능            |
 |                               +-------------------------------------+-------------------------+---------+----------+--------------------------------+-----------------+
 |                               | index_unfill_factor                 | 서버                    |         | float    | 0.05                           |                 |
@@ -1731,6 +1733,8 @@ HA 관련 파라미터
 +-------------------------------------+--------+----------------+----------------+----------------+
 | auto_restart_server                 | bool   | yes            |                |                |
 +-------------------------------------+--------+----------------+----------------+----------------+
+| enable_string_compression           | bool   | yes            |                |                |
++-------------------------------------+--------+----------------+----------------+----------------+
 | index_scan_in_oid_order             | bool   | no             |                |                |
 +-------------------------------------+--------+----------------+----------------+----------------+
 | index_unfill_factor                 | float  | 0.05           | 0              | 0.5            |
@@ -1787,6 +1791,12 @@ HA 관련 파라미터
 **auto_restart_server**
 
     **auto_restart_server**\ 는 데이터베이스 서버 프로세스에 심각한 오류가 발생해서 프로세스가 중단될 경우에 자동으로 재시작할 것인가를 지정하는 파라미터이다. **auto_restart_server**\ 를 yes로 설정하면 서버 프로세스가 오류로 중단되었을 때 자동으로 재시작한다. 정상적인 종료 절차(CUBRID 서버의 **STOP** 명령)에 의해 종료된 경우에는 해당하지 않는다.
+
+.. _enable_string_compression:
+
+**enable_string_compression**
+
+    **enable_string_compression** is a parameter to configure whether string compression should be used when storing variable string type value into heap, index or list. If **enable_string_compression** value is set to **yes**, and the string is at least 255 bytes in size and the compressed string requires less size than original string, then the string is stored in compressed form.
 
 **index_scan_in_oid_order**
 
