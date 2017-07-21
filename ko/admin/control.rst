@@ -1760,18 +1760,6 @@ CUBRID 매니저 서버의 환경 설정 파일에서 주석은 "#"으로 처리
 
     서버의 진단 항목 중 **slow_query** 항목을 설정할 경우 몇 초 이상을 늦은 질의로 판별할지 결정하는 매개 변수로, 기본 값은 **10**\이다. 서버에서 수행된 질의 수행 시간이 매개 변수 설정 값보다 큰 경우, **slow_query**\의 개수가 증가한다.
 
-**support_web_manager**
-
-    **support_web_manager**\는 CUBRID 웹 매니저를 사용하기 위해 설정한다. 기본값은 NO 이다.
- 
-**web_manager_path**
-
-    **web_manager_path**\는 CUBRID 웹 매니저가 설치된 경로를 지정한다. 지정하지 않을 경우 {CUBRID 설치 경로}/share/webmanager 이다.
- 
-**auto_job_timeout**
-
-    **auto_job_timeout**\는 작업 자동화(cub_auto)의 작업이 유지되기 위한 최대 시간이다. 기본값은 43,200 (12 시간)이다.
- 
 **mon_cub_auto**
 
     **mon_cub_auto**\는 cub_auto가 종료되면 자동으로 재시작할 것인지 설정한다. 기본값은 NO 이다.
