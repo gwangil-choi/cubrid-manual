@@ -1,7 +1,7 @@
 .. _reference-index:
 
 #########################
-CUBRID 10.0 사용자 매뉴얼
+CUBRID 10.1 사용자 매뉴얼
 #########################
 
 .. **Topic Quick Reference Table**
