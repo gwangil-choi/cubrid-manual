@@ -203,7 +203,8 @@ CUBRID 매니저는 별도로 다운로드 한 후 실행해야 하는 클라이
 
     .. image:: /images/gs_manager_sql.png
 
-보다 자세한 정보는 :doc:`/cm/index`\를 참고한다.
+.. 보다 자세한 정보는 http://www.cubrid.org/wiki_tools/entry/cubrid-manager-manual_kr 를 참고한다.
+
 
 
 CUBRID 마이그레이션 툴킷으로 스키마/데이터 이전하기
