@@ -1130,8 +1130,7 @@ CUBRID는 두 종류의 문자열(character string) 타입을 지원한다.
 **String compression**
 
   Variable character type values (VARCHAR(n)) may be compressed (using LZO1X algorithm) before being stored in database (heap file, index file or list file). Compression is attempted if size in bytes is at least 255 bytes (this value is predefined and cannot be changed). If the compression is not efficient (compressed value size and its overhead is equal or greater than the original uncompressed value), the value is stored uncompressed.  Compression is activated by default and may be disabled by setting the system parameter  :ref:`enable_string_compression<enable_string_compression>`. The overhead of compression is eight bytes : four for size of compressed buffer and four for the size of expected uncompressed string.  Compressed strings are decompressed when they are read from database.  
- To determine if a value is compressed or not, one may use the :ref:`DISK_SIZE<disk_size>` function result and compare it with the result of :ref:`OCTET_LENGTH<octet_length>` function on the same argument. A smaller value for DISK_SIZE (ignoring the value overhead)
-      indicates that compression is used.
+  To determine if a value is compressed or not, one may use the :ref:`DISK_SIZE<disk_size>` function result and compare it with the result of :ref:`OCTET_LENGTH<octet_length>` function on the same argument. A smaller value for DISK_SIZE (ignoring the value overhead) indicates that compression is used.
 
 
 CHAR(n)
