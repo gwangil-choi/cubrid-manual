@@ -1247,6 +1247,7 @@ ALTER COLUMN ... SET DEFAULT 절
      <Constraints>
      
          UNIQUE u_a_tbl_id ON a_tbl (id)
+
 .. code-block:: sql
 
     CREATE TABLE t1(id1 VARCHAR(20), id2 VARCHAR(20) DEFAULT '');
