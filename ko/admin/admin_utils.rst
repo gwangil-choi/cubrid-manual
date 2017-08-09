@@ -1,3 +1,7 @@
+
+:meta-keywords: cubrid create, cubrid add volume, cubrid backup, cubrid online backup, cubrid restore, cubrid unload, cubrid load, cubrid space, cubrid compact, cubrid optimize, cubrid plan dump, cubrid stat dump, cubrid check, cubrid diag, cubrid commands
+:meta-description: CUBRID comprehensive list of utilities and commands. Utilities: createdb, deletedb, backupdb, restoredb, compactdb, statdump, diagdb, checkdb, genlocale, gen_tz and many others. CUBRID commands for HA, Locale and Timezone.
+
 .. _cubrid-utilities:
 
 cubrid 유틸리티
@@ -190,8 +194,9 @@ createdb
 
     *   *volpurp*: The purpose for which the volume will be used. It can be either permanent data (default option) or temporary.
      
-   ..note::
-    For backward compatibilty, all old keywords, **data**, **index**, **temp**, or **generic** are accepted. **temp** stands for temporary data purpose, while the rest stand for permanent data purpose. 
+ .. note::
+   For backward compatibilty, all old keywords, **data**, **index**, **temp**, or **generic** are accepted. **temp** stands for temporary data purpose, while the rest stand for permanent data purpose. 
+
 
     *   *volnpgs*: The number of pages of the additional volume to be created. The specification of the number of pages of the volume cannot be omitted; it must be specified. The actual volume size is rounded up to the next multiple of **64 sectors**. 
 
@@ -312,7 +317,7 @@ The command for manually adding a database volume is as follows.
     cubrid addvoldb -S -n cubriddb_DATA01 --db-volume-size=512M cubriddb
     cubrid addvoldb -S -p temp -n cubriddb_TEMP01 --db-volume-size=512M cubriddb
 
-다음은 cubrid addvoldb에 대한 [options]이다.
+다음은 **cubrid addvoldb** 에 대한 [options]이다.
 
 .. program:: addvoldb
 
@@ -320,14 +325,14 @@ The command for manually adding a database volume is as follows.
 
     **--db-volume-size** is an option that specifies the size of the volume to be added to a specified database. If the **--db-volume-size** option is omitted, the value of the system parameter **db_volume_size** is used by default. You can set units as K, M, G and T, which stand for kilobytes (KB), megabytes (MB), gigabytes (GB), and terabytes (TB) respectively. If you omit the unit, bytes will be applied. The size of the database will be always rounded up to the next multiple of the size of 64 disk sectors; the actual size is determined by the database page size and can be either 16M, 32M or 64M.
 
-    다음은 *testdb*\에 데이터 볼륨을 추가하며 볼륨 크기를 256MB로 지정하는 구문이다. :
+    다음은 *testdb* 에 데이터 볼륨을 추가하며 볼륨 크기를 256MB로 지정하는 구문이다.  ::
 
         cubrid addvoldb --db-volume-size=256M testdb
 
 .. option:: -n, --volume-name=NAME
 
     지정된 데이터베이스에 대하여 추가될 볼륨의 이름을 지정하는 옵션이다. 볼륨명은 운영체제의 파일 이름 규약을 따라야 하고, 디렉터리 경로나 공백을 포함하지 않는 단순한 이름이어야 한다.
-    **-n** 옵션을 생략하면 추가되는 볼륨의 이름은 시스템에 의해 "데이터베이스 이름_볼륨 식별자"로 자동 부여된다. 예를 들어, 데이터베이스 이름이 *testdb*\ 이면 자동 부여된 볼륨명은 *testdb_x001*\ 이 된다.
+    **-n** 옵션을 생략하면 추가되는 볼륨의 이름은 시스템에 의해 "데이터베이스 이름_볼륨 식별자"로 자동 부여된다. 예를 들어, 데이터베이스 이름이 *testdb* 이면 자동 부여된 볼륨명은 *testdb_x001* 이 된다.
 
     The following example shows how to specify a different name, *testdb_v1*, to newly added volume. ::
 
@@ -335,7 +340,7 @@ The command for manually adding a database volume is as follows.
 
 .. option::  -F, --file-path=PATH
 
-    지정된 데이터베이스에 대하여 추가될 볼륨이 저장되는 디렉터리 경로를 지정하는 옵션이다. **-F** 옵션을 생략하면, 시스템 파라미터인 **volume_extension_path**\ 의 값이 기본값으로 사용된다.
+    지정된 데이터베이스에 대하여 추가될 볼륨이 저장되는 디렉터리 경로를 지정하는 옵션이다. **-F** 옵션을 생략하면, 시스템 파라미터인 **volume_extension_path** 의 값이 기본값으로 사용된다.
 
     The following example shows how to add a volume in the */dbtemp/addvol* directory. Since the **-n** option is not specified for the volume name, the volume name *testdb_x001* will be created. ::
 
@@ -359,8 +364,10 @@ The command for manually adding a database volume is as follows.
     If not specified, the purpose of the volume is by default considered **PERMANENT DATA**. The following example shows how to change it to temporary. ::
                   
         cubrid addvoldb -p temp testdb
+
+    .. note::
                          
-    *PERMANENT DATA volumes used to be classified as generic, data and index. The design of volumes has been changed, and since then the classification no longer exists. In order to avoid  invalidating your old scripts, we chose to keep the keywords as valid options, but their effect will be the same. The only remaining option value with a real effect is temp.*
+     PERMANENT DATA volumes used to be classified as generic, data and index. The design of volumes has been changed, and since then the classification no longer exists. In order to avoid  invalidating your old scripts, we chose to keep the keywords as valid options, but their effect will be the same. The only remaining option value with a real effect is temp.
                             
     For detailed information on each purpose, see :ref:`database-volume-structure`.
                                
@@ -376,7 +383,7 @@ The command for manually adding a database volume is as follows.
 
         cubrid addvoldb -C --db-volume-size=256M testdb
 
-.. option:: --max_writesize-in-sec=SIZE
+.. option:: --max-writesize-in-sec=SIZE
 
     데이터베이스에 볼륨을 추가할 때 디스크 출력량을 제한하여 시스템 운영 영향을 줄이도록 하는 옵션이다. 이 옵션을 통해 1초당 쓸 수 있는 최대 크기를 지정할 수 있으며, 단위는 K(kilobytes), M(megabytes)이다. 최소값은 160K이며, 이보다 작게 값을 설정하면 160K로 바뀐다. 단, 클라이언트/서버 모드(-C)에서만 사용 가능하다.
     
@@ -443,7 +450,7 @@ renamedb
 
 *   *dest_database_name*: 새로 부여하고자 하는 데이터베이스의 이름이며, 현재 존재하는 데이터베이스 이름과 중복되어서는 안 된다. 이 역시, 데이터베이스가 생성될 디렉터리 경로명을 포함하지 않는다.
 
-다음은 **cubrid renamedb**\에 대한 [options]이다.
+다음은 **cubrid renamedb** 에 대한 [options]이다.
 
 .. program:: renamedb
 
@@ -571,11 +578,11 @@ copydb
         2 /usr/databases/ext/demodb_ext1 /drive2//usr/databases/new_demodb_ext1
         3 /usr/databases/ext/demodb_ext2  /drive2/usr/databases/new_demodb_ext2
 
-    *   volid : 각 볼륨을 식별하기 위한 정수이며, 데이터베이스 볼륨 정보 제어 파일( **database_name_vinf** )를 통해 확인할 수 있다.
+    *   *volid* : 각 볼륨을 식별하기 위한 정수이며, 데이터베이스 볼륨 정보 제어 파일( **database_name_vinf** )를 통해 확인할 수 있다.
 
-    *   source_fullvolname : 원본 데이터베이스의 각 볼륨이 존재하는 현재 디렉터리 경로이다.
+    *   *source_fullvolname* : 원본 데이터베이스의 각 볼륨이 존재하는 현재 디렉터리 경로이다.
 
-    *   dest_fullvolname : 새로운 데이터베이스의 각 볼륨이 저장될 디렉터리 경로이며, 유효한 디렉터리를 지정해야 한다.
+    *   *dest_fullvolname* : 새로운 데이터베이스의 각 볼륨이 저장될 디렉터리 경로이며, 유효한 디렉터리를 지정해야 한다.
 
 .. option:: -r, --replace
 
@@ -652,7 +659,7 @@ spacedb
 -------
 
 **cubrid spacedb** 유틸리티는 사용 중인 데이터베이스 볼륨의 공간을 확인하기 위해서 사용된다.
-The tool can show brief aggregated information on database space usage, or detailed descriptions of all volumes and files in use, based on its options.  Information returned by the **cubri      d spacedb** utility includes the volume ID's, names, purpose and total/free space of each volume.
+The tool can show brief aggregated information on database space usage, or detailed descriptions of all volumes and files in use, based on its options.  Information returned by the **cubrid spacedb** utility includes the volume ID's, names, purpose and total/free space of each volume.
 
 ::
 
@@ -689,8 +696,8 @@ The tool can show brief aggregated information on database space usage, or detai
 
 .. option:: --size-unit={PAGE|M|G|T|H}
 
-    데이터베이스 볼륨의 공간을 지정한 크기 단위로 출력하기 위한 옵션이며, 기본값은 H이다.
-    단위를 PAGE, M, G, T, H로 설정할 수 있으며, 각각 페이지, MB(megabytes), GB(gigabytes), TB(terabytes), 자동 지정을 의미한다. 자동 지정을 의미하는 H로 설정하면 데이터베이스 크기가 1MB 이상 1024MB 미만일 때 MB 단위로, 1GB 이상 1024GB 미만일 때 GB 단위로 결정된다. ::
+    데이터베이스 볼륨의 공간을 지정한 크기 단위로 출력하기 위한 옵션이며, 기본값은 **H** 이다.
+    If you set the value to H, the unit is automatically determined as follows: M if 1 MB = DB size < 1024 MB, G if 1 GB = DB size < 1024 GB. ::
 
         $ cubrid spacedb --size-unit=H testdb
 
@@ -724,8 +731,6 @@ The tool can show brief aggregated information on database space usage, or detai
         PERMANENT           TEMPORARY DATA                1            12.0 M             500.0 M              512.0 M
         TEMPORARY           TEMPORARY DATA                1            40.0 M              88.0 M              128.0 M
         -                   -                             4           113.0 M               1.5 G                1.6 G
-
-
 
 .. option:: -p, --purpose
 
@@ -917,7 +922,7 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
 
 *   *database_name*: 통계 자료를 확인하고자 하는 대상 데이터베이스 이름이다.
 
-다음은 **cubrid statdump**\에 대한 [options]이다.
+다음은 **cubrid statdump** 에 대한 [options]이다.
 
 .. program:: statdump
 
@@ -946,6 +951,7 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
     ::
 
         $ cubrid statdump -i 5 -c testdb
+
          
         Thu January 07 16:46:05 GTB Standard Time 2016
 
@@ -2086,7 +2092,6 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
     |                  |                                          |                | | - visible/invisible                                                 |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
 
-
 .. Note::  
 
     (*) : These statistics measure the non-MVCC operations or MVCC operations which are performed in-place (decided internally)
@@ -2155,7 +2160,7 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
 
 .. note::
 
-    각 상태 정보는 64비트 **INTEGER**\로 구성되어 있으며, 누적된 값이 한도를 넘으면 해당 실행 통계 정보가 유실될 수 있다.
+    각 상태 정보는 64비트 **INTEGER** 로 구성되어 있으며, 누적된 값이 한도를 넘으면 해당 실행 통계 정보가 유실될 수 있다.
 
 .. note::
 
@@ -2221,7 +2226,7 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
 lockdb
 ------
 
-**cubrid lockdb**\는 대상 데이터베이스에 대하여 현재 트랜잭션에서 사용되고 있는 잠금 정보를 확인하는 유틸리티이다. ::
+**cubrid lockdb** 는 대상 데이터베이스에 대하여 현재 트랜잭션에서 사용되고 있는 잠금 정보를 확인하는 유틸리티이다. ::
 
     cubrid lockdb [<option>] database_name
 
@@ -2235,7 +2240,7 @@ lockdb
 
     cubrid lockdb testdb
 
-다음은 **cubrid lockdb**\에 대한 [option]이다.
+다음은 **cubrid lockdb** 에 대한 [option]이다.
     
 .. program:: lockdb
 
@@ -2279,7 +2284,7 @@ lockdb
     Isolation COMMITTED READ
     Timeout_period : Infinite wait
 
-위에서 트랜잭션 인덱스는 1이고, 프로그램 이름은 csql, 사용자 이름은 dba, 호스트 이름은 cubriddb, 클라이언트 프로세스 식별자는 12854, 격리 수준은 READ COMMITTED CLASSES AND READ UNCOMMITTED INSTANCES, 그리고 잠금 타임아웃은 무제한이다.
+Here, the transaction index is 1, the program name is csql, the user ID is dba, the host name is cubriddb, the client process identifier is 12854, the isolation level is COMMITTED READ and the lock timeout is unlimited.    
 
 트랜잭션 인덱스가 0인 클라이언트는 내부적인 시스템 트랜잭션이다. 이것은 데이터베이스의 체크포인트 수행과 같이 특정한 시간에 잠금을 획득할 수 있지만 대부분의 경우 이 트랜잭션은 어떤 잠금도 획득하지 않을 것이다.
 
@@ -2294,32 +2299,32 @@ lockdb
     Object lock Table:
         Current number of ojbects which are locked = 2001
 
-**cubrid lockdb** 는 잠금을 획득한 각각의 객체에 대한 객체의 OID와 Object type, 테이블 이름을 출력한다. 추가적으로 객체에 대해서 잠금을 보유하고 있는 트랜잭션의 개수(Num holders), 잠금을 보유하고 있지만 상위 잠금으로 변환(예를 들어 **SCH_S_LOCK** 에서 **SCH_M_LOCK** 으로 잠금 변환)하지 못해 차단된 트랜잭션의 개수(Num blocked-holders), 객체의 잠금을 기다리는 다른 트랜잭션의 개수(*Num waiters*)가 출력된다. 그리고 잠금을 보유하고 있는 클라이언트 트랜잭션, 차단된 클라이언트 트랜잭션, 기다리는 클라이언트 트랜잭션의 리스트가 출력된다. Class에 대해서는 아니지만 Row에 관해서 MVCC정보 역시 출력된다. 
+**cubrid lockdb** 는 잠금을 획득한 각각의 객체에 대한 객체의 OID와 Object type, 테이블 이름을 출력한다. 추가적으로 객체에 대해서 잠금을 보유하고 있는 트랜잭션의 개수(*Num holders*), 잠금을 보유하고 있지만 상위 잠금으로 변환(예를 들어 **SCH_S_LOCK** 에서 **SCH_M_LOCK** 으로 잠금 변환)하지 못해 차단된 트랜잭션의 개수(Num blocked-holders), 객체의 잠금을 기다리는 다른 트랜잭션의 개수(*Num waiters*)가 출력된다. 그리고 잠금을 보유하고 있는 클라이언트 트랜잭션, 차단된 클라이언트 트랜잭션, 기다리는 클라이언트 트랜잭션의 리스트가 출력된다. Class에 대해서는 아니지만 row에 관해서 MVCC정보 역시 출력된다. 
 
-다음 예는 Object type이 instance of class, 즉 레코드인 경우, OID( O| 62| 5)인 객체에 대해서 트랜잭션 2가 **IX_LOCK** 을 가지고 있고, 트랜잭션 1이 **SCH_S_LOCK** 을 획득하고 있지만 트랜잭션 2가 **SCH_M_LOCK** 을 획득하고 있기 때문에 **SCH_M_LOCK** 으로 변환하지 못해 차단되었음을 보여준다. 그리고 트랜잭션 3은 **SCH_S_LOCK** 을 대기하고 있지만 트랜잭션 2가 **SCH_M_LOCK** 을 대기하고 있기 때문에 차단되었음을 보여준다.
+다음 예는 object type이 instance of class, 즉 레코드인 경우, OID( O| 62| 5)인 객체에 대해서 트랜잭션 2가 **IX_LOCK** 을 가지고 있고, 트랜잭션 1이 **SCH_S_LOCK** 을 획득하고 있지만 트랜잭션 2가 **SCH_M_LOCK** 을 획득하고 있기 때문에 **SCH_M_LOCK** 으로 변환하지 못해 차단되었음을 보여준다. 그리고 트랜잭션 3은 **SCH_S_LOCK** 을 대기하고 있지만 트랜잭션 2가 **SCH_M_LOCK** 을 대기하고 있기 때문에 차단되었음을 보여준다.
 
 ::
 
-    OID = 2| 50| 1
-    Object type: instance of class ( 0| 62| 5) = athlete
+    OID = 0| 62| 5
+    Object type: Class = athlete.
     Num holders = 1, Num blocked-holders= 1, Num waiters = 1
     LOCK HOLDERS :
-        Tran_index = 2, Granted_mode = S_LOCK, Count = 1
+        Tran_index = 1, Granted_mode = IX_LOCK, Count = 1, Nsubgranules = 1
     BLOCKED LOCK HOLDERS :
-        Tran_index = 1, Granted_mode = U_LOCK, Count = 3
-        Blocked_mode = X_LOCK
-                        Start_waiting_at = Fri May 3 14:44:31 2002
+        Tran_index = 2, Granted_mode = SCH_S_LOCK, Count = 1, Nsubgranules = 0
+        Blocked_mode = SCH_M_LOCK
+                        Start_waiting_at = Wed Feb 3 14:44:31 2016
                         Wait_for_secs = -1
     LOCK WAITERS :
-        Tran_index = 3, Blocked_mode = S_LOCK
-                        Start_waiting_at = Fri May 3 14:45:14 2002
+        Tran_index = 3, Blocked_mode = SCH_S_LOCK
+                        Start_waiting_at = Wed Feb 3 14:45:14 2016
                         Wait_for_secs = -1
 
 다음 예는 **X_LOCK** 을 보유한 트랜잭션 1에 의해서 삽입된 객체 아이디가 ( 2 | 50 | 1)인 클래스의 인스턴스를 보여준다.  트랙잰션 1이 끝날때까지 차단된 트랜잭션 2 에 의해서 수정된 이 클래스는 유일한 인덱스와 키 값을 가진다.
 
 ::
 
-   OID = 2| 50| 1
+    OID = 2| 50| 1
     Object type: instance of class ( 0| 62| 5) = athlete.
     MVCC info: insert ID = 6, delete ID = missing.
     Num holders = 1, Num blocked-holders= 1, Num waiters = 1
@@ -2731,7 +2736,6 @@ diagdb
 
     Use **--emergency** option to suppress recovery. **This option is meant ONLY for debugging, if there are recovery issues. It is recommended to backup your database before using this option.**
 
-
 .. _paramdump:
 
 paramdump
@@ -2791,11 +2795,12 @@ HA 명령어
 
 **cubrid genlocale** 유틸리티는 사용하고자 하는 로캘(locale) 정보를 컴파일하는 유틸리티이다. 이 유틸리티는 **make_locale.sh** (Windows는 **.bat**) 스크립트 내에서 실행된다.
 
-**cubrid dumplocale** 유틸리티는 컴파일된 바이너리 로캘 파일을 사람이 읽을 수 있는 형태로 콘솔에 출력한다. 출력 값이 매우 클 수 있으므로, 리다이렉션을 이용하여 특정 파일로 저장할 것을 권장한다.
+**cubrid dumplocale** 유틸리티는 컴파일된 바이너리 로캘(CUBRID 로캘 라이브러리) 파일을 사람이 읽을 수 있는 형태로 콘솔에 출력한다. 출력 값이 매우 클 수 있으므로, 리다이렉션을 이용하여 특정 파일로 저장할 것을 권장한다.
 
 **cubrid synccolldb** 유틸리티는 데이터베이스와 로캘 라이브러리 사이의 콜레이션 불일치 여부를 체크하고, 불일치하는 경우 동기화한다.
 
 자세한 사용법은 :ref:`locale-setting` 을 참고한다.
+
 
 타임존 명령어
 -----------------
