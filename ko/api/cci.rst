@@ -1,3 +1,7 @@
+
+:meta-keywords: CCI driver, database c driver, cubrid cci, cubrid c driver
+:meta-description: CUBRID CCI (C Client Interface) driver implements an interface to enable access from C-based application to CUBRID database server through broker. It is also used as back-end infrastructure for creating tools (PHP, ODBC, etc.) which use the CAS application servers.
+
 .. _cci-overview:
 
 CCI 개요
@@ -804,8 +808,7 @@ CCI API 함수는 에러 발생 시 반환 값이 음수인 CCI 에러 코드 �
 |                          |          | char \*buf                              |                             |
 +--------------------------+----------+-----------------------------------------+-----------------------------+
 | **T_CCI_DATE**           | struct   | short yr                                | datetime, timestamp, date,  |
-|                          |          |                                         | time 타입 표현              |
-|                          |          +-----------------------------------------+                             |
+|                          |          +-----------------------------------------+ and time type               |
 |                          |          | short mon                               |                             |
 |                          |          +-----------------------------------------+                             |
 |                          |          | short day                               |                             |
@@ -818,7 +821,7 @@ CCI API 함수는 에러 발생 시 반환 값이 음수인 CCI 에러 코드 �
 |                          |          +-----------------------------------------+                             |
 |                          |          | short ms                                |                             |
 +--------------------------+----------+-----------------------------------------+-----------------------------+
-| **T_CCI_DATE_TZ**	   | struct   | short yr                                | timezone과 date/time        |
+| **T_CCI_DATE_TZ**	       | struct   | short yr                                | timezone과 date/time        |
 |                          |          +-----------------------------------------+ 타입 표현                   |    
 |                          |          | short mon                               |                             |    
 |                          |          +-----------------------------------------+                             |    
