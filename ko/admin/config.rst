@@ -1,3 +1,7 @@
+
+:meta-keywords: cubrid configure, cubrid conf, cubrid parameters, cubrid settings, cubrid.conf, cubrid default parameters
+:meta-description: How to configure CUBRID database behavior. Set system parameters for Connection, Memory, Disk, Concurrency/Lock, Logging, Transaction Processing, Query Execution, Utilities and High Availability.
+
 ***********
 시스템 설정
 ***********
@@ -51,7 +55,7 @@ SQL 문을 이용하여 CSQL 인터프리터나 CUBRID 매니저의 질의 편�
 
     SET SYSTEM PARAMETERS 'parameter_name=value [{; name=value}...]'
 
-*parameter_name*\ 은 설정값 변경이 가능한 클라이언트 파라미터 이름이고, value는 해당 파라미터의 값을 의미한다. 세미콜론(;)으로 구분하여 여러 개의 파라미터 값을 변경할 수 있다.
+*parameter_name*  은 설정값 변경이 가능한 클라이언트 파라미터 이름이고, *value* 는 해당 파라미터의 값을 의미한다. 세미콜론(;)으로 구분하여 여러 개의 파라미터 값을 변경할 수 있다.
 
 다음은 인덱스 스캔 작업의 결과를 OID 순으로 가져오고, CSQL 인터프리터에서 히스토리 내역으로 저장하는 질의 개수를 70개로 설정하는 예제이다.
 
@@ -606,8 +610,6 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 +-----------------------------+--------+---------+---------+---------+
 | dont_reuse_heap_file        | bool   | no      |         |         |
 +-----------------------------+--------+---------+---------+---------+
-| generic_vol_prealloc_size   | byte   | 50M     | 0       | 20G     |
-+-----------------------------+--------+---------+---------+---------+
 | log_volume_size             | byte   | 512M    | 20M     | 4G      |
 +-----------------------------+--------+---------+---------+---------+
 | temp_file_max_size_in_pages | int    | -1      |         |         |
@@ -634,12 +636,6 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
         **dont_reuse_heap_file** is a parameter to configure whether or not heap files, which are deleted when deleting the table (**DROP TABLE**), are to be reused when creating a new table (**CREATE TABLE**). If this parameter is set to no, the deleted heap files can be reused; if it is set to yes, the deleted heap files are not used when creating a new table. The default value is **no**.
 
-    **generic** 볼륨이 항상 유지해야 할 여유 공간(free space)의 크기를 지정한다. 여유 공간이 지정한 값보다 줄어들게 되면 **generic** 볼륨의 여유 공간을 추가로 확보한다.
-
-    여유 공간의 검사는 **generic**, **data**, 또는 **index** 볼륨에 대한 새로운 페이지 요청이 있을 때만 이루어진다.
-
-    값 뒤에 B, K, M, G, T로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes, Terabytes를 의미한다. 단위를 생략하면 바이트 단위가 적용된다. 기본값은 50M, 최소값은 0, 최대값은 20G이다.
-
 **log_volume_size**
 
     **log_volume_size**\ 는 **cubrid createdb** 유틸리티에서 **--log-volume-size** 옵션이 생략되었을 때 로그 볼륨 파일의 기본 크기를 설정하는 파라미터이다. 값 뒤에 B, K, M, G, T로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes, Terabytes를 의미한다. 단위를 생략하면 바이트 단위가 적용된다. 기본값은 **512M**\ 이다.
@@ -651,7 +647,6 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
     If the parameter is configured to **0**, temporary volumes are not created automatically; the administrator must create permanent volumes with the purpose of storing temporary data by using the **cubrid addvoldb** utility.
 
     For more details see :ref:`temporary-volumes`
-
     
 **temp_volume_path**
 
@@ -795,11 +790,11 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **call_stack_dump_on_error**
 
-    **call_stack_dump_on_error**\ 는 데이터베이스 서버에서 오류가 발생했을 때 콜-스택을 덤프할지 결정하기 위한 파라미터이다. no로 설정되면 모든 오류에 대해서 콜-스택을 덤프하지 않고, yes로 설정되면 모든 오류에 대해서 콜-스택을 덤프한다. 기본값은 **no**\ 이다.
+    **call_stack_dump_on_error**  는 데이터베이스 서버에서 오류가 발생했을 때 콜-스택을 덤프할지 결정하기 위한 파라미터이다. "no" 로 설정되면 모든 오류에 대해서 콜-스택을 덤프하지 않고, "yes" 로 설정되면 모든 오류에 대해서 콜스택을 덤프한다. 기본값은 **no** 이다.
 
 **error_log**
 
-    **error_log**\ 는 데이터베이스 서버에 오류가 발생하는 경우, 에러 로그가 저장되는 파일 이름을 지정하기 위한 서버/클라이언트 파라미터이다. 에러 로그가 저장되는 파일명의 작성 규칙은 *<database_name>_<date>_<time>.err*\ 이다. 한편 시스템이 데이터베이스 서버 정보를 찾을 수 없는 오류에 대해서는 에러 로그 파일명의 작성 규칙을 따를 수 없다. 따라서, **cubrid.err** 파일에 오류 로그를 기록한다. **cubrid.err** 에러 로그 파일은 **$CUBRID/log/server** 디렉터리에 저장된다.
+    **error_log**  는 데이터베이스 서버에 오류가 발생하는 경우, 에러 로그가 저장되는 파일 이름을 지정하기 위한 서버/클라이언트 파라미터이다. 에러 로그가 저장되는 파일명의 작성 규칙은 *<database_name>_<date>_<time>.err*  이다. 한편 시스템이 데이터베이스 서버 정보를 찾을 수 없는 오류에 대해서는 에러 로그 파일명의 작성 규칙을 따를 수 없다. 따라서, **cubrid.err** 파일에 오류 로그를 기록한다. **cubrid.err** 에러 로그 파일은 **$CUBRID/log/server** 디렉터리에 저장된다.
 
 **error_log_level**
 
@@ -811,7 +806,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **error_log_size**
 
-    **error_log_size**\ 는 에러 로그 파일에서 기록되는 최대 라인 수를 지정하는 파라미터로 기본값은 **512M**\ 이다. 에러 로그 파일의 라인 수가 이 파라미터의 설정값에 도달하면 *<database_name>_<date>_<time>.err.bak* 파일이 생성된다.
+    **error_log_size**  는 에러 로그 파일에서 기록되는 최대 라인 수를 지정하는 파라미터로 기본값은 **512M**  이다. 에러 로그 파일의 라인 수가 이 파라미터의 설정값에 도달하면 *<database_name>_<date>_<time>.err.bak* 파일이 생성된다.
 
 .. _lock-parameters:
 
@@ -870,11 +865,11 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **lock_escalation**
 
-    **lock_escalation**\ 은 행에 대한 잠금이 테이블 잠금으로 확대되기 전에 개별 행에 허용되는 최대 잠금의 개수를 설정하기 위한 파라미터로 기본값은 **100,000**\ 이다. **lock_escalation** 파라미터의 설정값이 작으면, 메모리 잠금 관리에 의한 오버헤드가 적은 반면 동시성은 줄어든다. 반대로 설정값이 크면 메모리 잠금 관리에 의한 오버헤드가 큰 반면 동시성이 향상된다.
+    **lock_escalation**  은 행에 대한 잠금이 테이블 잠금으로 확대되기 전에 개별 행에 허용되는 최대 잠금의 개수를 설정하기 위한 파라미터로 기본값은 **100,000**  이다. **lock_escalation** 파라미터의 설정값이 작으면, 메모리 잠금 관리에 의한 오버헤드가 적은 반면 동시성은 줄어든다. 반대로 설정값이 크면 메모리 잠금 관리에 의한 오버헤드가 큰 반면 동시성이 향상된다.
 
 **lock_timeout**
 
-    **lock_timeout**\ 은 잠금 대기 시간을 지정하기 위한 클라이언트 파라미터로 지정된 시간 이내에 잠금이 허용되지 않으면 해당 트랜잭션이 취소되고 오류가 반환된다. 기본값인 **-1**\ 로 설정하면 잠금이 허용될 때까지의 대기 시간이 무제한이고, 0으로 설정하면 잠금을 대기하지 않는다.
+    **lock_timeout**  은 잠금 대기 시간을 지정하기 위한 클라이언트 파라미터로 지정된 시간 이내에 잠금이 허용되지 않으면 해당 트랜잭션이 취소되고 오류가 반환된다. 기본값인 **-1**  로 설정하면 잠금이 허용될 때까지의 대기 시간이 무제한이고, 0으로 설정하면 잠금을 대기하지 않는다.
 
     s, min, h 단위를 지정할 수 있으며 각각 seconds, minutes, hours를 의미한다. 단위 생략 시 기본 단위는 밀리초(ms)이며, 밀리초로 설정한 값은 초 단위로 올림된다. 예를 들어, 1ms는 1s가 되며, 1001ms는 2s가 된다.
 
@@ -1164,27 +1159,27 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **alter_table_change_type_strict**
 
-    **alter_table_change_type_strict**\ 는 타입 변경에 따른 해당 칼럼 값들의 변환 허용 여부를 지정하는 파라미터로서, 기본값은 **no**\ 이다. 이 파라미터 값이 no이면 칼럼의 타입 변경이나 **NOT NULL** 제약 조건을 추가할 때 값의 변경이 발생하며, yes이면 값의 변경이 발생하지 않는다. 자세한 내용은 **ALTER TABLE** 문의 :ref:`change-column` 을 참고한다.
+    **alter_table_change_type_strict** 는 타입 변경에 따른 해당 칼럼 값들의 변환 허용 여부를 지정하는 파라미터로서, 기본값은 **no** 이다. 이 파라미터 값이 no이면 칼럼의 타입 변경이나 **NOT NULL** 제약 조건을 추가할 때 값의 변경이 발생하며, yes이면 값의 변경이 발생하지 않는다. 자세한 내용은 **ALTER TABLE** 문의 :ref:`change-column` 을 참고한다.
 
 **ansi_quotes**
 
-    **ansi_quotes**\ 는 식별자 처리를 위한 기호 또는 문자열을 감싸는 기호에 관한 파라미터로 기본값은 **yes**\ 이다. 이 파라미터 값이 yes이면 큰따옴표는 식별자 처리 기호로 해석되고, 작은따옴표는 문자열 처리 기호로 해석된다. 이 값이 no이면 큰 따옴표와 작은 따옴표 모두 문자열 처리 기호로 해석된다.
+    **ansi_quotes**  는 식별자 처리를 위한 기호 또는 문자열을 감싸는 기호에 관한 파라미터로 기본값은 **yes**  이다. 이 파라미터 값이 yes이면 큰따옴표는 식별자 처리 기호로 해석되고, 작은따옴표는 문자열 처리 기호로 해석된다. 이 값이 no이면 큰 따옴표와 작은 따옴표 모두 문자열 처리 기호로 해석된다.
 
 .. _block_ddl_statement:
 
 **block_ddl_statement**
 
-    **block_ddl_statement**\ 는 클라이언트가 수행하는 데이터 정의문(Data Definition Language, DDL)을 제한하기 위한 파라미터로 no로 설정하면 해당 클라이언트의 데이터 정의문 수행을 허용하며, yes로 설정하면 해당 클라이언트의 데이터 정의문 수행을 허용하지 않는다. 기본값은 **no**\ 이다.
+    **block_ddl_statement**  는 클라이언트가 수행하는 데이터 정의문(Data Definition Language, DDL)을 제한하기 위한 파라미터로 no로 설정하면 해당 클라이언트의 데이터 정의문 수행을 허용하며, yes로 설정하면 해당 클라이언트의 데이터 정의문 수행을 허용하지 않는다. 기본값은 **no**  이다.
 
 .. _block_nowhere_statement:
 
 **block_nowhere_statement**
 
-    **block_nowhere_statement**\ 는 클라이언트가 수행하는 조건절(**WHERE**)이 없는 **UPDATE** / **DELETE** 문을 제한하기 위한 파라미터로 no로 설정하면 해당 클라이언트의 조건절이 없는 **UPDATE** / **DELETE** 문을 허용하며, yes로 설정하면 해당 클라이언트의 조건절이 없는 **UPDATE** / **DELETE** 문의 수행을 허용하지 않는다. 기본값은 **no**\ 이다.
+    **block_nowhere_statement**  는 클라이언트가 수행하는 조건절(**WHERE**)이 없는 **UPDATE** / **DELETE** 문을 제한하기 위한 파라미터로 **no** 로 설정하면 해당 클라이언트의 조건절이 없는 **UPDATE** / **DELETE** 문을 허용하며, yes로 설정하면 해당 클라이언트의 조건절이 없는 **UPDATE** / **DELETE** 문의 수행을 허용하지 않는다. 기본값은 **no**  이다.
 
 **compat_numeric_division_scale**
 
-    **compat_numeric_division_scale**\ 은 나눗셈 연산의 결과 값(몫)에 대하여 소수점 이하 자릿수를 몇 자리까지 표시할 것인가를 지정하기 위한 파라미터로 no로 설정하면 몫의 소수점 이하 자릿수가 9개가 되고, yes로 설정하면 몫의 소수점 이하 자릿수가 피연산자의 소수점 이하 자릿수에 따라 결정된다. 기본값은 **no**\ 이다.
+    **compat_numeric_division_scale**  은 나눗셈 연산의 결과 값(몫)에 대하여 소수점 이하 자릿수를 몇 자리까지 표시할 것인가를 지정하기 위한 파라미터로 **no** 로 설정하면 몫의 소수점 이하 자릿수가 9개가 되고, **yes** 로 설정하면 몫의 소수점 이하 자릿수가 피연산자의 소수점 이하 자릿수에 따라 결정된다. 기본값은 **no**  이다.
 
 +**cte_max_recursions**
 
@@ -1196,16 +1191,16 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **intl_check_input_string**
 
-    **intl_check_input_string** is a parameter to determine whether or not to check that string entered is correctly corresponded to character set used. The default value i     s **no**. If this value is no and character set is UTF-8 and incorrect data is enter which violate UTF-8 byte sequence, it can show abnormal behavior or database server and      applications can be terminated abnormally. However, if it is guaranteed this problem does not happen, it has advantage in performance not to do it.
+    **intl_check_input_string** is a parameter to determine whether or not to check that string entered is correctly corresponded to character set used. The default value is **no**. If this value is no and character set is UTF-8 and incorrect data is enter which violate UTF-8 byte sequence, it can show abnormal behavior or database server and applications can be terminated abnormally. However, if it is guaranteed this problem does not happen, it has advantage in performance not to do it.
 
     UTF-8 and EUC-KR can be checked; ISO-8859-1 is one-byte encoding so it does not have to be checked because every byte is valid.
 
 **group_concat_max_len**
 
-    **group_concat_max_len**\ 은 :func:`GROUP_CONCAT` 함수의 리턴 값의 크기를 제한하는 파라미터이다.
+    **group_concat_max_len**  은 :func:`GROUP_CONCAT` 함수의 리턴 값의 크기를 제한하는 파라미터이다.
     값 뒤에 B, K, M, G, T로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes, Terabytes를 의미한다. 단위를 생략하면 바이트 단위가 적용된다. 기본값은 **1,024** 바이트이며, 최소값은 4 바이트, 최대값은 33,554,432 바이트이다. :func:`GROUP_CONCAT` 함수의 결과가 제한을 넘으면 오류가 반환된다.
 
-    이 함수는 **string_max_size_bytes** 파라미터의 영향을 받으며, **string_max_size_bytes**\보다 **group_concat_max_len**\이 크고 :func:`GROUP_CONCAT` 함수의 결과가 **string_max_size_bytes**\의 크기 제한을 넘으면 오류가 반환된다.
+    이 함수는 **string_max_size_bytes** 파라미터의 영향을 받으며, **string_max_size_bytes** 보다 **group_concat_max_len** 이 크고 :func:`GROUP_CONCAT` 함수의 결과가 **string_max_size_bytes** 의 크기 제한을 넘으면 오류가 반환된다.
 
 **intl_check_input_string**
 
@@ -1289,7 +1284,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **no_backslash_escapes**
 
-    **no_backslash_escapes**\ 은 이스케이프 문자로 백슬래시(\\) 사용 여부에 관한 파라미터로서, 기본값은 **yes**\ 이다. 이 파라미터 값이 no이면 백슬래시(\\)가 이스케이프 문자로 사용되며, yes이면 백슬래시는 일반 문자로 사용된다. 예를 들어, 이 값이 no 일 때 "\\n"은 개행(new line) 문자를 의미한다. 그러나 이 값이 yes이면 "\\n"은 "\\"과 "n" 두 개의 문자를 의미한다.  백슬래시가 이스케이프 문자로 사용되는 경우에 대한 자세한 설명은 :ref:`escape-characters` 를 참고한다.
+    **no_backslash_escapes**\ 은 이스케이프 문자로 백슬래시(\\) 사용 여부에 관한 파라미터로서, 기본값은 **yes**\ 이다. 이 파라미터 값이 **no** 이면 백슬래시(\\)가 이스케이프 문자로 사용되며, **yes** 이면 백슬래시는 일반 문자로 사용된다. 예를 들어, 이 값이 **no** 일 때 "\\n"은 개행(new line) 문자를 의미한다. 그러나 이 값이 **yes** 이면 "\\n"은 "\\"과 "n" 두 개의 문자를 의미한다.  백슬래시가 이스케이프 문자로 사용되는 경우에 대한 자세한 설명은 :ref:`escape-characters` 를 참고한다.
 
 **only_full_group_by**
 
@@ -1305,7 +1300,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **oracle_style_empty_string**
 
-    **oracle_style_empty_string**\ 은 다른 DBMS(Database Management System)와의 호환성을 향상시키기 위한 파라미터로, 빈 문자열(empty string)과 **NULL**\을 같은 값으로 처리하도록 지정한다. 기본값은 **no**\이다. **oracle_style_empty_string** 파라미터를 no로 설정하면 빈 문자열을 유효한 문자열로 처리하고, yes로 설정하면 함수에 따라 빈 문자열을 **NULL**\ 로 처리하거나, **NULL**\을 빈 문자열로 처리한다.
+    **oracle_style_empty_string**  은 다른 DBMS(Database Management System)와의 호환성을 향상시키기 위한 파라미터로, 빈 문자열(empty string)과 **NULL** 을 같은 값으로 처리하도록 지정한다. 기본값은 **no** 이다. **oracle_style_empty_string** 파라미터를 **no** 로 설정하면 빈 문자열을 유효한 문자열로 처리하고, **yes** 로 설정하면 함수에 따라 빈 문자열을 **NULL**  로 처리하거나, **NULL** 을 빈 문자열로 처리한다.
     
     .. note:: 
 
@@ -1361,11 +1356,11 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **pipes_as_concat**
 
-    **pipes_as_concat**\ 은 이중 파이프 기호(||)의 사용에 관한 파라미터로서, 기본값은 **yes**\ 이다. 이 파라미터 값이 yes이면 이중 파이프 기호가 문자열의 병합 연산자로 해석되고, no이면 불리언(boolean) 연산자인 **OR**\ 로 해석된다.
+    **pipes_as_concat**  은 이중 파이프 기호(||)의 사용에 관한 파라미터로서, 기본값은 **yes**  이다. 이 파라미터 값이 yes이면 이중 파이프 기호가 문자열의 병합 연산자로 해석되고, **no** 이면 불리언(boolean) 연산자인 **OR**  로 해석된다.
 
 **plus_as_concat**
 
-    **plus_as_concat**\ 은 **+** 연산자의 사용에 관한 파라미터로서, 기본값은 **yes**\ 이다. 이 파라미터 값이 yes이면 **+** 연산자가 문자열의 병합 연산자로 해석되고, no이면 수치 연산자로 해석된다.
+    **plus_as_concat**  은 **+** 연산자의 사용에 관한 파라미터로서, 기본값은 **yes**  이다. 이 파라미터 값이 **yes** 이면 **+** 연산자가 문자열의 병합 연산자로 해석되고, **no** 이면 수치 연산자로 해석된다.
 
     .. code-block:: sql
 
@@ -1409,11 +1404,11 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **require_like_escape_character**
 
-    **require_like_escape_character**\ 는 **LIKE** 절의 이스케이프 문자 사용 여부에 관한 파라미터로서, 기본값은 **no**\ 이다. 이 파라미터 값이 yes이고 **no_backslash_escapes** 가 no이면 **LIKE** 절의 문자열에서 백슬래시(\\)가 이스케이프 문자로 사용되며, 그렇지 않으면 **LIKE... ESCAPE** 절을 사용하여 이스케이프 문자를 명시해야 한다. 자세한 내용은 :ref:`like-expr` 을 참고한다.
+    **require_like_escape_character**  는 **LIKE** 절의 이스케이프 문자 사용 여부에 관한 파라미터로서, 기본값은 **no**  이다. 이 파라미터 값이 **yes** 이고 **no_backslash_escapes** 가 **no** 이면 **LIKE** 절의 문자열에서 백슬래시(\\)가 이스케이프 문자로 사용되며, 그렇지 않으면 **LIKE... ESCAPE** 절을 사용하여 이스케이프 문자를 명시해야 한다. 자세한 내용은 :ref:`like-expr` 을 참고한다.
 
 **return_null_on_function_errors**
 
-    **return_null_on_function_errors**\ 는 일부 SQL 함수에서 에러가 발생할 때의 동작을 정의하는 파라미터로서, 기본값은 **no**\ 이다. 이 파라미터 값이 yes이면 함수에서 에러가 발생할 때 **NULL**\ 을 반환하며, no이면 함수에서 에러가 발생할 때 에러를 반환하고 관련 메시지를 출력한다.
+    **return_null_on_function_errors**  는 일부 SQL 함수에서 에러가 발생할 때의 동작을 정의하는 파라미터로서, 기본값은 **no**  이다. 이 파라미터 값이 **yes** 이면 함수에서 에러가 발생할 때 **NULL**\ 을 반환하며, **no** 이면 함수에서 에러가 발생할 때 에러를 반환하고 관련 메시지를 출력한다.
 
     다음 SQL 함수가 이 시스템 파라미터의 영향을 받는다.
 
@@ -1603,7 +1598,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 *   **timezone**
 
-    세션에 대한 타임존을 설정한다. 기본값은  **server_timezone**\의 값이다. 타임존 오프셋(예: +01:00, +02) 또는 타임존 지역 이름(예: Asia/Seoul)으로 설정 가능하며, 데이터베이스 운영 중 변경이 가능하다.
+    세션에 대한 타임존을 설정한다. 기본값은  **server_timezone** 의 값이다. 타임존 오프셋(예: +01:00, +02) 또는 타임존 지역 이름(예: Asia/Seoul)으로 설정 가능하며, 데이터베이스 운영 중 변경이 가능하다.
 
 *   **server_timezone**
 
@@ -1676,7 +1671,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
     **backup_volume_max_size_bytes**\ 는 **cubrid backupdb** 유틸리티에 의해 생성되는 백업 볼륨 파일의 분할 크기를 바이트 단위로 설정하는 파라미터이다. 
     값 뒤에 B, K, M, G, T로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes, Terabytes를 의미한다. 단위를 생략하면 바이트 단위가 적용된다. 기본값은 0이고, 최소값은 32K이다. 
     
-    기본값인 0으로 설정하면 생성되는 백업 볼륨이 분할되지 않으며, 0보다 큰 값을 설정하면 지정된 크기의 단위로 백업 볼륨 파일을 분할하여 생성한다.
+    기본값인 **0** 으로 설정하면 생성되는 백업 볼륨이 분할되지 않으며, 0보다 큰 값을 설정하면 지정된 크기의 단위로 백업 볼륨 파일을 분할하여 생성한다.
 
 **communication_histogram**
 
@@ -1776,23 +1771,23 @@ HA 관련 파라미터
 
 **access_ip_control**
 
-    **access_ip_control**\ 은 서버 접속을 허용하는 IP를 제한하는 기능 사용 여부를 지정하는 파라미터이다. 기본값은 **no**\ 이다. 자세한 내용은 :ref:`limiting-server-access` 을 참고한다.
+    **access_ip_control**  은 서버 접속을 허용하는 IP를 제한하는 기능 사용 여부를 지정하는 파라미터이다. 기본값은 **no**  이다. 자세한 내용은 :ref:`limiting-server-access` 을 참고한다.
 
 **access_ip_control_file**
 
-    **access_ip_control_file**\ 은 서버가 허용하는 IP 목록을 저장한 파일 이름을 지정하는 파라미터이다. **access_ip_control** 값이 yes이면 데이터베이스 서버는 이 파라미터로 지정한 파일에 저장된 IP의 접속만 허용한다. 자세한 내용은 :ref:`limiting-server-access` 을 참고한다.
+    **access_ip_control_file**  은 서버가 허용하는 IP 목록을 저장한 파일 이름을 지정하는 파라미터이다. **access_ip_control** 값이 yes이면 데이터베이스 서버는 이 파라미터로 지정한 파일에 저장된 IP의 접속만 허용한다. 자세한 내용은 :ref:`limiting-server-access` 을 참고한다.
 
 .. _agg_hash_respect_order:
     
 **agg_hash_respect_order**
 
-    **agg_hash_respect_order**\ 는 집계 함수에서 그룹이 순서대로 반환되는지 여부를 설정하는 파라미터이다. 기본값은 **yes**\ 이다. :ref:`max_agg_hash_size <max_agg_hash_size>`\ 를 참고한다.
+    **agg_hash_respect_order**  는 집계 함수에서 그룹이 순서대로 반환되는지 여부를 설정하는 파라미터이다. 기본값은 **yes**  이다. :ref:`max_agg_hash_size <max_agg_hash_size>`\ 를 참고한다.
     
     이 모든 그룹(키와 누적 결과)이 해시 메모리에 상주할 수 있으면, "agg_hash_respect_order=no" 설정은 결과를 출력하기 전에 정렬하는 과정을 생략할 것이므로, 순서가 보장되지 않을 것이라고 예측할 수 있다. 그러나, 오버플로우가 발생하면 정렬 과정이 수행되어야 하며 "agg_hash_respect_order=false"로 설정되었더라도 정렬된 결과를 얻게 된다.
 
 **auto_restart_server**
 
-    **auto_restart_server**\ 는 데이터베이스 서버 프로세스에 심각한 오류가 발생해서 프로세스가 중단될 경우에 자동으로 재시작할 것인가를 지정하는 파라미터이다. **auto_restart_server**\ 를 yes로 설정하면 서버 프로세스가 오류로 중단되었을 때 자동으로 재시작한다. 정상적인 종료 절차(CUBRID 서버의 **STOP** 명령)에 의해 종료된 경우에는 해당하지 않는다.
+    **auto_restart_server**  는 데이터베이스 서버 프로세스에 심각한 오류가 발생해서 프로세스가 중단될 경우에 자동으로 재시작할 것인가를 지정하는 파라미터이다. **auto_restart_server**  를 **yes** 로 설정하면 서버 프로세스가 오류로 중단되었을 때 자동으로 재시작한다. 정상적인 종료 절차(CUBRID 서버의 **STOP** 명령)에 의해 종료된 경우에는 해당하지 않는다.
 
 .. _enable_string_compression:
 
@@ -1863,7 +1858,8 @@ If this value is small, the amount of free space for the nodes is small when an 
 
 **sql_trace_slow**
 
-    **sql_trace_slow**\ 는 장기 실행 질의(long running query)로 판단될 질의 실행 시간을 설정하는 파라미터이다. ms, s, min, h 단위를 지정할 수 있으며 각각 milliseconds, seconds, minutes, hours를 의미한다. 단위 생략 시 기본 단위는 밀리초(ms)이다. 기본값은 **-1**\ 이고 최대값은 86,400,000 밀리초(24h)이다. -1은 무한대 시간을 의미하며 어떤 질의도 장기 실행 질의로 판단되지 않는다. 자세한 내용은 아래의 **sql_trace_execution_plan** 의 설명을 참고한다.
+    **sql_trace_slow**  는 장기 실행 질의(long running query)로 판단될 질의 실행 시간을 설정하는 파라미터이다. 
+    ms, s, min, h 단위를 지정할 수 있으며 각각 milliseconds, seconds, minutes, hours를 의미한다. 단위 생략 시 기본 단위는 밀리초(ms)이다. 기본값은 **-1**\ 이고 최대값은 86,400,000 밀리초(24h)이다. -1은 무한대 시간을 의미하며 어떤 질의도 장기 실행 질의로 판단되지 않는다. 자세한 내용은 아래의 **sql_trace_execution_plan** 의 설명을 참고한다.
     
     .. note::
         
@@ -1883,13 +1879,13 @@ If this value is small, the amount of free space for the nodes is small when an 
 
 **use_orderby_sort_limit**
 
-    **use_orderby_sort_limit**\ 은 **ORDER BY ... LIMIT** *row_count* 절을 포함하는 구문에서 질의의 정렬 및 합병(sort and merge) 과정의 중간 결과를 *row_count* 만큼만 유지할 것인지를 지정하는 파라미터이다. yes이면 중간 정렬 결과를 *row_count* 만큼만 유지하기 때문에 불필요한 비교 및 합병 과정을 줄일 수 있다. 기본값은 **yes**\ 이다.
+    **use_orderby_sort_limit**  은 **ORDER BY ... LIMIT** *row_count* 절을 포함하는 구문에서 질의의 정렬 및 합병(sort and merge) 과정의 중간 결과를 *row_count* 만큼만 유지할 것인지를 지정하는 파라미터이다. **yes** 이면 중간 정렬 결과를 *row_count* 만큼만 유지하기 때문에 불필요한 비교 및 합병 과정을 줄일 수 있다. 기본값은 **yes**  이다.
 
 **vacuum_prefetch_log_mode**
 
-    **vacuum_prefetch_log_mode** is a parameter to configure the prefetch mode of log pages on behalf of vacuum.
+ **vacuum_prefetch_log_mode** is a parameter to configure the prefetch mode of log pages on behalf of vacuum.
        
-       In mode 0, the vacuum master thread prefetch the required log pages in a shared buffer. In mode 1 (default), each vacuum worker prefetches the required log pages in its own buffer. Mode 0 also requires that **vacuum_prefetch_log_buffer_size** system parameter is configured, in mode 0 this parameter is ignored and each vacuum worker prefetches an entire vacuum log block (default 32 log pages).
+ In mode 0, the vacuum master thread prefetch the required log pages in a shared buffer. In mode 1 (default), each vacuum worker prefetches the required log pages in its own buffer. Mode 0 also requires that **vacuum_prefetch_log_buffer_size** system parameter is configured, in mode 0 this parameter is ignored and each vacuum worker prefetches an entire vacuum log block (default 32 log pages).
        
 **vacuum_prefetch_log_buffer_size**
 
@@ -1897,12 +1893,11 @@ If this value is small, the amount of free space for the nodes is small when an 
 
 **data_buffer_neighbor_flush_pages**
     
-       **data_buffer_neighbor_flush_pages** is a parameter to control the number of neighbour pages to be flushed with background flush (victim candidates flushing). When is less or equal to 1, the neighbour flush feature is considered deactivated.
+  **data_buffer_neighbor_flush_pages** is a parameter to control the number of neighbour pages to be flushed with background flush (victim candidates flushing). When is less or equal to 1, the neighbour flush feature is considered deactivated.
 
 **data_buffer_neighbor_flush_nondirty**
     
-       **data_buffer_neighbor_flush_nondirty** is a parameter to control the flushing of non-dirty neighbour pages. When victim candidates pages are flushed, and neighbour flush is activated (**data_buffer_neighbor_flush_pages** is greater than 1), than single non-dirty pages which completes a chain of neighbour (dirty) pages are also flushed.
-
+ **data_buffer_neighbor_flush_nondirty** is a parameter to control the flushing of non-dirty neighbour pages. When victim candidates pages are flushed, and neighbour flush is activated (**data_buffer_neighbor_flush_pages** is greater than 1), than single non-dirty pages which completes a chain of neighbour (dirty) pages are also flushed.
 
 .. _broker-configuration:
 
@@ -2241,7 +2236,7 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
 **LONG_QUERY_TIME**
 
-    **LONG_QUERY_TIME**\ 은 장기 실행 질의(long-duration query)로 판단될 질의 실행 시간을 설정하는 파라미터이다. 값 뒤에 ms, s, min, h의 단위 지정이 가능하며, 각각 milliseconds, seconds, minutes, hours를 의미한다. 단위가 생략되면 s로 지정된다. 기본값은 **60** (초)이고, 최대값은 86,400(하루)이다. 어떤 질의를 수행할 때 이 값을 초과한 시간이 소요되는 경우, "cubrid broker status" 명령에서 출력하는 LONG-Q의 값이 하나 증가하고, 해당 SQL은 CAS의 SQL SLOW 로그 파일($CUBRID/log/broker/sql_log/\*.slow.log)에 기록된다. :ref:`SLOW_LOG <slow-log>` 파라미터를 참고한다. 
+    **LONG_QUERY_TIME**  은 장기 실행 질의(long-duration query)로 판단될 질의 실행 시간을 설정하는 파라미터이다. 값 뒤에 ms, s, min, h의 단위 지정이 가능하며, 각각 milliseconds, seconds, minutes, hours를 의미한다. 단위가 생략되면 s로 지정된다. 기본값은 **60** (초)이고, 최대값은 86,400(하루)이다. 어떤 질의를 수행할 때 이 값을 초과한 시간이 소요되는 경우, "cubrid broker status" 명령에서 출력하는 LONG-Q의 값이 하나 증가하고, 해당 SQL은 CAS의 SQL SLOW 로그 파일($CUBRID/log/broker/sql_log/\*.slow.log)에 기록된다. :ref:`SLOW_LOG <slow-log>` 파라미터를 참고한다. 
 
     소수점을 사용하여 밀리초(msec) 단위의 값을 설정할 수 있다. 예를 들어 500밀리초로 설정하려면 값을 0.5로 설정한다. 
     
@@ -2295,7 +2290,7 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
 **TRIGGER_ACTION**
 
-    이 파라미터를 지정한 브로커에 대해 트리거의 동작을 켜거나 끈다. ON 또는 OFF로 값을 지정하며, 기본값은 **ON**\ 이다. 
+    이 파라미터를 지정한 브로커에 대해 트리거의 동작을 켜거나 끈다. **ON** 또는 **OFF** 로 값을 지정하며, 기본값은 **ON**  이다. 
 
 로그
 ^^^^
@@ -2306,15 +2301,15 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
 **ACCESS_LOG_DIR** 
      
-    **ACCESS_LOG_DIR**\ 은 브로커 접속 로그(ACCESS_LOG) 파일이 생성되는 디렉토리를 지정한다. 기본값은 **log/broker**\ 이다. 
+    **ACCESS_LOG_DIR**  은 브로커 접속 로그(**ACCESS_LOG**) 파일이 생성되는 디렉토리를 지정한다. 기본값은 **log/broker**\ 이다. 
 
 **ACCESS_LOG_MAX_SIZE**
 
-    **ACCESS_LOG_MAX_SIZE**\ 는 브로커 접속 로그(**ACCESS_LOG**) 파일의 최대 크기를 지정하며, 브로커 접속 로그 파일이 지정한 크기보다 커지면 *broker_name*\ **.access.**\ *YYYYMMDDHHMISS* 형식의 이름으로 백업된 후 새 파일(`broker_name`.\ **access**)에 로그가 기록된다. 기본값은 10M 이고, 최대 2G로 설정할 수 있으며, 브로커 구동중 동적으로 변경이 가능하다. 
+    **ACCESS_LOG_MAX_SIZE**  는 브로커 접속 로그(**ACCESS_LOG**) 파일의 최대 크기를 지정하며, 브로커 접속 로그 파일이 지정한 크기보다 커지면 *broker_name*\ **.access.**\ *YYYYMMDDHHMISS* 형식의 이름으로 백업된 후 새 파일(`broker_name`.\ **access**)에 로그가 기록된다. 기본값은 10M 이고, 최대 2G로 설정할 수 있으며, 브로커 구동중 동적으로 변경이 가능하다. 
 
 **ERROR_LOG_DIR**
 
-    **ERROR_LOG_DIR**\ 은 브로커에 대한 에러 로그가 저장되는 디렉터리를 지정하는 파라미터로, 기본값은 **log/broker/error_log**\ 이다. 브로커 에러 로그 파일명은 *broker_ name_id.err*\ 이다.
+    **ERROR_LOG_DIR**  은 브로커에 대한 에러 로그가 저장되는 디렉터리를 지정하는 파라미터로, 기본값은 **log/broker/error_log**\ 이다. 브로커 에러 로그 파일명은 *broker_ name_id.err*\ 이다.
 
 **LOG_DIR**
                        
