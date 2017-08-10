@@ -1,3 +1,7 @@
+
+:meta-keywords: csql, cubrid csql, cubrid commands, executing csql, csql options
+:meta-description: CUBRID CSQL is an application that allows users to use SQL statements through a command-driven interface. This section briefly explains how to use the CSQL Interpreter and associated commands.
+
 ***************
 CSQL 인터프리터
 ***************
@@ -205,7 +209,12 @@ CSQL 시작 옵션
 
         1 rows selected. (0.006433 sec) Committed.
 
- 
+.. option:: -r, --read-only
+
+    You can connect to the read-only database with the **-r** option.  Retrieving data is only allowed in the read-only database; creating databases and entering data are not allowed. ::
+
+        csql -r demodb
+
 .. option:: -t, --plain-output
  
     스크립트에서 사용이 용이하도록 칼럼 이름과 데이터만 출력한다. **-c** 또는 **-i** 옵션과 함께 사용할 때만 유효하다. 각 칼럼의 이름과 데이터는 탭으로 구분하며, 내용에 포함된 줄바꿈, 탭, 백슬래시는 각각 \n, \t, \\으로 대체한다. 단, **-l** 옵션이 있는 경우에는 이 옵션이 무시된다. 
@@ -619,7 +628,7 @@ CSQL 인터프리터에서 작업 중인 데이터베이스 이름 및 호스트
     *** Lock Table Dump ***
      Lock Escalation at = 100000, Run Deadlock interval = 1
     Transaction (index  0, unknown, unknown@unknown|-1)
-    Isolation REPEATABLE CLASSES AND READ UNCOMMITTED INSTANCES
+    Isolation COMMITTED READ 
     State TRAN_ACTIVE
     Timeout_period -1
     ......
