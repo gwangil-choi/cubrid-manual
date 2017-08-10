@@ -1,3 +1,7 @@
+
+:meta-keywords: high availability, cubrid node, cubrid replication, cubrid slave, database replication, database slave
+:meta-description: CUBRID HA is an implementation of High Availability. CUBRID HA ensures database synchronization among multiple servers when providing service. When an unexpected failure occurs in the system which is operating services, this feature minimizes the service down time by allowing the other system to carry out the service automatically.
+
 *********
 CUBRID HA
 *********
@@ -1109,8 +1113,9 @@ HA 환경에서 브로커는 여러 개의 DB 서버 중 하나와 접속을 결
 +-------+--------------------------------------------+------------------------------------------------------------------------------------------------------+
 | 2     | * **ACCESS_MODE=RO**                       | 1차 연결 시도 시 DB 상태가 standby인지 확인한다.                                                     |
 |       | * db-host=host1:host2:host3:host4:host5    |                                                                                                      |
-|       | * MAX_NUM_DELAYED_HOSTS_LOOKUP=-1          | * DB 상태가 standby인 호스트는 모두 복제 지연 또는 접속 불가이므로 1차 연결에는 실패한다.            |
-|       | * CONNECT_ORDER=SEQ                        |                                                                                                      |
+|       | * MAX_NUM_DELAYED_HOSTS_LOOKUP=-1          | * DB 상태가 standby인 호스트는 모두 복제 지연 또는 접속 불가이므로                                   |
+|       | * CONNECT_ORDER=SEQ                        |   프라이머리 연결에는 실패한다.                                                                      |
+|       |                                            |                                                                                                      |
 |       |                                            | 2차 연결 시도 시 DB 상태와 복제 지연 여부는 확인하지 않는다.                                         |
 |       |                                            |                                                                                                      |
 |       |                                            | * 가장 마지막에 접속했던 *host5* 가 접속에 성공한다.                                                 |
