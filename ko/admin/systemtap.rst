@@ -1,3 +1,7 @@
+
+:meta-keywords: install systemtap, systemtap marker, systemtap probe, systemtap event, systemtap script, connection markers, query markers, object operation markers, index operation markers, locking markers, transaction markers, I/O markers
+:meta-description: SystemTap is a tool that can be used to dynamically monitor and track the process of running, to find and diagnose performance bottlenecks; learn how to use CUBRID markers in SystemTap scripts.
+
 *********
 SystemTap
 *********
@@ -143,13 +147,13 @@ CUBRID에서 SystemTap 사용하기
 CUBRID 소스 빌드
 ----------------
 
-SystemTap은 Linux에서만 사용할 수 있다.
+SystemTap can be used only on Linux.
 
-CUBRID 소스를 빌드하여 SystemTap을 사용하려면, "./configure"를 실행할 때 "--enable-systemtap" 옵션을 반드시 지정해야 한다. 
+To use SystemTap by building CUBRID source, **ENABLE_SYSTEMTAP** is **ON** which is set by default.
 
-이 옵션은 릴리스 빌드에 이미 포함되어 있으므로, 소스 빌드를 하지 않고 설치 패키지로 CUBRID를 설치한 사용자도 SystemTap 스크립트를 사용할 수 있다.
+This option is already included in the release build, a user not building the CUBRID source but installing CUBRID with the installation package can also use SystemTap script.
 
-다음은 소스를 빌드하는 예이다.
+The below is an example of building the CUBRID source.
 
 ::
 
@@ -187,8 +191,6 @@ CUBRID 마커
 
 SystemTap의 가장 유용한 기능은 마커를 사용자 소스 코드(CUBRID 코드) 안에 삽입할 수 있다는 점과 이 마커에 다다를 때 발동하는 프로브를 스크립트에서 작성할 수 있다는 점이다. 
 
-아래는 CUBRID 마커와 그 의미를 나열한 목록이다.
-
 연결 마커
 ---------
 
@@ -200,7 +202,6 @@ SystemTap의 가장 유용한 기능은 마커를 사용자 소스 코드(CUBRID
 
     :param connection_id: an integer containing the connection ID.
     :param user: The username used by this connection.
-
     
 .. function:: conn_end(connection_id, user)
 
@@ -277,19 +278,6 @@ SystemTap의 가장 유용한 기능은 마커를 사용자 소스 코드(CUBRID
     :param table: 이 연산의 타겟 테이블
     :param status: 이 연산의 성공 여부를 나타내는 값
     
-.. function:: obj_read_start(table)
-
-    이 마커는 객체가 읽혀지기 전에 발동된다.
-
-    :param table: 이 연산의 타겟 테이블
-    
-.. function:: obj_read_end(table, status)
-
-    이 마커는 객체가 읽혀진 후에 발동된다.
-    
-    :param table: 이 연산의 타겟 테이블
-    :param status: 이 연산의 성공 여부를 나타내는 값
-
 인덱스 연산 마커
 ----------------
 
@@ -342,7 +330,6 @@ SystemTap의 가장 유용한 기능은 마커를 사용자 소스 코드(CUBRID
     :param index_name: 대상 인덱스 이름
     :param status: 연산의 성공 여부를 나타내는 값
     
-
 잠금(locking) 마커
 ------------------
 
@@ -363,6 +350,7 @@ SystemTap의 가장 유용한 기능은 마커를 사용자 소스 코드(CUBRID
     :param OID: 잠금 요청 대상 객체 ID
     :param table: 객체를 유지하고 있는 테이블
     :param type: 잠금 타입(X_LOCK, S_LOCK etc.)
+    :param status: Value showing whether the request has been granted or not.
     
 .. function:: lock_release_start(OID, table, type)
 
@@ -372,14 +360,13 @@ SystemTap의 가장 유용한 기능은 마커를 사용자 소스 코드(CUBRID
     :param table: 객체를 유지하고 있는 테이블
     :param type: 잠금 타입(X_LOCK, S_LOCK etc.)
     
-.. function:: lock_release_end(OID, table, type, status)
+.. function:: lock_release_end(OID, table, type)
 
     This marker should be triggered after a lock release operation has been completed.
 
     :param OID: 잠금 요청 대상 객체 ID
     :param table: 객체를 유지하고 있는 테이블
     :param type: 잠금 타입(X_LOCK, S_LOCK etc.)
-    :param status: 연산이 성공적으로 종료되었는지 여부를 나타내는 값
     
 트랜잭션 마커
 -------------
