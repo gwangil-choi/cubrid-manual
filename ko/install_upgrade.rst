@@ -1,3 +1,7 @@
+
+:meta-keywords: install cubrid, upgrade cubrid, using cubrid, running cubrid, cubrid configuration, cubrid migration, database migration
+:meta-description: Index for Installing CUBRID, Upgrading CUBRID, Configuring Environment Variables, Setting Port, Setting HA Environment.
+
 ******************
 설치 및 업그레이드
 ******************
