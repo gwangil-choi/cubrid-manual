@@ -1,3 +1,11 @@
+
+:meta-keywords: cubrid data types, cubrid type conversion, cubrid numeric types, cubrid date time, cubrid strings, cubrid character, cubrid enum, cubrid blob/clob, cubrid collection types
+:meta-description: All CUBRID data types and conversion rules.
+
+***********
+데이터 타입 
+***********
+
 수치형 데이터 타입
 ==================
 
@@ -249,6 +257,7 @@ DOUBLE, DOUBLE PRECISION
 *   **DATETIMELTZ** 와 **DATETIMETZ** 의 범위는 timezone 에 의해 바뀐다. 그러나 UTC로 변환되면, 그 값은 반드시 0001-01-01 00:00:0.000 과 9999-12-31 23:59:59.999 사이에 있어야 한다. 데이터베이스에 저장된 값은 세션의 timezone 이 변경되면, 더이상 유효하지 않다.
 
 *   날짜, 시간, 타임스탬프와 관련된 연산은 시스템의 반올림 시스템에 따라 결과가 달라질 수 있다. 이러한 경우, 시간과 타임스탬프는 가장 근접한 초를 최소 해상도로, 날짜는 가장 근접한 날짜를 최소 해상도로 하여 결정된다.
+
 
 **변환(Coercion)**
 
@@ -691,13 +700,15 @@ DATETIME
 |           +----------------+-------------------------+-----------------------------------+--------------------------------------------+-----------------------------------------------------------------+
 |           | DATETIMELTZ    | 타임 존 포함하여        | UTC                               | 상대 값(세션 타임 존에 따라 변환됨)        | 세션 타임존에서의 날짜/시간                                     |
 +-----------+----------------+-------------------------+-----------------------------------+--------------------------------------------+-----------------------------------------------------------------+
+| TIME      | TIME           | Without timezone        | Input value                       | Absolute (the same as input)               | Time                                                            |
++-----------+----------------+-------------------------+-----------------------------------+--------------------------------------------+-----------------------------------------------------------------+
 | TIMESTAMP | TIMESTAMP      | 타임 존 없이            | UTC                               | 상대 값(세션 타임 존에 따라 변환됨)        | 입력 값을 세션 타임존의 값으로 해석함                           |
 |           +----------------+-------------------------+-----------------------------------+--------------------------------------------+-----------------------------------------------------------------+
 |           | TIMESTAMPTZ    | 타임 존 포함하여        | UTC + 타임존(지역 또는 오프셋)    | 절대 값(입력한 타임 존 유지)               | UTC + 타임존이 있는 타임스탬프                                  |
 |           +----------------+-------------------------+-----------------------------------+--------------------------------------------+-----------------------------------------------------------------+
-|           | TIMESTAMPLTZ   | 타임 존 포함하여        | UTC                               | 상대 값(세션 타임 존에 따라 변환됨)        | 세션 타임존. 출력할 때 타임존 지정자를 포함함                   |
+|           | TIMESTAMPLTZ   | 타임 존 포함하여        | UTC                               | 상대 값(세션 타임 존에 따라 변환됨)        | 세션 타임존. TIMESTAMP의 값과 같음                              |
+|           |                |                         |                                   |                                            | 출력할 때 타임존 지정자를 포함함                                |
 +-----------+----------------+-------------------------+-----------------------------------+--------------------------------------------+-----------------------------------------------------------------+
-
 
 타임존이 있는 날짜/시간 타입의 최대값, 최소값, 범위와 해상도 등 나머지 특징들은 일반적인 날짜/시간 타입의 특징과 동일하다.
 
@@ -705,6 +716,8 @@ DATETIME
 
     *   CUBRID에서, TIMESTAMP가 1970년 1월 1일 UTC 이후 경과된 '초'로 보관된다(UNIX 시간).
     *   몇 DBMS의 TIMESTAMP는 DATETIME CUBRID와 비슷한 방식이며 'milliseconds'를 보관한다.
+
+To see examples of functions using timezone types, see :doc:`function/datetime_fn`.
 
 다음은 세션 타임존의 변경에 따라 DATETIME, DATETIMETZ와 DATETIMELTZ의 출력 값이 다르게 나타나는 예이다.
  
@@ -755,7 +768,6 @@ DATETIME
 ::
 
     10:30:00 AM 02/24/2015     12:30:00 PM 02/24/2015 +09:00                10:30:00 AM 02/24/2015 +07:00
-
 
 **string 타입을 timestamp 타입으로 변환**
 
@@ -900,14 +912,6 @@ DATETIME, TIMESTAMP, TIME 타입의 값을 입력 값으로 사용하는 함수�
 
     03:30:29 PM 09/01/2009 Asia/Seoul
 
-다음 예에서 숫자의 기본 단위는 TIME 타입의 최소 단위인 초이다.
-
-.. code-block:: sql
-
-    SELECT timetz '03:30:30 pm' + 1;
-    
-    03:30:31 PM +09:00
-
 .. code-block:: sql
 
     SELECT EXTRACT (hour from datetimetz'10/15/1986 5:45:15.135 am Europe/Bucharest');
@@ -926,11 +930,7 @@ DATETIME, TIMESTAMP, TIME 타입의 값을 입력 값으로 사용하는 함수�
 
     12
 
-.. **TIMELTZ는 timezone 파라미터 값이 지역 이름으로 설정된 경우 계산을 허용하지 않는다. (이거 나중에 바뀌나? 검토)
-
-    select timeltz '03:30:30 pm' + cast(1 as INTEGER) from db_root;
-    Invalid time: '03:30:30 pm'.
-
+    
 타임존 타입에 대한 변환 함수
 ----------------------------
 
@@ -961,7 +961,9 @@ DATETIME, TIMESTAMP, TIME 타입의 값을 입력 값으로 사용하는 함수�
 IANA 타임존
 -----------
 
-IANA(Internet Assigned Numbers Authority) 타임존 데이터베이스에는 수많은 세계 주변의 대표 장소에 대한 지역 시간의 역사를 표현하는 코드와 데이터가 들어 있다. 이 데이터베이스는 타임 존 경계, UTC 오프셋, 그리고 일광 절약 규칙에 대해  정치체에 의해 변경된 사항을 반영하기 위해 정기적으로 업데이트되고 있으며, 관리 절차는 `BCP 175: Procedures for Maintaining the Time Zone Database. <http://tools.ietf.org/html/rfc6557>`\에 설명되어 있다. 자세한 사항은 http://www.iana.org/time-zones\ 를 참고한다.
+IANA(Internet Assigned Numbers Authority) 타임존 데이터베이스에는 수많은 세계 주변의 대표 장소에 대한 지역 시간의 역사를 표현하는 코드와 데이터가 들어 있다. 
+
+이 데이터베이스는 타임 존 경계, UTC 오프셋, 그리고 일광 절약 규칙에 대해  정치체에 의해 변경된 사항을 반영하기 위해 정기적으로 업데이트되고 있으며, 관리 절차는 `BCP 175: Procedures for Maintaining the Time Zone Database. <http://tools.ietf.org/html/rfc6557>`\에 설명되어 있다. 자세한 사항은 http://www.iana.org/time-zones\ 를 참고한다.
 
 CUBRID는 IANA 타임존을 지원하며, CUBRID 설치 패키지에 포함되어 있는 IANA 타임존 라이브러리를 그대로 사용할 수 있다. 최신 타임존으로 업데이트하고 싶은 경우 타임존 데이터를 업데이트하고, 타임존 라이브러리를 컴파일한 후 데이터베이스를 재구동해야 한다. 
 
@@ -1130,6 +1132,7 @@ CUBRID는 두 종류의 문자열(character string) 타입을 지원한다.
 **String compression**
 
   Variable character type values (VARCHAR(n)) may be compressed (using LZO1X algorithm) before being stored in database (heap file, index file or list file). Compression is attempted if size in bytes is at least 255 bytes (this value is predefined and cannot be changed). If the compression is not efficient (compressed value size and its overhead is equal or greater than the original uncompressed value), the value is stored uncompressed.  Compression is activated by default and may be disabled by setting the system parameter  :ref:`enable_string_compression<enable_string_compression>`. The overhead of compression is eight bytes : four for size of compressed buffer and four for the size of expected uncompressed string.  Compressed strings are decompressed when they are read from database.  
+  Compressed strings are decompressed when they are read from database.
   To determine if a value is compressed or not, one may use the :ref:`DISK_SIZE<disk_size>` function result and compare it with the result of :ref:`OCTET_LENGTH<octet_length>` function on the same argument. A smaller value for DISK_SIZE (ignoring the value overhead) indicates that compression is used.
 
 
@@ -1335,8 +1338,6 @@ ENUM 데이터 타입
 ================
 
 **ENUM** 타입은 열거형 문자열 상수들의 중복 없는 순서 집합으로 구성되어 있는 타입이다. 열거형 칼럼을 생성하는 구문은 다음과 같다. 
-
-::
 
     <enum_type> ::=
         ENUM '(' <char_string_literal_list> ')'
@@ -2188,7 +2189,6 @@ CUBRID가 수행하는 묵시적 타입 변환은 다음과 같다.
     +------------------+---------+-----------+---------+------------+----------+-------------+------------+-----------+-------------+------------+
     | **VARCHAR**      | O       | O         | O       | O          | O        | \-          | O          | O         | O           | O          |
     +------------------+---------+-----------+---------+------------+----------+-------------+------------+-----------+-------------+------------+
-
 
 변환 규칙
 ---------
