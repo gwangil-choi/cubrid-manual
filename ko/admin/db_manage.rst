@@ -1,3 +1,7 @@
+
+:meta-keywords: cubrid databases.txt, cubrid users, cubrid volume
+:meta-description: How to manage CUBRID Databases, Users and Volumes.
+
 데이터베이스 관리
 =================
 
@@ -114,7 +118,6 @@ CUBRID 데이터베이스의 볼륨은 크게 영구적 볼륨, 일시적 볼륨
     *  Temporary volumes are usually used to store temporary data. They are automatically created and destroyed by database.
     *  File size is determined by **db_volume_size** in **cubrid.conf**.
 
-    
 *   로그 볼륨 파일
 
     *   위의 예에서 *testdb_lgar_t*, *testdb_lgar224*, *testdb_lgat* 가 로그 볼륨 파일에 해당된다.
@@ -140,5 +143,4 @@ CUBRID 데이터베이스의 볼륨은 크게 영구적 볼륨, 일시적 볼륨
 
        *   create permanent database volumes in advance to secure the required space for temporary data
        *   limit the size of the space used in the temporary volumes when a queries are executed by setting **temp_file_max_size_in_pages** parameter in **cubrid.conf** (there is no limit by default).
-
 
