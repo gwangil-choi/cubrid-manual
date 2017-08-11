@@ -1,3 +1,7 @@
+
+:meta-keywords: cubrid strings, charset, codeset, collation, cubrid locale
+:meta-description: Globalization includes internationalization and localization. Internationalization can be applied to various languages and regions. Localization fits the language and culture in a specific area as appending the language-specific components. CUBRID supports multilingual collations including Europe and Asia to facilitate the localization.
+
 .. _globalization-overview:
 
 다국어 개요
@@ -333,7 +337,7 @@ CUBRID에 내장된 로캘을 사용한다면 사용자 로캘 라이브러리�
 
 *   *options*
 
-    *   **-t**: 32비트 또는 64비트 중 하나를 선택한다(기본값: **32**).
+    *   **-t**: 32비트 또는 64비트 중 하나를 선택한다(기본값: **64**).
     *   **-m**: **release** 또는 **debug** 중 하나를 선택한다. 일반적인 사용을 위해서는 **release를** 선택한다(기본값: **release**). **debug** 모드는 로캘 라이브러리를 직접 작성하려는 개발자를 위해 제공한다.
 
 *   *locale*: 빌드할 라이브러리의 로캘 이름. *locale* 이 주어지지 않으면, 설정한 모든 로캘의 데이터를 포함하도록 빌드된다. 이 경우 **$CUBRID/lib** 디렉터리에 **libcubrid_all_locales.so** (Windows의 경우 **.dll**)라는 이름으로 라이브러리 파일이 저장된다.
@@ -774,9 +778,7 @@ DROP된 외래 키를 다시 생성한다. ::
 
 콜레이션/문자셋 수정자(**COLLATE** / **CHARSET**) 또는 콜레이션 추론 과정에 의해서 문자셋 변환이 일어날 수 있는데, 이러한 문자셋 변환은 비가역적(irreversible)이다. 일반적으로, 문자셋 변환은 문자 트랜스코딩(transcoding)이다(어떤 문자셋에 있는 문자를 표현하는 바이트 값이 대상 문자셋에서 같은 문자를 나타내지만 다른 바이트 값으로 대체된다).
 
-하지만, CUBRID에서는 역 호환성(backward compatibility)을 유지하기 위해 한 가지 예외가 있다. UTF-8 또는 EUC-KR에서 ISO-8859-1 문자셋으로 변환하는 것은 간단한 데이터 스트림 재해석이다(이것은 대부분의 UTF-8 코드가 ISO-8859-1과 일치하는 부분이 없기 때문에 트레이드 오프(trade-off)의 문제이며, 트랜스코딩은 많은 손실을 유발할 것이다).  ASCII 문자들은 변환의 영향을 받지 않는다. 00-7F 범위의 바이트 값은 ISO-8859-1과 UTF-8 문자셋 둘 다 같은 문자 인코딩이다.
-
-어떤 변환이든, 손실이 발생할 수 있다. 가장 완전한 문자셋은 UTF-8이다(그리고 UTF-8은 유니코드를 인코딩하므로, 모든 문자가 인코딩될 수 있다).  하지만, ISO-8859-1에서 UTF-8로 변환하면서 일부 손실이 발생할 수 있다.  80-A0 범위의 바이트 값은 ISO-8859-1에서 유효하지 않지만 문자열에는 나타날 수 있다. UTF-8로 이 문자들을 변환하면 '?'로 대체된다.
+With any conversion, losses may occur. If a character from source charset cannot be encoded in destination charset, it is replaced with a '?' character.  This also applies to conversions from binary charset to any other charset.  The widest character support is with UTF-8 charset, and since it encodes Unicode, one expects that all character can be encoded. However, during conversion from ISO-8859-1 to UTF-8 some "losses" occur: bytes range 80-A0 are not valid ISO-8859-1 characters but may appear in strings. After conversion to UTF-8 these characters are replaced with '?'.
 
 한 문자에서 다른 문자로 변환되는 규칙은 다음과 같다.
 
@@ -803,6 +805,7 @@ DROP된 외래 키를 다시 생성한다. ::
 .. note::
 
     CUBRID 9 버전 이전에는 binary 문자셋을 지원하지 않았다. ISO-8859-1 문자셋이 binary 문자셋 역할을 했다. UTF-8과 EUC-KR 문자셋을 ISO-8859-1로의 변환은 문자의 변환이 아닌 원소스의 바이트 내용을 다시 해석함으로써 수행되었다.
+
 
 .. _collation-setting:
 
@@ -923,38 +926,39 @@ CHARSET과 COLLATE 수정자
 .. _collation-coercibility:
 
 +------------------------+------------------------------------------------------------------------------------------------------+
-| 콜레이션 변환도        |  표현식의 인자(피연산자)                                                                             |
+| Collation Coercibility | Arguments of the Expression(Operands)                                                                |
 +========================+======================================================================================================+
-| -1                     | 호스트 변수만을 인자로 가지는 표현식으로, 실행 단계 전에는 콜레이션 변환도를 결정할 수 없는 경우     |
+| -1                     | As an expression which has arguments with only host variables, this coercibility cannot be           |
+|                        | determined before the execution step.                                                                |
 +------------------------+------------------------------------------------------------------------------------------------------+
-| 0                      | COLLATE 수정자를 지닌 피연산자                                                                       |
+| 0                      | Operand having **COLLATE** modifier                                                                  |
 +------------------------+------------------------------------------------------------------------------------------------------+
-| 1                      | **칼럼**\ 이 바이너리가 아닌(non-binary) 콜레이션을 가진 경우                                        |
+| 1                      | **Columns** with non-binary and non-bin collation                                                    |
 +------------------------+------------------------------------------------------------------------------------------------------+
-| 2                      | **칼럼**\ 이 바이너리 콜레이션과 ISO-8859-1 문자셋(iso88591_bin)을 가진 경우                         |
+| 2                      | **Columns** with binary collation and binary charset                                                 |
 +------------------------+------------------------------------------------------------------------------------------------------+
-| 3                      | **칼럼**\ 이 ISO-8859-1 문자셋을 가진 경우를 제외하고 바이너리 콜레이션을 가진 경우                  |
+| 3                      | **Columns** with bin collation (iso88591_bin, utf8_bin, euckr_bin)                                   |
 +------------------------+------------------------------------------------------------------------------------------------------+
-| 4                      | **SELECT 값**, **표현식**\ 이 바이너리가 아닌 콜레이션을 가진 경우                                   |
+| 4                      | **SELECT values**, **Expression** With non-binary and non-bin collation                              |
 +------------------------+------------------------------------------------------------------------------------------------------+
-| 5                      | **SELECT 값**, **표현식**\ 이 바이너리 콜레이션과 ISO-8859-1 문자셋(iso88591_bin)을 가진 경우        |
+| 5                      | **SELECT values**, **Expression** With binary collation and binary charset                           |
 +------------------------+------------------------------------------------------------------------------------------------------+
-| 6                      | **SELECT 값**, **표현식**\ 이 ISO-8859-1 문자셋을 가진 경우를 제외하고 바이너리 콜레이션을 가진 경우 |
+| 6                      | **SELECT values**, **Expression** With bin collation (iso88591_bin, utf8_bin, euckr_bin)             |
 +------------------------+------------------------------------------------------------------------------------------------------+
-| 7                      | **특수 함수들** (:func:`SYSTEM_USER`, :func:`DATABASE`, :func:`SCHEMA`, :func:`VERSION`)             |
+| 7                      | **Special functions** (:func:`SYSTEM_USER`, :func:`DATABASE`, :func:`SCHEMA`, :func:`VERSION`)       |
 +------------------------+------------------------------------------------------------------------------------------------------+
-| 8                      | **상수 문자열**\ 이 바이너리가 아닌(non-binary) 콜레이션을 가진 경우                                 |
+| 8                      | **Constants(string literals)**  With non-binary and non-bin collation                                |
 +------------------------+------------------------------------------------------------------------------------------------------+
-| 9                      | **상수 문자열**\ 이 바이너리 콜레이션과 ISO-8859-1 문자셋(iso88591_bin)을 가진 경우                  |
+| 9                      | **Constants(string literals)**  With binary collation and binary charset                             |
 +------------------------+------------------------------------------------------------------------------------------------------+
-| 10                     | **상수 문자열**\ 이 ISO-8859-1 문자셋을 가진 경우를 제외하고 바이너리 콜레이션을 가진 경우           |
+| 10                     | **Constants(string literals)**  With bin collation (iso88591_bin, utf8_bin, euckr_bin)               |
 +------------------------+------------------------------------------------------------------------------------------------------+
-| 11                     | 호스트 변수, 사용자 정의 변수                                                                        |
+| 11                     | host variables, session variables                                                                    |
 +------------------------+------------------------------------------------------------------------------------------------------+
 
 .. note::
 
-    9.x 버전에서는 바이너리 콜레이션을 이용할 수 없다. iso85891_bin 콜레이션이 바이너리 콜레이션 역할을 한다. 10.0 버전부터 iso85891_bin 콜레이션을 갖는 컬럼들의 변환도는 2에서 3으로 변경되었다. 또한, iso85891_bin 콜레이션 갖는 표현식과 상수의 변환도가 각각 5에서 6으로 9에서 10으로 변환되었다.
+    In 9.x versions, the binary collation was not available. The iso85891_bin collation had the role of existing binary collation. Since version 10.0, the coercibility of columns w     ith iso88591_bin was demoted from 2 to 3, that of expressions with iso88591_bin from 5 to 6, and of constants with iso88591_bin from 9 to 10.
 
 
 호스트 변수만을 인자로 가지는 표현식(예: 아래의 UPPER(?))에 대해서는 실행 단계에서 콜레이션 변환도를 결정할 수 있다. 즉, 파싱 단계에서는 이러한 표현식의 콜레이션 변환도를 결정할 수 없으므로 COERCIBILITY 함수는 -1을 반환한다.
@@ -1023,7 +1027,7 @@ CHARSET과 COLLATE 수정자
 
         SELECT s1, s2 FROM t WHERE s1 > 'abc';
 
-*   **칼럼이 바이너리 콜레이션으로 생성되는 경우**
+*   **칼럼이 Bin 콜레이션으로 생성되는 경우**
 
     .. code-block:: sql
 
@@ -1033,7 +1037,7 @@ CHARSET과 COLLATE 수정자
         );
         SELECT s1, s2 FROM t WHERE s1 > s2;
 
-    위 경우 s2 칼럼의 변환도는 6(바이너리 콜레이션)으로, s1 칼럼의 콜레이션으로 "완전히 변환 가능"하여 utf8_en_cs 콜레이션이 사용된다.
+    위 경우 s2 칼럼의 변환도는 6( Bin 콜레이션)으로, s1 칼럼의 콜레이션으로 "완전히 변환 가능"하여 utf8_en_cs 콜레이션이 사용된다.
 
     .. code-block:: sql
 
@@ -1103,7 +1107,7 @@ CHARSET과 COLLATE 수정자
 
 *   **세션 변수와(또는) 호스트 변수의 콜레이션 변환**
 
-    콜레이션 변환도가 11(세션 변수, 호스트 변수)이고 문자셋이 동일한 피연산자끼리 비교하는 경우 바이너리가 아닌(non-binary) 콜레이션으로 변환된다.
+    콜레이션 변환도가 11(세션 변수, 호스트 변수)이고 문자셋이 동일한 피연산자끼리 비교하는 경우 바이너리가 아닌(non-bin) 콜레이션으로 변환된다.
 
     .. code-block:: sql
     
@@ -1703,6 +1707,7 @@ CUBRID JDBC는 서버에서 전달된 문자열(string) 타입 값을 String, CU
         st.setObject(2, cbs);
         st.executeUpdate();
 
+
 테이블 조회 및 결과 보기 (바이너리 문자열 - hex 덤프, 다른 문자셋 - 문자열):
 
 .. code-block:: java
@@ -1731,7 +1736,6 @@ CUBRID JDBC는 서버에서 전달된 문자열(string) 타입 값을 String, CU
                         }
                 }
         }
-
 
 
 타임존 설정
@@ -1781,11 +1785,11 @@ Windows
 
     "Latest version"의 "Time Zone Data"에 링크된 파일을 받는다.
 
-2.  %CUBRID%/timezones/tzdata 디렉터리 이하에 압축 파일을 푼다.
+2.  **%CUBRID%/timezones/tzdata** 디렉터리 이하에 압축 파일을 푼다.
 
-3.  "%CUBRID%/bin/make_tz.bat"를 실행한다.
+3.  **%CUBRID%/bin/make_tz.bat** 를 실행한다.
 
-    %CUBRID%/lib 이하에 libcubrid_timezones.dll이 생성된다.
+    **%CUBRID%/lib** 이하에 **libcubrid_timezones.dll** 이 생성된다.
 
     ::
 
@@ -1818,7 +1822,6 @@ Linux
 
 CUBRID가 생성한 타임존 라이브러리는 타임존 데이터에 MD5 체크섬을 포함하고 있다. 이 해쉬는 이 라이브러리에 의해서 생성된 모든 데이터베이스에 저장되어있다. 구체적으로 **db_root** 시스템 테이블의 **timezone_checksum** 컬럼에 있다. 타임존 라이브러리가 변경되거나 (새로운 타임존 데이터와 같이 재 컴파일) 체크섬이 변경된 경우에 CUBRID server나 기타 어떤 CUBRID 도구도 기존의 데이터베이스를 이용하여 시작할 수 없다.
 이러한 비 호환성을 피하기 위해서, **make_tz** 도구의 인수 **extend** 옵션이 사용된다. 이 옵션이 주어지면, 데이터베이스의 **timezone_checksum** 값도 새로운 타임존 라이브러리의 새로운 MD5 체크섬으로 변경된다.
-
 The extend feature should be used when you decide to use a different version of timezone library from the IANA site. It does two things:
 
 -   It generates a new library by merging the old timezone data with the new timezone data.
@@ -2003,7 +2006,7 @@ LDML 파일에 새로운 로캘을 추가하려면 다음이 요구된다.
 LDML 캘린더 정보
 ----------------
 
-*   첫 번째 부분은 DATE, DATETIME, TIME, TIMESTAMP 데이터와 문자열 간에 타입을 변환하는 기본 CUBRID 형식을 제공한다. 이 형식은 :func:`TO_DATE`, :func:`TO_TIME`, :func:`TO_DATETIME`, :func:`TO_TIMESTAMP`, :func:`TO_CHAR` 함수에서 사용된다. 이 형식이 허용하는 원소는 데이터 타입에 의존적이며 :func:`TO_CHAR` 함수 (:ref:`날짜/시간 형식 1 <datetime-format1>`)에서 사용된다. 이 형식의 문자열로는 ASCII 문자만 허용된다. 허용되는 크기는 DATE와 TIME 형식에 대해서는 30 바이트 문자, DATETIME과 TIMESTAMP 타입에 대해서는 48 바이트 문자이다.
+*  The first part consists in providing default CUBRID formats for **DATE**, **DATETIME**, **TIME**, **TIMESTAMP**, **DATETIME WITH TIME ZONE** and **TIMESTAMP WITH TIME ZONE** data type conversion to/from string. This formats are used by functions :func:`TO_DATE`, :func:`TO_TIME`, :func:`TO_DATETIME`, :func:`TO_TIMESTAMP`, :func:`TO_CHAR`, :func:`TO_DATETIME_TZ`, :func:`TO_TIMESTAMP_TZ`. The  formats elements allowed depend on data type and are the ones used for :func:`TO_CHAR` function (:ref:`Date/Time Format 1 <datetime-format1>`). Only ASCII characters are allowed in the format strings. The allowed size are 30 bytes (characters) for **DATE** and **TIME** formats, 48 characters for **DATETIME** and **TIMESTAMP** formats and 70 characters for **DATETIME WITH TIME ZONE** and **TIMESTAMP WITH TIME ZONE**. 
 *   <months>는 긴 형식과 축약된 형식 둘 다에 대한 월 이름이 필요하다. 허용되는 크기는 축약된 형식에 대해 15자(또는 60 바이트)이고 긴 형식에 대해 25자(또는 100바이트)이다.
 *   <days>는 긴 형식과 축약된 형식 둘 다에 대한 요일 이름이 필요하다. 허용되는 크기는 축약된 형식에 대해 10자(또는 40 바이트)이고 긴 형식에 대해 15자(또는 60 바이트)이다.
 
@@ -2083,7 +2086,7 @@ LDML 알파벳
 -----------
 
 LDML 알파벳은 로캘의 알파벳에 대한 대소문자 규칙을 정의한다.
-'CUBRIDAlphabetMode' 속성은 문자에 대한 데이터의 기본 원본(primary source)을 정의한다. 일반적으로 이 속성은 "UNICODEDATAFILE"로 지정되어야 하는데, 이 값은 CUBRID가 유니코드 데이터 파일($CUBRID/locales/data/unicodedata.txt)을 사용한다는 의미이다.
+'CUBRIDAlphabetMode' 속성은 문자에 대한 데이터의 기본 원본(primary source)을 정의한다. 일반적으로 이 속성은 "UNICODEDATAFILE"로 지정되어야 하는데, 이 값은 CUBRID가 유니코드 데이터 파일(**$CUBRID/locales/data/unicodedata.txt**) 을 사용한다는 의미이다.
 
 이 파일은 수정되어서는 안 되며, 특정 문자에 대한 변경은 LDML 파일에서 이루어져야 한다. 이러한 값이 설정되어 있는 경우, 코드포인트 65535까지의 모든 유니코드 문자가 대소문자 정보를 가지고 로딩된다.
 'CUBRIDAlphabetMode'에 대해 허용된 다른 값은 "ASCII"로, ASCII 문자만이 소문자, 대문자 또는 대소문자 구분을 하지 않는 문자열 비교 함수에서 사용될 수 있다.

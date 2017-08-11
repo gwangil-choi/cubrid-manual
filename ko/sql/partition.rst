@@ -1,3 +1,11 @@
+
+:meta-keywords: cubrid partition, partitioning key, range partition, hash partition, list partition, partition pruning
+:meta-description: Partitioning is a method by which a table is divided into multiple independent physical units called partitions. In CUBRID, each partition is a table implemented as a subclass of the partitioned table.
+
+************
+Partitioning
+************
+
 .. _partitioning-key:
 
 분할 키
@@ -535,7 +543,7 @@
     
     INSERT INTO t VALUES(1), (2), (3), (4), (5), (6);
     
-테이블 *t*\의 스키마와 데이터는 다음과 같다.
+테이블 *t* 의 스키마와 데이터는 다음과 같다.
 
 .. code-block:: sql
 
