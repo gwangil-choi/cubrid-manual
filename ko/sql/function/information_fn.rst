@@ -1,3 +1,6 @@
+
+:meta-keywords: cubrid charset, cubrid coercibility, cubrid collation, cubrid current_user, cubrid default, cubrid last_insert_id, cubrid row_count
+
 :tocdepth: 3
 
 *********
@@ -186,6 +189,7 @@ DBTIMEZONE
 
     :func:`SESSIONTIMEZONE`, :func:`FROM_TZ`, :func:`NEW_TIME`, :func:`TZ_OFFSET`
 
+
 DEFAULT
 =======
 
@@ -220,6 +224,8 @@ DEFAULT
 .. note::
 
     CUBRID 9.0 미만 버전에서는 테이블 생성 시 DATE, DATETIME, TIME, TIMESTAMP 칼럼의 DEFAULT 값을 SYS_DATE, SYS_DATETIME, SYS_TIME, SYS_TIMESTAMP로 지정하면, CREATE TABLE 시점의 값이 저장된다. 따라서 데이터가 INSERT되는 시점의 값을 입력하려면 INSERT 구문의 VALUES 절에 해당 함수를 입력해야 한다.
+
+.. _disk_size:    
 
 DISK_SIZE
 =========

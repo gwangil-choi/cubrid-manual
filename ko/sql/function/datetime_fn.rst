@@ -1,3 +1,6 @@
+
+:meta-keywords: cubrid date, cubrid time, cubrid datetime, datetime functions, datetime operators
+
 :tocdepth: 3
 
 ***********************
@@ -193,7 +196,7 @@ ADD_MONTHS
 
       07/03/2010                                     07/03/2010
 
-다음은 타임존 타입의 값을 사용하는 예이다. 타임존과 관련된 설명은 :ref:`timezone-type`\을 참고한다.
+다음은 타임존 타입의 값을 사용하는 예이다. 타임존과 관련된 설명은 :ref:`timezone-type` 을 참고한다.
 
 .. code-block:: sql
 
@@ -259,7 +262,7 @@ CURDATE, CURRENT_DATE
       
 .. code-block:: sql
 
-    -- 오늘 날짜에 60일을 더한 날짜를 반환한다
+    -- 현재 날짜에 60일을 더한 날짜를 반환한다
     
     SELECT CURDATE()+60;
      
@@ -408,7 +411,7 @@ CURTIME, CURRENT_TIME
     10.0에서, **CURTIME** (), **CURRENT_TIME** () 는 **SYS_TIME**과 **SYSTIME** 에서 다르다.  이것은 9.x와 그 이하 버전의 동의어이다. 
 
 CURRENT_TIMESTAMP, LOCALTIME, LOCALTIMESTAMP
-=========================================================================
+============================================
 
 .. c:macro:: CURRENT_TIMESTAMP
 .. function:: CURRENT_TIMESTAMP ()

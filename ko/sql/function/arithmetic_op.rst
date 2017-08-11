@@ -1,3 +1,7 @@
+
+:meta-keywords: cubrid type cast
+:meta-description: CUBRID Arithmetic Operations and Type Casting of Numeric and DATE/TIME Data Types
+
 :tocdepth: 3
 
 ***********
@@ -373,7 +377,7 @@
 
 
 타임존 파라미터들과 관련된 동작 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 TIMESTAMP와 TIMESTAMP WITH LOCAL TIME ZONE 데이터 타입들은 내부적으로 UNIX epoch 값을 저장한다. leap 초가 사용될 때(tz_leap_second_support가 yes 인 경우, 참고 :ref:`timezone-parameters`), 두 데이터 타입은 가상의 날짜-시간 값을 가질 것이다.
 
@@ -410,8 +414,9 @@ Unix timestamps : 79399952와 79399953를 비교해보면, 두 값은 같다는 
     timestamptz '2008-12-31 23:59:59 UTC'=timestamptz '2008-12-31 23:59:59 UTC'+1
     ===============================================================================
                                                                                 1
+
                                                                                 
-불일치가 발생함을 알 수 있다.
+불일치가 발생함을 알 수 있다:
 
 .. code-block:: sql
 
@@ -426,9 +431,7 @@ Unix timestamps : 79399952와 79399953를 비교해보면, 두 값은 같다는 
 
 '2008-12-31 23:59:60 UTC'에 상응하는 Unix timestamp 값 79399953이 유효한 날짜 값이 아니기에, 바로 앞의 선행값이 사용된다. 내부적으로, 그 선행값은 ('2008-12-31 23:59:60 UTC') 값과 동일하다.
 
-TIMESTAMP WITH TIME ZONE 데이터 타입은 UNIX timestamp와 timezone 식별자 모두를 포함한다. TIMESTAMPTZ의 산술연산 또한 UNIX timestamp의 부분값을 이용하여 수행되며, 산술 조정 연산이 뒤이어 적용된다. timezone 식별자의 존재는 TIMESTAMPTZ 객체가 옳바른 날짜-시간값을 가질 것을 요구한다. 
-
-timestamptz'2008-12-31 23:59:59 UTC'+1 연산은 유효하지 않는 날짜-시간값(79399953, UTC) 대신 유효한 값(79399952,UTC)으로 자동 유효 변환이 발생함을 의미한다.  
+TIMESTAMP WITH TIME ZONE 데이터 타입은 UNIX timestamp와 timezone 식별자 모두를 포함한다. TIMESTAMPTZ의 산술연산 또한 UNIX timestamp의 부분값을 이용하여 수행되며, 산술 조정 연산이 뒤이어 적용된다. timezone 식별자의 존재는 TIMESTAMPTZ 객체가 옳바른 날짜-시간값을 가질 것을 요구한다.  timestamptz'2008-12-31 23:59:59 UTC'+1 연산은 유효하지 않는 날짜-시간값(79399953, UTC) 대신 유효한 값(79399952,UTC)으로 자동 유효 변환이 발생함을 의미한다.  
 
 DATETIMETZ와 TIMESTAMPTZ 타입에 산술연산이 수행되어진 후에, CUBRID는 결과값에 대해 다음과 같은 자동-조정 연산을 수행한다.
   - timezone 식별자 조정 : timezone 타입의 날짜에 몇 초 정도를 더하는 것은 내부적으로 저장된 offset 규칙, daylight 저장 규칙의 변경을 가져올 수 있다. 그러면, timezone 식별자는 반드시 갱신되어야 한다.
