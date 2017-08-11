@@ -376,8 +376,8 @@
       86400
 
 
-타임존 파라미터들과 관련된 동작 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+타임존 파라미터들과 관련된 동작
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 TIMESTAMP와 TIMESTAMP WITH LOCAL TIME ZONE 데이터 타입들은 내부적으로 UNIX epoch 값을 저장한다. leap 초가 사용될 때(tz_leap_second_support가 yes 인 경우, 참고 :ref:`timezone-parameters`), 두 데이터 타입은 가상의 날짜-시간 값을 가질 것이다.
 
