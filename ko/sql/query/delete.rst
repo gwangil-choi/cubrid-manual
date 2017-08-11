@@ -1,3 +1,7 @@
+
+:meta-keywords: delete statement
+:meta-description: You can delete records in the table by using the DELETE statement.
+
 ******
 DELETE
 ******
@@ -21,7 +25,7 @@ DELETE
 
 *   *search_condition*: :ref:`where-clause`\ 을 이용하여 *search_condition*\ 을 만족하는 데이터만 삭제한다. 생략할 경우 지정된 테이블의 모든 데이터를 삭제한다.
 
-*   *row_count*: :ref:`limit-clause`\ 에 삭제할 레코드 수를 명시하며, 0보다 큰 정수를 지정할 수 있다.
+*   *row_count*: Specifies the number of records to be deleted in the :ref:`limit-clause`. It can be one of unsigned integer, a host variable or a simple expression. 
 
 삭제할 테이블이 한 개인 경우에 한하여, :ref:`limit-clause`\ 을 지정할 수 있다. :ref:`limit-clause`\ 을 명시하면 삭제할 레코드 수를 한정할 수 있다. :ref:`where-clause`\ 을 만족하는 레코드 개수가 *row_count*\ 를 초과하면 *row_count* 개의 레코드만 삭제된다.
 

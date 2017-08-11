@@ -1,3 +1,6 @@
+
+:meta-keywords: show statement, show tables, show columns, show index, show collation, show timezones, show grants
+
 :tocdepth: 3
 
 ****
@@ -5,7 +8,6 @@ SHOW
 ****
 
 .. contents::
-
 
 DESC, DESCRIBE
 ==============
@@ -110,7 +112,7 @@ SHOW COLUMNS
 
     SHOW [FULL] COLUMNS {FROM | IN} tbl_name [LIKE 'pattern' | WHERE expr];
 
-**FULL** 키워드가 사용되면 콜레이션 정보를 추가로 출력한다.
+**FULL** 키워드가 사용되면 **콜레이션** 과 **코멘트**  정보를 추가로 출력한다.
 
 **SHOW FIELDS** 는 **SHOW COLUMNS** 와 같은 구문이다.
 
@@ -178,9 +180,8 @@ Extra                               VARCHAR         주어진 칼럼에 대해 �
 
       Field                 Type                  Collation             Null                  Key                   Default               Extra                 Comment             
      ================================================================================================================================================================================
-     'code'                'INTEGER'             NULL                  'NO'                  'PRI'                 NULL                  'auto_increment'      NULL                
-     'nation_code'         'CHAR(3)'             'iso88591_bin'        'YES'                 ''                    NULL                  ''                    NULL                
-
+     'code'                 'INTEGER'             NULL                  'NO'                  'PRI'                 NULL                  'auto_increment'      NULL                
+     'nation_code'          'CHAR(3)'             'iso88591_bin'        'YES'                 ''                    NULL                  ''                    NULL                
 
 .. _show-index-statement:
 
@@ -230,7 +231,6 @@ Comment                             VARCHAR         Comment to describe the inde
         ==========================================================================
           'athlete'                       0  'pk_athlete_code'                1  'code'                'A'                          6677         NULL  NULL                  'NO'
                           'BTREE'               NULL                  NULL
-
 
 .. code-block:: sql
 
@@ -428,7 +428,6 @@ WHERE 조건 없는 LIKE 조건은 첫 번째 칼럼에 적용된다. WHERE 조�
    ========================================================================================
    'Europe/Paris'        '+01:00'              '+00:00'              'CET'
 
-       
 
 .. _show-grants-statement:
 
@@ -676,8 +675,7 @@ SHOW VOLUME HEADER
 Column name                         Type            Description
 =================================== =============== ======================================================================================================================================
 Volume_id                           INT             Volume identifier
-Magic_symbol                        VARCHAR(100)    Magic value for for
-a volume file
+Magic_symbol                        VARCHAR(100)    Magic value for for a volume file
 Io_page_size                        INT             Size of DB volume
 Purpose                             VARCHAR(32)     Volume purposes, 'Permanent data purpose' or 'Temporary data purpose'
 Type                                VARCHAR(32)     Volume type, 'Permanent Volume' or 'Temporary Volume'
@@ -700,7 +698,6 @@ Next_volume_id                      INT             Next volume identifier
 Next_vol_full_name                  VARCHAR(255)    The full path of next volume
 Remarks                             VARCHAR(64)     Volume remarks
 =================================== =============== ======================================================================================================================================
-
 
 다음은 이 구문을 수행한 예이다.
 
@@ -732,7 +729,6 @@ Remarks                             VARCHAR(64)     Volume remarks
             Next_volume_id                  : -1
             Next_vol_full_name              : ''
             Remarks                         : ''
-
 
 SHOW LOG HEADER
 ---------------
@@ -851,7 +847,7 @@ Last_block_newest_mvcc_id           BIGINT          Used to find the newest MVCC
     <00001> Volume_id                      : -2
             Magic_symbol                   : 'CUBRID/LogActive'
             Magic_symbol_location          : 16
-            Creation_time                  : 05:27:05.000 PM 02/05/2016
+            Creation_time                  : 09:46:41.000 PM 05/23/2017
             Release                        : '10.0.0'
             Compatibility_disk_version     : '10'
             Db_page_size                   : 16384
@@ -861,14 +857,6 @@ Last_block_newest_mvcc_id           BIGINT          Used to find the newest MVCC
             Num_avg_trans                  : 3
             Num_avg_locks                  : 30
             Num_active_log_pages           : 1279
-            Db_charset                     : 3
-            First_active_log_page          : 0
-            Current_append                 : '(101|8016)'
-            Checkpoint                     : '(101|7936)'
-            Next_archive_page_id           : 0
-            Active_physical_page_id        : 1
-            Next_archive_num               : 0
-            Last_archive_num_for_syscrashes: -1
             Db_charset                     : 3
             First_active_log_page          : 0
             Current_append                 : '(101|8016)'
@@ -1402,7 +1390,6 @@ Key_type                            VARCHAR(256)    Type name
 Columns                             VARCHAR(256)    the list of columns which consists of the index
 =================================== =============== ======================================================================================================================================
 
-
 다음은 이 구문을 수행한 예이다.
 
 .. code-block:: sql
@@ -1583,8 +1570,6 @@ Total_waiting_msecs                 NUMERIC(10,3)   전체 대기 시간(밀리�
 
 ::
 
-
-
     Index  Name                       Num_holders           Num_waiting_readers Num_waiting_writers  Owner_thread_index  Owner_tran_index     Total_enter_count Total_waiter_count  Waiting_promoter_thread_index  Max_waiting_msecs Total_waiting_msecs
     ============================================================================================================================================================================================================================================================
         0  'ER_LOG_FILE'              'none' 0                    0                NULL              NULL 217 0                           NULL  0.000                 0.000
@@ -1606,37 +1591,6 @@ Total_waiting_msecs                 NUMERIC(10,3)   전체 대기 시간(밀리�
         16  'EVENT_LOG_FILE'          'none' 0                    0                NULL              NULL 0                     0                           NULL 0.000 0.000
         17  'LOG_ARCHIVE'             'none' 0                    0                NULL              NULL 0                     0                           NULL 0.000 0.000
         18  'ACCESS_STATUS'           'none' 0                    0                NULL              NULL 1                     0                           NULL 0.000 0.000
-
-
-    Index  Name                  Num_holders           Num_waiting_readers  Num_waiting_writers  Owner_thread_index  Owner_tran_index     Total_enter_count    Total_waiter_count  Waiting_promoter_thread_index  Max_waiting_msecs     Total_waiting_msecs 
-    ============================================================================================================================================================================================================================================================
-        0  'ER_LOG_FILE'         'none'                                  0                    0                NULL              NULL                   217                     0                           NULL  0.000                 0.000               
-        1  'ER_MSG_CACHE'        'none'                                  0                    0                NULL              NULL                     0                     0                           NULL  0.000                 0.000               
-        2  'WFG'                 'none'                                  0                    0                NULL              NULL                     0                     0                           NULL  0.000                 0.000               
-        3  'LOG'                 'none'                                  0                    0                NULL              NULL                    11                     0                           NULL  0.000                 0.000               
-        4  'LOCATOR_CLASSNAME_TABLE'  'none'                                  0                    0                NULL              NULL                    33                     0                           NULL  0.000                 0.000               
-        5  'FILE_NEWFILE'        'none'                                  0                    0                NULL              NULL                    12                     0                           NULL  0.000                 0.000               
-        6  'QPROC_QUERY_TABLE'   'none'                                  0                    0                NULL              NULL                     3                     0                           NULL  0.000                 0.000               
-        7  'QPROC_QFILE_PGCNT'   'none'                                  0                    0                NULL              NULL                     0                     0                           NULL  0.000                 0.000               
-        8  'QPROC_XASL_CACHE'    'none'                                  0                    0                NULL              NULL                     5                     0                           NULL  0.000                 0.000               
-        9  'QPROC_LIST_CACHE'    'none'                                  0                    0                NULL              NULL                     1                     0                           NULL  0.000                 0.000               
-        10  'BOOT_SR_DBPARM'      'none'                                  0                    0                NULL              NULL                     3                     0                           NULL  0.000                 0.000               
-        11  'DISK_REFRESH_GOODVOL'  'none'                                  0                    0                NULL              NULL                     6                     0                           NULL  0.000                 0.000               
-        12  'CNV_FMT_LEXER'       'none'                                  0                    0                NULL              NULL                     0                     0                           NULL  0.000                 0.000               
-        13  'HEAP_CHNGUESS'       'none'                                  0                    0                NULL              NULL                    10                     0                           NULL  0.000                 0.000               
-        14  'SPAGE_SAVESPACE'     'none'                                  0                    0                NULL              NULL                     1                     0                           NULL  0.000                 0.000               
-        15  'TRAN_TABLE'          'none'                                  0                    0                NULL              NULL                     7                     0                           NULL  0.000                 0.000               
-        16  'CT_OID_TABLE'        'none'                                  0                    0                NULL              NULL                     0                     0                           NULL  0.000                 0.000               
-        17  'SCANID_BITMAP'       'none'                                  0                    0                NULL              NULL                     0                     0                           NULL  0.000                 0.000               
-        18  'LOG_FLUSH'           'none'                                  0                    0                NULL              NULL                     0                     0                           NULL  0.000                 0.000               
-        19  'HA_SERVER_STATE'     'none'                                  0                    0                NULL              NULL                     2                     0                           NULL  0.000                 0.000               
-        20  'COMPACTDB_ONE_INSTANCE'  'none'                                  0                    0                NULL              NULL                     0                     0                           NULL  0.000                 0.000               
-        21  'SESSION_STATE'       'none'                                  0                    0                NULL              NULL                     3                     0                           NULL  0.000                 0.000               
-        22  'ACL'                 'none'                                  0                    0                NULL              NULL                     0                     0                           NULL  0.000                 0.000               
-        23  'QPROC_FILTER_PRED_CACHE'  'none'                                  0                    0                NULL              NULL                     1                     0                           NULL  0.000                 0.000               
-        24  'PARTITION_CACHE'     'none'                                  0                    0                NULL              NULL                     1                     0                           NULL  0.000                 0.000               
-        25  'EVENT_LOG_FILE'      'none'                                  0                    0                NULL              NULL                     0                     0                           NULL  0.000                 0.000               
-        26  'ACCESS_STATUS'       'none'                                  0                    0                NULL              NULL                     1                     0                           NULL  0.000                 0.000              
 
 SHOW TRANSACTION TABLES
 -----------------------
