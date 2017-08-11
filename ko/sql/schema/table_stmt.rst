@@ -1,3 +1,11 @@
+
+:meta-keywords: table definition, create table, drop table, alter table, column definition, constraint definition, create table like, create table as select, rename table
+:meta-description: Define tables in CUBRID database using create table, alter table, drop table and rename table statements.
+
+***************************
+TABLE DEFINITION STATEMENTS
+***************************
+
 CREATE TABLE
 ============
 
@@ -5,6 +13,8 @@ CREATE TABLE
 -----------
 
 **CREATE TABLE** 문을 사용하여 새로운 테이블을 생성한다. 
+
+.. CUBRIDSUS-12366: from 10.0, create table if not exists ...
 
 ::
 
@@ -77,7 +87,6 @@ CREATE TABLE
 *   <*column_constraint*>: 칼럼의 제약 조건을 지정하며 제약 조건의 종류에는 **NOT NULL**, **UNIQUE**, **PRIMARY KEY**, **FOREIGN KEY** 가 있다. 자세한 내용은 :ref:`constraint-definition`\을 참고한다.
 *   <*default_or_shared_or_ai*>: DEFAULT, SHARED, AUTO_INCREMENT 중 하나만 사용될 수 있다.
     AUTO_INCREMENT이 지정될 때 "(seed, increment)"와 "AUTO_INCREMENT = initial_value"는 동시에 정의될 수 없다.
-    
 *   *table_comment_string*: 테이블의 커멘트를 지정한다.
 *   *column_comment_string*: 칼럼의 커멘트를 지정한다.
 *   *index_comment_string*: 인덱스의 커멘트를 지정한다.
@@ -248,7 +257,6 @@ CREATE TABLE
                 5  'BBB'                 '000-0000'
                 6  'BBB'                 '111-1111'
 
-
 .. code-block:: sql
 
     --use DEFAULT TO_CHAR in CREATE TABLE statement
@@ -261,7 +269,6 @@ CREATE TABLE
               id1  id2
     ===================================
                 1  ' +12345'
-
 
 하나 이상의 칼럼에 의사 칼럼의 **DEFAULT** 값 지정이 가능하다.
 
@@ -691,7 +698,6 @@ OID(Object Identifier)는 볼륨 번호, 페이지 번호, 슬롯 번호와 같�
     CREATE TABLE tbl (a INT, b INT) COMMENT = 'this is comment for table tbl';
 
 테이블의 커멘트는 다음 구문에서 확인할 수 있다.
-
 
 .. code-block:: sql
 
@@ -1269,7 +1275,6 @@ ALTER COLUMN ... SET DEFAULT 절
          id1                  CHARACTER VARYING(20) DEFAULT TO_CHAR(SYS_DATETIME, 'yyyy/mm/dd hh:mi:ss')
          id2                  CHARACTER VARYING(20) DEFAULT ''
 
-
 .. _alter-auto-increment:
 
 AUTO_INCREMENT 절
@@ -1405,8 +1410,6 @@ CHANGE/MODIFY 절
               33  '3'
 
 .. code-block:: sql
-
-
 
     -- adding NOT NULL constraint (strict)
     SET SYSTEM PARAMETERS 'alter_table_change_type_strict=yes';
@@ -1706,6 +1709,7 @@ DROP CONSTRAINT 절
 
 DROP INDEX 절
 -------------
+
 
 **DROP INDEX** 절을 사용하여 인덱스를 삭제할 수 있다. 고유 인덱스는 **DROP CONSTRAINT** 절로도 삭제할 수 있다.
 

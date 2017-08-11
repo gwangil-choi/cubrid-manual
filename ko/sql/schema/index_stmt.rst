@@ -1,3 +1,11 @@
+
+:meta-keywords: index definition, unique index, create index, alter index, drop index
+:meta-description: Define table indexes using create index, alter index, drop index statements.
+
+***************************
+INDEX DEFINITION STATEMENTS
+***************************
+
 CREATE INDEX
 ============
 
@@ -21,7 +29,7 @@ CREATE INDEX
 *   *column_name*: 인덱스를 적용할 칼럼의 이름을 명시한다. 다중 칼럼 인덱스를 생성할 경우 둘 이상의 칼럼 이름을 명시한다.
 *   **ASC** | **DESC**: 칼럼의 정렬 방향을 설정한다.
 
-*   <*filter_predicate*>: 필터링된 인덱스를 만드는 조건을 명시한다. 칼럼과 상수 간 비교 조건이 여러 개인 경우 **AND** 로 연결된 경우에만 필터가 될 수 있다. 이와 관련하여 :ref:`filtered-index`\ 를 반드시 참고한다.
+*   <*filter_predicate*>: 필터링된 인덱스를 만드는 조건을 명시한다. 칼럼과 상수 간 비교 조건이 여러 개인 경우 **AND** 로 연결된 경우에만 필터가 될 수 있다.  :ref:`filtered-index`\ 를 반드시 참고한다.
 *   *function_name* (*argument_list*): 함수 기반 인덱스를 만드는 조건을 명시한다. 이와 관련하여 :ref:`function-index`\ 를 반드시 참고한다.
 
 *   *index_comment_string*: 인덱스의 커멘트를 지정한다.
@@ -68,10 +76,7 @@ CREATE INDEX
 .. code-block:: sql
 
     SHOW CREATE TABLE table_name;
-    
-    SELECT index_name, class_name, comment
-    FROM db_index WHERE class_name ='classname';
-    
+    SELECT index_name, class_name, comment from db_index WHERE class_name ='classname';
     SHOW INDEX FROM table_name;
 
 또는 CSQL 인터프리터에서 테이블의 스키마를 출력하는 ;sc 명령으로 인덱스의 커멘트를 확인할 수 있다.
@@ -134,6 +139,7 @@ ALTER INDEX
 :: 
 
     ALTER INDEX old_index_name ON table_name RENAME TO new_index_name [COMMENT 'index_comment_string'] ;
+
 
 DROP INDEX
 ==========

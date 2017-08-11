@@ -1,3 +1,7 @@
+
+:meta-keywords: cubrid transaction, database transaction, cubrid locking, database locking, cubrid concurrency, multiversion concurrency control, mvcc, isolation level, database recovery
+:meta-description: This chapter covers issues relating to concurrency (MVCC) and restore, as well as how to commit or rollback transactions in CUBRID database.
+
 데이터베이스 트랜잭션
 =====================
 
@@ -123,7 +127,7 @@ CSQL 인터프리터에서 자동 커밋 모드를 설정하는 세션 명령어
 
     ROLLBACK [WORK] [TO [SAVEPOINT] <mark> ;
 
-    mark:
+    <mark>:
     - a SQL identifier
     - a host variable (starting with :)
 
@@ -243,9 +247,7 @@ CCI 로 개발된 응용 프로그램 역시 커서 유지가 기본 동작이�
 
 다수의 사용자들이 데이터베이스에서 읽고 쓰는 권한을 가질 때, 한 명 이상의 사용자가 동시에 같은 데이터에 접근할 가능성이 있다. 데이터베이스의 무결성을 보호하고, 사용자와 트랜잭션이 항상 정확하고 일관된 데이터를 지니기 위해서는 다중 사용자 환경에서의 접근과 갱신에 대한 통제가 필수적이다. 적정한 통제가 없으면 데이터는 어긋난 순서로 부정확하게 갱신될 수 있다.
 
-대부분의 상용 데이터베이스 시스템과 마찬가지로 CUBRID도 데이터베이스 내의 동시성(concurrency)을 위한 기본 요소인 직렬성(serializability)을 수용한다. 직렬성이란 여러 트랜잭션이 동시에 수행될 때, 마치 각각의 트랜잭션이 순차적으로 수행되는 것처럼 트랜잭션 간 간섭이 없다는 것을 의미하며, 트랜잭션의 격리 수준(isolation level)이 높을수록 보장된다. 이러한 원칙은 원자성(atomic, 트랜잭션의 모든 영향들은 커밋되거나 롤백되어야 함)을 갖는 트랜잭션이 각각 수행된다면, 데이터베이스의 동시성이 보장된다는 가정에 기초하고 있다. CUBRID에서 직렬성은 잘 알려진 2단계 잠금(two-phase locking)  기법을 통해 관리된다.
-
-커밋하고자 하는 트랜잭션은 데이터베이스의 동시성을 보장하고, 적합한 결과를 보장해야 한다. 여러 트랜잭션이 동시에 수행 중일 때, 트랜잭션 T1 내의 이벤트는 트랜잭션 T2에 영향을 끼치지 않아야 하며, 이를 격리성(isolation)이라 한다. 즉, 트랜잭션의 격리 수준(isolation level)은 동시에 수행되는 다른 트랜잭션으로부터 간섭받는 것을 허용하는 정도의 단위이다. 격리 수준이 높을수록 트랜잭션 간 간섭이 적으며 직렬적이고, 격리 수준이 낮을수록 트랜잭션 간 간섭이 많고 병렬적이며 동시성이 높아진다. 이러한 트랜잭션의 격리 수준에 따라 데이터베이스는 테이블과 레코드에 대해 어떤 잠금을 획득할지 결정한다. 따라서, 적용하고자 하는 서비스의 특성에 따라 격리 수준을 적절히 설정함으로써 데이터베이스의 일관성(consistency)과 동시성(concurrency)을 조정할 수 있다.
+The transaction must ensure database concurrency, and each transaction must guarantee appropriate results. When multiple transactions are being executed at once, an event in transaction *T1* should not affect an event in transaction *T2*. This means isolation. Transaction isolation level is the degree to which a transaction is separated from all other concurrent transactions. The higher isolation level means the lower interference from other transactions. The lower isolation level means the higher the concurrency.  A database determines whether which lock is applied to tables and records based on these isolation levels. Therefore, can control the level of consistency and concurrency specific to a service by setting appropriate isolation level.
 
 트랜잭션 격리 수준 설정을 통해 트랜잭션 간 간섭을 허용할 수 있는 읽기 연산의 종류는 다음과 같다.
 
@@ -253,7 +255,12 @@ CCI 로 개발된 응용 프로그램 역시 커서 유지가 기본 동작이�
 *   **Non-repeatable read** (non-repeatable read, unrepeatable read): 트랜잭션 T1이 데이터를 반복 조회하는 중에 다른 트랜잭션 T2가 데이터를 갱신 혹은 삭제하고 커밋하는 경우, 트랜잭션 T1은 수정된 값을 읽을 수 있다.
 *   **Phantom read** (phantom read): 트랜잭션 T1에서 데이터를 여러 번 조회하는 중에 다른 트랜잭션 T2가 새로운 레코드 E를 삽입하고 커밋한 경우, 트랜잭션 T1은 E를 읽을 수 있다.
 
-CUBRID에서 트랜잭션 격리 수준의 기본 설정은 :ref:`isolation-level-4`\이다.
+Based on these interferences, the SQL standard defines four levels of transaction isolation:
+
+*   **READ UNCOMMITTED** allows dirty read, unrepeatable read and phantom read.
+*   **READ COMMITTED** does not allow dirty read but allows unrepeatable read and phantom read.
+*   **REPEATABLE READ** does not allow dirty read and unrepeatable read but allows phantom read.
+*   **SERIALIZABLE** does not allow interrupts between transactions when doing read operation.
 
 **CUBRID가 제공하는 격리 수준**
 
@@ -274,10 +281,7 @@ CUBRID에서 트랜잭션 격리 수준의 기본 설정은 :ref:`isolation-leve
 | :ref:`isolation-level-4` (4)   | X      | O         | O      | X                    |
 +--------------------------------+--------+-----------+--------+----------------------+
 
-*   **READ COMMITTED**\는 Drity read를 불허하며 반복할 수 없는 읽기(unrepeatable read), 유령 읽기(phantom read)를 허용한다.
-*   **REPEATABLE READ**\는 Dirty read, Non-repeatable read를 불허하며 Phantom read를 허용한다.
-*   **SERIALIZABLE**\은 읽기 연산 시 트랜잭션 간 간섭을 불허한다.
-
+The default value of CUBRID isolation level is :ref:`isolation-level-4`.
 
 .. _mvcc-snapshot:
 
@@ -358,7 +362,6 @@ The snapshot filter algorithm that decides a version visibility queries the MVCC
 |                    |                          | Visible             | | Version is too old, was deleted and is not visible   |
 |                    |                          |                     | | It does not matter if row has previous versions      |
 +--------------------+--------------------------+---------------------+--------------------------------------------------------+
-
 
 If version is too new, but it has a previous version stored in log, the same checks are repeated on previous version. The checks stop when no previous versions are found (the entire row chain is too new for this transaction), or when a visible version is found.
 
@@ -627,6 +630,7 @@ If version is too new, but it has a previous version stored in log, the same che
 |            2016  'AUS'                                            |            2008  'AUS'                 |            2012  'AUS'                 |
 |                                                                   |                                        |                                        |
 +-------------------------------------------------------------------+----------------------------------------+----------------------------------------+
+
 
 VACUUM
 ------
