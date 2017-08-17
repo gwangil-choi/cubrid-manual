@@ -1243,7 +1243,7 @@ You can set the level of transaction isolation by using **isolation_level** and 
     isolation_level_spec:
         SERIALIZABLE | 6
         REPETABLE READ | 5
-        READ COMMITTED | 4
+        READ COMMITTED | CURSOR STABILITY | 4
 
 **예제 1** ::
 
@@ -1265,24 +1265,24 @@ You can set the level of transaction isolation by using **isolation_level** and 
 
 **CUBRID가 지원하는 격리 수준**
 
-+-----------------------+-----------------------------------------------------------------------------------------------------------------------------------+
-| 격리 수준 이름        | 설명                                                                                                                              |
-+=======================+===================================================================================================================================+
-| READ COMMITTED (4)    | 트랜잭션 T1이 테이블 A를 조회하는 중에 다른 트랜잭션 T2가 테이블 A의 스키마를 갱신할 수 없다.                                     |
-|                       | 트랜잭션 T1이 레코드 R을 여러 번 조회하는 중에, 다른 트랜잭션 T2가 갱신하고 커밋한 R' 읽기(반복 불가능한 읽기)를 경험할 수 있다.  |
-+-----------------------+-----------------------------------------------------------------------------------------------------------------------------------+
-| REPEATABLE READ (5)   | 트랜잭션 T1이 테이블 A를 조회하는 중에 다른 트랜잭션 T2가 테이블 A의 스키마를 갱신할 수 없다.                                     |
-|                       | 트랜잭션 T1이 특정 레코드를 여러 번 조회하는 중에, 다른 트랜잭션 T2가 삽입한 레코드 R에 대한 유령 읽기를 경험할 수 있다.          |
-+-----------------------+-----------------------------------------------------------------------------------------------------------------------------------+
-| SERIALIZABLE (6)      | 동시성 관련한 모든 문제들(더티 읽기, 반복 불가능한 읽기, 유령 읽기)이 발생하지 않는다                                             |
-+-----------------------+-----------------------------------------------------------------------------------------------------------------------------------+
++-----------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Name                  | Description                                                                                                                                                                         |
++=======================+=====================================================================================================================================================================================+
+| READ COMMITTED (4)    | Another transaction T2 cannot update the schema of table A while transaction T1 is viewing table A.                                                                                 |
+|                       | Transaction T1 may experience R read (non-repeatable read) that was updated and committed by another transaction T2 when it is repeatedly retrieving the record R.                  |
++-----------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| REPEATABLE READ (5)   | Another transaction T2 cannot update the schema of table A while transaction T1 is viewing table A.                                                                                 |
+|                       | Transaction T1 may experience phantom read for the record R that was inserted by another transaction T2 when it is repeatedly retrieving a specific record.                         |
++-----------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| SERIALIZABLE (6)      | Temporarily disabled - details in :ref:`isolation-level-6`                                                                                                                          |
++-----------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-응용 프로그램에서 트랜잭션 수행 중에 격리 수준이 변경되면, 수행 중인 트랜잭션의 남은 부분부터 변경된 격리 수준이 적용된다. 따라서, 트랜잭션 수행 중 객체에 대해 이미 획득한 일부 잠금이 새로운 격리 수준이 적용되는 동안 해제될 수도 있다. 이처럼 설정된 격리 수준이 하나의 트랜잭션 전체에 적용되는 것이 아니라 트랜잭션 중간에 변경되어 적용될 수 있기 때문에, 트랜잭션 격리 수준은 트랜잭션 시작 시점(커밋, 롤백, 또는 시스템 재시작 이후)에 변경하는 것이 하는 것이 바람직하다.
+If the transaction level is changed in an application while a transaction is executed, the new level is applied to the rest of the transaction being executed. It is recommended that to modify the transaction isolation level when a transaction starts (after commit, rollback or system restart) because an isolation level which has already been set does not apply to the entire transaction, but can be changed during the transaction.
 
 트랜잭션 격리 수준 값 확인
 --------------------------
 
-**GET TRANSACTION** 문을 이용하여 현재 클라이언트에 설정된 격리 수준 값을 출력하거나 *variable* 에 할당할 수 있다. 아래는 격리 수준을 확인하기 위한 구문이다. ::
+You can assign the current isolation level to *variable* by using the **GET TRANSACTION ISOLATION LEVEL** statement. The following is a statement that verifies the isolation level. ::
 
     GET TRANSACTION ISOLATION LEVEL [ { INTO | TO } variable ] [ ; ]
 
@@ -1305,19 +1305,19 @@ READ COMMITTED 격리 수준
 
 다음은 이 격리 수준의 규칙이다:
 
-*   트랜잭션 *T1* 은 다른 트랜잭션 *T2* 에 의해서 삽입된 레코드를 읽거나 갱신할 수 없다. 이런 레코드는 읽거나 갱신하지 않고 차라리 무시된다.
-*   트랜잭션 *T1* 은 또 다른 트랜잭션 *T2* 에 의해서 갱신된 레코드를 읽을 수 있지만 그 레코드의 마지막 커밋된 버전 만을 볼 수 있다 (*T1* 은 커밋되지 않은 다른 버전들은 볼 수 없다).
-*   트랜잭션 *T1* 은 다른 트랜잭션 *T2* 에 의해서 갱신중인 레코드를 수정할 수 없다. *T1* 은 *T2* 가 커밋하기를 기다린후, 레코드의 값을 다시 계산한다. 재 계산 검사를 통과하면 T1은 그 레코드를 수정한다, 통과하지 못하면 그 레코드를 무시한다.
-*   트랜잭션 *T1* 은 다른 트랜잭션 *T2* 가 보고 있는 레코드를 수정할 수 있다.
-*   트랜잭션 *T1* 은 다른 트랜잭션 *T2* 가 보고 있는 테이블에 레코드를 갱신/삽입할 수 있다.
-*   트랜잭션 *T1* 은 다른 트랜잭션 *T2* 가 보고 있는 테이블의 스키마를 변경할 수 없다.
-*   트랜잭션 *T1* 은 실행된 문장에 대해서 새로운 스냅샷을 생성한다, 따라서 허구나 비 반복적인 읽기가 발생할 수 있다.
+*   Transaction *T1* cannot read or modify the record inserted by another transaction *T2*. The record is instead ignored.
+*   Transaction *T1* can read the record being updated by another transaction *T2* and it sees the record's last committed version (but it cannot see uncommitted versions).
+*   Transaction *T1* cannot modify the record being updated by another transaction *T2*. *T1* waits for *T2* to commit and it re-evaluates record values. If the re-evaluation test is passed, *T1* modifies the record, otherwiseit ignores it.
+*   Transaction *T1* can modify the record being viewed by another transaction *T2*.
+*   Transaction *T1* can update/insert record to the table being viewed by another transaction *T2*.
+*   Transaction *T1* cannot change the schema of the table being viewed by another transaction *T2*.
+*   Transaction *T1* creates a new snapshot with each executed statement, thus phantom or non-repeatable read may occur.
 
-이 격리 수준은 배타적인 잠금을 위해서 MVCC 잠금 프로토콜을 따른다. 하나의 열에 대해서 공유된 잠금은 필요하지 않다; 그러나, 한 테이블에 대한 잠금 의향은 그 스키마에 대한 반복적인 읽기를 확보하기 위해서 트랜잭션이 종료되었을 때 해제된다.
+This isolation level follows MVCC locking protocol for an exclusive lock.  A shared lock on a row is not required; however, an intent lock on a table is released when a transaction terminates to ensure repeatable read on the schema.
 
 *예:*
 
-다음의 예는 팬텀 읽기나 비 반복적인 읽기가 발생할 수 있음을 보여준다. 왜냐하면, 트랜잭션의 동시성 수준이 **READ COMMITTED** 이고 한 트랜잭션이 객체의 읽기를 수행하나 테이블 스키마 갱신에 대해서 반복적인 읽기가 보장되었을때, 다른 트랜잭션이 레코드의 추가나 갱신을 수행할 수 있기 때문이다.
+The following example shows that a phantom or non-repeatable read may occur because another transaction can add or update a record while one transaction is performing the object read but repeatable read for the table schema update is ensured when the transaction level of the concurrent transactions is **READ COMMITTED**.
 
 +-------------------------------------------------------------------------+----------------------------------------------------------------------------------+
 | session 1                                                               | session 2                                                                        |
@@ -1520,11 +1520,11 @@ READ COMMITTED UPDATE RE-EVALUATION
 REPEATABLE READ 격리 수준
 -------------------------
 
-비교적 높은 수준 (5). **snapshot isolation** 으로 인해서 더티 리드, 비 반복적 읽기, 팬텀 읽기는 일어나지 않는다. 하지만, 이것이 진정한 **직렬성** 은 아니다, 트랜잭션의 실행은 *동시에 실행중인 트랜잭션이 없는 것처럼* 계획될 수 없다. 쓰기 왜곡과 같은, **직렬화 스냅샷 격리** 수준이 허용하지 않는 더욱 이상한 현상들이 발생할 수 있다.
+A relatively high isolation level (5). Dirty, non-repeatable, and phantom reads do not occur due to **snapshot isolation**. However, it's still not truly **serializable**, transaction execution cannot be defined *as if there were no other transactions running* at the same time. More complex anomalies, like write skews, that a **serializable snapshot isolation** level should not allow still occur.
 
-쓰기 이상 현상에서, 중복되는 데이터 셋에서 동시에 읽기를 수행하고 중복된 데이터 셋에 대해서 독립적인 갱신을 트랜잭션들은 상대방에 의해서 실행된 갱신을 보는 경우가 없게 된다. 직렬화가능 시스템에서, 한 트랜잭션은 첫번째에 발생하고 두번째 트랜잭션은 첫번째 트랜잭션의 결과를 볼수 있어야 하기 때문에 이러한 이상 현상은 불가능할 것이다.
+In a write skew anomaly, two transactions concurrently read overlapping data sets and make disjoint updates on the overlapped data set, neither having seen the update performed by the other. In a serializable system, such anomaly would be impossible, since one transaction must occur first and the second transaction should see the update of the first transaction.
 
-다음은 아 격리 수준의 규칙이다:
+다음은 격리 수준의 규칙이다:
 
 *   트랜잭션 *T1* 은 또 다른 트랜잭션 *T2* 에 의해서 삽입된 레코드를 읽거나 수정할 수 없다. 이런 레코드는 차라리 무시된다.
 *   트랜잭션 *T1* 은 또 다른 트랜잭션 *T2* 에 의해서 갱신된 레코드를 읽을 수 있지만 *T1* 은 그 레코드가 최종으로 커밋된 버전만을 볼 수 있다.
@@ -1701,7 +1701,7 @@ SERIALIZABLE 격리 수준
 
 CUBRID 10.0 **SERIALIZABLE** 격리 수준은 **REPEATABLE READ** 격리 수준과 같다. :ref:`isolation-level-5` 장에서 설명한 것과 같이, **SNAPSHOT** 격리 수준이 비 반복적인 읽기와 팬텀 읽기 이상 현상이 발생이지 않는다는 것을 보증하더라도, 쓰기 이상은 여전히 가능하다. 쓰기 이상으로부터 보호를 위해서, 읽기를 위한 인덱스 키 잠금이 사용될 것이다. 그 대신에 잠재적으로 격리 충돌이 발생할 수 있는 트랜잭션들을 중지시킴으로써, **SERIALIZABLE SNAPSHOT ISOLATION** 을 제공하기 위한 복잡한 시스템을 기술하는 많은 작업들이 있다. 그러한 시스템이 추후 CUBRID 버전으로 공급될 것이다.
 
-핵심 주제어는 과거의 버전과의 호환성 이유로 제거되지 않았다, 하지만 기억하라, 이것은 **REPEATABLE READ** 와 비슷하다.
+The keyword was not removed for backward compatibility reasons, but remember, it is similar to **REPEATABLE READ**.
 
 .. _dirty-record-flush:
 
