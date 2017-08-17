@@ -251,9 +251,9 @@ The transaction must ensure database concurrency, and each transaction must guar
 
 트랜잭션 격리 수준 설정을 통해 트랜잭션 간 간섭을 허용할 수 있는 읽기 연산의 종류는 다음과 같다.
 
-*   **Dirty read** (dirty read): 트랜잭션 T1이 데이터 D를 D'으로 갱신한 후 커밋을 수행하기 전에 트랜잭션 T2가 D'을 읽을 수 있다.
-*   **Non-repeatable read** (non-repeatable read, unrepeatable read): 트랜잭션 T1이 데이터를 반복 조회하는 중에 다른 트랜잭션 T2가 데이터를 갱신 혹은 삭제하고 커밋하는 경우, 트랜잭션 T1은 수정된 값을 읽을 수 있다.
-*   **Phantom read** (phantom read): 트랜잭션 T1에서 데이터를 여러 번 조회하는 중에 다른 트랜잭션 T2가 새로운 레코드 E를 삽입하고 커밋한 경우, 트랜잭션 T1은 E를 읽을 수 있다.
+*   **Dirty read** : A transaction *T2* can read *D'* before a transaction *T1* updates data *D* to *D'* and commits it.
+*   **Non-repeatable read** : A transaction *T1* can read changed value, if a transaction *T2* updates or deletes data and commits while data is retrieved in the transaction *T1* multiple times.
+*   **Phantom read** : A transaction *T1* can read *E*, if a transaction *T2* inserts new record *E* and commits while data is retrieved in the transaction *T1* multiple times.
 
 Based on these interferences, the SQL standard defines four levels of transaction isolation:
 
@@ -1745,4 +1745,3 @@ CUBRID는 활성 로그가 꽉 차면 보관 로그로 복사하여 디스크에
 .. note::
 
     데이터베이스의 정보를 잃어버릴 가능성을 줄이기 위해서 보관 로그가 디스크에서 삭제되기 전에 보관 로그의 스냅샷을 만들고 이를 백업 장치에 보관할 것을 권장한다. DBA는 **cubrid backupdb**, **cubrid restoredb** 유틸리티를 사용하여 데이터베이스를 백업하고 복원할 수 있다. 이 유틸리티에 대한 상세한 내용을 보려면 :ref:`backupdb`\를 참고한다.
-
