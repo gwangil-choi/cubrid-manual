@@ -29,9 +29,7 @@ CUBRID는 객체 관계형 데이터베이스 관리 시스템으로서, 데이�
 
 *   CUBRID 매니저는 데이터베이스와 브로커를 원격에서 관리할 수 있는 GUI 툴이다. 또한, CUBRID 매니저는 사용자가 데이터베이스 서버에 SQL 질의를 수행할 수 있는 편리한 기능의 질의 편집기를 제공한다. 
 
-.. note::
-
-    CUBRID 쿼리 브라우저는 CUBRID 매니저의 기능을 경량화한 도구로, 응용 개발자에게 필수 기능인 데이터베이스 관리 기능과 질의 편집기 기능만을 제공한다. CUBRID 쿼리 브라우저에 대한 자세한 내용은 http://www.cubrid.org/wiki_tools/entry/cubrid-query-browser\ 를 참고한다.
+.. FIXME: For more information about CUBRID Manager, see http://www.cubrid.org/wiki_tools/entry/cubrid-manager.
 
 .. image:: /images/image1.png
 
@@ -50,10 +48,10 @@ CUBRID는 객체 관계형 데이터베이스 관리 시스템으로서, 데이�
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **Data Volumes**
+
 Permanent data volumes are database volumes that exists permanently once they are created.
 
-It usually stores data that needs to be persistent after database restart or
-crash. The possible types of permanent data are:
+It usually stores data that needs to be persistent after database restart or crash. The possible types of permanent data are:
 
 *   Tables (rows and multimedia data) are internally stored into heap files and heap overflow files, one file for each table.
 *   Indexes (keys and multimedia data) are internally stored into b-tree files and b-tree overflow files, one file for each index.
@@ -91,8 +89,6 @@ User can specifically assign some permanent data volumes to store temporary data
 
 백그라운드 보관 로그(background archive log)는 백그라운드에서 로그 보관 작업(log archiving)을 수행할 때 사용하는 볼륨이다.
 
-
-
 .. _temporary-volumes:
 
 일시적 볼륨(Temporary Volume)
@@ -126,8 +122,6 @@ Once temporary temp volume is created, it is maintained until a database restart
 *   **Configuring storing location of temporary volumes**: By default, temporary volumes are created where the first database volume was created.  However, you can specify a different directory to store temporary volumes by configuring the **temp_volume_path** parameter value.
 
 *   **Deleting temporary volumes**: Temporary volumes exist only while the database is running. Therefore, you must not delete the temporary volumes when running servers. They are deleted when database servers are normally terminated. When database servers are  abnormally terminated, temporary volumes are deleted on servers restart.
-
-일시적 볼륨이란, 영구적 볼륨과 반대되는 의미이다. 즉, 사용자가 영구적 볼륨으로 지정한 공간을 초과하여 데이터가 축적되는 경우에만 일시적으로 마련되는 저장 공간을 일시적 볼륨이라 하며, 이는 서버 프로세스가 종료됨에 따라 소멸된다. 이처럼 일시적으로 생성 및 소멸되는 볼륨으로는 일시적 임시 볼륨(temporary temp volume)이 있다.
 
 .. note::
 
@@ -218,7 +212,6 @@ CUBRID의 특징
 **데이터베이스 백업 및 복구**
 
 데이터베이스 백업은 CUBRID 데이터베이스 볼륨, 제어 파일, 로그 파일을 저장하는 작업이고, 데이터베이스 복구는 백업 작업에 의해 생성된 백업 파일, 활성 로그, 보관 로그를 이용하여 특정 시점의 데이터베이스로 복구하는 작업이다. 이 때, 복구 환경은 백업 환경과 동일한 운영체제 및 동일 버전의 CUBRID가 설치되어야 한다.
-
 CUBRID가 지원하는 백업 방식으로는 온라인 백업, 오프라인 백업, 증분 백업이 있고, 복구 방식으로는 증분 백업에 의한 복구, 부분 복구, 전체 복구가 있다.
 
 **테이블 분할 - 파티션**
