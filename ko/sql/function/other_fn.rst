@@ -19,7 +19,7 @@ SLEEP
     :param sec: sleep 시간. 단위는 초이며, double 타입 값을 입력한다.
     :rtype: INT
 
-   .. code-block:: sql
+    .. code-block:: sql
 
         SELECT SLEEP(3);
 

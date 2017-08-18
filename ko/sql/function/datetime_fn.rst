@@ -2078,10 +2078,10 @@ TRUNC
 ::
 
     12/26/2012
-    
+
 .. code-block:: sql
 
-    // '2012-12-26'을 포함하고 있는 주의 일요일 날짜를 반환한다
+    // It returns the date of Sunday of the week which includes date'2012-12-26'
     SELECT TRUNC(datetime'2012-12-26 12:10:10', 'day');
 
 ::
