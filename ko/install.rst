@@ -82,8 +82,7 @@ Linux 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항�
 
 *   32비트 또는 64비트 
     
-    10.0에서 CUBRID는 64비트 버전만 지원한다.
-    Linux버전은 다음과 같은 방법으로 확인한다. ::
+    10.0에서 CUBRID는 64비트 버전만 지원한다.  Linux버전은 다음과 같은 방법으로 확인한다. ::
         
         % uname -a
         Linux host_name 2.6.18-53.1.14.el5xen #1 SMP Wed Mar 5 12:08:17 EST 2008 x86_64 x86_64 x86_64 GNU/Linux
@@ -197,12 +196,13 @@ CUBRID를 설치하고 설정 파일을 구성할 때 기존의 설정 파일을
 
 **환경 설정**
 
-서비스 포트 등 사용자 환경에 맞춰 설정을 변경하려면 **$CUBRID/conf** 디렉터리에서 설정 파일의 파라미터를 수정한다. 
-자세한 내용은 :ref:`Installing-and-Running-on-Windows`\ 의 환경 설정을 참고한다.
+서비스 포트 등 사용자 환경에 맞춰 설정을 변경하려면 **$CUBRID/conf** 디렉터리에서 설정 파일의 파라미터를 수정한다.  자세한 내용은 :ref:`Installing-and-Running-on-Windows`\ 의 환경 설정을 참고한다.
 
 **CUBRID 인터페이스 설치**
 
 CCI, JDBC, PHP, ODBC, OLE DB, ADO.NET, Ruby, Python, Node.js 등의 인터페이스 모듈은 http://www.cubrid.org/download. 에서 최신 정보를 확인할 수 있고 관련 파일을 내려받아 설치할 수 있다.
+
+.. FIXME You can see the latest information on interface modules such as CCI, JDBC, PHP, ODBC, OLE DB, ADO.NET, Ruby, Python and Node.js and install them by downloading files from http://www.cubrid.org/downloads.  
 
 각 드라이버에 대한 간단한 설명은 :doc:`/api/index` 를 참고한다.
     
@@ -226,10 +226,6 @@ Windows 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항
     CUBRID는 32비트 버전과 64비트 버전을 각각 지원한다. [내 컴퓨터] > [시스템 등록 정보] 창을 활성화하여 Windows 버전 비트를 확인할 수 있다. 32비트 Windows에서는 CUBRID 32비트 버전을 설치하고, 64비트 Windows에서는 CUBRID 64비트 버전을 설치한다.
 
     .. warning:: 10.1 would be the last release of 32-bit Windows. Later releases will only provide 64-bit version.
-
-*   관리자 권한으로 실행
-
-    Windows Vista 이상 버전에서 CUBRID를 설치하려면 설치 파일을 관리자 권한으로 실행하도록 한다. CUBRID 설치 파일에 대고 마우스 오른쪽 버튼을 클릭하여 나타난 팝업 메뉴에서 [관리자 권한으로 실행(A)]을 선택한다.
 
 **설치 과정**
 
@@ -270,12 +266,7 @@ Windows 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항
 
     CUBRID 매니저용 설정 파일이다. **cm_port** 는 매니저 서버 프로세스, 웹 매니저 서버 프로세스가 사용하는 포트로 기본값은 **8001** 이다. 
 
-    CUBRID 웹매니저를 구동하려면 **support_web_manager**\를 "YES"로 설정한 후 매니저 서버를 재구동해야 한다. CUBRID 웹 매니저를 사용하려면 "https://localhost:8001"에 접속한다.
-
-    ::
-    
-        $ cubrid manager stop
-        $ cubrid manager start
+    .. FIXME: For details, see `CUBRID Manager Manual <http://www.cubrid.org/wiki_tools/entry/cubrid-manager-manual>`_.
     
 *   **cubrid.conf**
 
@@ -292,6 +283,8 @@ Windows 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항
 **CUBRID 인터페이스 설치**
 
 JDBC, PHP, ODBC, OLE DB 등 인터페이스 모듈은 `<http://www.cubrid.org/downloads>`_\ 에서 최신 정보를 확인할 수 있고 관련 파일을 내려받아 설치할 수 있다.
+
+.. FIXME: You can see the latest information on interface modules such as JDBC, PHP, ODBC, and OLE DB and install them by downloading files from `<http://www.cubrid.org/wiki_apis>`_.
 
 각 드라이버에 대한 간단한 설명은 :doc:`/api/index`\ 를 참고한다.
 
@@ -320,8 +313,7 @@ Linux 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항�
 
 *   64비트 여부 
     
-    10.0에서 CUBRID는 64비트 버전만 지원한다.
-    Linux 버전은 다음과 같은 방법으로 확인한다. ::
+    10.0에서 CUBRID는 64비트 버전만 지원한다.  Linux 버전은 다음과 같은 방법으로 확인한다. ::
         
         % uname -a
         Linux host_name 2.6.18-53.1.14.el5xen #1 SMP Wed Mar 5 12:08:17 EST 2008 x86_64 x86_64 x86_64 GNU/Linux
@@ -354,6 +346,8 @@ Linux 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항�
 
     #.  사용자의 홈 디렉터리(/home1/cub_user) 이하에서 자동으로 실행되는 셸 스크립트에 아래의 환경 변수를 추가한다.
     
+        You may have to create a directory for **$CUBRID_DATABASES**. You can designate any directory you have enough permission.
+
         다음은 bash 셸로 수행하는 경우 .bash_profile에 다음을 추가하는 예이다.
 
         ::
@@ -425,6 +419,7 @@ Windows 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항
         ::
         
             C:\CUBRID
+    *   You may have to create a directory for **$CUBRID_DATABASES**. You can designate any directory you have enough permission.
 
     **환경 변수 설정**
 
@@ -524,6 +519,7 @@ zip 파일로 CUBRID를 설치하는 경우 CUBRID Service Tray가 자동으로 
 
 #.  생성한 CUBRID 폴더에 CUBRID 폴더를 생성(새로 만들기 > 키)하고 아래의 항목을 추가(새로 만들기 > 문자열 값)한다.
 
+
     ::
     
         이름          종류      데이터
@@ -539,6 +535,7 @@ zip 파일로 CUBRID를 설치하는 경우 CUBRID Service Tray가 자동으로 
     시스템을 시작할 때 CUBRID Service Tray가 자동으로 구동되지 않는다면 다음 사항을 확인하도록 한다.
 
     *   [시작 버튼] > [제어판] > [관리 도구] > [서비스]의 Task Scheduler가 시작되어 있는지 확인하고, 그렇지 않으면 Task Scheduler를 시작한다.
+
     *   [시작 버튼] > [모든 프로그램] > [시작프로그램]에 CUBRID Service Tray가 등록되어 있는지 확인하고, 그렇지 않으면 CUBRID Service Tray를 등록한다.
 
 CUBRID 설치 이후 환경 설정, 도구 설치, 인터페이스 설치 등은 :ref:`Installing-and-Running-on-Windows`\을 확인하도록 한다.
