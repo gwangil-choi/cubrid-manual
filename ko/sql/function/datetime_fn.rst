@@ -345,7 +345,7 @@ CURRENT_DATETIME, NOW
     ============================================
       'Asia/Seoul'          'America/Los_Angeles'
 
-    -- CURTIME() 과 SYS_TIME 이 다른 값을 반환하는 것에 주목하라
+    -- CURTIME() 과 SYS_DATETIME 이 다른 값을 반환하는 것에 주목하라
     
     SELECT NOW(), SYS_DATETIME;
 
@@ -364,8 +364,8 @@ CURTIME, CURRENT_TIME
 .. c:macro:: CURRENT_TIME
 .. function:: CURRENT_TIME ()
 
-    **CURTIME** (), **CURRENT_TIME** , **CURRENT_TIME** () 는 모두 동일하며, 현재 시간을 **TIME** 타입(*HH*:*MI*:*SS*) 으로 반환한다. 산술 연산의 단위는 초(sec)다.
-    세션의 타임존이 서버와 같을 때, 이 함수들은 :c:macro:`SYS_DATETIME`, :c:macro:`SYSDATETIME`와 같다. 또한 차이점을 위해서는 :c:macro:`SYS_TIME`, :c:macro:`SYSTIME`을 참조하라. 함수들의 자세한 사항은 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE` 를 참조하라.
+    **CURTIME** (), **CURRENT_TIME** and **CURRENT_TIME** () are used interchangeably and they return the current time of session as **TIME** type (*HH*:*MI*:*SS*). The unit is second.
+    When the time zone of the current session is same as that of server, these functions are same as :c:macro:`SYS_TIME`, :c:macro:`SYSTIME`. Please also refer :c:macro:`SYS_TIME`, :c:macro:`SYSTIME` to find a difference and :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE` for details of the functions.
 
     :rtype: TIME
     
@@ -830,11 +830,11 @@ FROM_TZ
       
 .. function:: FROM_TZ(datetime, timezone_string)
 
-    DATETIME 또는 TIME 값에 타임존 정보를 추가하여 타임존이 있는 타입으로 변환한다. 입력값의 타입은 DATETIME 또는 TIME 타입이며, 반환값의 타입은 DATETIMETZ 또는 TIMETZ 타입이다.
+    Converts date/time type without timezone as date/time type with timezone by adding timezone to DATETIME typed value. Input value's type is DATETIME, and the result value's type is DATETIMETZ.
 
-    :param datetime: DATETIME 타입의 값 또는 TIME 타입의 값
-    :param timezone_string: 타임존 오프셋 또는 지역 이름을 나타내는 문자열. 예: '+05:00', 'Asia/Seoul'. 단, `datetime` 인자의 타입이 TIME 타입인 경우, 오프셋만 허용한다.
-    :rtype: DATETIMETZ 또는 TIMETZ
+    :param datetime: DATETIME 
+    :param timezone_string: String representing a timezone name or and offset '+05:00', 'Asia/Seoul'.
+    :rtype: DATETIMETZ 
     
 .. code-block:: sql
 
@@ -2133,7 +2133,7 @@ UNIX_TIMESTAMP
 
     DATETIME의 인수형은 세션의 타임존으로 간주한다.
     
-    :param date: **DATE** 타입, **TIMESTAMP** 타입, **DATE** 형식 문자열('*YYYY*-*MM*-*DD*' 또는 '*MM*/*DD*/*YYYY*'), **TIMESTAMP** 형식 문자열('*YYYY*-*MM*-*DD* *HH*:*MI*:*SS*', '*HH*:*MI*:*SS* *MM*/*DD*/*YYYY*') 또는 '*YYYYMMDD*' 형식 문자열이 지정될 수 있다.
+    :param date: **DATE** type, **TIMESTAMP** type, **TIMESTAMPTZ** type, **TIMESTAMPLTZ** type, **DATETIME** type, **DATETIMETZ** type, **DATETIMELTZ** type, **DATE** format string ('*YYYY*-*MM*-*DD*' or '*MM*/*DD*/*YYYY*'), **TIMESTAMP** format string ('*YYYY*-*MM*-*DD* *HH*:*MI*:*SS*', '*HH*:*MI*:*SS* *MM*/*DD*/*YYYY*') or '*YYYYMMDD*' format string can be specified. 
     :rtype: INT
 
 .. code-block:: sql
