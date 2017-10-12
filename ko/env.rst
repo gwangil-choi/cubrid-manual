@@ -21,7 +21,7 @@ CUBRID 환경 변수
 .. note:: 
 
     *  :red:`CUBRID Manager의 사용자는 데이터베이스 관련 기능을 실행한 후 메시지를 정상적으로 출력하려면 DB 서버 노드의 환경 변수인 **CUBRID_MSG_LANG**을 **en_US**로 지정해야 한다. **CUBRID_MSG_LANG**이 **en_US**가 아닌 경우 데이터베이스 관련 기능은 정상적으로 실행되지만 손상된 메시지가 출력된다.`
-    *  변경한 **CUBRID_MSG_LANG**\ 을  적용하려면 DB 서버 노드의 CUBRID 시스템이 반드시 재시작(cubrid service stop; cubrid service start)되어야 한다.
+    *  변경한 **CUBRID_MSG_LANG** 을  적용하려면 DB 서버 노드의 CUBRID 시스템이 반드시 재시작(cubrid service stop; cubrid service start)되어야 한다.
 
 *   **CUBRID_TMP**: Linux용 CUBRID에서 cub_master 프로세스와 cub_broker 프로세스의 유닉스 도메인 소켓 파일을 저장하는 위치를 지정하는 환경 변수로, 지정하지 않으면 cub_master 프로세스는 **/tmp** 디렉터리에, cub_broker 프로세스는 **$CUBRID/var/CUBRID_SOCK** 디렉터리에 유닉스 도메인 소켓 파일을 저장한다(Windows용 CUBRID에서는 사용되지 않는다).
 
@@ -45,10 +45,10 @@ CUBRID 환경 변수
 
         The $CUBRID_TMP should be an absolute path. (./var)
 
-**CUBRID_TMP**\ 는 CUBRID가 사용하는 유닉스 도메인 소켓의 기본 경로에서 발생할 수 있는 다음 문제를 회피하기 위해 사용할 수 있다.
+**CUBRID_TMP** 는 CUBRID가 사용하는 유닉스 도메인 소켓의 기본 경로에서 발생할 수 있는 다음 문제를 회피하기 위해 사용할 수 있다.
 
-*   **/tmp**\ 는 주로 Linux에서 임시 파일을 저장하는 공간으로, 시스템 관리자가 이 공간을 주기적으로 임의 삭제하는 경우 유닉스 도메인 소켓까지 삭제될 수 있다. 이러한 경우 **$CUBRID_TMP**\ 를 **/tmp** 가 아닌 다른 경로로 설정한다.
-*   유닉스 도메인 소켓 파일의 경로 최대 길이는 108인데, CUBRID의 설치 경로가 길어서 cub_broker용 유닉스 도메인 소켓 파일을 저장하는 **$CUBRID/var/CUBRID_SOCK** 경로의 길이가 108을 넘는 경우 브로커를 구동할 수 없다. 따라서 **$CUBRID_TMP**\ 를 108이 넘지 않는 경로로 설정해야 한다.
+*   **/tmp** 는 주로 Linux에서 임시 파일을 저장하는 공간으로, 시스템 관리자가 이 공간을 주기적으로 임의 삭제하는 경우 유닉스 도메인 소켓까지 삭제될 수 있다. 이러한 경우 **$CUBRID_TMP** 를 **/tmp** 가 아닌 다른 경로로 설정한다.
+*   유닉스 도메인 소켓 파일의 경로 최대 길이는 108인데, CUBRID의 설치 경로가 길어서 cub_broker용 유닉스 도메인 소켓 파일을 저장하는 **$CUBRID/var/CUBRID_SOCK** 경로의 길이가 108을 넘는 경우 브로커를 구동할 수 없다. 따라서 **$CUBRID_TMP** 를 108이 넘지 않는 경로로 설정해야 한다.
 
 이들 환경변수는 CUBRID를 설치하면서 이미 설정되었으나, 설정을 확인하기 위해서는 다음 명령을 사용할 수 있다.
 
@@ -70,13 +70,13 @@ CUBRID 환경 변수
 OS 환경 변수 및 Java 환경 변수
 ------------------------------
 
-*   **PATH**: Linux 환경에서 PATH 환경 변수에는 CUBRID 시스템의 실행 파일이 있는 디렉터리인 $CUBRID/bin이 포함되어 있어야 한다.
+*   PATH: Linux 환경에서 PATH 환경 변수에는 CUBRID 시스템의 실행 파일이 있는 디렉터리인 **$CUBRID/bin** 이 포함되어 있어야 한다.
 
-*   **LD_LIBRARY_PATH**: Linux 환경에서는 LD_LIBRARY_PATH (혹은 SHLIB_PATH나 LIBPATH) 환경 변수에 CUBRID 시스템의 동적 라이브러리 파일(libjvm.so)이 있는 디렉터리인 $CUBRID/lib이 포함되어 있어야 한다.
+*   LD_LIBRARY_PATH: Linux 환경에서는 **LD_LIBRARY_PATH** (혹은 **SHLIB_PATH** 나 **LIBPATH**) 환경 변수에 CUBRID 시스템의 동적 라이브러리 파일(libjvm.so)이 있는 디렉터리인 **$CUBRID/lib** 이 포함되어 있어야 한다.
 
-*   **Path** : Windows 환경에서 Path 환경 변수에는 CUBRID 시스템의 실행 파일이 있는 디렉터리인 %CUBRID%\\bin이 포함되어 있어야 한다.
+*   Path: Windows 환경에서 Path 환경 변수에는 CUBRID 시스템의 실행 파일이 있는 디렉터리인 **%CUBRID%\\bin** 이 포함되어 있어야 한다.
 
-*   **JAVA_HOME**: CUBRID 시스템에서 자바 저장 프로시저 기능을 사용하기 위해서는 Java Runtime Environment (JRE) 1.6 이상 버전이 설치되어야 하고 JAVA_HOME 환경 변수에 해당 디렉터리가 지정되어야 한다. :ref:`jsp-environment-configuration` 을 참고한다.
+*   JAVA_HOME: CUBRID 시스템에서 자바 저장 프로시저 기능을 사용하기 위해서는 Java Runtime Environment (JRE) 1.6 이상 버전이 설치되어야 하고 **JAVA_HOME** 환경 변수에 해당 디렉터리가 지정되어야 한다. :ref:`jsp-environment-configuration` 을 참고한다.
 
 환경 변수 설정
 --------------

@@ -152,36 +152,6 @@ csql을 실행하고 난 후에는 csql> 프롬프트에서 원하는 SQL문을 
 .. +--------------------------+-----------------------------------------------------------------------------+-----------------------------------------------------------------+---------------------------------------------------------------------+
 
 
-CUBRID 웹 매니저로 SQL 실행하기
--------------------------------
-
-CUBRID 2008 R4.3 이상 버전부터는 설치 패키지에 웹 매니저가 포함되어 있으므로, DB 엔진 파일을 설치한 이후 즉시 웹 매니저를 사용할 수 있다.
-
-#. cm.conf의 **support_web_manager**\를 "YES"로 설정한다.
-
-#.  CUBRID Service를 시작한다. CUBRID 매니저 서버가 구동되어야 웹 매니저가 정상 동작한다. CUBRID 매니저 서버의 실행 및 설정에 대한 자세한 내용은 :ref:`cubrid-manager-server`\ 를 참고한다. 
-
-    ::
-
-        C:\CUBRID>cubrid service start
-        ++ cubrid service is running.
-
-#.  웹 브라우저 주소창에 https://localhost:8001/\로 접속한다. 이때, http가 아니라 https로 입력해야 함에 주의한다.
-
-#.  먼저 호스트 로그인을 수행한다. 호스트 접속을 위해서 1차로 CM 서버 사용자(=호스트 사용자) 인증을 수행하며, 기본 사용자 이름/암호는 admin/admin이다.
-    
-    .. image:: /images/gs_manager_login.png
-
-#.  DB 서버에 접속한다. 왼쪽 트리에서 해당 호스트 내에 생성된 데이터베이스 목록을 확인할 수 있으며, 접속하고자 하는 DB를 클릭하고 DB 사용자 인증을 수행한다. 기본 사용자 이름은 dba이며 암호는 없다.
-    
-    .. image:: /images/gs_manager_db.png
-    
-#.  접속한 DB에서 SQL을 실행하고, 결과를 확인한다. 왼쪽에는 접속한 데이터베이스에 존재하는 테이블 목록이 출력되고, SQL 탭에서 질의를 작성, 실행하고 결과를 확인할 수 있다.
-
-    .. image:: /images/gs_manager_screen.png
-
-보다 자세한 정보는 http://www.cubrid.org/wiki_tools/entry/cubrid-web-manager-manual 을 참고한다.
-
 CUBRID 매니저로 SQL 실행하기
 ----------------------------
 
@@ -208,8 +178,6 @@ CUBRID 매니저는 별도로 다운로드 한 후 실행해야 하는 클라이
     .. image:: /images/gs_manager_sql.png
 
 .. 보다 자세한 정보는 http://www.cubrid.org/wiki_tools/entry/cubrid-manager-manual_kr 를 참고한다.
-
-
 
 CUBRID 마이그레이션 툴킷으로 스키마/데이터 이전하기
 ---------------------------------------------------
