@@ -2,8 +2,10 @@
 :meta-keywords: cubrid partition, partitioning key, range partition, hash partition, list partition, partition pruning
 :meta-description: Partitioning is a method by which a table is divided into multiple independent physical units called partitions. In CUBRID, each partition is a table implemented as a subclass of the partitioned table.
 
+.. role:: red
+
 ************
-Partitioning
+:red:`분할`
 ************
 
 .. _partitioning-key:
@@ -52,8 +54,8 @@ Partitioning
     *   :c:macro:`USER` 
     *   :ref:`PRIOR <prior-operator>` 
     *   :func:`WIDTH_BUCKET`
-*       분할 키는 각 고유한 인덱스의 키에 있어야 한다 (주 키 포함). 이 관점에 관한 상세한 정보는, :ref:`here<index-partitions>` 를 참조한다.
-*       분할 식의 길이는 1024 바이트를 초과할 수 없다.
+*       :red:`분할 키는 각각의 고유 인덱스 키(기본 키 포함)에 있어야 한다. 이에 대한 자세한 내용은 :ref:`여기<index-partitions>`를 참고한다.`
+*       :red:`분할 표현식의 길이는 1024바이트를 초과하면 안 된다.`
 
 .. _range-partitioning:
 
@@ -600,13 +602,13 @@ Partitioning
 분할 테이블의 인덱스
 ====================
 
-분할 테이블에서 생성되는 모든 인덱스는 로컬 인덱스이다. 로컬 인덱스를 사용하여, 각 독자적인 분할의 데이터는 각각 독자적인 (로컬) 인덱스에 저장된다. 이것은 분할된 테이블 인덱스의 동시성을 향상시키는데, 이것은 서로 다른 분할을 접근하는 트랜잭션이 또한 서로 다른, 로컬, 인덱스를 엑세스 하기 때문이다.
+:red:`분할 테이블에서 생성되는 모든 인덱스는 로컬 인덱스이다. 로컬 인덱스의 경우 각 분할에 대한 데이터가 별도의(로컬) 인덱스로 저장된다. 다른 분할의 데이터에 액세스하는 트랜잭션이 다른 로컬 인덱스에도 액세스하므로 분할 테이블 인덱스의 동시성을 향상시킨다.`
 
-로컬의 고유한 인덱스를 보장하기 위하여, 분할에 대해서 인덱스를 생성할 때는 다음의 제약이 만족되어야 한다:
+:red:`고유한 로컬 인덱스를 사용하려면 분할들에 고유 인덱스를 생성할 때 다음 제약 사항을 충족해야 한다.`
 
-*  븐할 키는 주 키와 모든 고유한 인덱스 정의의 일부분이 되어야 한다.
+*  :red:`분할 키는 기본 키와 모든 고유 인덱스의 정의를 따라야 한다.`
 
-만약 이 조건이 만족되지 않으면, CUBRID는 다음의 에러를 반환한다:
+:red:`이를 충족하지 않으면 CUBRID에서 오류가 반환된다.`
 
 .. code-block:: sql
 
@@ -627,7 +629,7 @@ Partitioning
 
         0 command(s) successfully processed.
 
-로컬 인덱스의 장점을 이해하는 것은 매우 중요하다. 글로벌 인덱스 스캔에서, 각 분할에 대해서 별도의 인덱스 스캔으로 나누어지지 않은 스캔이 실행될 것이다. 이것은 로컬 인덱스를 스캐닝 하는 것보다 좋지 않은 성능을 야기시키는데, 이것은 다른 분할들에서의 데이터가 디스크에서 읽혀져서 버려지기 때문이다 (어느 한 순간에, 읽혀진 인덱스가 현재 스캔중인 것이 아니라 다른 분할에 속한 것일 수 있다). **INSERT** 문도 로컬 인덱스에서 더 나은 성능을 보이는데 이것은 이 인덱스들이 더 작기 때문이다.
+:red:`로컬 인덱스의 이점을 이해하는 것이 중요하다. 글로벌 인덱스 스캔의 경우 프루닝(pruning)되지 않은 분할에 대해 각각 별도의 인덱스 스캔이 수행된다. 디스크에서 다른 분할에 있는 데이터(지금 스캔 중인 분할이 아닌 다른 분할에 속한 데이터)를 가져온 다음 버리기 때문에 로컬 인덱스 스캔보다 성능이 저하된다. **INSERT** 질의문도 글로벌 인덱스보다 크기가 더 작은 로컬 인덱스에서 향상된 성능을 보인다.`
 
 .. _partitioning-notes:
 

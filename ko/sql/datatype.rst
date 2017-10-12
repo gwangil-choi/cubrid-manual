@@ -2,6 +2,8 @@
 :meta-keywords: cubrid data types, cubrid type conversion, cubrid numeric types, cubrid date time, cubrid strings, cubrid character, cubrid enum, cubrid blob/clob, cubrid collection types
 :meta-description: All CUBRID data types and conversion rules.
 
+.. role:: red
+
 ***********
 데이터 타입 
 ***********
@@ -252,9 +254,9 @@ DOUBLE, DOUBLE PRECISION
 
 *   **TIMESTAMP** 의 범위는 GMT로 1970년 1월 1일 0시 0분 1초부터 2038년 1월 19일 03시 14분 07초까지이다. KST (GMT+9)로는 1970년 1월 1일 9시 0분 1초부터 2038년 1월 19일 12시 14분 07초까지 저장할 수 있다. GMT로 timestamp'1970-01-01 00:00:00'은 timestamp'0000-00-00 00:00:00'와 같다. 
 
-*   **TIMESTAMPLTZ** 와 **TIMESTAMPTZ** 의 범위는 timezone 에 의해 바뀐다. 그러나 UTC로 변환되면, 그 값은 반드시 1970-01-01 00:00:01 과 2038-01-19 03 03:14:07 사이에 있어야 한다.
+*   :red:`**TIMESTAMPLTZ**, **TIMESTAMPTZ** 범위는 타임존에 따라 다르지만 UTC로 변환되는 값은 1970-01-01 00:00:01과 2038-01-19 03 03:14:07 사이여야 한다.`
 
-*   **DATETIMELTZ** 와 **DATETIMETZ** 의 범위는 timezone 에 의해 바뀐다. 그러나 UTC로 변환되면, 그 값은 반드시 0001-01-01 00:00:0.000 과 9999-12-31 23:59:59.999 사이에 있어야 한다. 데이터베이스에 저장된 값은 세션의 timezone 이 변경되면, 더이상 유효하지 않다.
+*   :red:`**DATETIMELTZ**, **DATETIMETZ** 범위는 타임존에 따라 다르지만 UTC로 변환되는 값은 0001-01-01 00:00:0.000과 9999-12-31 23:59:59.999 사이여야 한다. 세션 타임존이 변경되면 데이터베이스에 저장된 값이 더 이상 유효하지 않다.`
 
 *   날짜, 시간, 타임스탬프와 관련된 연산은 시스템의 반올림 시스템에 따라 결과가 달라질 수 있다. 이러한 경우, 시간과 타임스탬프는 가장 근접한 초를 최소 해상도로, 날짜는 가장 근접한 날짜를 최소 해상도로 하여 결정된다.
 
@@ -282,7 +284,7 @@ DOUBLE, DOUBLE PRECISION
 *   **DATE**, **DATETIME**, **TIMESTAMP** 타입이 인자인 일부 함수는 인자의 날짜와 시간 값이 모두 0이면 시스템 파라미터 **return_null_on_function_errors** 의 값에 따라 다른 값을 반환한다. **return_null_on_function_errors** 가 yes이면 **NULL** 을 반환하고 no이면 에러를 반환하며, 기본값은 **no** 이다.
 *   **DATE**, **DATETIME**, **TIMESTAMP** 타입을 반환하는 함수들은 날짜와 시간 값이 모두 0인 값을 반환할 수 있지만 JAVA 응용 프로그램에서는 이러한 값을 Date 객체에 저장할 수 없다. 따라서 연결 URL 문자열의 zeroDateTimeBehavior 속성(Property) 설정에 따라서 예외로 처리하거나 **NULL**\ 을 반환하거나 또는 최소값을 반환한다(이에 관한 자세한 내용은 :ref:`jdbc-connection-conf` 참고).
 *   시스템 파라미터 **intl_date_lang**\ 을 설정하면 :func:`TO_DATE`, :func:`TO_TIIME`, :func:`TO_DATETIME`, :func:`TO_TIMESTAMP`, :func:`DATE_FORMAT`, :func:`TIME_FORMAT`, :func:`TO_CHAR`, :func:`STR_TO_DATE` 함수의 입력 문자열 형식이 해당 로캘의 날짜 형식을 따른다. 자세한 내용은 :ref:`stmt-type-parameters`\ 과 각 함수의 설명을 참고한다.
-*   타임존 타입들은 부모 타입과 같은 변환 정책을 따른다.
+*   :red:`타임존이 포함된 타입은 상위 타입과 동일한 변환 규칙을 따른다.`
 
 .. note:: 날짜/시간 타입 및 타임존이 있는 날짜/시간 타입의 리터럴에 대해서는 :ref:`date-time-literal`\을 참고한다.
 
@@ -769,14 +771,14 @@ To see examples of functions using timezone types, see :doc:`function/datetime_f
 
     10:30:00 AM 02/24/2015     12:30:00 PM 02/24/2015 +09:00                10:30:00 AM 02/24/2015 +07:00
 
-**string 타입을 timestamp 타입으로 변환**
+:red:`**문자열을 타임스탬프 타입으로 변환**`
 
-문자열에서 timestamp/timestampltz/timestamptz으로의 변환은 상수로부터 타임스탬프 오브젝트를 생성하는 문맥에 의해서 수행된다.
+:red:`문자열을 timestamp/timestampltz/timestamptz로 변환하는 작업은 문자로부터 타임스탬프 객체를 생성하는 과정에서 수행된다.`
 
 +----------------------------+-----------------------------+----------------------------+------------------------------+
 | From/to                    | Timestamp                   | Timestampltz               | Timestamptz                  |
 +============================+=============================+============================+==============================+
-| String (timezone 생략)  | 날짜/시간 부분을               | 날짜/시간 부분을           | 날짜/시간 부분을             |
+| String (timezone 생략)     | 날짜/시간 부분을            | 날짜/시간 부분을           | 날짜/시간 부분을             |
 |                            | 세션 타임존으로 해석.       | 세션 타임존으로 해석.      | 세션 타임존으로 해석.        |
 |                            | UTC로 변환, 암호화하여      | UTC로 변환, 암호화하여     | UTC로 변환, 암호화하여       |
 |                            | Unix 시간으로 저장.         | Unix 시간으로 저장.        | Unix 시간과                  |
@@ -789,9 +791,9 @@ To see examples of functions using timezone types, see :doc:`function/datetime_f
 |                            |                             |                            | TZ_ID로 저장.                |
 +----------------------------+-----------------------------+----------------------------+------------------------------+
 
-**string 타입을 datetime 타입으로 변환**
+:red:`**문자열을 날짜/시간 타입으로 변환**`
 
-문자열에서 datetime/datetimeltz/datetimetz 으로의 변환은 상수로부터 datetime 오브젝트를 생성하는 문맥에 의해서 수행된다.
+:red:`문자열을 datetime/datetimeltz/datetimetz로 변환하는 작업은 문자로부터 날짜/시간 객체를 생성하는 과정에서 수행된다.`
 
 +----------------------------+-----------------------------+----------------------------+------------------------------+
 | From/to                    | Datetime                    | Datetimeltz                | Datetimetz                   |
@@ -809,7 +811,7 @@ To see examples of functions using timezone types, see :doc:`function/datetime_f
 |                            |                             |                            | TZ_ID로 저장 .               |
 +----------------------------+-----------------------------+----------------------------+------------------------------+
 
-**datetime, timestamp 타입을 string (값의 출력) 타입으로 변환**
+:red:`**날짜/시간 및 타임스탬프 타입을 문자열로 변환(값 출력)**`
 
 +----------------------------+-----------------------------+----------------------------+------------------------------+
 | From/to                    | String (타임존 출력이       | String (타임존             | String (타임존 요구사항      |
@@ -954,7 +956,7 @@ DATETIME, TIMESTAMP, TIME 타입의 값을 입력 값으로 사용하는 함수�
 
 .. note::
     
-    :func:`TO_TIMESTAMP_TZ`, :func:`TO_DATETIME_TZ`, 함수들은 위의 TZR, TZD, TZH, TZM과 같은 정보를 추가할 수 있다는 점을 제외하고는 기존의 :func:`TO_TIMESTAMP`, :func:`TO_DATETIME`  함수와 동일한 동작을 수행한다.
+    :red:`:func:`TO_TIMESTAMP_TZ` 및 :func:`TO_DATETIME_TZ` 함수는 날짜/시간 인자에 TZR, TZD, TZH 및 TZM 정보를 포함할 수 있다는 것을 제외하고는 :func:`TO_TIMESTAMP` 및 :func:`TO_DATETIME` 함수와 동일하다.`
 
 타임존의 지역 이름은 IANA(Internet Assigned Numbers Authority) 타임존 데이터베이스에 있는 지역을 사용하는데, IANA 타임존에 대해서는 http://www.iana.org/time-zones\을 참고한다.
 
@@ -1129,11 +1131,11 @@ CUBRID는 두 종류의 문자열(character string) 타입을 지원한다.
 
 .. _string_compression:
 
-**String compression**
+:red:`**문자열 압축**`
 
-  Variable character type values (VARCHAR(n)) may be compressed (using LZO1X algorithm) before being stored in database (heap file, index file or list file). Compression is attempted if size in bytes is at least 255 bytes (this value is predefined and cannot be changed). If the compression is not efficient (compressed value size and its overhead is equal or greater than the original uncompressed value), the value is stored uncompressed.  Compression is activated by default and may be disabled by setting the system parameter  :ref:`enable_string_compression<enable_string_compression>`. The overhead of compression is eight bytes : four for size of compressed buffer and four for the size of expected uncompressed string.  Compressed strings are decompressed when they are read from database.  
-  Compressed strings are decompressed when they are read from database.
-  To determine if a value is compressed or not, one may use the :ref:`DISK_SIZE<disk_size>` function result and compare it with the result of :ref:`OCTET_LENGTH<octet_length>` function on the same argument. A smaller value for DISK_SIZE (ignoring the value overhead) indicates that compression is used.
+    :red:`가변 문자열 타입 값(VARCHAR(n))은 데이터베이스(힙 파일, 인덱스 파일 또는 목록 파일)에 저장하기 전에 압축할 수 있다(LZO1X 알고리즘 사용). 바이트 단위 크기가 최소 255바이트 이상이면 압축이 시도된다(이 값은 미리 정의되어 있으며 변경할 수 없음). 압축이 효율적이지 않으면(압축 값의 크기 및 오버헤드가 압축 전의 원래 값과 동일하거나 큰 경우) 압축되지 않은 채로 값이 저장된다. 압축은 기본적으로 활성화되어 있으며 시스템 파라미터 :ref:`enable_string_compression<enable_string_compression>`를 설정하여 비활성화할 수 있다. 압축 오버헤드는 8바이트(압축 버퍼 크기 4바이트, 압축 해제 문자열 예상 크기 4바이트)이다. 
+    :red:`데이터베이스에서 읽을 때 압축된 문자열이 해제된다.` 
+    :red:`값의 압축 여부를 파악하려면 :ref:`DISK_SIZE<disk_size>` 함수 결과를 인자가 동일한 :ref:`OCTET_LENGTH<octet_length>` 함수 결과와 비교한다. DISK_SIZE 값이 더 작으면(값 오버헤드 무시) 압축이 사용되었음을 나타낸다.`
 
 
 CHAR(n)
@@ -2087,12 +2089,12 @@ LIST 또는 SEQUENCE
 
 **SET**, **MULTISET**, **LIST**, **SEQUENCE** 는 명시적으로 변환되어야 한다.
 
-**DATETIME**, **TIMESTAMP** 타입을 **DATE** 타입이나 **TIME** 타입으로 변환하면 데이터의 일부가 유실될 수 있다. **DATE** 타입을 **DATETIME** 타입이나 **TIMESTAMP**  타입으로 변환하면, 시간은 '12:00:00 AM'으로 설정된다.
+:red:`**DATETIME** 및 **TIMESTAMP** 타입(타임존이 있는 타입 포함)을 **DATE** 타입 또는 **TIME** 타입으로 변환하면 데이터 손실이 발생한다. **DATE** 타입을 **DATETIME** 타입 또는 **TIMESTAMP** 타입(또는 타임존이 있는 타입)으로 변환하면 시간이 '12:00:00 AM'으로 설정된다.`
 
-Timezone part of values with timezone types has only a reference purpose, their absolute value is stored as UTC reference.
-When converting from a value of type with timezone to a type without timezone, a conversion is operated as if session timezone is used.
-When converting from a value of type without timezone to a type with timezone, the conversion takes place considering the session timezone.
-For more details on converting to/from value with timezone type see :ref:`date-time-type`.
+:red:`타임존 타입 값의 타임존 부분은 참조용일 뿐이며, 정확한 값은 UTC 참조에 저장된다.`
+:red:`타임존이 있는 타입에서 타임존이 없는 타입으로 값을 변환하면 세션 타임존을 사용한 것처럼 변환된다.`
+:red:`타임존이 없는 타입에서 타임존이 있는 타입으로 값을 변환하면 세션 타임존을 고려하여 변환한다.`
+:red:`타임존 타입과 관련한 값 변환에 대한 자세한 내용은 :ref:`date-time-type`을 참고한다.`
 
 문자열 타입이나 정확한 수치형 타입을 부동소수점 수치형 타입으로 변환하면 값이 정확하지 않을 수 있다. 문자열 타입과 정확한 수치형 타입은 값을 표현하기 위해 십진 정밀도(decimal precision)를 사용하지만 부동소수점 수치형 타입은 이진 정밀도(binary precision)를 사용하기 때문이다.
 
@@ -2142,11 +2144,11 @@ CUBRID가 수행하는 묵시적 타입 변환은 다음과 같다.
 
 .. _number-2-time:
 
-    **Limitations when numeric value is changed as TIME or TIMESTAMP (TIMESTAMPLTZ, TIMESTAMPTZ)**
+    :red:`**숫자 값이 TIME 또는 TIMESTAMP(TIMESTAMPLTZ, TIMESTAMPTZ)로 변경될 때의 제약 사항**` 
 
-    *   All numeric types except for **NUMERIC** type can be converted into **TIME** type; at this time, it represents a value of the remainder which is calculated by dividing the input number into 86,400 seconds(1 day), and the remainder is calculated as seconds.
+    *   :red:`**NUMERIC** 타입을 제외한 모든 숫자 타입은 **TIME** 타입으로 변환될 수 있으며, 이때 TIME은 입력 숫자를 86,400초(1일)로 나눈 나머지 값을 초로 계산한 값이다.`
 
-    *   All numeric types including **NUMERIC** can be converted into **TIMESTAMP**, **TIMESTAMPLTZ**, **TIMESTAMPTZ** types ; at this time, the input number cannot exceed 2,147,483,647 as the maximum.
+    *   :red:`**NUMERIC**을 포함한 모든 숫자 타입은 **TIMESTAMP**, **TIMESTAMPLTZ**, **TIMESTAMPTZ** 타입으로 변환될 수 있으며, 이때 입력 숫자는 최대 2,147,483,647을 초과할 수 없다.``
 
 **Implicit Type Conversion Table 2**
 

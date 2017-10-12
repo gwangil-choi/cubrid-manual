@@ -2,6 +2,8 @@
 +:meta-keywords: cubrid aggregate, database aggregate function, curbid analytic, database analytic function
 +:meta-description: CUBRID Aggregate/Analytic function is used when you want to analyze data and extract some results.
 
+.. role:: red
+
 :tocdepth: 3
 
 **************
@@ -1388,7 +1390,7 @@ PERCENTILE_CONT
     
     아래 예에서 백분위 값이 0.5이면 PERCENTILE_CONT 함수는 짝수 원소를 가진 그룹에 대해 두 개의 중간값의 평균을 반환하는 반면, PERCENTILEP_DISC 함수는 두 개의 중간 값 중 첫번째 값을 반환한다. 홀수 개수의 원소를 가진 집계 그룹에 대해서는, 두 함수 모두 중간 원소의 값을 반환한다.
 
-    사실, MEDIAN 함수는 PERCENTILE_CONT 함수가 백분위 값을 0.5로 가지는 특별한 경우이다. 더 자세한 내용에 대해서는 :func:`MEDIAN` 를 참조해라.
+    :red:`실제로 MEDIAN 함수는 기본 백분위수 값(0.5)이 포함된 PERCENTILE_CONT의 특수한 경우이다. 자세한 내용은 :func:`MEDIAN`을 참고한다.`
 
 다음은 이 함수의 예에서 사용될 스키마 및 데이터이다.
 

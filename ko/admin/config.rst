@@ -65,7 +65,7 @@ SQL 문을 이용하여 CSQL 인터프리터나 CUBRID 매니저의 질의 편�
 
     SET SYSTEM PARAMETERS 'index_scan_in_oid_order=1; csql_history_num=70';
 
-:red:`+*value*의 **DEFAULT**는 **call_stack_dump_activation_list** 파라미터를 제외하고 해당 파라미터를 기본값으로 재설정한다.`
+*value* :red:`의 **DEFAULT**는 **call_stack_dump_activation_list** 파라미터를 제외하고 해당 파라미터를 기본값으로 재설정한다.`
 
 .. code-block:: sql
 
@@ -1809,7 +1809,7 @@ HA 관련 파라미터
 
     **index_unfill_factor** 값이 크면 인덱스 생성 시 노드 여유 공간을 많이 확보한다. 따라서 최초 인덱스 생성 후 노드 여유 공간이 꽉 찰 때까지 상대적으로 긴 시간 동안 인덱스 노드의 분할이 발생하지 않으므로, 상대적으로 성능이 나을 수 있다. 이 값이 작으면 인덱스 생성 시 노드 여유 공간이 작기 때문에, 인덱스 노드의 여유 공간이 금방 꽉 차게 될 가능성이 높으므로, 상대적으로 **INSERT** 나 **UPDATE** 에 의한 인덱스 노드 분할 발생 가능성이 높다.
 
-If this value is small, the amount of free space for the nodes is small when an index is created. Therefore, it is likely that the index nodes are spilt by **INSERT** o     r **UPDATE** because free space for the index nodes is filled in a short period of time.
+:red:`If this value is small, the amount of free space for the nodes is small when an index is created. Therefore, it is likely that the index nodes are spilt by **INSERT** or **UPDATE** because free space for the index nodes is filled in a short period of time.`
 
 **java_stored_procedure**
 

@@ -2,6 +2,8 @@
 :meta-keywords: table definition, create table, drop table, alter table, column definition, constraint definition, create table like, create table as select, rename table
 :meta-description: Define tables in CUBRID database using create table, alter table, drop table and rename table statements.
 
+.. role:: red
+
 ***************************
 TABLE DEFINITION STATEMENTS
 ***************************
@@ -527,7 +529,7 @@ FOREIGN KEY 제약
     *   **SET NULL**: 기본키가 삭제되거나 업데이트되면, 이를 참조하는 외래키 칼럼 값을 **NULL**\ 로 업데이트한다.
     *   **NO ACTION**: **RESTRICT** 옵션과 동일하게 동작한다.
 
-For each row R1 of the referencing table, there should be some row R2 of the referenced table such that the value of each referencing column in R1 is either **NULL** or is equal to the value of the corresponding referenced column in R2.
+:red:`참조하는 테이블의 각 R1 행에 대해 참조되는 테이블의 R2 행이 있어야 하며, R1의 참조하는 각 컬럼의 값이 **NULL**이거나 R2의 참조되는 해당 컬럼의 값과 동일해야 한다.`
 
 .. code-block:: sql
 

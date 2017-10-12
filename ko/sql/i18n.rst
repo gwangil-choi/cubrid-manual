@@ -2,6 +2,8 @@
 :meta-keywords: cubrid strings, charset, codeset, collation, cubrid locale
 :meta-description: Globalization includes internationalization and localization. Internationalization can be applied to various languages and regions. Localization fits the language and culture in a specific area as appending the language-specific components. CUBRID supports multilingual collations including Europe and Asia to facilitate the localization.
 
+.. role:: red
+
 .. _globalization-overview:
 
 다국어 개요
@@ -204,7 +206,7 @@ CUBRID 콜레이션
 
 위에서 iso88591_bin, iso88591_en_cs, iso88591_en_ci, utf8_bin, euckr_bin, utf8_en_cs, utf8_en_ci, utf8_tr_cs, utf8_ko_cs와 같은 9개의 콜레이션은 CUBRID에 기본적으로 내장되어 있다.
 
-콜레이션이 하나 이상의 로캘(.ldml)에 포함되어 있는 경우, 캐싱을 위한 로캘(콜레이션의 기본 로캘)은 처음으로 포함된 로캘이 된다. 로캘의 로딩 순서는 $CUBRID/conf/cubrid_locales.txt에서 가져온다. 위의 콜레이션들을 위한 로캘, utf8_gen, utf8_gen_ci, utf8_gen_ai_ci은 cubrid_locales.txt에 있는 기본 순서(알파벳순)를 가정한다, 따라서 모든 일반적인 LDML 콜레이션의 기본 로캘은 de_DE(German)이다.
+:red:`한 개 이상의 로케일 파일(.ldml)에 콜레이션이 포함되어 있는 경우 대소문자 구분을 위한 로케일(콜레이션의 기본 로케일)이 첫 번째로 포함되는 로케일이다. 로딩 순서는 $CUBRID/conf/cubrid_locales.txt의 로케일 순서와 같다. 콜레이션 utf8_gen, utf8_gen_ci, utf8_gen_ai_ci에 대한 위의 로케일 대소문자는 cubrid_locales.txt의 기본 순서(알파벳 순서)를 따르므로 모든 일반 LDML 콜레이션의 기본 로케일은 de_DE(독일어)가 된다.`
 
 로캘 저장 위치
 --------------
@@ -778,7 +780,7 @@ DROP된 외래 키를 다시 생성한다. ::
 
 콜레이션/문자셋 수정자(**COLLATE** / **CHARSET**) 또는 콜레이션 추론 과정에 의해서 문자셋 변환이 일어날 수 있는데, 이러한 문자셋 변환은 비가역적(irreversible)이다. 일반적으로, 문자셋 변환은 문자 트랜스코딩(transcoding)이다(어떤 문자셋에 있는 문자를 표현하는 바이트 값이 대상 문자셋에서 같은 문자를 나타내지만 다른 바이트 값으로 대체된다).
 
-With any conversion, losses may occur. If a character from source charset cannot be encoded in destination charset, it is replaced with a '?' character.  This also applies to conversions from binary charset to any other charset.  The widest character support is with UTF-8 charset, and since it encodes Unicode, one expects that all character can be encoded. However, during conversion from ISO-8859-1 to UTF-8 some "losses" occur: bytes range 80-A0 are not valid ISO-8859-1 characters but may appear in strings. After conversion to UTF-8 these characters are replaced with '?'.
+:red:`어떤 변환이든, 손실이 발생할 수 있다. 소스 문자셋에 있는 문자를 대상 문자셋으로 인코딩할 수 없으면 '?' 문자로 대체된다. 바이너리 문자셋을 다른 문자셋으로 변환할 때도 마찬가지이다. 가장 많은 문자를 지원하는 문자셋은 UTF-8이며 유니코드를 인코딩하므로 모든 문자가 인코딩될 수 있다. 그러나 ISO-8859-1에서 UTF-8로 변환하면서 일부 "손실"이 발생할 수 있다. 80-A0 범위의 바이트 값은 ISO-8859-1 문자에서 유효하지 않지만 문자열에는 나타날 수 있다. UTF-8로 이 문자들을 변환하면 '?'로 대체된다.`
 
 한 문자에서 다른 문자로 변환되는 규칙은 다음과 같다.
 
@@ -804,7 +806,7 @@ With any conversion, losses may occur. If a character from source charset cannot
 
 .. note::
 
-    CUBRID 9 버전 이전에는 binary 문자셋을 지원하지 않았다. ISO-8859-1 문자셋이 binary 문자셋 역할을 했다. UTF-8과 EUC-KR 문자셋을 ISO-8859-1로의 변환은 문자의 변환이 아닌 원소스의 바이트 내용을 다시 해석함으로써 수행되었다.
+    :red:`CUBRID 9.x 이전 버전은 바이너리 문자셋을 지원하지 않았으며, 대신 ISO-8859-1 문자셋이 기본 바이너리 문자셋 기능을 했다. UTF-8 및 EUC-KR 문자셋에서 ISO-8859-1로 변환하는 경우 문자 변환이 아니라 소스의 콘텐츠(바이트)를 재해석하여 변환을 수행한다.`
 
 
 .. _collation-setting:
@@ -838,9 +840,9 @@ With any conversion, losses may occur. If a character from source charset cannot
 *   ISO-8859-1: iso88591_bin
 *   UTF-8: utf8_bin
 *   EUC-KR: euckr_bin
-*   Binary: binary
+*   Binary: :red:`바이너리`
 
-Binary는 콜레이션과 또 이와 관련된 문자셋 모두의 명명이다.
+:red:`바이너리는 콜레이션과 관련 문자셋의 이름이다.`
 
 서로 다른 콜레이션(과 문자셋)을 가진 표현식 인자(피연산자)를 가질 때 어떤 콜레이션을 사용할지 결정하는 방법에 대해서는 :ref:`determine-collation-columns` 을 참고한다.
 
@@ -958,7 +960,7 @@ CHARSET과 COLLATE 수정자
 
 .. note::
 
-    In 9.x versions, the binary collation was not available. The iso85891_bin collation had the role of existing binary collation. Since version 10.0, the coercibility of columns w     ith iso88591_bin was demoted from 2 to 3, that of expressions with iso88591_bin from 5 to 6, and of constants with iso88591_bin from 9 to 10.
+    :red:`9.x 버전에서는 바이너리 콜레이션을 사용할 수 없었으며, 대신 iso85891_bin 콜레이션이 기본 바이너리 콜레이션 기능을 했다. 버전 10.0부터는 iso88591_bin이 포함된 컬럼의 변환도(coercibility)가 2에서 3으로 강등되었고, iso88591_bin이 포함된 표현식에서는 5에서 6으로, iso88591_bin이 포함된 상수에서는 9에서 10으로 강등되었다.`
 
 
 호스트 변수만을 인자로 가지는 표현식(예: 아래의 UPPER(?))에 대해서는 실행 단계에서 콜레이션 변환도를 결정할 수 있다. 즉, 파싱 단계에서는 이러한 표현식의 콜레이션 변환도를 결정할 수 없으므로 COERCIBILITY 함수는 -1을 반환한다.
@@ -977,7 +979,7 @@ CHARSET과 COLLATE 수정자
       'utf8_bin'                     -1
       
 
-모든 인수가 커시빌리티 11과 서로 다른 콜레이션을 가진 수식에서, 공통 콜레이션은 실행시점에 결정된다 (이것은 추론을 위한 커시빌리티 값 기반의 한 예외인데 이러한 것은 오류를 밸생시키기 위해서 필요하다).
+:red:`모든 인자의 변환도가 11이고 콜레이션이 서로 다른 표현식에서는 실시간으로 공통 콜레이션이 확인된다(오류를 유발하는 변환도 값 기반 유추 규칙의 제외 사항).`
 
 .. code-block:: sql
 
@@ -1677,17 +1679,16 @@ LIKE 조건 최적화
 
 
 JDBC에서 i18n 문자 사용
-===============================
+=======================
 
-CUBRID JDBC는 서버에서 전달된 문자열(string) 타입 값을 String, CUBRIDBinaryString 객체를 이용해서 저장한다. String 객체는 각 문자를 저장하기 위해서 UTF-16을 사용한다. 따라서, 바이너리 문자셋을 제외하고는 어떤 문자열 DB 값도 저장하는데 사용될 수 있다. CUBRIDBinaryString 객체는 바이트 배열을 사용한다. 따라서 바이너리 문자셋의 문자열 값들을 저장하는데 사용될 수 있다.
-서버에서 받은 각 문자열 값의 데이터 버퍼는 서버에서 값의 문자셋이 무엇인지를 알 수 있게 한다. 문자셋은 컬럼 또는 표현식 결과의 문자셋이거나 또는 데이터베이스에 대응되는 문자셋이 없는 문자열들은 시스템의 문자셋이다.
+:red:`CUBRID JDBC는 문자열 및 CUBRIDBinaryString 객체를 사용하는 서버에서 수신된 문자열 타입 값을 저장한다. 문자열 객체는 각 문자를 저장하기 위해 내부적으로 UTF-16을 사용하며, 바이너리 문자셋을 제외한 모든 문자열을 DB 값으로 저장하는 데 사용된다. CUBRIDBinaryString은 바이트 배열을 사용하며 바이너리 문자셋의 데이터베이스 문자열 값을 저장하는 데 사용된다.`
+:red:`서버에서 수신된 각 문자열 값의 데이터 버퍼에는 서버에서 수신된 값의 문자셋이 포함된다. 이 문자셋은 컬럼 또는 표현식 결과의 문자셋이나 데이터베이스에 해당 항목이 없는 기타 모든 문자열의 시스템 문자셋 중 하나이다.`
 
 .. note::
 
-    이전 버전에서는, 연결 문자셋이 데이터베이스 값을 갖는 JDBC String 객체에 사용되었다.
+    :red:`이전 버전에서는 데이터베이스 값에서 JDBC 문자열 객체를 인스턴스화하는 데 연결 문자셋이 사용되었다.`
 
-
-한 컬럼은 UTF-8 문자셋을 가지고 다른 컬럼들은 바이너리 문자셋을 갖는 테이블 생성:
+:red:`UTF-8 문자셋을 갖는 컬럼 한 개와 바이너리 문자셋을 갖는 다른 컬럼이 포함된 테이블 생성:`
 
 .. code-block:: sql
 
@@ -1708,7 +1709,7 @@ CUBRID JDBC는 서버에서 전달된 문자열(string) 타입 값을 String, CU
         st.executeUpdate();
 
 
-테이블 조회 및 결과 보기 (바이너리 문자열 - hex 덤프, 다른 문자셋 - 문자열):
+:red:`테이블 질의 및 내용 표시(바이너리 문자열의 경우 hex dump, 다른 문자셋의 경우 문자열 값 표시):`
 
 .. code-block:: java
 
@@ -1817,42 +1818,42 @@ Linux
         make_tz.sh
 
 
-타임존 라이브러리와 데이터베이스 호환성
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+타임존 라이브러리 및 데이터베이스 호환성
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-CUBRID가 생성한 타임존 라이브러리는 타임존 데이터에 MD5 체크섬을 포함하고 있다. 이 해쉬는 이 라이브러리에 의해서 생성된 모든 데이터베이스에 저장되어있다. 구체적으로 **db_root** 시스템 테이블의 **timezone_checksum** 컬럼에 있다. 타임존 라이브러리가 변경되거나 (새로운 타임존 데이터와 같이 재 컴파일) 체크섬이 변경된 경우에 CUBRID server나 기타 어떤 CUBRID 도구도 기존의 데이터베이스를 이용하여 시작할 수 없다.
-이러한 비 호환성을 피하기 위해서, **make_tz** 도구의 인수 **extend** 옵션이 사용된다. 이 옵션이 주어지면, 데이터베이스의 **timezone_checksum** 값도 새로운 타임존 라이브러리의 새로운 MD5 체크섬으로 변경된다.
-The extend feature should be used when you decide to use a different version of timezone library from the IANA site. It does two things:
+:red:`CUBRID에서 빌드된 타임존 라이브러리에는 타임존 데이터의 MD5 체크섬이 포함된다. 이 해시는 해당 라이브러리에서 생성된 모든 데이터베이스의 **db_root** 시스템 테이블의 **timezone_checksum** 컬럼에 저장된다. 타임존 라이브러리가 변경되고(새로운 타임존 데이터로 다시 컴파일됨) 체크섬이 변경되면 기존 데이터베이스로 CUBRID 서버와 그 밖의 모든 CUBRID 도구를 시작할 수 없다.`
+:red:`+이러한 호환성 문제를 방지하는 방법 중 하나는 **make_tz** 도구의 **extend** 인자를 사용하는 것이다. extend 옵션을 사용하면 데이터베이스의 **timezone_checksum** 값도 새로운 타임존 라이브러리의 새로운 MD5 체크섬으로 변경된다.`
+:red:`IANA 사이트에서 다른 타임존 라이브러리 버전을 사용하려는 경우 extend 기능을 사용해야 한다. 이 기능이 수행하는 두 가지 작업은 다음과 같다.`
 
--   It generates a new library by merging the old timezone data with the new timezone data.
-    After the merge, all the timezone regions that aren't present in the new timezone database are kept in order to ensure backward compatibility
-    with the data in the database tables.
+-   :red:`이전 타임존 데이터와 새 타임존 데이터를 병합하여 새 라이브러리를 생성한다.`
+    :red:`데이터베이스 테이블에 있는 데이터와의 역호환성을 위해, 병합 후에도 새 타임존 데이터베이스에 존재하지 않는 모든 타임존 지역을`
+    :red:`유지한다.`
 
--   The second thing that it does is to update the timezone data in the tables in the situation when backward compatibility
-    could not be ensured in the first phase when the new timezone library was generated. This situation can occur
-    when an offset rule or a daylight saving rule changes.
+-   :red:`새 타임존 라이브러리가 생성되었을 때 역호환성을 유지할 수 없는 경우`
+    :red:`테이블에서 타임존 데이터를 갱신한다. 오프셋 규칙 또는`
+    :red:`서머타임 규칙이 변경될 때 이러한 상황이 발생할 수 있다.`
 
-When you run make_tz with the extend option all the databases in your database directory file (**databases.txt**) are updated together with the MD5 checksum.
-There are some corner cases:
+:red:`extend 옵션과 함께 **make_tz**를 실행하면 데이터베이스 디렉터리 파일(**databases.txt**)에 있는 모든 데이터베이스가 MD5 체크섬과 함께 갱신된다.`
+:red:`다음과 같은 예외적인 상황이 있다.`
 
--   There is the situation when multiple users share the same **CUBRID** installation and an extend is done by one of them. If that user doesn't have access
-    rights on the files that contain the databases of the other users, those databases will not be updated. After that, if a different user for whom
-    the update wasn't made will try to do an extend on his or her databases, he or she will not be able to do this because the checksum of the library will be
-    different from the one in his or her databases.
--   Also, if the **CUBRID_DATABASES** environment variable has a different value for some users, they will have different **databases.txt** files.
-    In this situation, currently, the update of all the databases at once will not be possible.
+-   :red:`여러 사용자가 동일한 **CUBRID** 설치를 공유하는데, 그 중 한 명이 extend를 수행하는 경우가 있다. extend를 수행한 사용자에게 다른 사용자들의 데이터베이스가`
+    :red:`포함된 파일에 액세스할 수 있는 권한이 없는 경우 다른 사용자들의 데이터베이스는 갱신되지 않는다. 그 후, 데이터베이스가 갱신되지 않은 다른 사용자가` 
+    :red:`자신의 데이터베이스에서 extend를 수행하려고 시도하면 라이브러리의 체크섬이 자신의 데이터베이스에 있는 체크섬과 다르기 때문에` 
+    :red:`작업에 실패한다.`
+-   :red:`**CUBRID_DATABASES** 환경 변수 값이 다른 사용자의 경우 **databases.txt** 파일이 다르다.`
+    :red:`이 경우 현재로서는 한 번에 모든 데이터베이스를 갱신하는 것이 불가능하다.`
 
-There would be two solutions for this with the current implementation:
+:red:`해결책은 두 가지가 있다.`
 
--   Each user grants access to the folders that contain his or her databases and also the **CUBRID_DATABASES** variable must have the same value.
--   If this is is not possible, then we can do the following for each user except the last one:
+-   :red:`각 사용자에게 자신의 데이터베이스가 포함된 폴더에 액세스할 수 있는 권한을 부여하고, **CUBRID_DATABASES** 변수의 값을 동일하게 만든다.`
+-   :red:`이것이 불가능한 경우 각 사용자에 대해 다음을 수행할 수 있다(마지막 작업 예외).`
 
-    -   Backup the current timezone library and the **databases.txt** file
-    -   Delete from the **databases.txt** file all the databases except for the ones of the current user
-    -   Run the extend
-    -   Restore the **databases.txt** file and the timezone library
+    -   :red:`현재 타임존 라이브러리 및 **databases.txt** 파일 백업`
+    -   :red:`**databases.txt** 파일에서 현재 사용자의 데이터베이스를 제외한 모든 데이터베이스 삭제`
+    -   :red:`extend 실행`
+    -   :red:`**databases.txt** 파일 및 타임존 라이브러리 복구`
 
-For the last user the single difference is that only the **databases.txt** file should be backed up and restored.
+:red:`마지막 사용자의 경우 **databases.txt** 파일을 백업하고 복구해야 한다.`
 
 In Linux:
 
@@ -1867,13 +1868,13 @@ In Windows:
 
          make_tz.bat /extend 
          
-JDBC에서 타임존 데이터 타입의 사용
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-JDBC CUBRID 드라이버는 타임존 정보에 대해서 CUBRID server에 완전히 종속된다. JDBC CUBRID driver is completely dependent on CUBRID server for timezone information. Java와 CUBRID가 같은 주 출처의 타임존 정보 (IAM)을 사용할지라도 지역의 이름과 타임존 정보들이 서로 호환되지 않는 것으로 고려되어야 한다. 
+JDBC에서 타임존 데이터 타입 사용
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+:red:`JDBC CUBRID 드라이버는 타임존 정보에 대해 완전하게 CUBRID 서버에 의존한다. 자바와 CUBRID가 타임존에 대해 동일한 정보의 기본 소스가 사용되더라도 지역명과 타임존 정보가 호환되지 않는다고 간주된다.`
 
-타임존을 갖는 모든 CUBRID 데이터 타입은 **CUBRIDTimestamptz** Java 오브젝트에 매핑된다.
+:red:`타임존이 있는 모든 CUBRID 데이터 타입은 **CUBRIDTimestamptz** 자바 객체에 매핑된다.`
 
-JDBC를 이용하여 타임존과 같이 값을 입력:
+:red:`JDBC를 사용하여 타임존이 있는 값 삽입:`
 
     .. code-block:: java
 
@@ -1884,7 +1885,7 @@ JDBC를 이용하여 타임존과 같이 값을 입력:
          pstmt.setObject(1, ts);
          pstmt.executeUpdate();
 
-타임존이 있는 값을 JDBC로 검색:
+:red:`JDBC를 사용하여 타임존이 있는 값 검색:`
 
         .. code-block:: java
 
@@ -1895,8 +1896,8 @@ JDBC를 이용하여 타임존과 같이 값을 입력:
          System.out.println("object: " + object1.toString());
 
 
-내부적으로, CUBRID JDBC는 **CUBRIDTimestamptz** 오브젝트의 날짜/시간 부분을 1970년 1월 1일 부터 경과된 millisecond를 'long' 값 (Date 오브젝트에서 상속된)의 형태로 저장한다. (Unix 시간)
-내부적인 암호화는 UTC 시간 참조로 수행되는데, 이것은 지역 타임존을 사용하는 타임스탬프 오브젝트와 다르다. 이런 이유로 해서, Java 지역 타임존과 같은 타임존으로 생성되는 **CUBRIDTimestamptz** 오브젝트는 내부적으로 처리되는 시간과 같은 시간을 유지하지는 않는다. Unix 시간을 제공하기 위해서는 **getUnixTime()** 메서드가 사용될 것이다:
+:red:`CUBRID JDBC는 내부적으로 **CUBRIDTimestamptz** 객체의 날짜/시간 부분을 1970년 1월 1일 이후 경과한 시간(밀리초)(Unix epoch)이 보관되는 'long' 값(날짜 객체를 통해 상속)에 저장한다.`
+:red:`**CUBRIDTimestamptz** 객체는 로컬 타임존을 사용하는 타임스탬프 객체와는 달리 UTC 시간 참조에서 내부 인코딩을 수행하기 때문에, 자바 로컬 타임존과 동일한 타임존으로 생성되어도 보관하는 내부 epoch 값은 다르다. Unix epoch를 제공하려면 **getUnixTime()** 메서드를 사용하면 된다.`
 
         .. code-block:: java
 
@@ -1944,7 +1945,7 @@ CHAR와 VARCHAR
 콜레이션 선택
 -------------
 
-*   콜레이션 의존적인 동작(문자열 검색, 정렬, 비교, 대소문자화)이 수행되지 않는다면, 해당 문자셋의 바이너리 콜레이션을 사용한다.
+*   :red:`콜레이션에 의존하는 연산(문자열 검색, 정렬, 비교, 대소문자 구분)을 수행하지 않는 경우 해당 문자셋의 bin 콜레이션이나 바이너리 콜레이션을 선택한다.`
 *   표현식의 원래 문자셋과 새로운 콜레이션 사이에서 문자셋이 변경되지 않는다면 콜레이션은 :func:`CAST` 연산자, :ref:`COLLATE 수정자<charset-collate-modifier>`\ 를 사용하여 쉽게 오버라이드할 수 있다.
 *   콜레이션은 문자열의 대소문자 구분 규칙을 제어한다.
 *   확장이 있는 콜레이션은 더 느리지만 더 유연하며 전체 단어 정렬을 수행한다.
@@ -2006,7 +2007,7 @@ LDML 파일에 새로운 로캘을 추가하려면 다음이 요구된다.
 LDML 캘린더 정보
 ----------------
 
-*  The first part consists in providing default CUBRID formats for **DATE**, **DATETIME**, **TIME**, **TIMESTAMP**, **DATETIME WITH TIME ZONE** and **TIMESTAMP WITH TIME ZONE** data type conversion to/from string. This formats are used by functions :func:`TO_DATE`, :func:`TO_TIME`, :func:`TO_DATETIME`, :func:`TO_TIMESTAMP`, :func:`TO_CHAR`, :func:`TO_DATETIME_TZ`, :func:`TO_TIMESTAMP_TZ`. The  formats elements allowed depend on data type and are the ones used for :func:`TO_CHAR` function (:ref:`Date/Time Format 1 <datetime-format1>`). Only ASCII characters are allowed in the format strings. The allowed size are 30 bytes (characters) for **DATE** and **TIME** formats, 48 characters for **DATETIME** and **TIMESTAMP** formats and 70 characters for **DATETIME WITH TIME ZONE** and **TIMESTAMP WITH TIME ZONE**. 
+*   :red:`첫 번째 부분은 **DATE**, **DATETIME**, **TIME**, **TIMESTAMP**, **DATETIME WITH TIME ZONE** 및 **TIMESTAMP WITH TIME ZONE** 데이터 타입과 문자열 간의 변환을 위한 기본 CUBRID 형식으로 이루어진다. 이 형식은 :func:`TO_DATE`, :func:`TO_TIME`, :func:`TO_DATETIME`, :func:`TO_TIMESTAMP`, :func:`TO_CHAR`, :func:`TO_DATETIME_TZ`, :func:`TO_TIMESTAMP_TZ` 함수에서 사용된다. 허용되는 형식 요소는 데이터 타입에 따라 다르며 :func:`TO_CHAR` 함수(:ref:`Date/Time Format 1 <datetime-format1>`)에서 사용된다. 이 형식의 문자열에는 ASCII 문자만 허용된다. **DATE** 및 **TIME** 형식은 30바이트(문자), **DATETIME** 및 **TIMESTAMP** 형식은 48자, **DATETIME WITH TIME ZONE** 및 **TIMESTAMP WITH TIME ZONE** 은 70자까지 허용된다.`
 *   <months>는 긴 형식과 축약된 형식 둘 다에 대한 월 이름이 필요하다. 허용되는 크기는 축약된 형식에 대해 15자(또는 60 바이트)이고 긴 형식에 대해 25자(또는 100바이트)이다.
 *   <days>는 긴 형식과 축약된 형식 둘 다에 대한 요일 이름이 필요하다. 허용되는 크기는 축약된 형식에 대해 10자(또는 40 바이트)이고 긴 형식에 대해 15자(또는 60 바이트)이다.
 

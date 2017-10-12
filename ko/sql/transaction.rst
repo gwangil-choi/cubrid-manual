@@ -2,6 +2,8 @@
 :meta-keywords: cubrid transaction, database transaction, cubrid locking, database locking, cubrid concurrency, multiversion concurrency control, mvcc, isolation level, database recovery
 :meta-description: This chapter covers issues relating to concurrency (MVCC) and restore, as well as how to commit or rollback transactions in CUBRID database.
 
+.. role:: red
+
 데이터베이스 트랜잭션
 =====================
 
@@ -247,20 +249,21 @@ CCI 로 개발된 응용 프로그램 역시 커서 유지가 기본 동작이�
 
 다수의 사용자들이 데이터베이스에서 읽고 쓰는 권한을 가질 때, 한 명 이상의 사용자가 동시에 같은 데이터에 접근할 가능성이 있다. 데이터베이스의 무결성을 보호하고, 사용자와 트랜잭션이 항상 정확하고 일관된 데이터를 지니기 위해서는 다중 사용자 환경에서의 접근과 갱신에 대한 통제가 필수적이다. 적정한 통제가 없으면 데이터는 어긋난 순서로 부정확하게 갱신될 수 있다.
 
-The transaction must ensure database concurrency, and each transaction must guarantee appropriate results. When multiple transactions are being executed at once, an event in transaction *T1* should not affect an event in transaction *T2*. This means isolation. Transaction isolation level is the degree to which a transaction is separated from all other concurrent transactions. The higher isolation level means the lower interference from other transactions. The lower isolation level means the higher the concurrency.  A database determines whether which lock is applied to tables and records based on these isolation levels. Therefore, can control the level of consistency and concurrency specific to a service by setting appropriate isolation level.
+:red:`The transaction must ensure database concurrency, and each transaction must guarantee appropriate results. When multiple transactions are being executed at once, an event in transaction *T1* should not affect an event in transaction *T2*. This means isolation. Transaction isolation level is the degree to which a transaction is separated from all other concurrent transactions. The higher isolation level means the lower interference from other transactions. The lower isolation level means the higher the concurrency.  A database determines whether which lock is applied to tables and records based on these isolation levels. Therefore, can control the level of consistency and concurrency specific to a service by setting appropriate isolation level.`
 
 트랜잭션 격리 수준 설정을 통해 트랜잭션 간 간섭을 허용할 수 있는 읽기 연산의 종류는 다음과 같다.
 
-*   **Dirty read** : A transaction *T2* can read *D'* before a transaction *T1* updates data *D* to *D'* and commits it.
-*   **Non-repeatable read** : A transaction *T1* can read changed value, if a transaction *T2* updates or deletes data and commits while data is retrieved in the transaction *T1* multiple times.
-*   **Phantom read** : A transaction *T1* can read *E*, if a transaction *T2* inserts new record *E* and commits while data is retrieved in the transaction *T1* multiple times.
+*   **Dirty read** : :red:`A transaction *T2* can read *D'* before a transaction *T1* updates data *D* to *D'* and commits it.`
+*   **Non-repeatable read** : :red:`A transaction *T1* can read changed value, if a transaction *T2* updates or deletes data and commits while data is retrieved in the transaction *T1* multiple times.`
+*   **Phantom read** : :red:`A transaction *T1* can read *E*, if a transaction *T2* inserts new record *E* and commits while data is retrieved in the transaction *T1* multiple times.`
 
-Based on these interferences, the SQL standard defines four levels of transaction isolation:
+:red:`이러한 간섭을 기반으로 SQL 표준은 트랜잭션 격리 수준을 네 가지로 정의한다.`
 
-*   **READ UNCOMMITTED** allows dirty read, unrepeatable read and phantom read.
-*   **READ COMMITTED** does not allow dirty read but allows unrepeatable read and phantom read.
-*   **REPEATABLE READ** does not allow dirty read and unrepeatable read but allows phantom read.
-*   **SERIALIZABLE** does not allow interrupts between transactions when doing read operation.
+*   :red:`**READ UNCOMMITTED**는 더티 읽기(dirty read), 반복할 수 없는 읽기(unrepeatable read), 유령 읽기(phantom read)를 허용한다.`
+*   :red:`**READ COMMITTED**는 더티 읽기를 허용하지 않으며 반복할 수 없는 읽기와 유령 읽기를 허용한다.`
+*   :red:`**REPEATABLE READ**는 더티 읽기와 반복할 수 없는 읽기를 허용하지 않으며 유령 읽기를 허용한다.`
+*   :red:`**SERIALIZABLE**은 읽기 연산 시 트랜잭션 간 간섭을 허용하지 않는다.`
+
 
 **CUBRID가 제공하는 격리 수준**
 
@@ -281,47 +284,47 @@ Based on these interferences, the SQL standard defines four levels of transactio
 | :ref:`isolation-level-4` (4)   | X      | O         | O      | X                    |
 +--------------------------------+--------+-----------+--------+----------------------+
 
-The default value of CUBRID isolation level is :ref:`isolation-level-4`.
+:red:`CUBRID 격리 수준의 기본값은 :ref:`isolation-level-4`이다.`
 
 .. _mvcc-snapshot:
 
 다중 버전 동시성 제어 (Multiversion Concurrency Control)
 ========================================================
 
-CUBRID 10 이전의 하위 버전들은 격리(isolation) 수준을 잘 알려진 2단계 잠금(2 Phase Locking) 프로토콜을 사용하여 관리했다. 이 프로토콜에서는, 트랜잭션은 객체를 읽기 전에 공유 잠금(shared lock)을 획득하고, 객체를 변경하기 전에는 독점 잠금(exclusive lock)을 획득하여, 충돌이 발생하는 두 연산(operation) 이 동시에 실행되지 못하도록 한다. 만약 트랜잭션 T1이 잠금을 요청하면 시스템은 요청된 잠금이 기존 잠금과 충돌이 발생하는 지를 체크한다. 만약 잠금 충돌이 발생하면,  T1 은 대기 상태에 들어가 잠금 연산이 지연된다. 만일 그 잠금을 잡고 있던 다른 트랜잭션 T2 가 그 잠금을 해제하면, 트랜잭션 T1은 재시작하여 그 잠금을 획득한다. 일단 잠금이 해제되면, 그 트랜잭션은 더 이상 그 잠금을 요청하지 않는다. 
+:red:`이전 CUBRID는 잘 알려진 2단계 잠금 프로토콜을 사용하여 격리 수준을 관리했다. 이 프로토콜에서는 동시에 연산 충돌이 발생하지 않도록 트랜잭션이 객체를 읽기 전에 공유 잠금을 획득하고, 갱신하기 전에 배타 잠금을 획득한다. 트랜잭션 *T1*에 잠금이 필요한 경우 시스템에서 요청된 잠금이 기존 잠금과 충돌하는지 확인한다. 충돌이 발생하면 트랜잭션 *T1*은 대기 상태가 되고 잠금이 지연된다. 다른 트랜잭션 *T2*가 잠금을 해제하면 트랜잭션 *T1*이 다시 시작되어 잠금을 획득한다. 잠금이 해제되면 해당 트랜잭션에서 새로운 잠금을 획득할 필요가 없다.`
 
-CUBRID 10.0 은 2단계 잠금 프로토콜을 대신하여 다중버전 동시성 제어(MVCC) 프로토콜을 도입했다. 2단계 잠금 프로토콜과는 달리, MVCC 프로토콜은 병행수행되는 다른 트랜잭션이 변경하고 있는 객체를 접근하고자 하는 reader 트랜잭션을 대기시키지 않는다. 대신, MVCC 는 그 레코드를 복제함으로써 각 변경에 대한 다중 버전을 생성한다. reader 트랜잭션을 대기시키지 않는 것이 아주 중요한데, 특히, read 중심의 업무 시나리오에서 공통적으로 사용되는, 대부분의 값 읽기를 포함하는 워크로드에 아주 중요하다. 물론, 객체를 변경하기 전에는 여전히 독점 잠금이 필요하다. 
+:red:`CUBRID 10.0에서는 2단계 잠금 프로토콜이 Multiversion Concurrency Control(MVCC) 프로토콜로 대체되었다. 2단계 잠금 프로토콜과 달리, MVCC는 동시 트랜잭션에서 수정 중인 객체에 액세스하여 읽는 것을 허용한다. MVCC는 행을 중복하여 갱신될 때마다 여러 버전을 생성한다. 주로 데이터베이스에서 값을 읽는, 읽기 연산이 많은 시나리오의 작업량에 대해서는 읽기 연산을 허용하는 것이 중요하다. 객체를 갱신하기 전에는 여전히 배타 잠금이 필요하다.`
 
-MVCC 는 또한 특정 시점의 데이터베이스의 일관성 있는 관점을 제공하며, 다른 동시성 제어 기법보다 더 적은 성능 비용으로 진정한  snapshot isolation을 제공하는 것으로 유명하다. 
+:red:`MVCC는 데이터베이스의 일관된 시점을 제공하며, 특히 다른 동시성 방법보다 적은 성능 비용으로 진정한 **snapshot isolation**을 구현할 수 있다.`
 
-다중 버전, 가시성, 스냅샷
-=========================
+버전 관리, 가시성 및 스냅샷
+===========================
 
-MVCC는 각 데이터베이스 레코드에 대해 다중 버전을 유지한다. 레코드의 각 버전은 그 레코드의 삽입자 또는 삭제자에 의해 MVCCID 로 표시된다. MVCCID 는 각 변경 트랜잭션을 유일하게 구분하는 ID 이다. 이런 식별자는 각 변경자를 식별하는 데 아주 유용하고 변경에 대한 시점을 지정하는 데 유용하다. 
+:red:`MVCC는 각 데이터베이스 행에 대해 여러 버전을 유지한다. 각 버전마다 MVCCID(쓰기 트랜잭션에 대한 고유 식별자)로 삽입자(inserter) 및 삭제자(deleter)가 표시된다. 이러한 마커(Marker)는 변경한 사용자를 파악하고 타임라인에 변경 사항을 표시하는 데 유용하다.`
 
-트랜잭션 T1이 새 레코드를 삽입할 때, 그 트랜잭션은 그 레코드의 첫 버전을 생성하고 그것에 대한 유일한 식별자 MVCCID1 를 삽입ID 로 설정한다. 이  MVCCID는 레코드 헤더의 메타 데이터로 저장된다. 
+:red:`트랜잭션 *T1*이 새로운 행을 삽입하면 첫 번째 버전이 생성되고 고유 식별자 *MVCCID1*이 삽입 ID로 설정된다. MVCCID는 레코드 헤더에 메타데이터로 저장된다.`
 
 +------------------+-------------+---------------+
 | OTHER META-DATA  | MVCCID1     | RECORD DATA   |
 +------------------+-------------+---------------+
 
-트랜잭션 T1 이 완료(commit)할 때까지는 다른 트랜잭션은 이 레코드의 새 값을 보지 못한다. MVCCID가 그 레코드의 변경자를 식별하는 데 도움을 주며, 변경 시점을 지정하게 해준다. 이렇게 함으로써 다른 트랜잭션이 그 변경에 대해서 타당한 지 아닌 지 알수 있도록 해준다. 이러한 경우에, 이 레코드를 체크하는 임의의 트랜잭션은 MVCCID1 을 발견하게 되고, 그 변경자가 여전히 활성 상태인 것을 알게 됨으로써, 그 변경은 여전히 자신이 참조할 수 있는 상태가 아니라는 것을 알게된다. 
+:red:`*T1*이 커밋할 때까지 다른 트랜잭션에서 이 행을 볼 수 없다. MVCCID를 사용하면 데이터베이스를 변경한 사용자를 파악하고 타임라인에 표시할 수 있으며, 이를 통해 다른 사람이 변경 사항의 유효성 여부를 알 수 있다. 이 경우 이 행을 확인하는 사람이 *MVCCID1*을 보면, 소유자가 여전히 활성 상태이므로 행이 (아직) 보이지 않는다는 것을 알 수 있다.`
 
-트랜잭션 T1 이 완료한 이후에는, 새 트랜잭션 T2가 T1이 변경했던 레코드를 참조할 수 있고, 삭제하기로 결정한다. T2는 실제로 그 레코드를 삭제하지는 않음으로써 다른 트랜잭션이 참조하도록 허용한다. 대신에, 그 레코드에 대한 독점 잠금을 획득하여 다른 트랜잭션이 변경하지 못하도록 하고, 삭제되었음을 그 레코드에 표시한다. 이 트랜잭션은 삭제 시 또 다른 MVCCID를 부여함으로써 다른 트랜잭션들이 그 레코드의 삭제자를 식별할 수 있도록 한다. 
+:red:`*T1*이 커밋한 후 새로운 트랜잭션 *T2*가 행을 찾아서 제거하려고 한다. *T2*는 배타 잠금을 획득하는 대신, 다른 사용자가 액세스할 수 있도록 해당 버전을 제거하지 않은 상태로 두고, 다른 사람이 변경할 수 없도록 버전을 삭제됨으로 표시한다. 다른 MVCCID가 추가되어 다른 사용자가 삭제자를 파악할 수 있다.`
 
 +------------------+-------------+---------------+---------------+
 | OTHER META-DATA  | MVCCID1     | MVCCID2       | RECORD DATA   |
 +------------------+-------------+---------------+---------------+
 
-If *T2* decides instead to update one of the record values, it must update the row to a new version and store the old version in log. The new row consists of new data, transaction MVCCID as insert MVCCID and the address of log entry storing previous version. The row representations looks like this:
+:red:`*T2*가 레코드 값 중 하나를 갱신하기로 결정했다면, 행을 새 버전으로 갱신하고 이전 버전을 로그에 저장해야 한다. 새로운 행은 새로운 데이터, 트랜잭션 MVCCID(삽입 MVCCID) 및 이전 버전이 저장된 로그 엔트리의 주소로 구성된다. 행에 표시되는 내용은 다음과 같다.`
 
-HEAP file contains a single row identified by an OID:
+:red:`HEAP 파일에는 OID에 의해 식별되는 단일 행이 포함된다.`
 
 +------------------+-------------+--------------------+---------------+
 | OTHER META-DATA  | MVCCID_INS1 | PREV_VERSION_LSA1  |  RECORD DATA  |
 +------------------+-------------+--------------------+---------------+
 
-LOG file has a chain of log entries, the undo part of each log entry contains the original heap record before modification:
+:red:`LOG 파일에는 로그 엔트리 체인이 있고, 각 로그 엔트리의 언두 부분에는 수정되기 전의 힙 레코드가 포함된다.`
 
 +----------------------+------------------+-------------+--------------------+---------------+
 | LOG ENTRY META-DATA  | OTHER META-DATA  | MVCCID_INS2 | PREV_VERSION_LSA2  |  RECORD DATA  |
@@ -331,21 +334,21 @@ LOG file has a chain of log entries, the undo part of each log entry contains th
 | LOG ENTRY META-DATA  | OTHER META-DATA  | MVCCID_INS3 | NULL               |  RECORD DATA  |
 +----------------------+------------------+-------------+--------------------+---------------+
 
-Other transactions may need to walk the log chain of previous version LSA of multiple log record until one record satisfies the visibility condition, determined by the values of insert and delete MVCCID of each record.
+:red:`각 레코드의 삽입 및 삭제 MVCCID 값에 따라 결정되는 가시성 조건을 만족하는 레코드가 나올 때까지 여러 로그 레코드를 포함하는 이전 버전 LSA의 로그 체인에 대해 다른 트랜잭션을 계속 수행해야 한다.`
 
     .. note::
 
-         *   Previous version used the heap (another OID) to store the old and new version of the updated rows. In fact, old version was the the row which remained unchanged, which was appended with and OID link to the new version. Both new version and old version were located in the heap.
+         *   :red:`예전 버전에서는 갱신된 행의 이전 및 새 버전을 저장하는 데 힙(다른 OID)이 사용되었다. 실제로 이전 버전은 변경되지 않은 행이었으며, 여기에는 새 버전에 대한 OID 링크가 추가되었다. 새 버전과 이전 버전이 둘 다 힙에 저장되었다.`
 
-Currently, only *T2* can see the updated row, while other transactions will access the row version contained on the log page and accessible through the LSA obtained from heap row. The property of a version to be seen or not to be seen by running transactions is called **visibility**. The visibility property is relative to each transaction, some can consider it true, whereas others can consider it false.
+:red:`현재는 *T2*만 갱신된 행을 볼 수 있으며, 다른 트랜잭션은 로그 페이지에 포함된 행 버전에 액세스하고 힙 행에서 획득한 LSA를 통해 액세스할 수 있다. 실행 중인 트랜잭션에 의해 보이거나 보이지 않는 버전 속성을 **visibility**라고 한다. visibility 속성은 각 트랜잭션과 관련이 있고, 일부는 이를 true로 간주하는 반면 일부는 false로 간주할 수 있다.`
 
-A transaction *T3* that starts after *T2* executes row update, but before *T2* commits, will not be able to see its new version, not even after *T2* commits. The visibility of one version towards *T3* depends on the state of its inserter and deleter when *T3* started and preserves its status for the lifetime of *T3*.
+:red:`*T2*가 행 갱신을 수행한 후(*T2*가 커밋하기 전) 트랜잭션 *T3*가 시작한 경우 *T2*는 커밋한 후에도 새 버전을 볼 수 없다. *T3*의 버전 가시성은 *T3*가 시작할 때 삽입자 및 삭제자의 상태에 따라 결정되며, *T3*의 트랜잭션이 수행되는 동안 해당 상태가 유지된다.`
 
-As a matter of fact, the visibility of all versions in database towards on transaction does not depend on the changes that occur after transaction is started. Moreover, any new version added is also ignored. Consequently, the set of all visible versions in the database remains unchanged and form the snapshot of the transaction. Hence, **snapshot isolation** is provided by MVCC and it is a guarantee that all read queries made in a transaction see a consistent view of the database.
+:red:`사실상 트랜잭션에 대한 모든 데이터베이스 버전 가시성은 트랜잭션이 시작된 이후에 발생하는 변경 사항의 영향을 받지 않는다. 또한 새로 추가되는 버전도 무시된다. 따라서 데이터베이스에서 볼 수 있는 모든 버전 셋은 변경되지 않은 채로 유지되며 트랜잭션의 스냅샷을 형성한다. 즉, MVCC에 의해 **snapshot isolation**이 제공되며, 이로 인해 트랜잭션의 모든 읽기 질의에서 일관된 데이터베이스 보기를 보장할 수 있다.`
 
-In CUBRID 10.0, **snapshot** is a filter of all invalid MVCCID's. An MVCCID is invalid if it is not committed before the snapshot is taken.  To avoid updating the snapshot filter whenever a new transaction starts, the snapshot is defined using two border MVCCID's: the lowest active MVCCID and the highest committed MVCCID. Only a list of active MVCCID values between the border is saved. Any transaction starting after snapshot is guaranteed to have an MVCCID bigger than highest committed and is automatically considered invalid. Any MVCCID below lowest active must be committed and is automatically considered valid.
+:red:`CUBRID 10.0에서 **snapshot**은 모든 유효하지 않은 MVCCID의 필터이다. 스냅샷이 만들어지기 전에 커밋되지 않으면 MVCCID는 유효하지 않다. 새 트랜잭션을 시작할 때마다 스냅샷 필터가 갱신되지 않도록 하기 위해 두 경계(가장 낮은 활성 MVCCID와 가장 높은 커밋 MVCCID)를 통해 스냅샷이 정의된다. 이 경계 안에 있는 활성 MVCCID 값 목록만 저장된다. 스냅샷 이후 시작된 트랜잭션은 가장 높은 커밋 MVCCID보다 큰 MVCCID를 가지며, 자동으로 유효하지 않다고 간주된다. 가장 낮은 활성 MVCCID보다 낮은 MVCCID는 커밋되어야 하며 자동으로 유효하다고 간주된다.`
 
-The snapshot filter algorithm that decides a version visibility queries the MVCCID markers used for insert and delete. The snapshot starts by checking the *last version* stored in heap and, based on result, it can either fetch version from heap, fetch older version from log or can ignore row:
+:red:`CUBRID 10.0에서 **snapshot**은 모든 유효하지 않은 MVCCID의 필터이다. 스냅샷이 만들어지기 전에 커밋되지 않으면 MVCCID는 유효하지 않다. 새 트랜잭션을 시작할 때마다 스냅샷 필터가 갱신되지 않도록 하기 위해 두 경계(가장 낮은 활성 MVCCID와 가장 높은 커밋 MVCCID)를 통해 스냅샷이 정의된다. 이 경계 안에 있는 활성 MVCCID 값 목록만 저장된다. 스냅샷 이후 시작된 트랜잭션은 가장 높은 커밋 MVCCID보다 큰 MVCCID를 가지며, 자동으로 유효하지 않다고 간주된다. 가장 낮은 활성 MVCCID보다 낮은 MVCCID는 커밋되어야 하며 자동으로 유효하다고 간주된다.`
 
 +--------------------+--------------------------+---------------------+--------------------------------------------------------+
 | Insert MVCCID      | Previous version LSA     | Delete MVCCID       | Snapshot test result                                   |
@@ -363,11 +366,11 @@ The snapshot filter algorithm that decides a version visibility queries the MVCC
 |                    |                          |                     | | It does not matter if row has previous versions      |
 +--------------------+--------------------------+---------------------+--------------------------------------------------------+
 
-If version is too new, but it has a previous version stored in log, the same checks are repeated on previous version. The checks stop when no previous versions are found (the entire row chain is too new for this transaction), or when a visible version is found.
+:red:`버전이 최신이지만 로그에 저장된 이전 버전이 있는 경우 이전 버전에서 동일한 확인 과정이 반복된다. 더 이상 이전 버전이 없거나(해당 트랜잭션에 대해 전체 행 체인이 최신인 경우) 가시성 버전을 발견하면 확인이 중지된다.`
 
-이제 스냅샷이 어떻게 동작하는 지 확인해 보자 (**REPEATABLE READ** 격리 수준을 사용하여 전체 트랜잭션 동안의 동일 스냅샷 유지)
+:red:`스냅샷의 작동 원리는 다음과 같다(전체 트랜잭션에서 동일한 스냅샷을 유지하는 데 **REPEATABLE READ** 격리 수준 사용).`
 
-**예제1: 새 레코드 추가**
+:red:`**예제 1: 새로운 행 삽입**`
 
 +-------------------------------------------------------------------+-----------------------------------------------------------------------------------+
 | session 1                                                         | session 2                                                                         |
@@ -435,7 +438,7 @@ If version is too new, but it has a previous version stored in log, the same che
 |                                                                   |                                                                                   |
 +-------------------------------------------------------------------+-----------------------------------------------------------------------------------+
 
-**예제 2: 레코드 삭제**
+:red:`**예제 2: 행 삭제**`
 
 +-------------------------------------------------------------------+-----------------------------------------------------------------------------------+
 | session 1                                                         | session 2                                                                         |
@@ -504,7 +507,7 @@ If version is too new, but it has a previous version stored in log, the same che
 |                                                                   |                                                                                   |
 +-------------------------------------------------------------------+-----------------------------------------------------------------------------------+
 
-**예제3: 레코드 변경**
+:red:`**예제 3: 행 갱신**`
 
 +-------------------------------------------------------------------+-----------------------------------------------------------------------------------+
 | session 1                                                         | session 2                                                                         |
@@ -577,7 +580,7 @@ If version is too new, but it has a previous version stored in log, the same che
 |                                                                   |                                                                                   |
 +-------------------------------------------------------------------+-----------------------------------------------------------------------------------+
 
-**예제4: 서로 다른 버전은 서로 다른 트랜잭션에 보일 수 있음**
+:red:`**예제 4: 다양한 트랜잭션에서 각기 다른 버전을 볼 수 있음**`
 
 +-------------------------------------------------------------------+----------------------------------------+----------------------------------------+
 | session 1                                                         | session 2                              | session 3                              |
@@ -635,86 +638,86 @@ If version is too new, but it has a previous version stored in log, the same che
 VACUUM
 ------
 
-각 변경에 대한 새 버전 생성과 삭제에 대한 기존 버전을 유지하는 것은 데이터베이스 크기를 무제한으로 필요로 하게 될 것이고, 데이터베이스에 대한 아주 중요한 이슈가 될 수 있다. 그러므로, 클린업 시스템이 필요하며, 오래된 불필요한 데이터를 제거하고, 그 데이터가 차지하고 있던 공간을 회수해야 한다. 
+:red:`각 갱신에 대해 새 버전을 생성하고 삭제 시 이전 버전을 유지하면 데이터베이스 크기가 무한으로 증가하여 데이터베이스에 큰 이슈가 발생할 수 있다. 따라서 이전 데이터를 제거하고 재사용할 수 있는 공간을 회수하는 회수(Cleanup) 시스템이 필요하다.`
 
-각각의 레코드 버전은 다음과 같은 동일한 단계를 거치게 된다. 
+:red:`각 행의 버전은 다음과 같은 동일한 단계를 거친다.`
 
-1. 새로 삽입되었으나 아직 완료안된 상태: 삽입자에게만 보임
-2. 삽입 완료 상태: 이전 트랜잭션에는 보이지 않고, 이후 트랜잭션에는 보임
-3. 삭제되었으나 완료안된 상태: 다른 트랜잭션에 보이고, 삭제가 자신에게는 보이지 않음 
-4. 삭제 완료 상태: 이전 트랜잭션에 여전히 보이고, 이후 트랜잭션에 보이지 않음
-5. 모든 활성 트랜재션에 보이지 않는 상태
-6. 데이터베이스에서 제거되는 상태
+  1. :red:`새로 삽입되었으나 커밋되지 않으면, 삽입자만 볼 수 있음`
+  2. :red:`커밋되었으면, 이전 트랜잭션에서는 볼 수 없으나 이후 트랜잭션에서는 볼 수 있음`
+  3. :red:`삭제되었으나 커밋되지 않으면, 다른 트랜잭션에서는 볼 수 있으나 삭제자는 볼 수 없음`
+  4. :red:`커밋되면, 이전 트랜잭션에서는 볼 수 있으나 이후 트랜잭션에서는 볼 수 없음`
+  5. :red:`모든 활성 트랜잭션에서 볼 수 없음`
+  6. :red:`데이터베이스에서 제거됨`
 
-이 클린업 시스템의 역할은 단계 5와 6에서 버전을 제거한다. 이 클린업 시스템을 CUBRID에서는 VACCUM 이라 불린다. 
+:red:`회수 시스템의 역할은 5~6단계에서 버전을 획득하는 것이다. CUBRID에서는 이 시스템을 **VACUUM**이라고 부른다.`
 
-이 **VACCUM** 시스템은 세 가지 원칙 하에서 개발되었다. 
+:red:`**VACUUM** 시스템은 세 가지 원칙에 따라 개발되었다.`
 
-* **VACCUM** 은 정확하고 완변해야 한다. 일부 트랜잭션에 보이는 데이터를 절대 제거하면 안되며, 오래된 불필요한 데이터의 제거를 놓치면 안된다. 
-* **VACCUM** 은 이산적(discrete) 이어야 한다. 클린업 프로세스는 데이터베이스의 상태를 변경하는 것이기 때문에, 활성 트랜잭션의 실행을 일정 부분 간섭이 발생할 수 있다. 그러나, 이 간섭이 가능한 한 최소화되어야 한다. 
-* **VACCUM** 은 빠르고 효율적이어야 한다. 너무 느리거나 지지부진하면, 데이터베이스의 상태가 악화될 수 있고, 이로 인해 전체적인 성능이 영향받을 수 있다. 
+*   :red:`**VACUUM**은 정확하고 완전해야 한다. **VACUUM**은 일부 사용자가 계속 볼 수 있는 데이터는 제거하지 않으며 이전 데이터는 하나도 놓치지 않는다.`
+*   :red:`**VACUUM**은 신중해야 한다. 회수 프로세스는 데이터베이스의 내용을 변경하기 때문에 수행 중인 트랜잭션의 동작에 간섭을 일으킬 수 있지만 이러한 가능성을 최소화해야 한다.`
+*   :red:`**VACUUM**은 빠르고 효율적이어야 한다. **VACUUM**이 너무 느리거나 지연되기 시작하면 데이터베이스 상태가 악화되어 전체 성능에 영향을 미칠 수 있다.`
 
-이러한 세 가지 원칙을 염두에 두고서, **VACCUM** 은 기존 복구 로깅을 사용하여 구현된다. 이유는 다음과 같다. 
+:red:`이러한 원칙에 따라 **VACUUM** 구현에는 기존 복구 로깅이 사용되며 그 이유는 다음과 같다.`
 
-. 힙(heap)과 인덱스의 변경에 대해서, 데이터 주소가 복구 데이터에 유지된다. 이로 인해서, VACCUM은 데이터베이스를 스캔하는 대신에 직접 해당 객체에 접근할 수 있다.
-. 로그 데이터를 처리하는 것은 활성 작업자와의 간섭이 드물다. 
+*   :red:`복구 로깅에는 힙과 인덱스 변경 사항에 대한 복구 데이터의 주소가 유지된다. 그래서 데이터베이스를 스캔하지 않고 **VACUUM**이 대상으로 바로 이동할 수 있다.`
+*   :red:`로그 데이터의 처리는 활성 작업자의 작업에 거의 간섭을 일으키지 않는다.`
 
-로그 데이터에 MVCCID를 추가함으로써, 로그 복구가 VACCUM에 적용되었다. MVCCID에 기반해서, VACCUM은 로그 엔트리가 처리 준비가 되었는 지 결정할 수 있다. 여전히 활성 트랜잭션에 보이는 MVCCID는 처리할 수 없다. 적절한 시점에, 각 MVCCID는 충분히 오래되어 불필요하게 되고, 그 MVCCID를 사용한 모든 변경이 참조할 수 없게 된다. 
+:red:`MVCCID 정보를 로깅된 데이터에 추가함으로써 **VACUUM** 요구 사항에 맞게 복구 로깅을 조정했다. 로그 엔트리를 처리할 준비가 되면 MVCCID에 따라 **VACUUM**이 결정된다. 활성 트랜잭션에서 볼 수 있는 MVCCID는 처리되지 않는다. 시간이 지나면 각 MVCCID를 사용한 변경 사항을 모두 볼 수 없게 된다.`
 
-각 트랜잭션은 참조할 수 있는 가장 오래된 활성 MVCCID를 유지한다. 모든 실행 트랜잭션이 활성이라고 보는 가장 오래된 MVCCID가 모든 트랜잭션의 가장 오래된 MVCCID로 결정된다. 이 값 이하의 어떤 MVCCID도 더 이상 참조될 수 없는 상태가 되며 VACCUM이 클린업할 수 있는 상태가 된다. 
+:red:`각 트랜잭션에는 활성 상태로 간주되는 가장 오래된 MVCCID가 유지된다. 모든 트랜잭션에서 가장 작고 가장 오래된 MVCCID가 모든 실행 중인 트랜잭션에서 활성 상태로 간주되는 가장 오래된 MVCCID를 결정한다. 이 값보다 낮은 MVCCID는 볼 수 없으므로 **VACUUM**이 제거할 수 있다.`
 
-VACCUM 병행 실행
+VACUUM 병렬 수행
 ++++++++++++++++
 
-VACCUM의 세번째 원칙에 따르면, VACCUM은 빨라야 하며 활성 작업자에 뒤쳐져서는 안된다. 명확한 것은 시스템 워크로드가 심하면 한 쓰레드가 모든 VACCUM 작업을 처리할 수 없다. 그러므로, 병행 처리되어야 한다. 
+:red:`**VACUUM**은 세 번째 원칙에 따라 빨라야 하며 활성 작업자보다 뒤처지면 안 된다. 시스템 작업량이 많은 경우 한 스레드에서 모든 **VACUUM** 작업을 처리할 수 없기 때문에 병렬 처리해야 한다.`
 
-병행 처리가 되려면, 로드 데이터는 고정 길이의 블럭으로 분할되어야 한다. 각 블럭은 적절한 시점에 하나의 VACCUM 작업을 생성한다. 적절한 시점이란, 그 블럭에 로그된 모든 연산이 클린업될 수 있는 상태를 의미하는, 즉, 가장 최근의 MVCCID가 클린업될 수 있는 시점을 말한다. VACCUM 작업자(쓰레드)는 로그 블럭에서 발견된 연관된 로그 엔트리에 기반하여 데이터베이스를 클린업할 수 있으며, 여러 개의 VACCUM 작업자가 VACCUM 작업을 픽업하여 처리한다. 로그 블럭의 추적과 VACCUM 작업을 생성하는 것은 VACCUM Master에 의해서 처리된다. 
+:red:`병렬 처리를 수행하기 위해 로그 데이터가 고정 크기 블록으로 분할되었다. 적절한 시기(가장 최근 MVCCID에 대해 vacuum 작업이 가능할 때, 즉 블록에 있는 모든 로깅된 연산에 대해 vacuum 작업이 가능할 때)가 되면 블록마다 한 vacuum 작업이 생성된다. 로그 블록에 있는 관련 로그 엔트리에 따라 데이터베이스를 제거하는 여러 **VACUUM Workers**가 vacuum 작업을 선택한다. 로그 블록의 추적 및 vacuum 작업의 생성은 **VACUUM Master**가 수행한다.`
 
 VACUUM 데이터 
 +++++++++++++
 
-로그 블럭에서 집계된 데이터는 VACCUM 데이터 파일에 저장된다. 연산별로 실행되는 VACCUM 작업은 시점적으로 나중에 실행될 수 있기 때문에, 그 데이터는 그 작업이 실행될 수 있을 때까지 저정되어야 한다. 설사 서버에 장애가 발생하더라도 그 데이터는 남아 있어야 한다. 어떤 연산도 leak 이 발생하거나 클린업되지 못하면 안된다. 만일 서버에 장애가 발생하면, 그 작업은 두번 실행될 수도 있으나, 전혀 실행되지 않는 것보다 낫다고 할 수 있다. 
+:red:`로그 블록에 있는 집계 데이터는 vacuum 데이터 파일에 저장된다. 연산으로 발생된 vacuum 작업은 나중에 수행되므로 작업을 수행할 수 있을 때까지 데이터를 저장해야 하며 서버가 비정상 종료하는 경우에도 유지되어야 한다. 모든 연산에 대해 빠짐 없이 vacuum 작업을 수행해야 한다. 서버가 비정상 종료하면 전혀 수행되지 않는 경우를 피하기 위해 작업이 두 번 수행되기도 한다.`
 
-클린업 작업이 성공적으로 수행된 후에는, 처리된 로그 블럭에 집계된 데이터는 제거된다. 
+:red:`작업이 성공적으로 수행된 후 처리된 로그 블록의 집계 데이터가 제거된다.`
 
-집계된 로그 블럭 데이터는 VACCUM 데이터로 바로 추가되지는 않는다. latch-free 버퍼를 사용함으로써, (로그 블럭과 집계된 데이터를 생성하는) 활성 작업 쓰레드가 VUCCUM 시스템과 동기화하는 것을 피하도록 해준다. VACCUM Master 가 주기적으로 깨어나서, 버퍼에 있는 모든 데이터를 VACCUM 데이터로 덤프하고, 이미 처리된 데이터를 제거하고, (자원이 이용 가능하면) 새 작업을 생성한다. 
+:red:`집계 로그 블록 데이터는 vacuum 데이터에 바로 추가되지 않는다. vacuum 시스템에서 작업 중인 활성 스레드(로그 블록 및 해당 집계 데이터 생성)를 동기화하지 않도록 래치(latch)가 없는 버퍼가 사용된다. **VACUUM Master**가 정기적으로 활성화되어 버퍼에 있는 모든 내용을 vacuum 데이터로 출력하고, 이미 처리된 데이터를 제거한 후 새 작업을 생성한다(사용 가능한 경우).`
 
 VACUUM 작업 
 +++++++++++
 
 VACCUM 작업 실행 단계는 다음과 같다. 
 
-1. 로그 사전 페치 : VACUUM Master 또는 작업 쓰레드가 그 작업에 의해 처리될 로그 페이지를 사전 페치한다. 
-2. 각 로그 레코드에 대해 다음 단계를 반복한다. 
+  1. :red:`**로그를 프리페치한다(Log pre-fetch)**. vacuum 마스터 또는 작업자가 작업으로 처리할 로그 페이지를 프리페치한다.`
+  2. :red:`**각 로그 레코드에 대해 다음 작업을 반복한다**.`
 
-	1. 로그 레코드 판독(read)
-	2. 삭제된 파일 체크. 만일 로그 레코드가 삭제된 파일을 가리키고 있으면, 다음 로그 레코드로 진행
-	3. 인덱스 클린업을 실행하고 heap OID를 수집한다. 
+    1. :red:`로그 레코드를 **읽는다**.`
+    2. :red:`**삭제된 파일을 확인한다.** 로그 레코드가 삭제된 파일을 가리키면 다음 로그 레코드로 이동한다.`
+    3. :red:`**인덱스 vacuum을 수행하고 힙 OID를 수집한다.**`
 
-		. 만일 로그 레코드가 인덱스에 속하면, 즉시 클린업을 실행한다. 
-		. 만일 로그 레코드가 heap에 속하면, 나중에 클린업될 OID를 수집한다. 
+      * :red:`로그 레코드가 인덱스에 속해 있는 경우 바로 vacuum을 수행한다.`
+      * :red:`로그 레코드가 힙에 속해 있는 경우 나중에 vacuum을 수행할 OID를 수집한다.`
 
-3. 수집된 OID를 기반으로 heap 클린업을 수행한다. 
-4. 작업을 완료한다. 해당 작업을 완료한 것으로 VACCUM 데이터에 표시한다.
+  3. :red:`수집된 OID에 따라 **힙 vacuum을 수행**한다.`
+  4. :red:`**작업을 완료한다.** vacuum 데이터에서 작업을 완료됨으로 표시한다.`
 
-로그 페이지 판독을 용이하게 하고 클린업 작업 식행을 최적화하기 위해서 여러 조치가 취해졌다. 
+:red:`간단하게 로그 페이지를 읽고 vacuum 수행을 최적화하기 위해 여러 가지 방법이 수행되었다.`
 
 삭제된 파일 추적
 ++++++++++++++++
 
-트랜잭션이 테이블이나 인덱스를 삭제할 때, 일상적으로 영향받는 테이블에 잠금을 걸어서 다른 트랜잭션이 접근하는 것을 방지한다. 활성 작업자들과는 반대로, VACCUM 작업자는 최소한으로 유지되어야 하고, VACCUM 시스템은 청소할 데이터가 남아 있는 한 멈추어서는 안된다. 게다가, VACCUM은 청소가 필요한 데이터를 어떤 것도 간과해서는 안된다. 
+:red:`트랜잭션에서 테이블 또는 인덱스가 삭제되면 일반적으로 해당 테이블을 잠가 다른 사람이 액세스하지 못하도록 차단한다. 그러나 활성 작업자와 달리, **VACUUM** 작업자는 두 가지 이유로 잠금 시스템을 사용할 수 없다. 활성 작업자에 대한 간섭을 최소화해야 하며, 삭제할 데이터가 있는 경우 **VACUUM** 시스템은 절대로 중지하면 안 되기 때문이다. 또한, **VACUUM**은 삭제가 필요한 데이터를 건너뛸 수 없다. 이에 따른 두 가지 결과는 다음과 같다.`
 
-1. **VACCUM** 은 삭제된 테이블이나 인덱스에 속하는 파일에 대해 삭제 트랜잭션이 완료할 때 까지는 청소하는 것을 멈추어서는 안된다. 설사 트랜잭션이 하나의 테이블을 삭제하더라도, 그 파일은 바로 삭제되지 않고 여전히 접근될 수 있다. 실제적인 삭제는 그 트랜잭션의 완료 이후로 연기된다. 
-2. 실제적인 파일 삭제 전에는 **VACCUM** 시스템에 알려져야 한다. 삭제자는 **VACCUM** 시스템에 알림 경보를 보내고 확인될 때 까지 대기해야 한다. VACCUM 시스템은 아주 짧은 반복 작업을 하고 새로 삭제된 파일을 비번하게 체크한다. 그러므로, 삭제자는 길게 대기하지 않는다. 
+  1. :red:`**VACUUM**은 삭제자(dropper)가 커밋할 때까지 삭제된 테이블 또는 삭제된 인덱스에 속한 파일 삭제를 중지하지 않는다. 트랜잭션에서 테이블을 삭제한 경우에도 해당 파일이 즉시 삭제되지 않고 계속 액세스 할 수 있다. 실질적인 삭제는 커밋한 이후로 연기된다.`
+  2. :red:`실제 파일이 삭제되기 전에 **VACUUM** 시스템에 알려야 한다. 삭제자(dropper)가 **VACUUM** 시스템에 알림을 보내고 확인을 기다린다. **VACUUM** 작업의 반복 주기는 매우 짧고 새롭게 삭제된 파일이 있는지 자주 확인하므로 삭제자(dropper)가 오랫동안 기다리지 않아도 된다.`
 
-파일이 삭제된 이후에, **VACCUM** 은 그 파일에 속하는 모든 발견된 로그 엔트리들을 무시할 것이다. 그 파일 식별자는 삭제 순간을 표시하는 MVCCID 와 쌍을 이루어 파일에 저장되어 있게 되고, **VACCUM** 시스템이 그 파일을 제거하는 것이 안전하다고 결정할 때 까지 유지된다. 그 제거 안전성은 아직 청소되지 않은 MVCCID 중 가장 적은 것에 기반하여 결정된다. 
+:red:`파일이 삭제된 후에는 **VACUUM**에서 해당 파일에 속한 모든 로그 엔트리를 무시한다. **VACUUM**에서 제거해도 된다고 결정할 때까지(가장 작지만 아직 vacuum되지 않은 MVCCID에 따라 결정됨) 삭제 시점이 표시된 MVCCID와 함께 파일 식별자가 영구 파일에 저장된다.`
 
 .. _lock-protocol:
 
 잠금 프로토콜
 =============
 
-CUBRID는 동시성 제어를 위해 2단계 잠금 프로토콜(2-phase locking protocol, 2PL)을 사용하여 트랜잭션 스케줄을 관리한다. 이는 트랜잭션이 사용하는 자원, 즉 객체에 대해 상호 배제 기능을 제공하는 기법이다. 확장 단계(growing phase)에서는 트랜잭션들이 잠금 연산만 수행할 수 있고 잠금 해제(unlock) 연산은 수행할 수 없다. 축소 단계(shrinking phase)에서는 트랜잭션들이 잠금 해제(unlock) 연산만 수행할 수 있고 잠금 연산은 수행할 수 없다. 즉, 트랜잭션 T1이 특정 객체에 대해 읽기 또는 갱신 연산을 수행하기 전에 반드시 잠금 연산을 먼저 수행하고, T1을 종료하기 전에 잠금 해제 연산을 수행해야 한다.
+:red:`+2단계 잠금 프로토콜에서는 동시에 연산 충돌이 발생하지 않도록 트랜잭션이 객체를 읽기 전에 공유 잠금을 획득하고, 갱신하기 전에 배타 잠금을 획득한다. 현재 CUBRID에서 사용하고 있는 MVCC 잠금 프로토콜은 행을 읽기 전에 공유 잠금이 필요하지 않다. 그러나 테이블 객체에 의도 공유 잠금은 해당 행을 읽을 때 계속 사용된다. 트랜잭션 *T1*에 잠금이 필요한 경우 CUBRID에서 요청된 잠금이 기존 잠금과 충돌하는지 확인한다. 충돌이 발생하면 트랜잭션 *T1*은 대기 상태가 되고 잠금이 지연된다. 다른 트랜잭션 *T2*가 잠금을 해제하면 트랜잭션 *T1*이 다시 시작되어 잠금을 획득한다. 잠금이 해제되면 해당 트랜잭션에서 새로운 잠금을 획득할 필요가 없다.`
 
 잠금의 단위
 -----------
@@ -732,21 +735,21 @@ CUBRID는 잠금의 개수를 줄이기 위해서 단위 잠금(granularity lock
 
 CUBRID는 트랜잭션이 수행하고자 하는 연산의 종류에 따라 획득하고자 하는 잠금 모드를 결정하며, 다른 트랜잭션에 의해 이미 선점된 잠금 모드의 종류에 따라 잠금 공유 여부를 결정한다. 이와 같은 잠금에 대한 결정은 시스템이 자동으로 수행하며, 사용자에 의한 수동 지정은 허용되지 않는다. CUBRID의 잠금 정보를 확인하기 위해서는 **cubrid lockdb** *db_name* 명령어를 사용하며, 자세한 내용은 :ref:`lockdb` 을 참고한다.
 
-*   **Shared lock (shared lock, S_LOCK, no longer used with MVCC protocol)** 
+*   :red:`**공유 잠금(shared lock, S_LOCK, MVCC 프로토콜에서는 더 이상 사용 안 함)**`
 
     객체에 대해 읽기 연산을 수행하기 전에 획득하며, 여러 트랜잭션이 동일 객체에 대해 획득할 수 있는 잠금이다.
 
-    트랜잭션 T1이 특정 객체에 대해 읽기 연산을 수행하기 전에 공유 잠금을 먼저 획득한다. 이때, 트랜잭션 T2, T3은 동시에 그 객체에 대해 읽기 연산을 수행할 수 있으나 갱신 연산을 수행할 수 없다.
+    :red:`동일한 객체에 대해 여러 트랜잭션에서 획득할 수 있다. 이때, 트랜잭션 *T2*, *T3*은 동시에 해당 객체에 대해 읽기 연산을 수행할 수 있으나 갱신 연산은 수행할 수 없다.`
     
     .. note::
 
-        *   Shared locks are rarely used in CUBRID 10.0, because of MVCC. It is still used, mostly in internal database operati     ons, to protect rows or index keys from being modified.
+        *   :red:`CUBRID 10.0에서는 MVCC를 사용하므로 공유 잠금은 거의 사용되지 않는다. 현재는 내부 데이터베이스 연산에서 행 또는 인덱스 키가 수정되는 것을 방지하는 데 주로 사용된다.`
 
 *   **배타 잠금(Exclusive lock, X_LOCK)**
 
     객체에 대해 갱신 연산을 수행하기 전에 획득하며, 하나의 트랜잭션만 획득할 수 있는 잠금이다.
 
-    트랜잭션 T1이 특정 객체 X에 대해 갱신 연산을 수행하기 전에 배타 잠금을 먼저 획득하고, 갱신 연산을 완료하더라도 트랜잭션 T1이 커밋될 때까지 배타 잠금을 해제하지 않는다. 따라서, 트랜잭션 T2, T3은 트랜잭션 T1이 배타 잠금을 해제하기 전까지는 X에 대한 읽기 연산도 수행할 수 없다.
+    :red:`한 트랜잭션에서만 획득할 수 있다. 트랜잭션 *T1*이 특정 객체 *X*에 대해 갱신 연산을 수행하기 전에 배타 잠금을 먼저 획득하고, 갱신 연산을 완료하더라도 트랜잭션 *T1*이 커밋될 때까지 배타 잠금을 해제하지 않는다. 따라서, 트랜잭션 *T2*, *T3*은 트랜잭션*T1*이 배타 잠금을 해제하기 전까지는 *X*에 대한 읽기 연산도 수행할 수 없다.`
 
 *   **의도 잠금(내재된 잠금, Intent lock)**
 
@@ -778,11 +781,12 @@ CUBRID는 트랜잭션이 수행하고자 하는 연산의 종류에 따라 획�
 
     *   **스키마 수정 잠금(schema modification lock, SCH_M_LOCK)**
 
-        DDL(ALTER/CREATE/DROP)을 실행하는 동안 획득되며 다른 트랜잭션이 수정된 스키마에 접근하는 것을 방지한다.
+        :red:`DDL(**ALTER**/**CREATE**/**DROP**)을 실행하는 동안 이 잠금을 획득하며 다른 트랜잭션이 수정된 스키마에 액세스하는 것을 방지한다.`
 
-    Some DDL operations like **ALTER**, **CREATE INDEX** do not acquire **SCH_M_LOCK** directly. For example, CUBRID operates type checking about filtering expression when you create a filtered index; during this term, the lock which is kept to the target table is **SCH_S_LOCK** like other type checking operations. The lock is then upgraded to **SIX_LOCK** (other transactions are prevented from modifying target table rows, but they can continue reading them), and finally **SCH_M_LOCK** is requested to change the table schema. The method has a strength to increase the concurrency by allowing other transaction's operation during DDL operation's compilation and execution.
+    :red:`**ALTER**, **CREATE INDEX** 등 일부 DDL 연산은 **SCH_M_LOCK**을 직접 획득하지 않는다. 예를 들어 필터링된 인덱스를 생성할 때, CUBRID는 필터링 표현식에 대한 타입 검사를 수행한다. 이 기간 동안, 대상 테이블에 유지되는 잠금은 다른 타입 검사 연산의 경우처럼 **SCH_S_LOCK**이다. 그런 다음 잠금이 **SIX_LOCK**으로 업그레이드되고(다른 트랜잭션이 대상 테이블 행을 수정할 수 없지만 계속 읽을 수는 있음), 마지막으로 테이블 스키마를 변경하기 위해 **SCH_M_LOCK**이 요청된다. 이러한 방식은 DDL 연산이 컴파일되고 수행되는 동안 다른 트랜잭션이 연산을 수행하는 것을 허용하여, 동시성을 높일 수 있다는 이점이 있다.`
 
     하지만 이 방식은 같은 테이블에 동시에 DDL 연산을 수행할 때 교착 상태를 회피할 수 없다는 단점 또한 존재한다. 인덱스를 로딩함으로 인한 교착 상태의 예는 다음과 같다.
+    :red:`그러나 이 방식은 같은 테이블에 동시에 DDL 연산을 수행할 때 교착 상태를 회피할 수 없다는 단점 또한 존재한다. 인덱스 로딩으로 인한 교착 상태의 예는 다음과 같다.`
 
     +---------------------------------------------------------------+---------------------------------------------------------------+
     | T1                                                            | T2                                                            |
@@ -804,14 +808,14 @@ CUBRID는 트랜잭션이 수행하고자 하는 연산의 종류에 따라 획�
    
 .. note:: 잠금에 대해 요약하면 다음과 같다.
 
-    *   잠금 대상 객체에는 행(instance), 키(key), 스키마(class)가 있다. 잠금 대상 객체를 기준으로 잠금의 종류를 나누면 다음과 같다.
+    *   :red:`잠금 대상 객체에 대해 행(인스턴스)과 스키마(클래스)가 있다. 사용된 객체 종류를 기준으로 잠금을 나누면 다음과 같다.`
 
         *   행 잠금: **S_LOCK**, **X_LOCK**
-        
+    
         *   intension/schema 잠금: **IX_LOCK**, **IS_LOCK**, **SIX_LOCK**, **SCH_S_LOCK**, **SCH_M_LOCK**
         
-    *   행 잠금과 intension/schema 잠금은 서로에게 영향을 끼친다.
-        
+    *   :red:`행 잠금과 의도/스키마 잠금은 서로 영향을 미친다.`
+     
 위에서 설명한 잠금들의 호환 관계(lock compatibility)를 정리하면 아래의 표와 같다. 호환된다는 것은 잠금 보유자(lock holder)가 특정 객체에 대해 획득한 잠금과 중복하여 잠금 요청자(lock requester)가 잠금을 획득할 수 있다는 의미이다.
 
 **잠금 호환성**
@@ -869,14 +873,14 @@ CUBRID는 트랜잭션이 수행하고자 하는 연산의 종류에 따라 획�
 |                      | **SCH-M** | SCH-M     | SCH-M     | SCH-M     | SCH-M     | SCH-M     | SCH-M     | SCH-M     | SCH-M     |    
 +----------------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
 
-lock을 사용한 예
-++++++++++++++++
+잠금 사용 예제
+++++++++++++++
 
-다음 몇개의 예에 걸쳐서 REPEATABLE READ(5) 격리 수준이 사용될 것이다. READ COMMITTED는 열을 갱신하는데 다른 원칙을 가지고 있으며 다음 장에서 다루기로 한다 (여기를 참조)
-다음 예제들은 기존의 lock을 보여주기 위해서 lockdb 유틸리티를 사용할 것이다.
+:red:`다음 예제에서는 REPEATABLE READ(5) 격리 수준이 사용된다. READ COMMITTED의 행 갱신 규칙은 다양하며, 다음 섹션에서 설명한다(여기 참고).`
+:red:`예제에서는 기존 잠금을 보여주기 위해 lockdb 유틸리티를 사용한다.`
 
-**Lock 예:**
-다음의 예에서 REPEATABLE READ(5)이 사용될 것이며, 이것은 같은 열에 대해서 읽기와 쓰기가 블록되지 않는다는 것을 증명할 것이다. 그리고 충돌하는 갱신이 시도될 것인데, 두번째 갱신자가 블록된다. 트랜잭션 T1이 커밋될때, T2는 블럭에서 해제된다 하지만 격리 수준의 제약 때문에 갱신은 허용되지 않는다. 만약 T1이 롤백할 수 있는데, 이 경우 T2는 갱신을 진행할 수 있다.
+:red:`**잠금 예제:**`
+:red:`다음 예제에서는 REPEATABLE READ(5) 격리 수준이 사용되며 동일한 행에서 읽기 및 쓰기가 차단되지 않는다는 것을 보여준다. 또한, 갱신 충돌이 시도되고 두 번째 갱신자(updater)가 차단된다. 트랜잭션 T1이 커밋될 때 T2의 차단이 해제되지만 격리 수준의 제약 사항으로 인해 갱신은 허용되지 않는다. T1이 롤백하는 경우 T2가 갱신을 진행할 수 있다.`
  
 +---------------------------------------------------------+---------------------------------------------------------+----------------------------------------------------------------------------+
 | T1                                                      | T2                                                      | Description                                                                |
@@ -996,14 +1000,14 @@ lock을 사용한 예
 |                                                         |     직렬성 위반                                         |                                                                            |
 +---------------------------------------------------------+---------------------------------------------------------+----------------------------------------------------------------------------+
 
-고유한 제약을 보호하기 위한 잠금
---------------------------------
+unique 제약 조건을 보호하기 위한 잠금
+-------------------------------------
 
-이전 버전의 CUBRID에서 사용한 2단계 잠금 프로토콜 (2PL)은 고유한 제약 조건을 유지하고 높은 격리 제약을 위해서 인덱스 키를 잠그는데 사용되었다. CUBRID 10.0에서 키 잠금은 제거되었다. 격리 수준의 제약은 다중 버전 동시성 제어 (MVCC) 스냅샷으로 해결되었다, 하지만 고유한 제약은 여전히 어떤 형태의 보호를 필요로 한다.
+:red:`이전 CUBRID 버전의 2단계 잠금 프로토콜은 인덱스 키 잠금을 사용하여 unique 제약 조건과 상위 격리 제한 사항을 보호했다. CUBRID 10.0에서는 키 잠금이 제거되었다. 격리 수준 제한 사항은 MVCC 스냅샷으로 해결되었지만 unique 제약 조건에는 여전히 특정 유형의 보호가 필요했다.`
 
-다중 버전 동시정 제어 (MVCC)를 이용하여, 고유한 인덱스는, 열과 같은 형태로, 동시에 여러 개의 버전을 유지할 수 있으며, 각각이 서로 다른 트랜잭션에 보이게 할 수있다. 하나는 최종 버전이다, 반면 다른 버전들은 보이지 않게 되어서 **VACUUM** 에 의해 제거될 수 있으며 이때까지는 임시적으로 유지될 수 있다. 고유한 제약 조건을 유지하기 위한 조건은 어떤 키를 수정하고자 하는 모든 트랜잭션은 해당 키의 존재하는 마지막 버전의 잠금을 획득해야만 한다는 것이다.
+:red:`MVCC에서는 고유 인덱스가 동시에 여러 버전을 유지할 수 있지만 행과 유사하게 각각 다른 트랜잭션을 볼 수 있다. 한 버전이 최종 버전일 경우, 다른 버전은 볼 수 없게 되고 **VACUUM**에 의해 제거될 때까지만 임시로 유지된다. unique 제약 조건 보호 규칙은 키를 수정하려고 시도하는 모든 트랜잭션에서 키의 마지막 기존 버전을 잠가야 한다.`
 
-아래의 예는 **REPEATABLE READ** 격리 수준을 사용하였는데 이는 잠금이 고유한 제약을 위반하는 방법을 보여주기 위함이다.
+:red:`아래 예제는 잠금을 통해 어떻게 unique 제약 조건 위반을 방지하는지를 **REPEATABLE READ** 격리 수준을 예로 들어 보여준다.`
 
 +---------------------------------------------------------+---------------------------------------------------------+----------------------------------------------------------------------------+
 | T1                                                      | T2                                                      | Description                                                                |
@@ -1089,9 +1093,9 @@ lock을 사용한 예
 
 에러 심각성 수준을 설정하는 시스템 파라미터인 **error_log_level** 의 값을 NOTIFICATION으로 설정하면 교착 상태 발생 시 서버 에러 로그 파일에 잠금 관련 정보가 기록된다.
 
-이전 버전들과 달리 CUBRID 10.0은 더 이상 인덱스를 읽고 쓰는데 인덱스 키 잠금을 사용하지 않는다, 따라서 교착상태의 발생이 현저하게 줄어들었다. 교착상태가 자주 발생하지 않는 또 하나의 이유는 이전의 CUBRID 버전들이 범위의 인덱스를 읽는 것에 높은 격리 수준을 사용하는데 이것이 많은 오브젝트들을 잠글 수 있기 때문이다, 반면 이러한 경우 CUBRID 10.0은 더 이상 잠금을 사용하지 않는다.
+:red:`이전 버전과 비교해 볼 때 CUBRID 10.0은 더 이상 인덱스에서 읽기 및 쓰기 연산을 수행하기 위해 인덱스 키 잠금을 사용하지 않으므로 교착 상태가 현저하게 줄어들었다. 교착 상태가 자주 발생하지 않는 또 다른 이유는 이전 CUBRID 버전에서는 인덱스 범위를 읽을 때 높은 교착 수준과 함께 여러 객체를 잠글 수 있었지만, CUBRID 10.0에서는 잠금을 사용하지 않기 때문이다.`
 
-하지만, 교착상태는 같은 오브젝트들을 서로 다른 순서로 갱신하는 두개의 트랜잭션에서 아직도 발생할 수 있다.
+:red:`그러나 서로 다른 두 개의 트랜잭션에서 동일한 객체를 다른 순서로 갱신할 경우 여전히 교착 상태가 발생할 가능성이 남아 있다.`
 
 **예제**
 
@@ -1216,7 +1220,7 @@ CUBRID는 트랜잭션 잠금 설정이 허용될 때까지 잠금을 대기하�
 
 *   user1@host1|csql(9807), user1@host1|csql(9805) : **IX_LOCK** 잠금을 설정하기 위해 종료되기를 기다리는 다른 트랜잭션들이다.
 
-즉, 위의 잠금 에러 메시지는 "다른 트랜잭션들이 *tbl* 테이블의 특정 행에 잠금을 점유하고 있으므로, *host1* 호스트에서 수행된 트랜잭션은 다른 트랜잭션들이 종료되기를 기다리다가 타임아웃 시간이 경과되어 롤백되었다."로 해석할 수 있다. 만약, 에러 메시지에 명시된 트랜잭션의 잠금 정보를 확인하고자 한다면, **cubrid lockdb** 유틸리티를 통해 현재 잠금을 점유 중인 클라이언트의 트랜잭션 ID 값, 클라이언트 프로그램 이름, 프로세스 ID(PID)를 확인할 수 있다. 이에 관한 상세한 설명은 :ref:`lockdb` 을 참고한다.
+:red:`즉, 위의 잠금 오류 메시지는 "다른 클라이언트가 *participant* 테이블의 특정 행에 **X_LOCK**을 점유하고 있으므로, *host1* 호스트에서 실행 중인 트랜잭션 3은 잠금이 해제되기를 기다리다가 제한 시간이 초과되었다."로 해석할 수 있다. 만약, 오류 메시지에 명시된 트랜잭션의 잠금 정보를 확인하고자 한다면, **cubrid lockdb** 유틸리티를 통해 현재 **X_LOCK**이 설정되어 있는 특정 행의 OID 값(예: 0|636|34)을 검색하여 현재 잠금을 점유 중인 트랜잭션 ID, 클라이언트 프로그램명 및 프로세스 ID(PID)를 확인할 수 있다. 이에 관한 상세한 설명은 :ref:`lockdb`를 참고한다. CUBRID Manager에서 트랜잭션 잠금 정보를 확인할 수도 있다.`
 
 이처럼 트랜잭션의 잠금 정보를 확인한 후에는 SQL 로그를 통해 커밋되지 않은 질의문을 확인하여 트랜잭션을 정리할 수 있다. SQL 로그를 확인하는 방법은 :ref:`broker-logs`\ 를 참고한다.
 
@@ -1227,7 +1231,7 @@ CUBRID는 트랜잭션 잠금 설정이 허용될 때까지 잠금을 대기하�
 트랜잭션 격리 수준
 ==================
 
-트랜잭션의 격리 수준은 트랜잭션이 동시에 진행 중인 다른 트랜잭션에 의해 간섭받는 정도를 의미하며, 트랜잭션 격리 수준이 높을수록 트랜잭션 간 간섭이 적으며 직렬적이고, 트랜잭션 격리 수준이 낮을수록 트랜잭션 간 간섭은 많으나 높은 동시성을 보장한다. 사용자는 적용하고자 하는 서비스의 특성에 따라 격리 수준을 적절히 설정함으로써 데이터베이스의 일관성(consistency)과 동시성(concurrency)을 조정할 수 있다.
+:red:`트랜잭션 격리 수준은 간섭이 발생하는 정도에 따라 결정된다. 격리 수준이 높을수록 트랜잭션 간 간섭이 적으며 직렬적이다. 격리 수준이 낮을수록 트랜잭션 간 간섭은 많으나 높은 동시성을 보장한다. 사용자는 격리 수준을 적절히 설정함으로써 서비스와 관련된 일관성(consistency)과 동시성(concurrency) 수준을 조정할 수 있다.`
 
 .. note:: 지원되는 모든 격리 수준에서 트랜잭션은 복구 가능하다. 이는 트랜잭션이 끝나기 전에는 갱신을 커밋하지 않기 때문이다.
 
@@ -1236,7 +1240,7 @@ CUBRID는 트랜잭션 잠금 설정이 허용될 때까지 잠금을 대기하�
 격리 수준 설정
 --------------
 
-You can set the level of transaction isolation by using **isolation_level** and the **SET TRANSACTION** statement in the **$CUBRID/conf/cubrid.conf**. The level of **REPEATABLE READ CLASS** and **READ COMMITTED INSTANCES** are set by default, which indicates the level 4 through level 4 to 6 (levels 1 to 3 were used by older versions of CUBRID and are now obsolete). For details, see :ref:`database-concurrency`. ::
+**$CUBRID/conf/cubrid.conf** :red:`의 **isolation_level** 및 **SET TRANSACTION** 질의문을 사용하여 트랜잭션 격리 수준을 설정할 수 있다. 기본적으로 **READ COMMITTED** 수준이 설정되어 있으며, 4~6 수준 중에서 4 수준에 해당한다(1~3 수준은 CUBRID의 이전 버전에서 사용되었으며 더 이상 사용하지 않음). 이에 관한 상세한 설명은 :ref:`database-concurrency`을 참고한다.` ::
 
     SET TRANSACTION ISOLATION LEVEL isolation_level_spec ;
     
@@ -1277,12 +1281,12 @@ You can set the level of transaction isolation by using **isolation_level** and 
 | SERIALIZABLE (6)      | Temporarily disabled - details in :ref:`isolation-level-6`                                                                                                                          |
 +-----------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-If the transaction level is changed in an application while a transaction is executed, the new level is applied to the rest of the transaction being executed. It is recommended that to modify the transaction isolation level when a transaction starts (after commit, rollback or system restart) because an isolation level which has already been set does not apply to the entire transaction, but can be changed during the transaction.
+:red:`응용 프로그램에서 트랜잭션 수행 중에 트랜잭션 격리 수준이 변경되면, 수행 중인 트랜잭션의 남은 부분부터 새로운 수준이 적용된다. 이미 설정된 격리 수준이 트랜잭션 전체에 적용되는 것이 아니라 트랜잭션 중간에 변경될 수 있기 때문에, 트랜잭션 격리 수준은 트랜잭션 시작 시점(커밋, 롤백 또는 시스템 재시작 이후)에 수정하는 것이 바람직하다.`
 
 트랜잭션 격리 수준 값 확인
 --------------------------
 
-You can assign the current isolation level to *variable* by using the **GET TRANSACTION ISOLATION LEVEL** statement. The following is a statement that verifies the isolation level. ::
+:red:`You can assign the current isolation level to *variable* by using the **GET TRANSACTION ISOLATION LEVEL** statement. The following is a statement that verifies the isolation level. ::`
 
     GET TRANSACTION ISOLATION LEVEL [ { INTO | TO } variable ] [ ; ]
 
@@ -1301,23 +1305,23 @@ You can assign the current isolation level to *variable* by using the **GET TRAN
 READ COMMITTED 격리 수준
 ------------------------
 
-상대적으로 낮은 수준 (4). 더티 리드는 일어나지 않는다, 하지만 비 반복적이거나 허구의 읽기는 발생할 수 있다. 즉, 트랜잭션 *T2* 가 삽입이나 갱신이 허용되고 반면 *T1* 은 반복적으로 한 개체를 읽는 경우 *T1* 은 다른 값을 읽을 수 있다.
+:red:`비교적 낮은 격리 수준(4)으로, 더티 읽기는 발생하지 않지만 반복할 수 없는 읽기와 유령 읽기는 발생할 수 있다. 즉, 트랜잭션 *T1*이 하나의 객체를 반복하여 조회하는 동안 트랜잭션 *T2*에서의 삽입 또는 갱신이 허용되어, 트랜잭션 *T1*이 다른 값을 읽을 수 있다.`
 
 다음은 이 격리 수준의 규칙이다:
 
-*   Transaction *T1* cannot read or modify the record inserted by another transaction *T2*. The record is instead ignored.
-*   Transaction *T1* can read the record being updated by another transaction *T2* and it sees the record's last committed version (but it cannot see uncommitted versions).
-*   Transaction *T1* cannot modify the record being updated by another transaction *T2*. *T1* waits for *T2* to commit and it re-evaluates record values. If the re-evaluation test is passed, *T1* modifies the record, otherwiseit ignores it.
-*   Transaction *T1* can modify the record being viewed by another transaction *T2*.
-*   Transaction *T1* can update/insert record to the table being viewed by another transaction *T2*.
-*   Transaction *T1* cannot change the schema of the table being viewed by another transaction *T2*.
-*   Transaction *T1* creates a new snapshot with each executed statement, thus phantom or non-repeatable read may occur.
+*   red:`트랜잭션 *T1*은 다른 트랜잭션 *T2*에서 삽입되는 레코드를 읽거나 수정할 수 없다. 대신 레코드가 무시된다.`
+*   red:`트랜잭션 *T1*은 다른 트랜잭션 *T2*에서 갱신하는 레코드를 읽을 수 있으며, 레코드의 마지막 커밋된 버전을 확인한다(커밋되지 않은 버전은 볼 수 없음).`
+*   red:`트랜잭션 *T1*은 다른 트랜잭션 *T2*에서 갱신 중인 레코드를 수정할 수 없다. *T1*은 *T2*가 커밋되기를 기다린 후 커밋이 되면 레코드 값을 다시 평가한다. 재평가 테스트에 통과하면 *T1*은 레코드를 수정한다. 통과하지 못하면 무시한다.`
+*   red:`트랜잭션 *T1*은 다른 트랜잭션 *T2*에서 보고 있는 레코드를 수정할 수 있다.`
+*   red:`트랜잭션 *T1*은 다른 트랜잭션 *T2*에서 보고 있는 테이블에 레코드를 갱신/삽입할 수 있다.`
+*   red:`트랜잭션 *T1*은 다른 트랜잭션 *T2*에서 보고 있는 테이블의 스키마를 변경할 수 없다.`
+*   red:`트랜잭션 *T1*이 수행된 각각의 질의문에 새로운 스냅샷을 생성하므로 유령 읽기 또는 반복할 수 없는 읽기는 발생할 수 있다.`
 
-This isolation level follows MVCC locking protocol for an exclusive lock.  A shared lock on a row is not required; however, an intent lock on a table is released when a transaction terminates to ensure repeatable read on the schema.
+:red:`이 격리 수준은 배타 잠금에 대해 MVCC 잠금 프로토콜을 따른다. 행에 공유 잠금은 필요하지 않지만 스키마에서 반복 가능한 읽기가 가능하도록 트랜잭션이 종료되면 테이블의 의도 잠금이 해제된다.`
 
 *예:*
 
-The following example shows that a phantom or non-repeatable read may occur because another transaction can add or update a record while one transaction is performing the object read but repeatable read for the table schema update is ensured when the transaction level of the concurrent transactions is **READ COMMITTED**.
+:red:`다음 예제는 한 트랜잭션이 객체 읽기를 수행하는 동안 다른 트랜잭션이 레코드를 추가하거나 갱신할 수 있기 때문에 유령 또는 반복할 수 없는 읽기가 발생할 수 있지만 동시 트랜잭션의 트랜잭션 격리 수준이 **READ COMMITTED**인 경우 테이블 스키마 갱신에 대해 반복 가능한 읽기가 보장된다는 것을 보여준다.`
 
 +-------------------------------------------------------------------------+----------------------------------------------------------------------------------+
 | session 1                                                               | session 2                                                                        |
@@ -1430,7 +1434,7 @@ The following example shows that a phantom or non-repeatable read may occur beca
 READ COMMITTED UPDATE RE-EVALUATION
 +++++++++++++++++++++++++++++++++++
 
-**READ COMMITTED** 격리는 높은 격리 수준과 달르게 열을 동시에 갱신하는 것을 다르게 처리한다. 높은 격리 수준에서는, 만약 *T2* 가 동시에 실행중인 트랜잭션 *T1* 에 의해서 이미 갱신된 열을 수정하려고 하면, *T2* 는 *T1* 이 커밋이나 롤백할 때까지 블록된다, 만일 *T1* 이 커밋하면 *T2* 는 직렬화 오류를 방지하기 위해서 문장의 수행을 중단한다. **READ COMMITTED** 격리 수준에서, *T1* 이 카밋후에, *T2* 는 문장의 실행을 즉시 중단하지는 않는다 반면 새로운 버전을 다시 계산한다, 그것은 커밋된 것으로 간주되지 않고 띠리사 이 격리 수준의 제약을 위반하지 않을 수도 있다. 이전 버전의 select를 위해서 사용된 술부가 아직도 참이라면, *T2* 는 계속 진행하여 새로운 버전을 수정한다. 만일 술부가 참이 아니라면, *T2* 는 술부가 만족한적이 없는 것처럼 단순히 레코드를  무시한다.
+:red:`**READ COMMITTED** 격리 수준은 동시에 발생하는 행 갱신에 대해 높은 격리 수준과 다르게 처리한다. 높은 격리 수준에서는 동시 트랜잭션 *T1*에서 이미 갱신한 행을 *T2*가 수정하려고 시도하면 *T1*이 커밋하고 롤백할 때까지 차단되며, *T1*이 커밋되면 *T2*가 질의 수행을 중단하고 직렬화 오류가 표시된다. **READ COMMITTED** 격리 수준에서는 *T1*이 커밋되면 *T2*가 질의 수행을 바로 중단하지 않고 커밋으로 간주되지 않으며 격리에 대한 제한 사항을 위반하지 않은 새 버전을 다시 평가한다. 이전 버전을 선택하는 데 사용된 조건값이 새 버전에 대해서 true이면 *T2*가 새 버전을 수정한다. 조건값이 더 이상 true가 아니면 *T2*는 조건값이 전혀 충족되지 않은 것처럼 레코드를 무시한다.`
 
 *예:*
 
@@ -1520,23 +1524,24 @@ READ COMMITTED UPDATE RE-EVALUATION
 REPEATABLE READ 격리 수준
 -------------------------
 
-A relatively high isolation level (5). Dirty, non-repeatable, and phantom reads do not occur due to **snapshot isolation**. However, it's still not truly **serializable**, transaction execution cannot be defined *as if there were no other transactions running* at the same time. More complex anomalies, like write skews, that a **serializable snapshot isolation** level should not allow still occur.
+:red:`+비교적 높은 격리 수준(5)으로, **snapshot isolation** 때문에 더티 읽기, 반복할 수 없는 읽기 및 유령 읽기가 발생하지 않는다. 하지만 완벽하게 **serializable**하지는 않으므로 진정한 트랜잭션 수행(*동시에 실행 중인 다른 트랜잭션이 없는*)이라고 말할 수 없으며, **serializable snapshot isolation** 수준이 허용하지 않는 스큐 쓰기(write skew)와 같은 복잡한 비정상 동작도 여전히 발생한다.`
 
-In a write skew anomaly, two transactions concurrently read overlapping data sets and make disjoint updates on the overlapped data set, neither having seen the update performed by the other. In a serializable system, such anomaly would be impossible, since one transaction must occur first and the second transaction should see the update of the first transaction.
+:red:`스큐 쓰기 이상 현상에서는 두 개의 트랜잭션이 동시에 겹치는 데이터 셋을 읽고 겹친 데이터 셋에서 비연속 갱신을 수행하여 다른 사용자가 수행한 갱신을 확인할 수 없다. 한 트랜잭션이 먼저 발생하고 두 번째 트랜잭션이 첫 번째 트랜잭션의 갱신을 확인하기 때문에 직렬화 시스템에서는 이러한 이상 현상이 발생하지 않는다.`
 
 다음은 격리 수준의 규칙이다:
 
-*   트랜잭션 *T1* 은 또 다른 트랜잭션 *T2* 에 의해서 삽입된 레코드를 읽거나 수정할 수 없다. 이런 레코드는 차라리 무시된다.
-*   트랜잭션 *T1* 은 또 다른 트랜잭션 *T2* 에 의해서 갱신된 레코드를 읽을 수 있지만 *T1* 은 그 레코드가 최종으로 커밋된 버전만을 볼 수 있다.
-*   트랜잭션 *T1* 은 또 다른 트랜잭션 *T2* 에 의해서 수정된 레코드를 수정할 수 없다.
-*   트랜잭션 *T1* 은 또 다른 트랜잭션 *T2* 가 보고 있는 레코드를 수정할 수 있다.
-*   트랜잭션 *T1* 은 또 다른 트랜잭션 *T2* 가 보고 있는 테이블에 레코드를 삽입하거나 갱신할 수 있다.
-*   트랜잭션 *T1* 은 또 다른 트랜잭션 *T2* 가 보고 있는 테이블의 스키마를 변경할 수 없다.
-*   트랜잭션 *T1* 은 트랜잭션의 전체 기간에 걸쳐서 유효한 고유한 스냅샷을 생성한다.
+*   :red:`트랜잭션 *T1*은 다른 트랜잭션 *T2*에서 삽입되는 레코드를 읽거나 수정할 수 없다. 대신 레코드가 무시된다.`
+*   :red:`트랜잭션 *T1*은 다른 트랜잭션 *T2*에서 갱신하는 레코드를 읽을 수 있으며, 레코드의 마지막 커밋된 버전을 확인한다.`
+*   :red:`트랜잭션 *T1*은 다른 트랜잭션 *T2*에서 갱신 중인 레코드를 수정할 수 없다.`
+*   :red:`트랜잭션 *T1*은 다른 트랜잭션 *T2*에서 보고 있는 레코드를 수정할 수 있다.`
+*   :red:`트랜잭션 *T1*은 다른 트랜잭션 *T2*에서 보고 있는 테이블에 레코드를 갱신/삽입할 수 있다.`
+*   :red:`트랜잭션 *T1*은 다른 트랜잭션 *T2*에서 보고 있는 테이블의 스키마를 변경할 수 없다.`
+*   :red:`트랜잭션 *T1*은 트랜잭션의 전체 기간에 유효한 고유 스냅샷을 생성한다.`
 
 **예제**
 
-다음의 예는 **snapshot isolation** 때문에 비 반복적인 읽기와 팬텀 읽기가 발생하지 않는 것을 보여준다. 하지만, 쓰기 이상은 가능한데, 이것은 격리가 바로 **직렬화가능** 은 아니라는 것을 의미한다.
+:red:`다음 예제는 **snapshot isolation**으로 인해 반복할 수 없는 읽기 및 유령 읽기가 발생하지 않는 것을 보여준다. 그러나 격리 수준이 **serializable**되어 있지 않기 때문에 스큐 쓰기는 발생할 수 있다.`
+
 
 +----------------------------------------------------------------------------+-----------------------------------------------------------------------------+
 | session 1                                                                  | session 2                                                                   |
@@ -1697,11 +1702,11 @@ In a write skew anomaly, two transactions concurrently read overlapping data set
 .. _isolation-level-6:
 
 SERIALIZABLE 격리 수준
-----------------------------
+----------------------
 
-CUBRID 10.0 **SERIALIZABLE** 격리 수준은 **REPEATABLE READ** 격리 수준과 같다. :ref:`isolation-level-5` 장에서 설명한 것과 같이, **SNAPSHOT** 격리 수준이 비 반복적인 읽기와 팬텀 읽기 이상 현상이 발생이지 않는다는 것을 보증하더라도, 쓰기 이상은 여전히 가능하다. 쓰기 이상으로부터 보호를 위해서, 읽기를 위한 인덱스 키 잠금이 사용될 것이다. 그 대신에 잠재적으로 격리 충돌이 발생할 수 있는 트랜잭션들을 중지시킴으로써, **SERIALIZABLE SNAPSHOT ISOLATION** 을 제공하기 위한 복잡한 시스템을 기술하는 많은 작업들이 있다. 그러한 시스템이 추후 CUBRID 버전으로 공급될 것이다.
+CUBRID 10.0 :red:`의 **SERIALIZABLE** 격리 수준은 **REPEATABLE READ** 격리 수준과 동일하다. :ref:`isolation-level-5` 섹션에 설명된 대로, **SNAPSHOT** 격리 수준으로 인해 반복할 수 없는 읽기 및 유령 읽기 이상 현상은 발생하지 않지만 스큐 쓰기 이상 현상은 여전히 발생할 수 있다. 스큐 쓰기를 방지하기 위해 읽기에 대해 인덱스 키 잠금을 사용할 수 있다. 또는, 격리 충돌을 유발할 여지가 있는 트랜잭션을 중단함으로써 **SERIALIZABLE SNAPSHOT ISOLATION** 을 제공하는 복잡한 시스템을 설명하는 다양한 작업이 있다. 이러한 시스템 중 하나가 이후 CUBRID 버전에서 제공될 예정이다.`
 
-The keyword was not removed for backward compatibility reasons, but remember, it is similar to **REPEATABLE READ**.
+:red:`다시 말해서, 역호환성을 위해 키워드는 제거되지 않았지만 SERIALIZABLE은 **REPEATABLE READ**와 유사하다.`
 
 .. _dirty-record-flush:
 

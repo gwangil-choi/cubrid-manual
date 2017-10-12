@@ -1,6 +1,8 @@
 
 :meta-keywords: cubrid date, cubrid time, cubrid datetime, datetime functions, datetime operators
 
+.. role:: red
+
 :tocdepth: 3
 
 ***********************
@@ -165,14 +167,14 @@ ADD_MONTHS
 
 .. function:: ADD_MONTHS ( date_argument , month )
 
-    **ADD_MONTHS** 함수는 **DATE** 타입의 연산식 *date_argument* 에 *month* 를 더한 후, **DATE** 타입의 값을 반환한다. 인자로 지정된 값의 일(*dd*)이 연산 결과값의 월에 존재하면 해당 일(*dd*)을 반환하고, 존재하지 않으면 해당 월의 마지막 날(*dd*)을 반환한다. 또한, 연산 결과값이 **DATE** 타입의 표현 범위를 초과하는 경우, 에러를 반환한다.
+    :red:`**ADD_MONTHS** 함수는 **DATE** 타입의 *date_argument* 표현식에 *month* 값을 더하고 **DATE** 타입 값을 반환한다. 인자로 지정된 값의 일(*dd*)이 연산 결과 값의 월에 존재하면 해당 일(*dd*)을 반환한다. 존재하지 않으면 해당 월의 마지막 날(*dd*)을 반환한다. 연산 결과 값이 **DATE** 타입의 표현식 범위를 초과하는 경우 오류를 반환한다.`
 
-    :param date_argument: **DATE** 타입의 연산식을 지정한다. **TIMESTAMP** 나 **DATETIME** 값을 지정하려면 **DATE** 타입으로 명시적 변환을 해야 한다. 값이 **NULL** 이면 **NULL** 을 반환한다.
-    :param month: *date_argument* 에 더할 개월 수를 지정하며, 양수와 음수 모두 지정될 수 있다. 만약, 정수가 아닌 타입의 값이 주어지면 묵시적으로 변환(소수점 아래 첫째자리를 반올림 처리)하여 정수형 타입으로 변환한다. 값이 **NULL** 이면 **NULL** 을 반환한다.
+    :param date_argument: :red:`**DATE** 타입의 표현식을 지정한다. **TIMESTAMP** 또는 **DATETIME** 값을 지정하려면 **DATE** 타입으로 명시적 변환을 해야 한다. 값이 **NULL**이면 **NULL**을 반환한다.`
+    :param month: :red:`*date_argument*에 더할 개월 수를 지정한다. 양수와 음수 모두 지정할 수 있다. 지정한 값이 정수 타입이 아닐 경우 자동으로 정수 타입으로 변환(소수점 아래 첫째 자리를 반올림 처리)된다.`
 
 .. code-block:: sql
 
-    --it returns DATE type value by adding month to the first argument
+    :red:'--첫 번째 인자에 월을 더해 DATE 타입 값을 반환한다.'
     SELECT ADD_MONTHS(DATE '2008-12-25', 5), ADD_MONTHS(DATE '2008-12-25', -5);
     
 ::
@@ -196,7 +198,7 @@ ADD_MONTHS
 
       07/03/2010                                     07/03/2010
 
-다음은 타임존 타입의 값을 사용하는 예이다. 타임존과 관련된 설명은 :ref:`timezone-type` 을 참고한다.
+:red:`다음은 타임존 타입 값 사용 예이다. 타임존 관련 설명은 :ref:`timezone-type`을 참고한다.`
 
 .. code-block:: sql
 
@@ -237,9 +239,9 @@ CURDATE, CURRENT_DATE
 .. function:: CURRENT_DATE ()
 .. c:macro:: CURRENT_DATE
 
-    **CURDATE** (), **CURRENT_DATE** , **CURRENT_DATE** (), 는 모두 동일하며, 현재 날짜를 **DATE** 타입(*MM*/*DD*/*YYYY*) 으로 반환한다.  
-    세션의 타임존이 서버와 같을 때, 이 함수들은 :c:macro:`SYS_DATE`, :c:macro:`SYSDATE`. Please refer :c:macro:`SYS_DATE`, :c:macro:`SYSDATE` 과 같다. 차이점을 위해서는 :c:macro:`SYS_DATE`, :c:macro:`SYSDATE` 그리고 다음의 예제를 참조바란다, 그리고 함수의 세부 사항을 위해서는 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE` 를 참조하라.
-    
+    :red:`**CURDATE** (), **CURRENT_DATE** 및 **CURRENT_DATE** ()는 서로 바꿔 사용할 수 있으며 세션의 현재 날짜를 **DATE** 타입(*MM*/*DD*/*YYYY* 또는 *YYYY*-*MM*-*DD*)으로 반환한다. 사용하는 단위는 일이다.`
+    :red:`현재 세션의 타임존이 서버의 타임존과 동일하면 함수는 :c:macro:`SYS_DATE`, :c:macro:`SYSDATE`와 동일하다. 차이점은 :c:macro:`SYS_DATE`, :c:macro:`SYSDATE` 및 다음 예를 참고하고, 함수에 대한 자세한 내용은 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE`을 참고한다.`
+ 
     만약 입력 인자의 연, 월, 일이 모두 0이면 반환되는 값은 **return_null_on_function_errors** 시스템 변수에 의해서 결정된다;  만약 그 변수가 yes로 설정되었으면 **NULL** 이 반환된다; 만약 그 변수가 no로 설정되었으면 오류가 반환된다. 기본값은 **no** 이다.
     
     :rtype: DATE
@@ -252,7 +254,7 @@ CURDATE, CURRENT_DATE
     ============================================
       'Asia/Seoul'          'Asia/Seoul'        
 
-    -- 현재 날짜를 DATE 타입으로 반환한다
+    :red:'-- 현재 날짜를 DATE 타입으로 반환한다.'
 
     SELECT CURDATE(), CURRENT_DATE(), CURRENT_DATE, SYS_DATE, SYSDATE;
     
@@ -262,7 +264,7 @@ CURDATE, CURRENT_DATE
       
 .. code-block:: sql
 
-    -- 현재 날짜에 60일을 더한 날짜를 반환한다
+    :red:'-- 현재 날짜에 60일을 더한 날짜를 반환한다.'
     
     SELECT CURDATE()+60;
      
@@ -273,7 +275,7 @@ CURDATE, CURRENT_DATE
 
 .. code-block:: sql
 
-    -- 세션 타임을 'Asia/Seoul' 에서 'America/Los_Angeles' 로 변경
+    :red:'-- 'Asia/Seoul'에서 'America/Los_Angeles'로 세션 시간을 변경한다.'
     
     SET TIME ZONE 'America/Los_Angeles';
 
@@ -283,7 +285,7 @@ CURDATE, CURRENT_DATE
     ============================================
       'Asia/Seoul'          'America/Los_Angeles'
 
-    -- Note that CURDATE() and SYS_DATE returns different results
+    :red:'-- CURDATE()와 SYS_DATE는 서로 다른 결과를 반환하므로 주의한다.'
 
     SELECT CURDATE(), CURRENT_DATE(), CURRENT_DATE, SYS_DATE, SYSDATE;
 
@@ -293,7 +295,7 @@ CURDATE, CURRENT_DATE
 
 .. warning::
 
-    10.0에서, **CURDATE** (), **CURRENT_DATE**, **CURRENT_DATE** ()이 **SYS_DATE** 와 **SYSDATE** 에서 다르다. 이것은 9.x와 그 이하 버전의 동의어이다.
+    :red:`10.0에서는 **CURDATE** (), **CURRENT_DATE**, **CURRENT_DATE** ()가 **SYS_DATE** 및 **SYSDATE**와 다르다. 9.x 및 그 이전 버전에서는 동일하다.`
 
 CURRENT_DATETIME, NOW
 =====================
@@ -302,8 +304,8 @@ CURRENT_DATETIME, NOW
 .. c:macro:: CURRENT_DATETIME
 .. function:: NOW ()
 
-    **CURRENT_DATETIME** , **CURRENT_DATETIME** (), **NOW** () 는 동일하며, 현재 날짜를 **DATETIME** 타입으로 반환한다. 산술 연산의 단위는 밀리초(milli-sec) 다.
-    세션의 타임존이 서버와 같을 때, 이 함수들은 :c:macro:`SYS_DATETIME`, :c:macro:`SYSDATETIME`와 같다. 또한, 차이점을 알기 위해서 :c:macro:`SYS_DATETIME`, :c:macro:`SYSDATETIME` 를 참고하고, 다음 함수들의 자세한 설명은 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE` 를 참고해라.
+    :red:`**CURRENT_DATETIME**, **CURRENT_DATETIME** () 및 **NOW** ()는 서로 바꿔 사용할 수 있으며 세션의 현재 날짜와 시간을 **DATETIME** 타입으로 반환한다. 사용하는 단위는 밀리초이다.`
+    :red:`현재 세션의 타임존이 서버의 타임존과 동일하면 함수는 :c:macro:`SYS_DATETIME`, :c:macro:`SYSDATETIME` 과 동일하다. 차이점은 :c:macro:`SYS_DATETIME`, :c:macro:`SYSDATETIME`을 참고하고, 함수에 대한 자세한 내용은 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE`을 참고한다.`
 
     :rtype: DATETIME
     
@@ -315,7 +317,7 @@ CURRENT_DATETIME, NOW
     ============================================
       'Asia/Seoul'          'Asia/Seoul'        
 
-    -- 현재 날짜와 시간을 DATETIME 타입으로 반환한다
+    :red:'-- 현재 날짜와 시간을 DATETIME 타입으로 반환한다.'
 
     SELECT NOW(), SYS_DATETIME;                                                                                                                                                
 
@@ -325,7 +327,7 @@ CURRENT_DATETIME, NOW
     
 .. code-block:: sql
 
-    -- 현재의 sys_datetime 값에 1시간을 더한 타임스탬프 값을 반환한다
+    :red:'-- 현재 sys_datetime 값에 1시간을 더한 타임스탬프를 반환한다.'
 
     SELECT TO_CHAR(SYSDATETIME+3600*1000, 'YYYY-MM-DD HH24:MI');
 
@@ -335,8 +337,8 @@ CURRENT_DATETIME, NOW
 
 .. code-block:: sql
 
-    -- 세션 타임을 'Asia/Seoul' 에서 'America/Los_Angeles' 로 변경
-    
+    :red:'-- 'Asia/Seoul'에서 'America/Los_Angeles'로 세션 시간을 변경한다.'
+ 
     set time zone 'America/Los_Angeles';
 
     SELECT DBTIMEZONE(), SESSIONTIMEZONE();
@@ -345,8 +347,8 @@ CURRENT_DATETIME, NOW
     ============================================
       'Asia/Seoul'          'America/Los_Angeles'
 
-    -- CURTIME() 과 SYS_DATETIME 이 다른 값을 반환하는 것에 주목하라
-    
+    red:'-- NOW()와 SYS_DATETIME은 서로 다른 결과를 반환하므로 주의한다.'
+ 
     SELECT NOW(), SYS_DATETIME;
 
        CURRENT_DATETIME               SYS_DATETIME
@@ -355,7 +357,7 @@ CURRENT_DATETIME, NOW
 
 .. warning::
 
-    10.0에서, **CURDATE** (), **CURRENT_DATE**, **CURRENT_DATE** ()이 **SYS_DATE** 와 **SYSDATE** 에서 다르다. 이것은 9.x와 그 이하 버전의 동의어이다.
+    :red:`10.0에서는 **CURRENT_DATETIME** (), **NOW** ()가 **SYS_DATEIME**, **SYSDATETIME**과 다르다. 9.x 및 그 이전 버전에서는 동일하다.`
 
 CURTIME, CURRENT_TIME
 =====================
@@ -364,8 +366,8 @@ CURTIME, CURRENT_TIME
 .. c:macro:: CURRENT_TIME
 .. function:: CURRENT_TIME ()
 
-    **CURTIME** (), **CURRENT_TIME** and **CURRENT_TIME** () are used interchangeably and they return the current time of session as **TIME** type (*HH*:*MI*:*SS*). The unit is second.
-    When the time zone of the current session is same as that of server, these functions are same as :c:macro:`SYS_TIME`, :c:macro:`SYSTIME`. Please also refer :c:macro:`SYS_TIME`, :c:macro:`SYSTIME` to find a difference and :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE` for details of the functions.
+    :red:`**CURTIME** (), **CURRENT_TIME** 및 **CURRENT_TIME** ()은 서로 바꿔 사용할 수 있으며 세션의 현재 시간을 **TIME** 타입(*HH*:*MI*:*SS*)으로 반환한다. 사용하는 단위는 초이다.`
+    :red:`현재 세션의 타임존이 서버의 타임존과 동일하면 함수는 :c:macro:`SYS_TIME`, :c:macro:`SYSTIME`과 동일하다. 차이점은 :c:macro:`SYS_TIME`, :c:macro:`SYSTIME`을 참고하고, 함수에 대한 자세한 내용은 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE`을 참고한다.`
 
     :rtype: TIME
     
@@ -377,7 +379,7 @@ CURTIME, CURRENT_TIME
     ============================================
       'Asia/Seoul'          'Asia/Seoul'        
 
-    -- 현재 시간을 TIME 타입으로 반환한다
+    :red:'-- 현재 시간을 TIME 타입으로 반환한다.'
     
     SELECT CURTIME(), CURRENT_TIME(), CURRENT_TIME, SYS_TIME, SYSTIME;
 
@@ -388,8 +390,8 @@ CURTIME, CURRENT_TIME
 
 .. code-block:: sql
 
-    -- 세션 타임을 'Asia/Seoul' 에서 'America/Los_Angeles' 로 변경
-    
+    :red:'-- 'Asia/Seoul'에서 'America/Los_Angeles'로 세션 시간을 변경한다.'
+
     SET TIME ZONE 'AMERICA/LOS_ANGELES';
 
     SELECT DBTIMEZONE(), SESSIONTIMEZONE();
@@ -398,8 +400,8 @@ CURTIME, CURRENT_TIME
     ============================================
       'Asia/Seoul'          'America/Los_Angeles'
 
-    -- CURTIME() 와 SYS_TIME 이 다른 결과를 반환하는 것을 주목하라
-    
+    :red:'-- CURTIME()과 SYS_TIME은 서로 다른 결과를 반환하므로 주의한다.'
+ 
     SELECT CURTIME(), CURRENT_TIME(), CURRENT_TIME, SYS_TIME, SYSTIME;
 
        CURRENT_TIME    CURRENT_TIME    CURRENT_TIME    SYS_TIME     SYS_TIME  
@@ -408,7 +410,7 @@ CURTIME, CURRENT_TIME
 
 .. warning::
 
-    10.0에서, **CURTIME** (), **CURRENT_TIME** () 는 **SYS_TIME**과 **SYSTIME** 에서 다르다.  이것은 9.x와 그 이하 버전의 동의어이다. 
+    :red:`10.0에서는 **CURTIME** (), **CURRENT_TIME** ()이 **SYS_TIME**, **SYSTIME**과 다르다.  9.x 및 그 이전 버전에서는 동일하다.`
 
 CURRENT_TIMESTAMP, LOCALTIME, LOCALTIMESTAMP
 ============================================
@@ -421,7 +423,7 @@ CURRENT_TIMESTAMP, LOCALTIME, LOCALTIMESTAMP
 .. function:: LOCALTIMESTAMP ()
 
     **CURRENT_TIMESTAMP**, **CURRENT_TIMESTAMP** (), **LOCALTIME**, **LOCALTIME** (), **LOCALTIMESTAMP**, **LOCALTIMESTAMP** ()는 동일하며, 현재 날짜와 시간을 **TIMESTAMP** 타입으로 반환한다. 산술 연산의 단위는 초(sec)다.
-    세션의 타임존이 서버와 같을 때, 이 함수들은 :c:macro:`SYS_TIME`, :c:macro:`SYSTIME` 과 같다. 차이점을 알기 위해서는 :c:macro:`SYS_TIME`, :c:macro:`SYSTIME` 를 참고하길 바란다. 그리고 함수들의 세부사항은 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE` 를 참고해라.
+    :red:`현재 세션의 타임존이 서버의 타임존과 동일하면 함수는 :c:macro:`SYS_TIMESTAMP`, :c:macro:`SYSTIMESTAMP`와 동일하다.  차이점은 :c:macro:`SYS_TIMESTAMP`, :c:macro:`SYSTIMESTAMP를 참고하고, 함수에 대한 자세한 내용은 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE`을 참고한다.`
 
     :rtype: TIMESTAMP
     
@@ -433,7 +435,7 @@ CURRENT_TIMESTAMP, LOCALTIME, LOCALTIMESTAMP
     ============================================
       'Asia/Seoul'          'Asia/Seoul'        
 
-    -- 현재 시간을 세션의 TIMESTAMP 타입과 서버 타임존의 TIMESTAMP으로 반환한다.
+    :red:'-- 현재 날짜 및 시간을 TIMESTAMP 타입의 세션 및 서버 타임존으로 반환한다.'
     
     SELECT LOCALTIME, SYS_TIMESTAMP;
 
@@ -443,7 +445,7 @@ CURRENT_TIMESTAMP, LOCALTIME, LOCALTIMESTAMP
 
 .. code-block:: sql
  
-    -- 세션 타임을 'Asia/Seoul' 에서 'America/Los_Angeles' 로 변경
+    :red:'-- 'Asia/Seoul'에서 'America/Los_Angeles'로 세션 시간을 변경한다.'
     
     SET TIME ZONE 'America/Los_Angeles';
 
@@ -453,8 +455,8 @@ CURRENT_TIMESTAMP, LOCALTIME, LOCALTIMESTAMP
     ============================================
       'Asia/Seoul'          'America/Los_Angeles'
 
-    -- LOCALTIME() 과 SYS_TIMESTAMP 이 다른 결과를 반환하는 것에 주목하라
-    
+    :red:'-- LOCALTIME()과 SYS_TIMESTAMP는 서로 다른 결과를 반환하므로 주의한다.' 
+ 
     SELECT LOCALTIME, SYS_TIMESTAMP;                                                                                                                                           
 
        CURRENT_TIMESTAMP          SYS_TIMESTAMP           
@@ -463,8 +465,7 @@ CURRENT_TIMESTAMP, LOCALTIME, LOCALTIMESTAMP
 
 .. warning::
 
-    10.0에서, **CURRENT_TIMESTAMP**, **CURRENT_TIMESTAMP** (), **LOCALTIME**, **LOCALTIME** (), **LOCALTIMESTAMP**, **LOCALTIMESTAMP** () 이 **SYS_TIMESTAMP** (), **SYSTIMESTAMP** 에서 다르다.  이것은 9.x와 그 이하 버전의 동의어이다. 
-
+    :red:`10.0에서는 **CURRENT_TIMESTAMP**, **CURRENT_TIMESTAMP** (), **LOCALTIME**, **LOCALTIME** (), **LOCALTIMESTAMP** 및 **LOCALTIMESTAMP** ()가 **SYS_TIMESTAMP** (), **SYSTIMESTAMP**와 다르다.  9.x 및 그 이전 버전에서는 동일하다.` 
 
 DATE
 ====
@@ -830,10 +831,10 @@ FROM_TZ
       
 .. function:: FROM_TZ(datetime, timezone_string)
 
-    Converts date/time type without timezone as date/time type with timezone by adding timezone to DATETIME typed value. Input value's type is DATETIME, and the result value's type is DATETIMETZ.
+    :red:`DATETIME 타입 값에 타임존을 더하여 타임존이 없는 날짜/시간 타입을 타임존이 있는 날짜/시간 타입으로 변환한다. 입력 값 타입은 DATETIME이고 결과 값 타입은 DATETIMETZ이다.`
 
     :param datetime: DATETIME 
-    :param timezone_string: String representing a timezone name or and offset '+05:00', 'Asia/Seoul'.
+    :param timezone_string: :red:`타임존명('Asia/Seoul’) 또는 오프셋('+05:00')을 나타내는 문자열`
     :rtype: DATETIMETZ 
     
 .. code-block:: sql
@@ -1511,11 +1512,11 @@ SYS_DATE, SYSDATE
 .. c:macro:: SYS_DATE
 .. c:macro:: SYSDATE
 
-    **SYS_DATE** 와 **SYSDATE** 는 상호 호환적으로 사용되며 **DATE** 으로 서버의 현재 시간을 반환한다 ( *MM* / *DD* / *YYYY* or *YYYY* - *MM* - *DD* ). 단위는 일이다. 
-    현재 세션의 타임존이 서버의 타임존과 같을 때, 이 함수들은 :func:`CURDATE`, :func:`CURRENT_DATE` 그리고 :c:macro:`CURRENT_DATE`와 같다. 차이점을 찾기 위해서는 :func:`CURDATE`, :func:`CURRENT_DATE` 를 참조하라. 함수들의 상세한 내용은 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE` 를 참조하라.
+    :red:`**SYS_DATE** 및 **SYSDATE** 는 서로 바꿔 사용할 수 있으며 서버의 현재 날짜를 **DATE** 타입(*MM*/*DD*/*YYYY* 또는 *YYYY*-*MM*-*DD*)으로 반환한다. 사용하는 단위는 일이다.`   
+    :red:`현재 세션의 타임존이 서버의 타임존과 동일하면 함수는 :func:`CURDATE`, :func:`CURRENT_DATE` 및 :c:macro:`CURRENT_DATE`와 동일하다. 차이점은 :func:`CURDATE`, :func:`CURRENT_DATE`를 참고하고, 함수에 대한 자세한 내용은 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE`을 참고한다.` 
 
-    만약 년, 월, 일의 모든 인수의 값이 0이면 반환되는 값은 시스템 변수 **return_null_on_function_errors** 에 의해서 결정된다; 만약 이 시스템 변수 값이 yes 이면 **NULL** 이 반환된다; 만약 이 변수 값이 no이면 오류가 반환된다. 기본값은 **no** 이다.
-    
+    :red:`입력 인자의 년, 월, 일 값이 모두 0이면 **return_null_on_function_errors** 시스템 파라미터에 의해 반환 값이 결정된다. 이 파라미터가 yes이면 **NULL**을 반환하고 no이면 오류를 반환한다. 기본값은 **no**이다.`
+
     :rtype: DATE
     
 .. code-block:: sql
@@ -1526,7 +1527,7 @@ SYS_DATE, SYSDATE
     ============================================
       'Asia/Seoul'          'Asia/Seoul'        
 
-    -- 현재 날짜를 DATE 타입으로 반환한다
+    :red:'-- 현재 날짜를 DATE 타입으로 반환한다.'
     
     SELECT CURDATE(), CURRENT_DATE(), CURRENT_DATE, SYS_DATE, SYSDATE;
 
@@ -1536,7 +1537,7 @@ SYS_DATE, SYSDATE
 
 .. code-block:: sql
 
-    -- 현재 날짜에 60일이 더해진 날짜를 반환한다
+    :red:'-- 현재 날짜에 60일을 더한  날짜를 반환한다'
     
     SELECT CURDATE()+60;
 
@@ -1547,8 +1548,8 @@ SYS_DATE, SYSDATE
 
 .. code-block:: sql
 
-    -- 세션 타임을 'Asia/Seoul' 에서 'America/Los_Angeles서 로 변경한다
-    
+    :red:'-- 'Asia/Seoul'에서 'America/Los_Angeles'로 세션 시간을 변경한다.'
+ 
     SET TIME ZONE 'America/Los_Angeles';
 
     SELECT DBTIMEZONE(), SESSIONTIMEZONE();
@@ -1557,8 +1558,8 @@ SYS_DATE, SYSDATE
     ============================================
       'Asia/Seoul'          'America/Los_Angeles'
 
-    -- CURDATE() 와 SYS_DATE 가 다른 결과를 반환하는 것을 주목하라
-    
+    :red:'-- CURDATE()와 SYS_DATE는 서로 다른 결과를 반환하므로 주의한다.'
+ 
     SELECT CURDATE(), CURRENT_DATE(), CURRENT_DATE, SYS_DATE, SYSDATE;
 
        CURRENT_DATE    CURRENT_DATE    CURRENT_DATE    SYS_DATE    SYS_DATE 
@@ -1567,7 +1568,7 @@ SYS_DATE, SYSDATE
 
 .. warning::
     
-    10.0에서, **SYS_DATE** , **SYSDATE** 은 **CURDATE** (), **CURRENT_DATE**, **CURRENT_DATE** () 와 다르다. 이것은 9.x와 그 이하 버전의 동의어이다. 
+    :red:`10.0에서는 **SYS_DATE** 및 **SYSDATE**가 **CURDATE** (), **CURRENT_DATE**, **CURRENT_DATE** ()와 다르다. 9.x 및 그 이전 버전에서는 동일하다.`
 
 SYS_DATETIME, SYSDATETIME
 =========================
@@ -1575,8 +1576,8 @@ SYS_DATETIME, SYSDATETIME
 .. c:macro:: SYS_DATETIME
 .. c:macro:: SYSDATETIME
 
-    **SYS_DATETIME** 와 **SYSDATETIME** 는 상호 호환적으로 사용된다. 이들은 서버의 현재 날짜와 시간을 **DATETIME** 으로 반환한다. 단위는 밀리초(millisecond)이다.
-    세션과 서버의 타임존이 같을 때, 이 함수들은 :func:`CURRENT_DATETIME`, :c:macro:`CURRENT_DATETIME`, :func:`NOW`과 같다. 차이점에 관해서는 :func:`CURRENT_DATETIME`, :func:`NOW`를 참조하라. 함수들의 상세한 기능에 대해서는 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE` 을 참조하라.
+    :red:`**SYS_DATETIME** 및 **SYSDATETIME**은 서로 바꿔 사용할 수 있으며 서버의 현재 날짜와 시간을 **DATETIME** 타입으로 반환한다. 사용하는 단위는 밀리초이다.`
+    :red:`현재 세션의 타임존이 서버의 타임존과 동일하면 함수는 :func:`CURRENT_DATETIME`, :c:macro:`CURRENT_DATETIME`, :func:`NOW`와 동일하다. 차이점은 :func:`CURRENT_DATETIME`, :func:`NOW`를 참고하고, 함수에 대한 자세한 내용은 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE`을 참고한다.`
 
     :rtype: DATETIME
     
@@ -1588,7 +1589,7 @@ SYS_DATETIME, SYSDATETIME
     ============================================
       'Asia/Seoul'          'Asia/Seoul'        
 
-    -- 현재 날짜와 시간을 DATETIME 타입으로 반환한
+    :red:'-- 현재 날짜 및 시간을 DATETIME 타입으로 반환한다.'
 
     SELECT NOW(), SYS_DATETIME;                                                                                                                                                
 
@@ -1598,8 +1599,8 @@ SYS_DATETIME, SYSDATETIME
 
 .. code-block:: sql
 
-    -- 현재  sys_datetime 값에 1시간을 더한 타임스탬프 값을 반환한다
-    
+    :red:'-- 현재 sys_datetime 값에 1시간을 더한 타임스탬프를 반환한다.'
+ 
     SELECT TO_CHAR(SYSDATETIME+3600*1000, 'YYYY-MM-DD HH24:MI');
 
        to_char( SYS_DATETIME +3600*1000, 'YYYY-MM-DD HH24:MI')
@@ -1608,8 +1609,8 @@ SYS_DATETIME, SYSDATETIME
 
 .. code-block:: sql
 
-    -- 세션 타임을 'Asia/Seoul' 에서 'America/Los_Angeles' 로 변경한다
-    
+    :red:'-- 'Asia/Seoul'에서 'America/Los_Angeles'로 세션 시간을 변경한다.'
+ 
     SET TIME ZONE 'America/Los_Angeles';
 
     SELECT DBTIMEZONE(), SESSIONTIMEZONE();
@@ -1618,8 +1619,8 @@ SYS_DATETIME, SYSDATETIME
     ============================================
       'Asia/Seoul'          'America/Los_Angeles'
 
-    -- NOW() 와 SYS_DATETIME 이 서로 다른 값을 반환하는 것에 주목하라
-    
+    :red:'-- NOW()와 SYS_DATETIME은 서로 다른 결과를 반환하므로 주의한다.'
+ 
     SELECT NOW(), SYS_DATETIME;
 
        CURRENT_DATETIME               SYS_DATETIME                
@@ -1628,16 +1629,16 @@ SYS_DATETIME, SYSDATETIME
   
 .. warning::
 
-    10.0에서, **SYS_DATEIME**, **SYSDATETIME** are different from **CURRENT_DATETIME** (), **NOW** (). 이것은 9.x와 그 이하 버전의 동의어이다. 
-    
+    :red:`10.0에서는 **SYS_DATEIME**, **SYSDATETIME**이 **CURRENT_DATETIME** (), **NOW** ()와 다르다. 9.x 및 그 이전 버전에서는 동일하다.`    
+ 
 SYS_TIME, SYSTIME
 =================
 
 .. c:macro:: SYS_TIME
 .. c:macro:: SYSTIME
 
-    **SYS_TIME** 와 **SYSTIME** 는 상호 호환적으로 사용된다. 이들은 서버의 현재 시간을 **TIME** 타입으로 반환한다 ( *HH* : *MI* : *SS* ). 단위는 초이다.
-    세션과 서버의 타임존이 같을 때, 이 함수들은 :func:`CURTIME`, :c:macro:`CURRENT_TIME`, :func:`CURRENT_TIME`과 같다. 차이점에 관해서는 :func:`CURTIME`, :func:`CURRENT_TIME`를 참조하라. 함수들의 상세한 기능에 대해서는 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE` 을 참조하라.
+    :red:`**SYS_TIME** 및 **SYSTIME**은 서로 바꿔 사용할 수 있으며 서버의 현재 시간을 **TIME** 타입(*HH*:*MI*:*SS*)으로 반환한다. 사용하는 단위는 초이다.`
+    :red:`현재 세션의 타임존이 서버의 타임존과 동일하면 함수는 :func:`CURTIME`, :c:macro:`CURRENT_TIME`, :func:`CURRENT_TIME`과 동일하다. 차이점은 :func:`CURTIME`, :func:`CURRENT_TIME`을 참고하고, 함수에 대한 자세한 내용은 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE`을 참고한다.`
 
     :rtype: TIME
     
@@ -1649,8 +1650,8 @@ SYS_TIME, SYSTIME
     ============================================
       'Asia/Seoul'          'Asia/Seoul'        
 
-    -- it returns the current time in TIME type
-    
+    :red:'-- 현재 시간을 TIME 타입으로 반환한다.'
+ 
     SELECT CURTIME(), CURRENT_TIME(), CURRENT_TIME, SYS_TIME, SYSTIME;
 
        CURRENT_TIME    CURRENT_TIME    CURRENT_TIME    SYS_TIME     SYS_TIME  
@@ -1661,7 +1662,8 @@ SYS_TIME, SYSTIME
 .. code-block:: sql
 
     -- 세션 타임을 'Asia/Seoul' 에서 'America/Los_Angeles' 으로 변경한다
-    
+    :red:'-- 'Asia/Seoul'에서 'America/Los_Angeles'로 세션 시간을 변경한다.'
+ 
     SET TIME ZONE 'America/Los_Angeles';
 
     select dbtimezone(), sessiontimezone();
@@ -1670,8 +1672,8 @@ SYS_TIME, SYSTIME
     ============================================
       'Asia/Seoul'          'America/Los_Angeles'
 
-    -- CURTIME() 와 SYS_TIME 이 서로 다른 결과를 반환하는 것에 주목하라
-    
+    :red:'-- CURTIME()과 SYS_TIME은 서로 다른 결과를 반환하므로 주의한다.'
+
     SELECT CURTIME(), CURRENT_TIME(), CURRENT_TIME, SYS_TIME, SYSTIME;
 
        CURRENT_TIME    CURRENT_TIME    CURRENT_TIME    SYS_TIME     SYS_TIME  
@@ -1680,16 +1682,16 @@ SYS_TIME, SYSTIME
 
 .. warning::
 
-    10.0에서, **SYS_TIME**, **SYSTIME** are different from **CURTIME** (), **CURRENT_TIME** ().  이것은 9.x와 그 이하 버전의 동의어이다.
-    
+    :red:`10.0에서는 **SYS_TIME**, **SYSTIME**이 **CURTIME** (), **CURRENT_TIME** ()과 다르다.  9.x 및 그 이전 버전에서는 동일하다.`    
+ 
 SYS_TIMESTAMP, SYSTIMESTAMP
 ===========================
 
 .. c:macro:: SYS_TIMESTAMP
 .. c:macro:: SYSTIMESTAMP
 
-    **SYS_TIMESTAMP** 와 **SYSTIMESTAMP**는 상호 호환적으로 사용된다. 이들은 서버의 현재 날짜와 시간을 **TIMESTAMP** 타입으로 반환한다. 단위는 초이다.
-    세션과 서버의 타임존이 같을 때, 이 함수들은 :c:macro:`CURRENT_TIMESTAMP`, :func:`CURRENT_TIMESTAMP`, :c:macro:`LOCALTIME`, :func:`LOCALTIME`, :c:macro:`LOCALTIMESTAMP`, :func:`LOCALTIMESTAMP`과 같다. 차이점에 관해서는 :c:macro:`CURRENT_TIMESTAMP`, :func:`CURRENT_TIMESTAMP`, :c:macro:`LOCALTIME`, :func:`LOCALTIME`, :c:macro:`LOCALTIMESTAMP`, :func:`LOCALTIMESTAMP`를 참조하라. 함수들의 상세한 기능에 대해서는 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE` 을 참조하라.
+    :red:`**SYS_TIMESTAMP** 및 **SYSTIMESTAMP**은 서로 바꿔 사용할 수 있으며 서버의 현재 날짜와 시간을 **TIMESTAMP** 타입으로 반환한다. 사용하는 단위는 초이다.`
+    :red:`현재 세션의 타임존이 서버의 타임존과 동일하면 함수는 :c:macro:`CURRENT_TIMESTAMP`, :func:`CURRENT_TIMESTAMP`, :c:macro:`LOCALTIME`, :func:`LOCALTIME`, :c:macro:`LOCALTIMESTAMP`, :func:`LOCALTIMESTAMP`와 동일하다. 차이점은 :c:macro:`CURRENT_TIMESTAMP`, :func:`CURRENT_TIMESTAMP`, :c:macro:`LOCALTIME`, :func:`LOCALTIME`, :c:macro:`LOCALTIMESTAMP`, :func:`LOCALTIMESTAMP`를 참고하고, 함수에 대한 자세한 내용은 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE`을 참고한다.`
 
     :rtype: TIMESTAMP
     
@@ -1701,8 +1703,8 @@ SYS_TIMESTAMP, SYSTIMESTAMP
     ============================================
       'Asia/Seoul'          'Asia/Seoul'        
 
-    -- 현재 날짜와 시간을 세션과 서버의 타임존 타입 TIMESTAMP로 반환한다.
-    
+    :red:'-- 현재 날짜 및 시간을 TIMESTAMP 타입의 세션 및 서버 타임존으로 반환한다.'
+ 
     SELECT LOCALTIME, SYS_TIMESTAMP;
 
        CURRENT_TIMESTAMP          SYS_TIMESTAMP           
@@ -1711,8 +1713,8 @@ SYS_TIMESTAMP, SYSTIMESTAMP
 
 .. code-block:: sql
  
-    -- 세션 타임을 'Asia/Seoul' 에서 'America/Los_Angeles'로 변경한다
-    
+    :red:'-- 'Asia/Seoul'에서 'America/Los_Angeles'로 세션 시간을 변경한다.'
+ 
     SET TIME ZONE 'America/Los_Angeles';
 
     SELECT DBTIMEZONE(), SESSIONTIMEZONE();                                                                                                                                    
@@ -1721,8 +1723,8 @@ SYS_TIMESTAMP, SYSTIMESTAMP
     ============================================
       'Asia/Seoul'          'America/Los_Angeles'
 
-    -- LOCALTIME() 과 SYS_TIMESTAMP 이 서로 다른 결과를 반환하는 것에 주목하라
-    
+    :red:'-- LOCALTIME()과 SYS_TIMESTAMP는 서로 다른 결과를 반환하므로 주의한다.'
+ 
     SELECT LOCALTIME, SYS_TIMESTAMP;                                                                                                                                           
 
        CURRENT_TIMESTAMP          SYS_TIMESTAMP           
@@ -1731,7 +1733,7 @@ SYS_TIMESTAMP, SYSTIMESTAMP
 
 .. warning::
 
-    10.0에서, **SYS_TIMESTAMP** (), **SYSTIMESTAMP** are different from **CURRENT_TIMESTAMP**, **CURRENT_TIMESTAMP** (), **LOCALTIME**, **LOCALTIME** (), **LOCALTIMESTAMP** and **LOCALTIMESTAMP** ().  이것은 9.x와 그 이하 버전의 동의어이다.
+    :red:`10.0에서는 **SYS_TIMESTAMP** (), **SYSTIMESTAMP**가 **CURRENT_TIMESTAMP**, **CURRENT_TIMESTAMP** (), **LOCALTIME**, **LOCALTIME** (), **LOCALTIMESTAMP** 및 **LOCALTIMESTAMP** ()와 다르다.  9.x 및 그 이전 버전에서는 동일하다.` 
 
 TIME
 ====
@@ -2129,11 +2131,11 @@ UNIX_TIMESTAMP
 
     **UNIX_TIMESTAMP** 함수는 인자를 생략할 수 있으며, 인자를 생략하면 '1970-01-01 00:00:00' UTC 이후 현재 시스템 날짜/시간까지의 초 단위 시간 간격(interval)을 반환한다. *date* 인자가 지정되면 '1970-01-01 00:00:00' UTC 이후 지정된 날짜/시간까지의 초 단위 시간 간격을 반환한다.
 
-    인자의 연, 월, 일에는 0을 입력할 수 없으나, 예외적으로 날짜와 시간이 모두 0인 값을 입력한 경우에는 0을 반환한다.
+    :red:`년, 월, 일에 해당하는 인자 값에는 0이 허용되지 않지만 날짜 및 시간에 해당하는 모든 인자 값에 0을 입력한 경우에는 예외적으로 0이 반환된다.`
 
-    DATETIME의 인수형은 세션의 타임존으로 간주한다.
-    
-    :param date: **DATE** type, **TIMESTAMP** type, **TIMESTAMPTZ** type, **TIMESTAMPLTZ** type, **DATETIME** type, **DATETIMETZ** type, **DATETIMELTZ** type, **DATE** format string ('*YYYY*-*MM*-*DD*' or '*MM*/*DD*/*YYYY*'), **TIMESTAMP** format string ('*YYYY*-*MM*-*DD* *HH*:*MI*:*SS*', '*HH*:*MI*:*SS* *MM*/*DD*/*YYYY*') or '*YYYYMMDD*' format string can be specified. 
+    :red:`DATETIME 타입의 인자는 세션 타임존에서 고려한다.`
+ 
+    :param date: :red:`**DATE** 타입, **TIMESTAMP** 타입, **TIMESTAMPTZ** 타입, **TIMESTAMPLTZ** 타입, **DATETIME** 타입, **DATETIMETZ** 타입, **DATETIMELTZ** 타입, **DATE** 형식 문자열('*YYYY*-*MM*-*DD*' 또는 '*MM*/*DD*/*YYYY*'), **TIMESTAMP** 형식 문자열('*YYYY*-*MM*-*DD* *HH*:*MI*:*SS*', '*HH*:*MI*:*SS* *MM*/*DD*/*YYYY*') 또는 '*YYYYMMDD*' 형식 문자열을 지정할 수 있다.` 
     :rtype: INT
 
 .. code-block:: sql
@@ -2159,7 +2161,7 @@ UNIX_TIMESTAMP
 
 .. code-block:: sql
 
-     -- when used without argument, it returns the exact value at the moment of execution of each occurence
+     :red:'-- 인자 없이 사용할 경우, 각각 수행 순간의 정확한 값을 반환한다.'
      SELECT  UNIX_TIMESTAMP(), SLEEP(1), UNIX_TIMESTAMP();
 
        unix_timestamp()     sleep(1)   unix_timestamp()

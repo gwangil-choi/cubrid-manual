@@ -1,6 +1,8 @@
 
 :meta-keywords: cubrid charset, cubrid coercibility, cubrid collation, cubrid current_user, cubrid default, cubrid last_insert_id, cubrid row_count
 
+.. role:: red
+
 :tocdepth: 3
 
 *********
@@ -232,9 +234,9 @@ DISK_SIZE
 
 .. function:: DISK_SIZE(expr)
 
-    This function returns the size in bytes required to store the value of *expr* after evaluation. Main usage is to get necessary size for storing values in database heap file.
+    :red:`이 함수는 평가 후 *expr* 값을 저장하는 데 필요한 바이트 크기를 반환한다. 주로 데이터베이스 힙 파일에 값을 저장하는 데 필요한 크기를 확인할 때 사용한다.`
 
-    :param expr: Target expression to get the size.
+    :param expr: :red:`크기를 가져오는 연산식.`
 
     :rtype: INTEGER
 
@@ -249,7 +251,7 @@ DISK_SIZE
                       7              4
 
 
-The size depends on the actual content of value, :ref:`string compression<string_compression>` is also taken into account:
+:red:`값의 실제 내용에 따라 크기가 다르며, :ref:`문자열 압축<string_compression>`도 고려한다.`
 
 .. code-block:: sql
 

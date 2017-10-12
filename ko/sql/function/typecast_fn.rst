@@ -1,6 +1,8 @@
 
 :meta-keywords: cubrid cast, cubrid type cast, cubrid date_format, cubrid to_char, cubrid to_date, cubrid to_datetime, cubrid to_datetime_tz, cubrid to_time, cubrid to_timestamp, cubrid to_timestamp_tz
 
+.. role:: red
+
 :tocdepth: 3
 
 ******************************
@@ -82,9 +84,9 @@ CUBRID에서 **CAST** 연산자를 사용한 명시적인 타입 변환에 대�
   *   **D**: **DATE**
   *   **T**: **TIME**
   *   **DT**: **DATETIME**
-  *   **DTZ**: **DATETIME WITH TIME ZONE**, **DATETIME WITH LOCAL TIME ZONE** 데이터 타입
+  *   **DTZ**: :red:`**DATETIME WITH TIME ZONE** 및 **DATETIME WITH LOCAL TIME ZONE** 데이터 타입`
   *   **UT**: **TIMESTAMP**
-  *   **UTZ**: **TIMESTAMP WITH TIME ZONE**, **TIMESTAMP WITH LOCAL TIME ZONE** 데이터 타입
+  *   **UTZ**: :red:`**TIMESTAMP WITH TIME ZONE** 및 **TIMESTAMP WITH LOCAL TIME ZONE** 데이터 타입`
   *   **S**: **SET**
   *   **MS**: **MULTISET**
   *   **SQ**: **LIST** (= **SEQUENCE**)

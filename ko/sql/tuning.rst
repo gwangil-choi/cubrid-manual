@@ -2,6 +2,8 @@
 :meta-keywords: cubrid update statistics, cubrid check statistics, query plan, query profiling, sql hint, cubrid index hint, cubrid special index, cubrid using index
 :meta-description: How to optimize query execution in CUBRID database.
 
+.. role:: red
+
 통계 정보 갱신
 ==============
 
@@ -98,6 +100,7 @@ CSQL 인터프리터의 세션 명령어로 지정한 테이블의 통계 정보
 CUBRID SQL 질의에 대한 실행 계획(query plan)을 보기 위해서는 다음의 방법을 사용할 수 있다.
 
 *   CUBRID 매니저에서 플랜 보기 버튼을 누른다. 
+*   :red:`CUBRID Manager에서 "플랜 보기" 버튼을 누른다.`
 
     .. image:: /images/query_plan_on_CM.png
 
@@ -992,7 +995,7 @@ USE, FORCE, IGNORE INDEX 구문은 시스템에 의해 자동적으로 적절한
     FROM bugs FORCE INDEX (idx_open_bugs)
     WHERE CreationDate > CURRENT_DATE - 10 AND Closed = 0;
 
-위의 예에서 **USING INDEX** **idx_open_bugs** 절이나 "**USE INDEX** (*idx_open_bugs*)" 절을 사용하는 경우, 인덱스를 사용하지 않고 질의를 수행하게 된다.
+:red:`위의 예에서 "**USING INDEX** *idx_open_bugs*" 또는 "**USE INDEX**(*idx_open_bugs*)"를 사용하는 경우, *idx_open_bugs* 인덱스를 사용하지 않고 질의를 수행하게 된다.`
     
 .. warning::
 

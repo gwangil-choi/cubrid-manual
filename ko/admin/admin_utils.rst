@@ -46,7 +46,7 @@ cubrid 유틸리티의 사용법(구문)은 다음과 같다. ::
 cubrid 유틸리티 로깅
 --------------------
  
-CUBRID는 cubrid 유틸리티의 수행 결과에 대한 로깅 기능을 제공하며, 자세한 내용은 :ref:`cubrid-utility-logging`\ 을 참고한다. :red:`테스트`
+CUBRID는 cubrid 유틸리티의 수행 결과에 대한 로깅 기능을 제공하며, 자세한 내용은 :ref:`cubrid-utility-logging` 을 참고한다.
 
 .. _creating-database:
 
@@ -61,7 +61,7 @@ createdb
 
     데이터베이스를 생성할 때 데이터베이스 이름 뒤에 로캘 이름과 문자셋(예: ko_KR.utf8)을 반드시 지정해야 한다. 문자셋에 따라 문자열 타입의 크기, 문자열 비교 연산 등에 영향을 끼친다. 데이터베이스 생성 시 지정된 문자셋은 변경할 수 없으므로 지정에 주의해야 한다.
     
-    문자셋, 로캘 및 콜레이션 설정과 관련된 자세한 내용은 :doc:`/sql/i18n`\ 을 참고한다.
+    문자셋, 로캘 및 콜레이션 설정과 관련된 자세한 내용은 :doc:`/sql/i18n` 을 참고한다.
 
 ::
 
@@ -73,17 +73,17 @@ createdb
 
 *   *database_name*: 데이터베이스가 생성될 디렉터리 경로명을 포함하지 않고, 생성하고자 하는 데이터베이스의 이름을 고유하게 부여한다. 이 때, 지정한 데이터베이스 이름이 이미 존재하는 데이터베이스 이름과 중복되는 경우, CUBRID는 기존 파일을 보호하기 위하여 데이터베이스 생성을 더 이상 진행하지 않는다.
 
-*   *locale_name*: 데이터베이스에서 사용할 로캘 이름을 입력한다. CUBRID에서 사용 가능한 로캘 이름은 :ref:`locale-selection`\ 을 참고한다.
+*   *locale_name*: 데이터베이스에서 사용할 로캘 이름을 입력한다. CUBRID에서 사용 가능한 로캘 이름은 :ref:`locale-selection` 을 참고한다.
 
 *   *charset*: 데이터베이스에서 사용할 문자셋을 입력한다. CUBRID에서 사용 가능한 문자셋은 iso88591, euckr, utf8이다. 
     
-    *   *locale_name*\ 이 en_US이고 *charset*\ 을 생략하면 문자셋은 iso88591이 된다.
-    *   *locale_name*\ 이 ko_KR이고 *charset*\ 을 생략하면 문자셋은 utf8이 된다.
-    *   나머지 *locale_name*\ 은 *charset*\ 을 생략할 수 없으며, utf8만 지정 가능하다.
+    *   *locale_name* 이 en_US이고 *charset* 을 생략하면 문자셋은 iso88591이 된다.
+    *   *locale_name* 이 ko_KR이고 *charset* 을 생략하면 문자셋은 utf8이 된다.
+    *   나머지 *locale_name* 은 *charset* 을 생략할 수 없으며, utf8만 지정 가능하다.
 
 데이터베이스 이름의 최대 길이는 영문 17자이다.
 
-다음은 **cubrid createdb**\에 대한 [options]이다.
+다음은 **cubrid createdb** 에 대한 [options]이다.
 
 .. program:: createdb
 
@@ -107,7 +107,7 @@ createdb
 
     :red:`이 옵션은 데이터베이스 로그 볼륨의 크기를 지정한다. 기본값은 데이터베이스 볼륨 크기와 같으며, 최소값은 20M이다. 단위는 K, M, G 및 T로 설정할 수 있으며, 각각 킬로바이트(KB), 메가바이트(MB), 기가바이트(GB) 및 테라바이트(TB)를 나타낸다. 단위를 생략하면 바이트가 적용된다.`
 
-    다음은 *testdb*\를 생성하고, *testdb*\의 로그 볼륨 크기를 256M로 지정하는 구문이다. ::
+    다음은 *testdb* 를 생성하고, *testdb* 의 로그 볼륨 크기를 256M로 지정하는 구문이다. ::
 
         cubrid createdb --log-volume-size=256M testdb en_US
 
@@ -116,7 +116,7 @@ createdb
     생성되는 데이터베이스의 로그 볼륨 페이지 크기를 지정하는 옵션으로, 기본값은 데이터 페이지 크기와 같다. 최소값은 4K, 최대값은 16K이다. K는 KB(kilobytes)를 의미한다.
     데이터베이스 페이지 크기는 4K, 8K, 16K 중 하나의 값이 된다. 4K와 16K 사이의 값을 지정할 경우 지정한 값의 올림값으로 설정되며, 4K보다 작으면 4K로 설정되고 16K보다 크면 16K로 설정된다.
 
-    다음은 *testdb*\를 생성하고, *testdb*\ 의 로그 볼륨 페이지 크기를 8kbyte로 지정하는 구문이다. ::
+    다음은 *testdb* 를 생성하고, *testdb* 의 로그 볼륨 페이지 크기를 8kbyte로 지정하는 구문이다. ::
 
         cubrid createdb -log-page-size=8K testdb en_US
 
@@ -124,7 +124,7 @@ createdb
 
     데이터베이스의 볼륨 헤더에 지정된 주석을 포함하는 옵션으로, 문자열에 공백이 포함되면 큰 따옴표로 감싸주어야 한다.
 
-    다음은 *testdb*\를 생성하고, 데이터베이스 볼륨에 이에 대한 주석을 추가하는 구문이다. ::
+    다음은 *testdb* 를 생성하고, 데이터베이스 볼륨에 이에 대한 주석을 추가하는 구문이다. ::
 
         cubrid createdb --comment "a new database for study" testdb en_US
 
@@ -132,7 +132,7 @@ createdb
 
     새로운 데이터베이스가 생성되는 디렉터리의 절대 경로를 지정하는 옵션으로, **-F** 옵션을 지정하지 않으면 현재 작업 디렉터리에 새로운 데이터베이스가 생성된다.
 
-    다음은 *testdb*\라는 이름의 데이터베이스를 /dbtemp/new_db라는 디렉터리에 생성하는 구문이다. ::
+    다음은 *testdb* 라는 이름의 데이터베이스를 /dbtemp/new_db라는 디렉터리에 생성하는 구문이다. ::
 
         cubrid createdb -F "/dbtemp/new_db/" testdb en_US
 
@@ -141,15 +141,15 @@ createdb
     데이터베이스의 로그 파일이 생성되는 디렉터리의 절대 경로를 지정하는 옵션으로, **-L** 옵션을 지정하지 않으면 **-F** 옵션에서 지정한 디렉터리에 생성된다.
     **-F** 옵션과 **-L** 옵션을 둘 다 지정하지 않으면 데이터베이스와 로그 파일이 현재 작업 디렉터리에 생성된다.
 
-    다음은 *testdb*\라는 이름의 데이터베이스를 /dbtemp/newdb라는 디렉터리에 생성하고, 로그 파일을 /dbtemp/db_log 디렉터리에 생성하는 구문이다. ::
+    다음은 *testdb* 라는 이름의 데이터베이스를 /dbtemp/newdb라는 디렉터리에 생성하고, 로그 파일을 /dbtemp/db_log 디렉터리에 생성하는 구문이다. ::
 
         cubrid createdb -F "/dbtemp/new_db/" -L "/dbtemp/db_log/" testdb en_US
 
 .. option:: -B, --lob-base-path=PATH
 
-    **BLOB/CLOB** 데이터를 사용하는 경우 **LOB** 데이터 파일이 저장되는 디렉터리의 경로를 지정하는 옵션으로, 이 옵션을 지정하지 않으면 <*데이터베이스 볼륨이 생성되는 디렉터리*>\ **/lob** 디렉터리에 **LOB** 데이터 파일이 저장된다.
+    **BLOB/CLOB** 데이터를 사용하는 경우 **LOB** 데이터 파일이 저장되는 디렉터리의 경로를 지정하는 옵션으로, 이 옵션을 지정하지 않으면 <*데이터베이스 볼륨이 생성되는 디렉터리*> **/lob** 디렉터리에 **LOB** 데이터 파일이 저장된다.
 
-    다음은 *testdb*\ 를 현재 작업 디렉터리에 생성하고, **LOB** 데이터 파일이 저장될 디렉터리를 로컬 파일 시스템의 "/home/data1"으로 지정하는 구문이다. ::
+    다음은 *testdb* 를 현재 작업 디렉터리에 생성하고, **LOB** 데이터 파일이 저장될 디렉터리를 로컬 파일 시스템의 "/home/data1"으로 지정하는 구문이다. ::
 
         cubrid createdb --lob-base-path "file:/home1/data1" testdb en_US
 
@@ -157,15 +157,15 @@ createdb
 
     CUBRID의 클라이언트/서버 버전을 사용할 때 특정 데이터베이스에 대한 서버가 지정한 호스트 상에 구동되도록 하는 옵션이다. 이 옵션으로 지정된 서버 호스트의 정보는 데이터베이스 위치 정보 파일( **databases.txt** )에 기록된다. 이 옵션이 지정되지 않으면 기본값은 현재 로컬 호스트이다.
 
-    다음은 *testdb*\를 *aa_host* 호스트 상에 생성 및 등록하는 구문이다. ::
+    다음은 *testdb* 를 *aa_host* 호스트 상에 생성 및 등록하는 구문이다. ::
 
         cubrid createdb --server-name aa_host testdb en_US
 
 .. option:: -r, --replace
 
-    **-r**\은 지정된 데이터베이스 이름이 이미 존재하는 데이터베이스 이름과 중복되더라도 새로운 데이터베이스를 생성하고, 기존의 데이터베이스를 덮어쓰도록 하는 옵션이다.
+    **-r** 은 지정된 데이터베이스 이름이 이미 존재하는 데이터베이스 이름과 중복되더라도 새로운 데이터베이스를 생성하고, 기존의 데이터베이스를 덮어쓰도록 하는 옵션이다.
 
-    다음은 *testdb*\ 라는 이름의 데이터베이스가 이미 존재하더라도 기존의 *testdb*\ 를 덮어쓰고 새로운 *testdb*\ 를 생성하는 구문이다. ::
+    다음은 *testdb* 라는 이름의 데이터베이스가 이미 존재하더라도 기존의 *testdb* 를 덮어쓰고 새로운 *testdb* 를 생성하는 구문이다. ::
 
         cubrid createdb -r testdb en_US
 
@@ -173,7 +173,7 @@ createdb
 
     데이터베이스가 생성되는 디렉터리에 추가 볼륨을 생성하는 옵션으로 지정된 파일에 저장된 명세에 따라 추가 볼륨을 생성한다. 이 옵션을 이용하지 않더라도, **cubrid addvoldb** 유틸리티를 이용하여 볼륨을 추가할 수 있다.
 
-    다음은 *testdb*\를 생성함과 동시에 vol_info.txt에 저장된 명세를 기반으로 볼륨을 추가 생성하는 구문이다. ::
+    다음은 *testdb* 를 생성함과 동시에 vol_info.txt에 저장된 명세를 기반으로 볼륨을 추가 생성하는 구문이다. ::
 
         cubrid createdb --more-volume-file vol_info.txt testdb en_US
 
@@ -207,7 +207,7 @@ createdb
     생성하고자 하는 데이터베이스에 대해 권한이 있는 사용자를 추가하는 옵션으로, 파라미터로 지정된 사용자 정보 파일에 저장된 명세에 따라 사용자를 추가한다.
     **--user-definition-file** 옵션을 이용하지 않더라도 :ref:`create-user` 구문을 이용하여 사용자를 추가할 수 있다.
 
-    다음은 *testdb*\를 생성함과 동시에 user_info.txt에 정의된 사용자 정보를 기반으로 *testdb*\에 대한 사용자를 추가하는 구문이다. ::
+    다음은 *testdb* 를 생성함과 동시에 user_info.txt에 정의된 사용자 정보를 기반으로 *testdb* 에 대한 사용자를 추가하는 구문이다. ::
 
         cubrid createdb --user-definition-file=user_info.txt testdb en_US
 
@@ -223,13 +223,13 @@ createdb
 
     *   *user_name*: 데이터베이스에 대해 권한을 가지는 사용자 이름이며, 공백이 포함되지 않아야 한다.
 
-    *   **GROUPS** 절: 옵션이며, <group_name>은 지정된 <user_name>을 포함하는 상위 그룹의 이름이다. 이 때, <group_name>은 하나 이상이 지정될 수 있으며, **USER**\로 미리 정의되어야 한다.
+    *   **GROUPS** 절: 옵션이며, <group_name>은 지정된 <user_name>을 포함하는 상위 그룹의 이름이다. 이 때, <group_name>은 하나 이상이 지정될 수 있으며, **USER** 로 미리 정의되어야 한다.
 
-    *   **MEMBERS** 절: 옵션이며, <member_name> 은 지정된 <user_name>에 포함되는 하위 멤버의 이름이다. 이 때, <member_name>은 하나 이상이 지정될 수 있으며, **USER**\로 미리 정의되어야 한다.
+    *   **MEMBERS** 절: 옵션이며, <member_name> 은 지정된 <user_name>에 포함되는 하위 멤버의 이름이다. 이 때, <member_name>은 하나 이상이 지정될 수 있으며, **USER** 로 미리 정의되어야 한다.
 
     사용자 정보 파일에서는 주석을 사용할 수 있으며, 주석 라인은 연속된 하이픈(--)으로 시작된다. 공백 라인은 무시된다.
 
-    다음 예제는 그룹 *sedan*\에 *grandeur*\와 *sonata*\가, 그룹 *suv*\에 *tuscan*\이, 그룹 *hatchback*\에 *i30*\가 포함되는 것을 정의하는 사용자 정보 파일이다. 사용자 정보 파일명은 user_info.txt로 예시한다. ::
+    다음 예제는 그룹 *sedan* 에 *grandeur* 와 *sonata* 가, 그룹 *suv* 에 *tuscan* 이, 그룹 *hatchback* 에 *i30* 가 포함되는 것을 정의하는 사용자 정보 파일이다. 사용자 정보 파일명은 user_info.txt로 예시한다. ::
 
         --
         --  사용자 정보 파일의 예 1
@@ -242,7 +242,7 @@ createdb
         USER tuscan GROUPS suv
         USER i30 GROUPS hatchback
 
-    위 예제와 동일한 사용자 관계를 정의하는 파일이다. 다만, 아래 예제에서는 **MEMBERS**\ 절을 이용하였다. ::
+    위 예제와 동일한 사용자 관계를 정의하는 파일이다. 다만, 아래 예제에서는 **MEMBERS** 절을 이용하였다. ::
 
         --
         -- 사용자 정보 파일의 예 2
@@ -259,7 +259,7 @@ createdb
 
     생성하고자 하는 데이터베이스에 대해 CSQL 인터프리터에서 구문을 실행하는 옵션으로, 파라미터로 지정된 파일에 저장된 SQL 구문에 따라 스키마를 생성할 수 있다.
 
-    다음은 *testdb*\를 생성함과 동시에 table_schema.sql에 정의된 SQL 구문을 CSQL 인터프리터에서 실행시키는 구문이다. ::
+    다음은 *testdb* 를 생성함과 동시에 table_schema.sql에 정의된 SQL 구문을 CSQL 인터프리터에서 실행시키는 구문이다. ::
 
         cubrid createdb --csql-initialization-file table_schema.sql testdb en_US
 
@@ -268,7 +268,7 @@ createdb
     데이터베이스 생성에 관한 메시지를 파라미터로 지정된 파일에 저장하는 옵션이며, 파일은 데이터베이스와 동일한 디렉터리에 생성된다.
     **-o** 옵션이 지정되지 않으면 메시지는 콘솔 화면에 출력된다. **-o** 옵션은 데이터베이스가 생성되는 중에 출력되는 메시지를 지정된 파일에 저장함으로써 특정 데이터베이스의 생성 과정에 관한 정보를 활용할 수 있게 한다.
 
-    다음은 *testdb*\를 생성하면서 이에 관한 유틸리티의 출력을 콘솔 화면이 아닌 db_output 파일에 저장하는 구문이다. ::
+    다음은 *testdb* 를 생성하면서 이에 관한 유틸리티의 출력을 콘솔 화면이 아닌 db_output 파일에 저장하는 구문이다. ::
 
         cubrid createdb -o db_output testdb en_US
 
@@ -276,7 +276,7 @@ createdb
 
     데이터베이스 생성 연산에 관한 모든 정보를 화면에 출력하는 옵션으로서, **-o** 옵션과 마찬가지로 특정 데이터베이스 생성 과정에 관한 정보를 확인하는데 유용하다. 따라서, **-v** 옵션과 **-o** 옵션을 함께 지정하면, **-o** 옵션의 파라미터로 지정된 출력 파일에 **cubrid createdb** 유틸리티의 연산 정보와 생성 과정에 관한 출력 메시지를 저장할 수 있다.
 
-    다음은 *testdb*\를 생성하면서 이에 관한 상세한 연산 정보를 화면에 출력하는 구문이다. ::
+    다음은 *testdb* 를 생성하면서 이에 관한 상세한 연산 정보를 화면에 출력하는 구문이다. ::
 
         cubrid createdb -v testdb en_US
 
@@ -350,9 +350,9 @@ addvoldb
 
 .. option:: --comment=COMMENT
 
-    추가된 볼륨에 관한 정보 검색을 쉽게 하기 위하여 볼륨에 관한 정보를 주석으로 처리하는 옵션이다. 이때 주석의 내용은 볼륨을 추가하는 **DBA**\ 의 이름이나 볼륨 추가의 목적을 포함하는 것이 바람직하며, 큰따옴표로 감싸야 한다.
+    추가된 볼륨에 관한 정보 검색을 쉽게 하기 위하여 볼륨에 관한 정보를 주석으로 처리하는 옵션이다. 이때 주석의 내용은 볼륨을 추가하는 **DBA** 의 이름이나 볼륨 추가의 목적을 포함하는 것이 바람직하며, 큰따옴표로 감싸야 한다.
     
-    :red:`다음 예제에서는 볼륨을 추가하고 추가 정보로 주석을 삽입하는 방법을 보여준다.`
+    :red:`다음 예제에서는 볼륨을 추가하고 추가 정보로 주석을 삽입하는 방법을 보여준다.` ::
 
         cubrid addvoldb --comment "Data volume added by cheolsoo kim because permanent data space was almost depleted." testdb
 
@@ -400,7 +400,7 @@ addvoldb
 deletedb
 --------
 
-**cubrid deletedb**\는 데이터베이스를 삭제하는 유틸리티이다. 데이터베이스가 몇 개의 상호 의존적 파일들로 만들어지기 때문에, 데이터베이스를 제거하기 위해 운영체제 파일 삭제 명령이 아닌 **cubrid deletedb** 유틸리티를 사용해야 한다.
+**cubrid deletedb** 는 데이터베이스를 삭제하는 유틸리티이다. 데이터베이스가 몇 개의 상호 의존적 파일들로 만들어지기 때문에, 데이터베이스를 제거하기 위해 운영체제 파일 삭제 명령이 아닌 **cubrid deletedb** 유틸리티를 사용해야 한다.
 
 **cubrid deletedb** 유틸리티는 데이터베이스 위치 파일( **databases.txt** )에 지정된 데이터베이스에 대한 정보도 같이 삭제한다. **cubrid deletedb** 유틸리티는 오프라인 상에서 즉, 아무도 데이터베이스를 사용하지 않는 상태에서 독립 모드로 사용해야 한다. ::
 
@@ -412,7 +412,7 @@ deletedb
 
 *   *database_name*: 디렉터리 경로명을 포함하지 않고, 삭제하고자 하는 데이터베이스의 이름을 지정한다
 
-다음은 **cubrid deletedb**\에 대한 [options]이다.
+다음은 **cubrid deletedb** 에 대한 [options]이다.
 
 .. program:: deletedb
 
@@ -440,7 +440,7 @@ renamedb
 
 **cubrid renamedb** 유틸리티는 존재하는 데이터베이스의 현재 이름을 변경한다. 정보 볼륨, 로그 볼륨, 제어 파일들이 새로운 이름과 일치되게 이름을 변경한다.
 
-이에 비해 **cubrid alterdbhost** 유틸리티는 지정된 데이터베이스의 호스트 이름을 설정하거나 변경한다. 즉, **databases.txt**\에 있는 호스트 이름을 변경한다. ::
+이에 비해 **cubrid alterdbhost** 유틸리티는 지정된 데이터베이스의 호스트 이름을 설정하거나 변경한다. 즉, **databases.txt** 에 있는 호스트 이름을 변경한다. ::
 
     cubrid renamedb [options] src_database_name dest_database_name
 
@@ -509,7 +509,7 @@ alterdbhost
 
 *   **alterdbhost**: 현 데이터베이스의 호스트 이름을 새로운 이름으로 변경하기 위한 명령이다.
 
-**cubrid alterdbhost**\에서 사용하는 옵션은 다음과 같다.
+**cubrid alterdbhost** 에서 사용하는 옵션은 다음과 같다.
 
 .. program:: alterdbhost
 
@@ -522,7 +522,7 @@ alterdbhost
 copydb
 ------
 
-**cubrid copydb** 유틸리티는 데이터베이스를 한 위치에서 다른 곳으로 복사 또는 이동하며, 인자로 원본 데이터베이스 이름과 새로운 데이터베이스 이름이 지정되어야 한다. 이때, 새로운 데이터베이스 이름은 원본 데이터베이스 이름과 다른 이름으로 지정되어야 하고, 새로운 데이터베이스에 대한 위치 정보는 **databases.txt**\에 등록된다.
+**cubrid copydb** 유틸리티는 데이터베이스를 한 위치에서 다른 곳으로 복사 또는 이동하며, 인자로 원본 데이터베이스 이름과 새로운 데이터베이스 이름이 지정되어야 한다. 이때, 새로운 데이터베이스 이름은 원본 데이터베이스 이름과 다른 이름으로 지정되어야 하고, 새로운 데이터베이스에 대한 위치 정보는 **databases.txt** 에 등록된다.
 
 **cubrid copydb** 유틸리티는 원본 데이터베이스가 정지 상태일 때(오프라인)에만 실행할 수 있다. ::
 
@@ -538,25 +538,25 @@ copydb
 
 [options]를 생략하면 원본 데이터베이스를 현재 작업 디렉터리에 복사한다.
 
-**cubrid copydb**\에 대한 [options]는 다음과 같다.
+**cubrid copydb** 에 대한 [options]는 다음과 같다.
 
 .. program:: copydb
 
 .. option:: --server-name=HOST
 
-    새로운 데이터베이스의 서버 호스트 이름을 명시하며, 이는 **databases.txt**\ 의 **db-host** 항목에 등록된다. 이 옵션을 생략하면, 로컬 호스트가 등록된다. ::
+    새로운 데이터베이스의 서버 호스트 이름을 명시하며, 이는 **databases.txt** 의 **db-host** 항목에 등록된다. 이 옵션을 생략하면, 로컬 호스트가 등록된다. ::
 
         cubrid copydb --server-name=cub_server1 demodb new_demodb
 
 .. option:: -F, --file-path=PATH
 
-    새로운 데이터베이스 볼륨이 저장되는 특정 디렉터리 경로를 지정할 수 있다. 절대 경로로 지정해야 하며, 존재하지 않는 디렉터리를 지정하면 에러를 출력한다. 이 옵션을 생략하면 현재 작업 디렉터리에 새로운 데이터베이스의 볼륨이 생성된다. 이 경로는 **databases.txt**\ 의 **vol-path** 항목에 등록된다. ::
+    새로운 데이터베이스 볼륨이 저장되는 특정 디렉터리 경로를 지정할 수 있다. 절대 경로로 지정해야 하며, 존재하지 않는 디렉터리를 지정하면 에러를 출력한다. 이 옵션을 생략하면 현재 작업 디렉터리에 새로운 데이터베이스의 볼륨이 생성된다. 이 경로는 **databases.txt** 의 **vol-path** 항목에 등록된다. ::
     
         cubrid copydb -F /home/usr/CUBRID/databases demodb new_demodb
 
 .. option:: -L, --log-path=PATH
 
-    새로운 데이터베이스 로그 볼륨이 저장되는 특정 디렉터리 경로를 지정할 수 있다. 절대 경로로 지정해야 하며, 존재하지 않는 디렉터리를 지정하면 에러를 출력한다. 이 옵션을 생략하면 새로운 데이터베이스 볼륨이 저장되는 경로에 로그 볼륨도 함께 생성된다. 이 경로는 **databases.txt**\ 의 **log-path** 항목에 등록된다. ::
+    새로운 데이터베이스 로그 볼륨이 저장되는 특정 디렉터리 경로를 지정할 수 있다. 절대 경로로 지정해야 하며, 존재하지 않는 디렉터리를 지정하면 에러를 출력한다. 이 옵션을 생략하면 새로운 데이터베이스 볼륨이 저장되는 경로에 로그 볼륨도 함께 생성된다. 이 경로는 **databases.txt** 의 **log-path** 항목에 등록된다. ::
     
         cubrid copydb -L /home/usr/CUBRID/databases/logs demodb new_demodb
 
@@ -594,7 +594,7 @@ copydb
 
 .. option:: -d 또는 --delete-source
 
-    새로운 데이터베이스로 복사한 후, 원본 데이터베이스를 제거한다. 이 옵션이 주어지면 데이터베이스 복사 후 **cubrid deletedb**\를 수행하는 것과 동일하다. 단, 원본 데이터베이스에 **LOB** 데이터를 포함하는 경우, 원본 데이터베이스 대한 **LOB** 파일 디렉터리 경로가 새로운 데이터베이스로 복사되어 **databases.txt**\ 의 **lob-base-path** 항목에 등록된다. ::
+    새로운 데이터베이스로 복사한 후, 원본 데이터베이스를 제거한다. 이 옵션이 주어지면 데이터베이스 복사 후 **cubrid deletedb** 를 수행하는 것과 동일하다. 단, 원본 데이터베이스에 **LOB** 데이터를 포함하는 경우, 원본 데이터베이스 대한 **LOB** 파일 디렉터리 경로가 새로운 데이터베이스로 복사되어 **databases.txt** 의 **lob-base-path** 항목에 등록된다. ::
 
         cubrid copydb -d -F /home/usr/CUBRID/databases demodb new_demodb
 
@@ -615,7 +615,7 @@ copydb
 installdb
 ---------
 
-**cubrid installdb** 유틸리티는 데이터베이스 위치 정보를 저장하는 **databases.txt**\에 새로 설치된 데이터베이스 정보를 등록한다. 이 유틸리티의 실행은 등록 대상 데이터베이스의 동작에 영향을 끼치지 않는다.
+**cubrid installdb** 유틸리티는 데이터베이스 위치 정보를 저장하는 **databases.txt** 에 새로 설치된 데이터베이스 정보를 등록한다. 이 유틸리티의 실행은 등록 대상 데이터베이스의 동작에 영향을 끼치지 않는다.
 
 ::
 
@@ -623,31 +623,31 @@ installdb
 
 *   **cubrid**: CUBRID 서비스 및 데이터베이스 관리를 위한 통합 유틸리티이다.
 
-*   **installdb**: 이동 또는 복사된 데이터베이스의 정보를 **databases.txt**\에 등록하는 명령이다.
+*   **installdb**: 이동 또는 복사된 데이터베이스의 정보를 **databases.txt** 에 등록하는 명령이다.
 
-*   *database_name*: **databases.txt**\에 등록하고자 하는 데이터베이스의 이름이다.
+*   *database_name*: **databases.txt** 에 등록하고자 하는 데이터베이스의 이름이다.
 
 [options]를 생략하는 경우, 해당 데이터베이스가 존재하는 디렉터리에서 명령을 수행해야 한다.
 
-**cubrid installdb**\에 대한 [options]는 다음과 같다.
+**cubrid installdb** 에 대한 [options]는 다음과 같다.
 
 .. program:: installdb
 
 .. option:: --server-name=HOST
 
-    대상 데이터베이스의 서버 호스트 정보를 지정된 호스트 명으로 **databases.txt**\에 등록한다. 이 옵션을 생략하면, 현재의 호스트 정보가 등록된다.  ::
+    대상 데이터베이스의 서버 호스트 정보를 지정된 호스트 명으로 **databases.txt** 에 등록한다. 이 옵션을 생략하면, 현재의 호스트 정보가 등록된다.  ::
 
         cubrid installdb --server-name=cub_server1 testdb
 
 .. option:: -F, --file-path=PATH
         
-    대상 데이터베이스 볼륨 디렉터리의 절대 경로를 **databases.txt**\에 등록한다. 이 옵션을 생략하면 기본값인 현재 디렉터리 경로가 등록된다.  ::
+    대상 데이터베이스 볼륨 디렉터리의 절대 경로를 **databases.txt** 에 등록한다. 이 옵션을 생략하면 기본값인 현재 디렉터리 경로가 등록된다.  ::
 
         cubrid installdb -F /home/cubrid/CUBRID/databases/testdb testdb
 
 .. option:: -L, --log-path=PATH
 
-    대상 데이터베이스 로그 볼륨 디렉터리의 절대 경로를 **databases.txt**\에 등록한다. 이 옵션을 생략하면 데이터베이스 볼륨의 디렉터리 경로가 등록된다.  ::
+    대상 데이터베이스 로그 볼륨 디렉터리의 절대 경로를 **databases.txt** 에 등록한다. 이 옵션을 생략하면 데이터베이스 볼륨의 디렉터리 경로가 등록된다.  ::
     
         cubrid installdb -L /home/cubrid/CUBRID/databases/logs/testdb testdb
 
@@ -673,7 +673,7 @@ spacedb
 
 *   *database_name*: 공간을 확인하고자 하는 데이터베이스의 이름이며, 데이터베이스가 생성될 디렉터리 경로명을 포함하지 않는다.
 
-다음은 **cubrid spacedb**\에 대한 [options]이다.
+다음은 **cubrid spacedb** 에 대한 [options]이다.
 
 .. program:: spacedb
 
@@ -780,9 +780,9 @@ compactdb
     
         ERROR: The class 'reuse_tbl' is marked as REUSE_OID and is non-referable. Non-referable classes can't be the domain of an attribute and their instances' OIDs cannot be returned.
  
-    REUSE_OID에 대한 자세한 설명은 :ref:`reuse-oid`\를 참고한다.
+    REUSE_OID에 대한 자세한 설명은 :ref:`reuse-oid` 를 참고한다.
 
-**cubrid compactdb** 유틸리티를 수행하면 삭제된 객체에 대한 참조를 **NULL**\ 로 표시하는데, 이렇게 **NULL**\ 로 표시된 공간은 OID가 재사용할 수 있는 공간임을 의미한다. ::
+**cubrid compactdb** 유틸리티를 수행하면 삭제된 객체에 대한 참조를 **NULL** 로 표시하는데, 이렇게 **NULL** 로 표시된 공간은 OID가 재사용할 수 있는 공간임을 의미한다. ::
 
     cubrid compactdb [<options>] database_name [ class_name1, class_name2, ...]
 
@@ -796,7 +796,7 @@ compactdb
 
 클라이언트/서버 모드에서만 **-I**, **-i**, **-c**, **-d**, **-p** 옵션을 사용할 수 있다.
 
-다음은 **cubrid compactdb**\에 대한 [options]이다.
+다음은 **cubrid compactdb** 에 대한 [options]이다.
 
 .. program:: compactdb
 
@@ -825,7 +825,7 @@ compactdb
 
 .. option:: -p, --pages-commited-once=NUMBER
 
-    한 번에 커밋할 수 있는 최대 페이지 수를 지정한다. 기본값은 **10**\이며, 최소 값은 1, 최대 값은 10이다. 옵션 값이 작으면 클래스/인스턴스에 대한 잠금 비용이 작으므로 동시성은 향상될 수 있으나 작업 속도는 저하될 수 있고, 옵션 값이 크면 동시성은 저하되나 작업 속도는 향상될 수 있다.  ::
+    한 번에 커밋할 수 있는 최대 페이지 수를 지정한다. 기본값은 **10** 이며, 최소 값은 1, 최대 값은 10이다. 옵션 값이 작으면 클래스/인스턴스에 대한 잠금 비용이 작으므로 동시성은 향상될 수 있으나 작업 속도는 저하될 수 있고, 옵션 값이 크면 동시성은 저하되나 작업 속도는 향상될 수 있다.  ::
 
         cubrid compactdb --CS-mode -p 10 testdb tbl1, tbl2, tbl5
 
@@ -856,7 +856,7 @@ CUBRID의 질의 최적화기가 사용하는 테이블에 있는 객체들의 �
 
 *   *database_name*: 비용기반 질의 최적화용 통계 자료를 업데이트하려는 데이터베이스 이름이다.
 
-다음은 *cubrid optimizedb*\에 대한 [option]이다.
+다음은 *cubrid optimizedb* 에 대한 [option]이다.
 
 .. program:: optimizedb
 
@@ -889,7 +889,7 @@ plandump
 
     cubrid plandump testdb
 
-다음은 **cubrid plandump**\에 대한 [options]이다.
+다음은 **cubrid plandump** 에 대한 [options]이다.
 
 .. program:: plandump
 
@@ -912,7 +912,7 @@ statdump
 
 **cubrid statdump** 유틸리티를 이용해 CUBRID 데이터베이스 서버가 실행한 통계 정보를 확인할 수 있으며, 통계 정보 항목은 크게 File I/O 관련, 페이지 버퍼 관련, 로그 관련, 트랜잭션 관련, 동시성 관련, 인덱스 관련, 쿼리 수행 관련, 네트워크 요청 관련으로 구분된다. 
 
-CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 세션 명령어를 이용할 수 있으며 :ref:`CSQL 실행 통계 정보 출력 <csql-execution-statistics>`\ 를 참고한다.
+CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 세션 명령어를 이용할 수 있으며 :ref:`CSQL 실행 통계 정보 출력 <csql-execution-statistics>` 를 참고한다.
 
 ::
 
@@ -2255,7 +2255,7 @@ lockdb
 출력 내용
 ^^^^^^^^^
 
-**cubrid lockdb**\ 의 출력 내용은 논리적으로 3개의 섹션으로 나뉘어져 있다.
+**cubrid lockdb** 의 출력 내용은 논리적으로 3개의 섹션으로 나뉘어져 있다.
 
 *   서버에 대한 잠금 설정
 
@@ -2274,7 +2274,7 @@ lockdb
 
 위에서 잠금 에스컬레이션 레벨은 100000레코드로, 교착 상태 탐지 간격은 0초로 설정되어 있다.
 
-관련 시스템 파라미터인 **lock_escalation**\과 **deadlock_detection_interval**\에 대한 설명은 :ref:`lock-parameters` 를 참고한다.
+관련 시스템 파라미터인 **lock_escalation** 과 **deadlock_detection_interval** 에 대한 설명은 :ref:`lock-parameters` 를 참고한다.
 
 **현재 데이터베이스에 접속한 클라이언트들**
 
@@ -2356,7 +2356,7 @@ lockdb
 tranlist
 --------
 
-**cubrid tranlist**\는 대상 데이터베이스의 트랜잭션 정보를 확인하는 유틸리티로서, DBA 또는 DBA그룹 사용자만 수행할 수 있다. ::
+**cubrid tranlist** 는 대상 데이터베이스의 트랜잭션 정보를 확인하는 유틸리티로서, DBA 또는 DBA그룹 사용자만 수행할 수 있다. ::
 
     cubrid tranlist [options] database_name
 
@@ -2386,7 +2386,7 @@ tranlist
 
 위의 예는 3개의 트랜잭션이 각각 INSERT문을 실행 중일 때 또 다른 트랜잭션에서 UPDATE문의 실행을 시도한다. 위에서 Tran index가 4인 update문은 3,2,1(Wait for lock holder)번의 트랜잭션이 종료되기를 대기하고 있다.
 
-화면에 출력되는 질의문(SQL Text)은 질의 계획 캐시에 저장되어 있는 것을 보여준다. 질의 수행이 완료되면 **empty**\로 표시된다.
+화면에 출력되는 질의문(SQL Text)은 질의 계획 캐시에 저장되어 있는 것을 보여준다. 질의 수행이 완료되면 **empty** 로 표시된다.
 
 각 칼럼의 의미는 다음과 같다.
 
@@ -2410,7 +2410,7 @@ tranlist
     *   ABORTED : 롤백되어 종료될 트랜잭션
     *   KILLED : 서버에 의해 강제 종료 중인 트랜잭션
 
-다음은 **cubrid tranlist**\ 에 대한 [options]이다.
+다음은 **cubrid tranlist** 에 대한 [options]이다.
 
 .. program:: tranlist
 
@@ -2489,7 +2489,7 @@ tranlist
 killtran
 --------
 
-**cubrid killtran**\은 대상 데이터베이스의 트랜잭션을 확인하거나 특정 트랜잭션을 강제 종료하는 유틸리티로서, **DBA** 사용자만 수행할 수 있다. ::
+**cubrid killtran** 은 대상 데이터베이스의 트랜잭션을 확인하거나 특정 트랜잭션을 강제 종료하는 유틸리티로서, **DBA** 사용자만 수행할 수 있다. ::
 
     cubrid killtran [options] database_name
 
@@ -2514,7 +2514,7 @@ killtran
        5(ACTIVE)       public      myhost            6944              csql
     -------------------------------------------------------------------------------
 
-다음은 **cubrid killtran**\에 대한 [options]이다.
+다음은 **cubrid killtran** 에 대한 [options]이다.
 
 .. program:: killtran
 
@@ -2560,15 +2560,15 @@ killtran
 
 .. option:: -p, --dba-password=PASSWORD
 
-    이 옵션 뒤에 오는 값은 **DBA**\ 의 암호이며 생략하면 프롬프트에서 입력해야 한다.
+    이 옵션 뒤에 오는 값은 **DBA** 의 암호이며 생략하면 프롬프트에서 입력해야 한다.
 
 .. option:: -q, --query-exec-info
 
-    cubrid tranlist 명령에서 "User name" 칼럼과 "Host name" 칼럼이 출력되지 않는다는 점만 다르다. :ref:`tranlist`\ 를 참고한다.
+    cubrid tranlist 명령에서 "User name" 칼럼과 "Host name" 칼럼이 출력되지 않는다는 점만 다르다. :ref:`tranlist` 를 참고한다.
 
 .. option:: -d, --display
 
-    기본 지정되는 옵션으로 트랜잭션의 요약 정보를 출력한다. cubrid tranlist 명령의 -s 옵션을 지정하여 실행한 것과 동일한 결과를 출력한다. :option:`tranlist -s`\ 를 참고한다.
+    기본 지정되는 옵션으로 트랜잭션의 요약 정보를 출력한다. cubrid tranlist 명령의 -s 옵션을 지정하여 실행한 것과 동일한 결과를 출력한다. :option:`tranlist -s` 를 참고한다.
 
 .. option:: -f, --force
 
@@ -2595,7 +2595,7 @@ checkdb
 
 *   *table_name1 table_name2*: 일관성을 확인하거나 복구하려는 테이블 이름을 나열한다.
 
-다음은 **cubrid checkdb**\에 대한 [options]이다.
+다음은 **cubrid checkdb** 에 대한 [options]이다.
 
 .. program:: checkdb
 
@@ -2692,7 +2692,7 @@ diagdb
 
 *   *database_name*: 내부 정보를 확인하려는 데이터베이스 이름이다.
 
-다음은 **cubrid diagdb**\에서 사용하는 [option]이다.
+다음은 **cubrid diagdb** 에서 사용하는 [option]이다.
 
 .. program:: diagdb
 
@@ -2730,7 +2730,7 @@ diagdb
 
 .. option:: -o, --output-file=FILE
 
-    :red:`**-o** 옵션은 데이터베이스의 서버/클라이언트 프로세스에서 사용되는 파라미터 정보를 지정된 파일로 저장하는 데 사용된다. 이 파일은 현재 디렉터리에 생성된다. **-o** 옵션을 지정하지 않으면 콘솔 화면에 메시지가 표시된다.`
+    :red:`**-o** 옵션은 데이터베이스의 서버/클라이언트 프로세스에서 사용되는 파라미터 정보를 지정된 파일로 저장하는 데 사용된다. 이 파일은 현재 디렉터리에 생성된다. **-o** 옵션을 지정하지 않으면 콘솔 화면에 메시지가 표시된다.` ::
     
         cubrid diagdb -d8 -o logdump_output demodb
 
@@ -2753,7 +2753,7 @@ paramdump
 
 *   *database_name*: 파라미터 정보를 출력할 데이터베이스 이름이다.
 
-다음은 **cubrid paramdump**\에서 사용하는 [options]이다.
+다음은 **cubrid paramdump** 에서 사용하는 [options]이다.
 
 .. program:: paramdump
 
