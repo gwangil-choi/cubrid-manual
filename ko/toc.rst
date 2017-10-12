@@ -110,7 +110,7 @@ CUBRID는 상속의 개념을 사용하는 객체 관계형 데이터베이스 �
 버전 명 및 버전 스트링 규약
 ---------------------------
 
-:red:`CUBRID 10.1 이후의 버전명 및 버전 문자열은 다음과 같이 표기한다.`
+:red:`CUBRID 10.1 이후의 버전명 및 버전 문자열은 다음과 같이 표기한다. :`
 
 *  :red:`버전명: CUBRID M.m Patch p (Major 버전, Minor 버전, Patch 버전(필요한 경우) 표기)`
    CUBRID 10.1 Patch 1 (:red:`줄여서 CUBRID 10.1 P1로 표기)`
@@ -120,7 +120,7 @@ CUBRID는 상속의 개념을 사용하는 객체 관계형 데이터베이스 �
 
    :red:`빌드 번호는 하이픈으로 구분되는 두 부분으로 구성된다. 앞 부분은 기본 리비전에서 변경된 횟수를 나타내며 일정하게 증가한다. 뒷 부분은 작성된 빌드의 SHA-1 해시값이다.`
 
-:red:`Rules for version naming and string since CUBRID 9.0 are as follows:`
+:red:`CUBRID 9.0 이후의 버전명 및 버전 문자열은 다음과 같이 표기한다. :`
 
 *  :red:`버전명: CUBRID M.m Patch p (Major 버전, Minor 버전, Patch 버전(필요한 경우) 표기)`
    CUBRID 9.2 Patch 1 (:red:`줄여서 CUBRID 9.2 P1로 표기)`
@@ -128,7 +128,7 @@ CUBRID는 상속의 개념을 사용하는 객체 관계형 데이터베이스 �
 *  :red:`버전 문자열: M.m.p.build_number (Major 버전, Minor 버전, Patch 버전, 빌드 번호 표기)`
    9.2.1.0012
 
-:red:`Rules for version naming and string before CUBRID 9.0 are as follows:`
+:red:`CUBRID 9.0 이전의 버전명 및 버전 문자열은 다음과 같이 표기한다. :`
 
 *  :red:`버전명: CUBRID 2008 RM.m Patch p (Major 버전은 2008, Minor 버전, Patch 버전, 빌드 번호 일부 표기)`
    CUBRID 2008 R4.1 Patch 1
