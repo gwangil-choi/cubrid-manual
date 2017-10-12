@@ -1,129 +1,129 @@
 :tocdepth: 3
 
-******************
-10.1 Release Notes
-******************
+****************
+10.1 릴리즈 노트
+****************
 
 .. contents::
 
-Release Notes Information
-=========================
+릴리즈 노트 정보
+================
 
-This document includes information on CUBRID 10.1(Build Number: 10.1.0.7663-1ca0ab8).
+본 문서는 CUBRID 10.1(빌드 번호: 10.1.0.7663-1ca0ab8)에 관한 정보를 포함한다.
 
-CUBRID 10.1 includes all of the fixed errors and improved features that were detected in the CUBRID 10.0 and were applied to the previous versions.
+CUBRID 10.1은 CUBRID 10.0에서 발견된 오류 수정 및 기능 개선과 이전 버전들에 반영된 모든 오류 수정 및 기능 개선을 포함한다.
 
-For CUBRID 10.0, please find http://www.cubrid.org/manual/en/10.0/release_note/index.html.
+CUBRID 10.0에 대한 정보는 http://www.cubrid.org/manual/en/10.0/release_note/index.html에서 확인할 수 있다.
 
-For CUBRID 9.3 or earlier, please find http://www.cubrid.org/documentation/manuals/other-versions.
+CUBRID 9.3 또는 그 이전 버전에 대한 정보는 http://www.cubrid.org/documentation/manuals/other-versions에서 확인할 수 있다.
 
-Overview
-========
+릴리즈 개요
+===========
 
-CUBRID 10.1 is a significant upgrade and stable version of CUBRID 10.0. 
+CUBRID 10.1은 CUBRID 10.0의 중요 업그레이드이며 안정적인 버전이다. 
 
 .. TODO: UPDATE WITH DETAILS.
 
-CUBRID 10.1
+CUBRID 10.1은
 
-* is a significantly improved version.
-* is more reliable, faster and scalable.
-* fixes a large number of critical bugs.
-* includes useful SQL extensions: CTE(Common Table Expressions) and others
-* includes huge scale of code refactoring.
+* 대폭 향상된 버전이다.
+* 보다 안정적이고, 빠르고, 확장성이 높다.
+* 수많은 중요 버그가 수정되었다.
+* 유용한 SQL 확장: CTE(Common Table Expressions) 및 기타 요소를 포함한다.
+* 대규모 코드 재작성을 포함한다.
 
-CUBRID 10.1 is **faster**. It has almost doubled the optimum workloads of TPC-C benchmark since CUBRID 9.3. In parallel, we also followed and improved results for sysbench (157%: 10.0, 128%: 9.3), YCSB workload A (126%: 10.0, 163%: 9.3), YCSB workload B (119%: 10.0, 147%: 9.3) and TPC-W (126%: 10.0, 370%: 9.3). CUBRID 10.1 also significantly improves replication performance.
+CUBRID 10.1은 **더 빨라졌다**. 이 버전은 CUBRID 9.3 이후 TPC-C 벤치마크의 최적 작업량이 거의 2배로 증가했다. 여기에 추가로, sysbench(157%: 10.0, 128%: 9.3), YCSB 작업량 A(126%: 10.0, 163%: 9.3), YCSB 작업량 B(119%: 10.0, 147%: 9.3) 및 TPC-W(126%: 10.0, 370%: 9.3)에 이르는 개선된 결과를 얻었다. 또한 CUBRID 10.1은 복제 성능을 대폭 개선했다.
 
-CUBRID 10.1 is **stronger** by rewritting the entire storage engine. As a result, large databases loading is three times faster, while other basic operations for very large databases, it can't be even compared with previous versions.
+CUBRID 10.1은 전체 저장소 엔진을 재작성하여 **더욱 강력** 해졌다. 그 결과, 대용량 데이터베이스 로딩이 3배 더 빨라졌으며 대용량 데이터베이스에 대한 다른 기본 작업은 이전 버전과 비교할 수 없을 만큼 빨라졌다.
 
-CUBRID 10.1 is also **better**, bringing new features. Common Table Expressions is old wish fulfilled by CUBRID 10.1; developers may finally write complex queries easier and clearer, recursive queries included.
+또한 CUBRID 10.1은 사용자들이 요청했던 CTE(Common Table Expressions) 기능이 추가되어 **더욱 개선** 되었다. 그리하여 개발자들이 재귀적 질의를 포함한 복잡한 질의를 더 간편하고 명확하게 작성할 수 있게 되었다.
 
-CUBRID 10.1 is more **stable** too. It has fixed over 1000+ issues as CUBRID 10.1 and 5000+ from CUBRID 10.0, which is more than the total issue numbers fixed in all CUBRID 9.x versions.
+CUBRID 10.1은 또한 더욱 **안정적** 이다. CUBRID 10.0 이후 5000+개, CUBRID 10.1에서는 1000+개 이상의 이슈들이 수정되었는데, 이는 모든 CUBRID 9.x 버전에서 수정된 전체 이슈 수보다 많다.
 
-All the users of CUBRID 10.0 should upgrade to CUBRID 10.1. We also recommend upgrading CUBRID 9.x and earlier versions to CUBRID 10.1.
-The database volume of CUBRID 10.1 is not compatible with that of CUBRID 10.0 and earlier versions. Therefore, if you use CUBRID 10.0 or earlier, you must **migrate your databases**. Regarding this, see :doc:`/upgrade`.
+CUBRID 10.0의 모든 사용자는 CUBRID 10.1로 업그레이드해야 하며 CUBRID 9.x 및 그 이전 버전 사용자도 CUBRID 10.1로 업그레이드하는 것을 권장한다.
+CUBRID 10.1의 데이터베이스 볼륨은 CUBRID 10.0 및 그 이전 버전의 볼륨과 호환되지 않는다. 따라서, CUBRID 10.0 또는 이전 버전을 사용하는 경우 반드시 **데이터베이스를 마이그레이션** 해야 한다. 이와 관련하여 :doc:`/upgrade` 절을 참고한다.
 
 .. TODO: coming soon 
 
-Driver Compatibility
---------------------
+드라이버 호환성
+---------------
 
-*   The JDBC and CCI driver of CUBRID 10.1 are compatible with the DB server of CUBRID 10.0, 9.3, 9.2, 9.1, 2008 R4.4, R4.3 or R4.1.
-*   To upgrade drivers are highly recommended.
+*   CUBRID 10.1의 JDBC 및 CCI 드라이버는 CUBRID 10.0, 9.3, 9.2, 9.1, 2008 R4.4, R4.3 또는 R4.1의 DB 서버와 호환된다.
+*   드라이버 업그레이드를 권장한다.
 
-We strongly recommend to also upgrade your drivers to use CUBRID 10.1. Some new features, especially for TIMEZONE data types are only supported with 10.0 and higher drivers. 
+또한 TIMEZONE 데이터 타입과 같은 새로운 기능은 10.0 및 그 이후 드라이버에서만 지원되므로, CUBRID 10.1 사용자는 드라이버를 업그레이드할 것을 강력히 권고한다.
 
-For more details on changes, see the :ref:`10_1_changes`. Users of previous versions should check the :ref:`10_1_changes` and :ref:`10_1_new_cautions` sections.
+변경 사항에 대한 자세한 내용은 :ref:`10_1_changes` 절을 참고한다. 이전 버전의 사용자는 :ref:`10_1_changes` 및 :ref:`10_1_new_cautions` 절을 확인해야 한다.
 
 .. _10_1_changes:
 
-10.1 Changes 
-============
+10.1 변경사항 
+=============
 
 .. include:: changes_10_1.rst
 
 
-Cautions
-=========
+주의사항
+========
 
 .. _10_1_new_cautions:
 
-New Cautions
-------------
+신규 주의 사항
+--------------
 
-The database volume of CUBRID 10.1 is not compatible with that of CUBRID 10.0 and earlier versions. 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+CUBRID 10.1의 데이터베이스 볼륨은 CUBRID 10.0 및 그 이전 버전의 볼륨과 호환되지 않는다. 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Existing Cautions
------------------
+기존 주의 사항
+--------------
 
-Locale(language and charset) is specified when creating DB
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+DB를 생성할 때 로케일(언어 및 문자 집합)을 지정
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-It is changed as locale is specified when creating DB.
+DB를 생성할 때 로케일을 지정하도록 변경되었다.
    
-CUBRID_CHARSET environment variable is removed
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+CUBRID_CHARSET 환경 변수 제거
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-As locale(language and charset) is specified when creating DB from 9.2 version, CUBRID_CHARSET is not used anymore.
+9.2 버전 이후 DB를 생성할 때 로케일(언어 및 문자 집합)을 지정하므로 CUBRID_CHARSET는 더 이상 사용하지 않는다.
 
 .. 4.4new
 
-[JDBC] Change zero date of TIMESTAMP into '1970-01-01 00:00:00'(GST) from '0001-01-01 00:00:00' when the value of zeroDateTimeBehavior in the connection URL is "round"(CUBRIDSUS-11612)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[JDBC] 연결 URL의 zeroDateTimeBehavior 값이 "round"일 때 TIMESTAMP의 zero date가 '0001-01-01 00:00:00'에서 '1970-01-01 00:00:00'(GST)으로 변경 (CUBRIDSUS-11612)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  
-From 2008 R4.4, when the value of the property "zeroDateTimeBehavior" in the connection URL is "round", the  zero date value of TIMESTAMP is changed into '1970-01-01 00:00:00'(GST) from '0001-01-01 00:00:00'. You should be cautious when using zero date in your application.
+2008 R4.4부터 연결 URL의 "zeroDateTimeBehavior" 속성 값이 "round"일 때 TIMESTAMP의 zero date가 '0001-01-01 00:00:00'에서 '1970-01-01 00:00:00'(GST)으로 변경되었므로, 응용 프로그램에서 zero date를 사용하는 경우 주의해야 한다.
 
 
-Recommendation for installing CUBRID SH package in AIX(CUBRIDSUS-12251)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AIX에서 CUBRID SH 패키지 설치 시 권장 사항 (CUBRIDSUS-12251)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you install CUBRID SH package by using ksh in AIX OS, it fails with the following error. 
+AIX OS에서 ksh를 사용하여 CUBRID SH 패키지를 설치하는 경우 다음 오류와 함께 실패한다.
   
 :: 
   
     0403-065 An incomplete or invalid multibyte character encountered. 
   
-Therefore, it is recommended to use ksh93 or bash instead of ksh.
+따라서 ksh 대신 ksh93 또는 bash를 사용할 것을 권장한다.
   
 :: 
   
     $ ksh93 ./CUBRID-9.2.0.0146-AIX-ppc64.sh 
     $ bash ./CUBRID-9.2.0.0146-AIX-ppc64.sh 
 
-CUBRID_LANG is removed, CUBRID_MSG_LANG is added
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+CUBRID_LANG 제거, CUBRID_MSG_LANG 추가
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-From version 9.1, CUBRID_LANG environment variable is no longer used.
-To output the utility message and the error message, the CUBRID_MSG_LANG environment variable is used. 
+9.1 버전부터 CUBRID_LANG 환경 변수를 더 이상 사용하지 않는다.
+유틸리티 메시지 및 오류 메시지를 출력할 때는 CUBRID_MSG_LANG 환경 변수를 사용한다. 
 
 
-Modify how to process an error for the array of the result of executing several queries at once in the CCI application(CUBRIDSUS-9364)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+CCI 응용 프로그램에서 여러 개의 질의를 한 번에 수행한 결과의 배열에 대한 오류 처리 방식 수정 (CUBRIDSUS-9364)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-When executing several queries at once in the CCI application, if an error has occurs from at least one query among the results of executing queries by using the cci_execute_array function, the cci_execute_batch function, the error code of the corresponding query was returned from 2008 R3.0 to 2008 R4.1. This problem has been fixed to return the number of the entire queries and check the error of each query by using the CCI_QUERY_RESULT_* macros from 2008 R4.3 and 9.1.
+CCI 응용에서 여러 개의 질의를 한 번에 수행할 때 2008 R3.0부터 2008 R4.1 버전까지는 cci_execute_array 함수나 cci_execute_batch 함수에 의한 질의 수행 결과들 중 하나만 오류가 발생해도 해당 질의의 오류 코드를 반환했으나, 2008 R4.3 버전 및 9.1 버전부터는 전체 질의 개수를 반환하고 CCI_QUERY_RESULT_* 매크로를 통해 개별 질의에 대한 오류를 확인할 수 있도록 수정했다.
 
-In earlier versions of this modification, there is no way to know whether each query in the array is success or failure when an error occurs; therefore, it it requires certain conditions.
+수정 이전 버전에서는 오류가 발생한 경우에도 배열 내 각각의 질의들의 성공 실패 여부를 알 수 없으므로, 이를 판단해야 한다.
 
 .. code-block:: c
 
@@ -152,7 +152,7 @@ In earlier versions of this modification, there is no way to know whether each q
       }
     ...
 
-From the modified version, entire queries are regarded as failure if an error occurs. In case that no error occurred, it is determined whether each query in the array succeeds or not.
+수정된 버전부터는 오류가 발생하면 전체 질의가 실패한 것이며, 오류가 발생하지 않은 경우에 대해 배열 내 각 질의의 성공 여부를 판단한다.
 
 .. code-block:: c
 
@@ -182,16 +182,16 @@ From the modified version, entire queries are regarded as failure if an error oc
       }
     ...
 
-In java.sql.XAConnection interface, HOLD_CURSORS_OVER_COMMIT is not supported(CUBRIDSUS-10800)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+java.sql.XAConnection 인터페이스에서 HOLD_CURSORS_OVER_COMMIT을 지원하지 않음 (CUBRIDSUS-10800)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Current CUBRID does not support ResultSet.HOLD_CURSORS_OVER_COMMIT in java.sql.XAConnection interface.
+현재 CUBRID는 java.sql.XAConnection 인터페이스에서 ResultSet.HOLD_CURSORS_OVER_COMMIT를 지원하지 않는다.
 
-From 9.0, STRCMP behaves case-sensitively
+9.0부터 STRCMP가 대소문자를 구분하여 동작
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Until the previous version of 9.0, STRCMP did not distinguish an uppercase and a lowercase. From 9.0, it compares the strings case-sensitively.
-To make STRCMP case-insensitive, you should use case-insensitive collation(e.g.: utf8_en_ci).
+9.0 이전 버전까지는 STRCMP가 대소문자를 구분하지 않았지만 9.0부터는 문자열에서 대소문자를 비교하여 구분한다.
+STRCMP가 대소문자를 구분하지 않도록 하려면 대소문자를 구분하지 않는 콜레이션(예: utf8_en_ci)을 사용해야 한다.
 
 .. code-block:: sql
 
@@ -211,32 +211,32 @@ To make STRCMP case-insensitive, you should use case-insensitive collation(e.g.:
     SELECT STRCMP ('ABC' COLLATE utf8_en_ci ,'abc' COLLATE utf8_en_ci);
     0
 
-Since the 2008 R4.1 version, the Default value of CCI_DEFAULT_AUTOCOMMIT has been ON(CUBRIDSUS-5879)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2008 R4.1 버전부터 CCI_DEFAULT_AUTOCOMMIT의 기본값이 ON으로 변경됨 (CUBRIDSUS-5879)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The default value for the CCI_DEFAULT_AUTOCOMMIT broker parameter, which affects the auto commit mode for applications developed with CCI interface, has been changed to ON since CUBRID 2008 R4.1. As a result of this change, CCI and CCI-based interface (PHP, ODBC, OLE DB etc.) users should check whether or not the application's auto commit mode is suitable for this.
+CCI 인터페이스로 개발한 응용 프로그램의 자동 커밋 모드에 영향을 미치는 CCI_DEFAULT_AUTOCOMMIT 브로커 파라미터의 기본값이 CUBRID 2008 R4.1부터 ON으로 변경되었다. 이 변경의 결과로 CCI 및 CC 기반 인터페이스(PHP, ODBC, OLE DB 등) 사용자는 응용 프로그램의 자동 커밋 모드가 이에 대해 적합한지 확인해야 한다.
 
-From the 2008 R4.0 version, the options and parameters that use the unit of pages were changed to use the unit of volume size(CUBRIDSUS-5136)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2008 R4.0 버전부터 페이지 단위를 사용하는 옵션 및 파라미터가 볼륨 크기 단위를 사용하도록 변경됨 (CUBRIDSUS-5136)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The options (-p, -l, -s), which use page units to specify the database volume size and log volume size of the cubrid createdb utility, will be removed. Instead, the new options, added after 2008 R4.0 Beta (--db-volume-size, --log-volume-size, --db-page-size, --log-page-size), are used.
+데이터베이스 볼륨 크기와 cubrid createdb 유틸리티의 로그 볼륨 크기를 지정하기 위해 페이지 단위를 사용하는 옵션(-p, -l, -s)은 제거되므로, 2008 R4.0 베타 이후 새로 추가된 옵션(--db-volume-size, --log-volume-size, --db-page-size, --log-page-size)을 사용한다.
 
-To specify the database volume size of the cubrid addvoldb utility, use the newly-added option (--db-volume-size) after 2008 R4.0 Beta instead of using the page unit.
-It is recommended to use the new system parameters in bytes because the page-unit system parameters will be removed. For details on the related system parameters, see the below.
+cubrid addvoldb 유틸리티의 데이터베이스 볼륨 크기를 지정하려면 페이지 단위를 사용하지 말고 2008 R4.0 베타 이후 새로 추가된 옵션(--db-volume-size)을 사용한다.
+페이지 단위 시스템 파라미터가 제거되므로 바이트 형식의 새 시스템 파라미터 사용을 권장한다. 관련 시스템 파라미터에 대한 자세한 내용은 아래를 참고한다.
 
-Be cautious when setting db volume size if you are a user of a version before 2008 R4.0 Beta(CUBRIDSUS-4222)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2008 R4.0 베타 이전 버전 사용자는 db 볼륨 크기를 설정할 때 주의할 것 (CUBRIDSUS-4222)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-From the 2008 R4.0 Beta version, the default value of data page size and log page size in creating the database was changed from 4 KB to 16 KB. If you specify the database volume to the page count, the byte size of the volume may differ from your expectations. If you did not set any options, 100MB-database volume with 4KB-page size was created in the previous version. However, starting from the 2008 R4.0, 512MB-database volume with 16KB-page size is created.
+2008 R4.0 베타 버전부터 데이터베이스를 생성할 때 데이터 페이지 크기 및 로그 페이지 크기의 기본값이 4KB에서 16KB로 변경되었다. 페이지 수로 데이터베이스 볼륨을 지정하는 경우 볼륨의 바이트 크기는 예상과 다를 수 있다. 어떠한 옵션도 선택하지 않은 경우 이전 버전에서는 4KB 페이지 크기의 100MB 데이터베이스 볼륨이 생성되었다. 그러나 2008 R4.0부터는 16KB 페이지 크기의 512MB 데이터베이스 볼륨이 생성된다.
 
-In addition, the minimum size of the available database volume is limited to 20 MB. Therefore, a database volume less than this size cannot be created.
+또한 사용 가능한 데이터베이스 볼륨의 최소 크기는 20MB로 제한된다. 따라서, 이 크기보다 작은 데이터베이스 볼륨을 생성할 수 없다.
 
-The change of the default value of some system parameters of the versions before 2008 R4.0(CUBRIDSUS-4095)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2008 R4.0 이전 버전의 일부 시스템 파라미터의 기본값 변경 (CUBRIDSUS-4095)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Starting from 2008 R4.0, the default values of some system parameters have been changed.
+2008 R4.0부터 일부 시스템 파라미터의 기본값이 변경되었다.
 
-Now, the default value of max_clients, which specifies the number of concurrent connections allowed by a DB server, and the default value of index_unfill_factor that specifies the ratio of reserved space for future updates while creating an index page, have been changed. Furthermore, the default values of the system parameters in bytes now use more memory when they exceed the default values of the previous system parameters per page.
+max_clients의 기본값(DB 서버에서 허용되는 동시 연결 수 지정)과 index_unfill_factor의 기본값(인덱스 페이지 생성 시 향후 갱신을 위한 예약 공간의 비율 지정)이 변경되었으며, 바이트 단위의 시스템 파라미터의 기본값이 페이지 단위의 이전 시스템 파라미터의 기본값을 초과하는 경우 더 많은 메모리를 사용하게 되었다.
 
 +-----------------------------+----------------------------+----------------------+--------------------+ 
 | Previous System             | Added System               | Previous Default     | Changed Default    | 
@@ -259,51 +259,51 @@ Now, the default value of max_clients, which specifies the number of concurrent 
 |                             |                            |                      |                    | 
 +-----------------------------+----------------------------+----------------------+--------------------+
 
-In addition, when a database is created using cubrid createdb, the minimum value of the data page size and the log page size has been changed from 1K to 4K.
+또한, cubrid createdb를 사용하여 데이터베이스를 생성할 때 데이터 페이지 크기 및 로그 페이지 크기의 최소 값이 1K에서 4K로 변경되었다.
  
-Changed so that database services, utilities, and applications cannot be executed when the system parameter is incorrectly configured(CUBRIDSUS-5375)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+시스템 파라미터가 잘못 설정된 경우 데이터베이스 서비스, 유틸리티 및 응용 프로그램을 수행할 수 없도록 변경됨 (CUBRIDSUS-5375)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-It has been changed so that now the related database services, utilities, and applications are not executed when configuring system parameters that are not defined in cubrid.conf or cubrid_ha.conf, when the value of system parameters exceed the threshold, or when the system parameters per page and the system parameters in bytes are used simultaneously.
+cubrid.conf 또는 cubrid_ha.conf에 정의되지 않은 시스템 파라미터를 설정하거나, 시스템 파라미터의 값이 임계값을 초과하거나, 페이지 단위 시스템 파라미터 및 바이트 단위 시스템 파라미터가 동시에 사용되는 경우 관련 서비스, 유틸리티 및 응용 프로그램이 수행되지 않도록 변경되었다.
 
-Database fails to start if the data_buffer_size is configured with a value that exceeds 2G in CUBRID 32-bit version(CUBRIDSUS-5349)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+CUBRID 32비트 버전에서 2G를 초과하는 값을 사용하여 data_buffer_size를 설정할 경우 데이터베이스 구동에 실패함 (CUBRIDSUS-5349)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In the CUBRID 32-bit version, if the value of data_buffer_size exceeds 2G, the running database fails. Note that the configuration value cannot exceed 2G in the 32-bit version because of the OS limit.
+CUBRID 32비트 버전에서 data_buffer_size의 값이 2G를 초과하는 경우 데이터베이스 구동에 실패한다. 이 설정 값은 OS 제한 때문에 32비트 버전에서 2G를 초과할 수 없다.
 
-Recommendations for controlling services with the CUBRID Utility in Windows Vista and higher(CUBRIDSUS-4186)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Windows Vista 및 그 이후 버전에서 CUBRID 유틸리티를 사용한 서비스 제어 시 권장 사항 (CUBRIDSUS-4186)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To control services using cubrid utility from Windows Vista and higher, it is recommended to start the command prompt window with administrative privileges.
+Windows Vista 및 그 이후 버전에서 cubrid 유틸리티를 사용하여 서비스를 제어하려면 명령 프롬프트 창을 관리자 권한으로 구동한 후 사용하는 것을 권장한다.
 
-If you don't start the command prompt window with administrative privileges and use the cubrid utility, you can still execute it with administrative privileges through the User Account Control (UAC) dialog box, but you will not be able to verify the resulting messages.
+명령 프롬프트 창을 관리자 권한으로 구동하지 않고 cubrid 유틸리티를 사용하는 경우 UAC(User Account Control) 대화 상자를 통하여 관리자 권한으로 수행할 수 있으나 수행 결과의 메시지를 확인할 수 없다.
 
-The procedures for starting the command prompt window as an administrator in Windows Vista and higher are as follows:
+Windows Vista 및 그 이후 버전에서 명령 프롬프트 창을 관리자 권한으로 구동하는 방법은 다음과 같다.:
 
-* Right-click [Start > All Programs > Accessories > Command Prompt].
-* When [Execute as an administrator (A)] is selected, a dialog box to verify the privilege escalation is activated. Click “YES" to start with administrative privileges.
+* [시작 > 모든 프로그램 > 보조프로그램 > 명령 프롬프트]를 마우스 오른쪽 버튼을 클릭한다.
+* [관리자로 수행(A)]을 선택하면 권한 상승을 확인하는 대화 상자가 활성화되고, “예"를 클릭하여 관리자 권한으로 구동한다.
     
-A manager server process-related error occurs in the execution of the CUBRID source after its build(CUBRIDSUS-3553)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    
-If users want to build the CUBRID source and install it themselves, they must build and install CUBRID and the CUBRID Manager respectively. If you check out only CUBRID source and run cubrid service start or cubrid manager start after build, the error "cubrid manager server is not installed" will occur.
+CUBRID 소스 빌드 후 수행 시, 매니저 서버 프로세스 관련 오류 발생 (CUBRIDSUS-3553)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+사용자가 CUBRID 소스를 직접 빌드하고 설치하는 경우, CUBRID와 CUBRID Manager를 각각 빌드하여 설치해야 한다. CUBRID 소스만 체크 아웃하고 빌드 후 cubrid service start 또는 cubrid manager start를 실행하면 "cubrid manager server is not installed"라는 오류가 발생한다.
 
 
-GLO class which is used in 2008 r3.0 or before is not supported any longer(CUBRIDSUS-3826)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2008 r3.0 또는 그 이전 버전에서 사용하던 GLO 클래스 지원 중단 (CUBRIDSUS-3826)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-CUBRID 2008 R3.0 and earlier versions processed Large Objects with the Generalized Large Object glo class, but the glo class has been removed from CUBRID 2008 R3.1 and later versions. Instead, they support BLOB and CLOB (LOB from this point forward) data types. (See :ref:`blob-clob` for more information about LOB data types).
+CUBRID 2008 R3.0 및 그 이전 버전은 glo(Generalized Large Object) 클래스를 사용하여 Large Object를 처리했지만 glo 클래스는 CUBRID 2008 R3.1 및 그 이후 버전에서 제거되었다. 대신, BLOB 및 CLOB(이후 LOB) 데이터 타입이 지원된다. LOB 데이터 타입에 대한 자세한 내용은 :ref:`blob-clob` 절을 참고한다.
 
-glo class users are recommended to carry out tasks as follows:
+glo 클래스 사용자는 다음 작업을 수행할 것을 권장한다.:
 
-* After saving GLO data as a file, modify to not use GLO in any application and DB schema.
-* Implement DB migration by using the unloaddb and loaddb utilities.
-* Perform tasks to load files into LOB data according to the modified application.
-* Verify the application that you modified operates normally.
+* GLO 데이터를 파일로 저장한 후에 다른 응용 프로그램 및 DB 스키마에서 GLO를 사용하지 않도록 수정한다.
+* unloaddb 및 loaddb 유틸리티를 사용하여 DB 마이그레이션을 수행한다.
+* 수정된 응용 프로그램에 따라 파일을 LOB 데이터로 로드하는 작업을 수행한다.
+* 수정한 응용 프로그램이 정상적으로 동작하는지 확인한다.
 
-For reference, if the cubrid loaddb utility loads a table that inherits the GLO class or has the GLO class type, it stops the data from loading by displaying an error message, "Error occurred during schema loading."
+예를 들어, cubrid loaddb 유틸리티가 GLO 클래스를 상속하거나 GLO 데이터 타입이 있는 테이블을 로드하는 경우 "Error occurred during schema loading." 오류 메시지와 함께 데이터 로딩을 중지한다.
 
-With the discontinued support of GLO class, the deleted functions for each interface are as follows:
+GLO 클래스의 지원이 중단됨에 따라 각 인터페이스에 대해 삭제된 함수는 다음과 같다.:
 
 +------------+----------------------------+
 | Interface  | Deleted Functions          |
@@ -350,20 +350,20 @@ With the discontinued support of GLO class, the deleted functions for each inter
 |            |                            |
 +------------+----------------------------+
 
-Port configuration is required if the protocol between the master and server processes is changed, or if two versions are running at the same time(CUBRIDSUS-3564)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+마스터와 서버 프로세스 사이의 프로토콜이 변경된 경우 또는 두 버전이 동시에 실행되는 경우 포트 설정 필요 (CUBRIDSUS-3564)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Because the communication protocol between a master process (cub_master) and a server process (cub_server) has been changed, the master process of CUBRID 2008 R3.0 or later cannot communicate with the server process of a lower version, and the master process of a lower version cannot communicate with a server process of 2008 R3.0 version or later. Therefore, if you run two versions of CUBRID at the same time by adding a new version in an environment where a lower version has already been installed, you should modify the cubrid_port_id system parameter of cubrid.conf so that different ports are used by the different versions.
+마스터 프로세스(cub_master)와 서버 프로세스(cub_server) 사이의 통신 프로토콜이 변경되었으므로 CUBRID 2008 R3.0 또는 그 이후 버전의 마스터 프로세스는 이전 버전의 서버 프로세스와 통신할 수 없고 이전 버전의 마스터 프로세스는 2008 R3.0 또는 그 이후 버전과 통신할 수 없다. 따라서 이전 버전이 이미 설치된 환경에 새 버전을 추가하여 동시에 두 버전의 CUBRID를 실행하는 경우 버전별로 다른 포트가 사용되도록 cubrid.conf의 cubrid_port_id 시스템 파라미터를 수정해야 한다.
 
-Specifying a question mark when entering connection information as a URL string in JDBC(CUBRIDSUS-3217)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+JDBC에서 URL 문자열로서 연결 정보를 입력할 때 물음표 명시 (CUBRIDSUS-3217)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-When entering connection information as a URL string in JDBC, property information was applied even if you did not enter a question mark (?) in the earlier version. However, you must specify a question mark depending on syntax in this CUBRID 2008 R3.0 version. If not, an error is displayed. In addition, you must specify colon (:) even if there is no username or password in the connection information. ::
+JDBC에서 URL 문자열로서 연결 정보를 입력할 때 이전 버전에서 물음표(?)를 입력하지 않은 경우에도 속성 정보가 지정되었다. 그러나 이 CUBRID 2008 R3.0 버전에서는 구문에 따라 물음표를 명시해야 한다. 그렇지 않은 경우 오류가 표시된다. 또한, 연결 정보에 사용자명 또는 암호가 없는 경우에도 콜론(:)을 명시해야 한다. ::
 
     URL=jdbc:CUBRID:127.0.0.1:31000:db1:::altHosts=127.0.0.2:31000,127.0.0.3:31000 -- Error
     URL=jdbc:CUBRID:127.0.0.1:31000:db1:::?altHosts=127.0.0.2:31000,127.0.0.3:31000 -- Normal
 
-Not allowed to include @ in a database name(CUBRIDSUS-2828)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+데이터베이스명에 @을 포함할 수 없음 (CUBRIDSUS-2828)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If @ is included in a database name, it can be interpreted that a host name has been specified. To prevent this, a revision has been made so that @ cannot be included in a database name when running cubrid createdb, cubrid renamedb and cubrid copydb utilities.
+데이터베이스명에 @이 포함되면 호스트명이 지정된 것으로 해석될 수 있다. 이를 방지하기 위해 cubrid createdb, cubrid renamedb 및 cubrid copydb 유틸리티를 실행할 때는 데이터베이스에 @이 포함될 수 없도록 수정되었다.

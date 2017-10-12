@@ -2,6 +2,8 @@
 :meta-keywords: cubrid install, cubrid compatibility, cubrid service, cubrid manager, run cubrid
 :meta-description: CUBRID supported platforms, hardware and software requirements, how to install and run CUBRID engine and CUBRID manager.
 
+.. role:: red
+
 .. _install-execute:
 
 설치와 실행
@@ -225,7 +227,7 @@ Windows 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항
 
     CUBRID는 32비트 버전과 64비트 버전을 각각 지원한다. [내 컴퓨터] > [시스템 등록 정보] 창을 활성화하여 Windows 버전 비트를 확인할 수 있다. 32비트 Windows에서는 CUBRID 32비트 버전을 설치하고, 64비트 Windows에서는 CUBRID 64비트 버전을 설치한다.
 
-    .. warning:: 10.1 would be the last release of 32-bit Windows. Later releases will only provide 64-bit version.
+    .. warning:: :red:`10.1이 32비트 Windows의 마지막 릴리즈이다. 이후 릴리즈에서는 64비트 버전만 제공한다.`
 
 **설치 과정**
 
@@ -264,7 +266,7 @@ Windows 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항
 
 *   **cm.conf**
 
-    CUBRID 매니저용 설정 파일이다. **cm_port** 는 매니저 서버 프로세스, 웹 매니저 서버 프로세스가 사용하는 포트로 기본값은 **8001** 이다. 
+    CUBRID 매니저용 설정 파일이다. **cm_port** 는 매니저 서버 프로세스, 매니저 서버 프로세스가 사용하는 포트로 기본값은 **8001** 이다. 
 
     .. FIXME: For details, see `CUBRID Manager Manual <http://www.cubrid.org/wiki_tools/entry/cubrid-manager-manual>`_.
     
@@ -282,7 +284,7 @@ Windows 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항
 
 **CUBRID 인터페이스 설치**
 
-JDBC, PHP, ODBC, OLE DB 등 인터페이스 모듈은 `<http://www.cubrid.org/downloads>`_\ 에서 최신 정보를 확인할 수 있고 관련 파일을 내려받아 설치할 수 있다.
+:red:`http://www.cubrid.org/downloads에서 CCI, JDBC, PHP, ODBC, OLE DB, ADO.NET, Ruby, Python 및 Node.js와 같은 인터페이스 모듈을 다운로드할 수 있다.`
 
 .. FIXME: You can see the latest information on interface modules such as JDBC, PHP, ODBC, and OLE DB and install them by downloading files from `<http://www.cubrid.org/wiki_apis>`_.
 
@@ -290,9 +292,9 @@ JDBC, PHP, ODBC, OLE DB 등 인터페이스 모듈은 `<http://www.cubrid.org/do
 
 **CUBRID 도구 설치**
 
-CUBRID 매니저, CUBRID 쿼리 브라우저 등의 도구는 `<http://www.cubrid.org/wiki_tools>`_\ 에서 최신 정보를 확인할 수 있고 관련 파일을 내려받아 설치할 수 있다.
+:red:`http://www.cubrid.org/downloads에서 CUBRID Manager 및 CUBRID Migration Toolkit을 비롯한 다양한 도구를 다운로드할 수 있다.`
 
-CUBRID 웹매니저는 CUBRID 설치 시 같이 설치된다. 자세한 설명은 `CUBRID 웹 매니저 매뉴얼 <http://www.cubrid.org/wiki_tools/entry/cubrid-web-manager-manual>`_\ 을 참고한다.
+.. FIXME: You can see the latest information on interface modules such as JDBC, PHP, ODBC, and OLE DB and install them by downloading files from `<http://www.cubrid.org/wiki_apis>`_.
 
 압축 파일로 설치하기
 --------------------
@@ -408,7 +410,7 @@ Windows 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항
 
     CUBRID는 32비트 버전과 64비트 버전을 각각 지원한다. [내 컴퓨터] > [시스템 등록 정보] 창을 활성화하여 Windows 버전 비트를 확인할 수 있다. 32비트 Windows에서는 CUBRID 32비트 버전을 설치하고, 64비트 Windows에서는 CUBRID 64비트 버전을 설치한다.
 
-    .. warning:: 10.1 would be the last release of 32-bit Windows. Later releases will only provide 64-bit version. 
+    .. warning:: :red:`10.1이 32비트 Windows의 마지막 릴리즈이다. 이후 릴리즈에서는 64비트 버전만 제공한다.`
 
 **설치 과정**
 
@@ -419,7 +421,7 @@ Windows 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항
         ::
         
             C:\CUBRID
-    *   You may have to create a directory for **$CUBRID_DATABASES**. You can designate any directory you have enough permission.
+    *   :red:`**$CUBRID_DATABASES** 변수에 설정된 디렉토리 생성이 필요하다. 적절한 권한이 있는 임의의 디렉터리를 지정할 수 있다.`
 
     **환경 변수 설정**
 

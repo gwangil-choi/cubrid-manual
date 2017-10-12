@@ -2,6 +2,8 @@
 :meta-keywords: cubrid install, cubrid compatibility, cubrid service, cubrid manager, run cubrid
 :meta-description: CUBRID supported platforms, hardware and software requirements. How to install and run CUBRID engine and CUBRID manager.
 
+.. role:: red
+
 ***********
 CUBRID 소개
 ***********
@@ -27,7 +29,7 @@ CUBRID는 객체 관계형 데이터베이스 관리 시스템으로서, 데이�
 
 *   브로커는 서버와 외부 응용 프로그램 간의 통신을 중계하는 CUBRID 전용 미들웨어로서, 커넥션 풀링, 모니터링, 로그 추적 및 분석 기능을 제공한다.
 
-*   CUBRID 매니저는 데이터베이스와 브로커를 원격에서 관리할 수 있는 GUI 툴이다. 또한, CUBRID 매니저는 사용자가 데이터베이스 서버에 SQL 질의를 수행할 수 있는 편리한 기능의 질의 편집기를 제공한다. 
+*   :red:`CUBRID Manager는 사용자가 데이터베이스와 브로커를 원격으로 관리할 수 있게 해주는 GUI 도구이다. 사용자가 데이터베이스 서버에 SQL 질의를 수행할 수 있게 해주는 편리한 도구인 질의 편집기를 제공한다.`
 
 .. FIXME: For more information about CUBRID Manager, see http://www.cubrid.org/wiki_tools/entry/cubrid-manager.
 
@@ -49,19 +51,19 @@ CUBRID는 객체 관계형 데이터베이스 관리 시스템으로서, 데이�
 
 **Data Volumes**
 
-Permanent data volumes are database volumes that exists permanently once they are created.
+:red:`영구적 데이터 볼륨은 일단 생성되면 영구적으로 유지되는 데이터베이스 볼륨이다.`
 
-It usually stores data that needs to be persistent after database restart or crash. The possible types of permanent data are:
+:red:`일반적으로 데이터베이스 재시작이나 비정상 종료 후에도 보존해야 하는 데이터를 저장한다. 영구적 데이터의 타입은 다음과 같다.`
 
-*   Tables (rows and multimedia data) are internally stored into heap files and heap overflow files, one file for each table.
-*   Indexes (keys and multimedia data) are internally stored into b-tree files and b-tree overflow files, one file for each index.
-*   System data is internally stored into several types of files: file tracker, vacuum data, dropped files tracker, and class names hash.
+*   :red:`테이블(행 및 멀티미디어 데이터) - 힙 파일 및 힙 오버플로우 파일에 내부적으로 저장. 테이블당 파일 하나`
+*   :red:`인덱스(키 및 멀티미디어 데이터) - b-tree 파일 및 b-tree 오버플로우 파일에 내부적으로 저장. 인덱스당 파일 하나`
+*   :red:`시스템 데이터 -  파일 추적기, vacuum 데이터, 삭제된 파일 추적기 및 클래스명 해시 등 여러 파일 타입에 내부적으로 저장`
 
-User can specifically assign some permanent data volumes to store temporary data. These volumes are permanent in the sense that they are never destroyed, but behave similarly to :ref:`temporary-volumes`.
+:red:`사용자가 일시적 데이터를 저장할 일부 영구적 데이터 볼륨을 구체적으로 할당할 수 있다. 이러한 볼륨은 절대 제거되지 않는다는 점에서는 영구적이지만 :ref:`temporary-volumes`와 비슷하게 동작한다.`
 
 .. note::
 
-    If you have used older CUBRID version, you may know that we used to have several types of permanent data volumes: **generic**, **data** and **index**. This classification is deprecated, and although these options are still allowed for **cubrid createdb** and **cubrid addvoldb** commands, the created volumes will be no different and they will store any type of permanent data. The volume purpose is only classified into permanent data and temporary data.
+    :red:`기존 CUBRID 버전에서는 영구적 데이터 볼륨을 **generic**, **data** 및 **index**와 같이 여러 타입으로 분류해 왔으나, 이제 더 이상 이러한 분류를 사용하지 않는다. 이러한 옵션이 여전히 **cubrid createdb** 및 **cubrid addvoldb** 명령에 허용되긴 하지만 생성되는 볼륨은 동일하며 모든 타입의 영구적 데이터를 저장한다. 볼륨의 용도는 영구적 데이터와 일시적 데이터로만 분류된다.`
 
 **제어 파일(Control File)**
 
@@ -94,11 +96,11 @@ User can specifically assign some permanent data volumes to store temporary data
 일시적 볼륨(Temporary Volume)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Temporary data volume has the opposite meaning to the permanent volume. That is, the temporary volume is a storage file created temporarily which gets destroyed when the server process terminates. These volumes are used to store intermediate and final results of query processing and sorting.
+:red:`일시적 데이터 볼륨은 영구적 볼륨과 상반되는 개념이다. 즉, 일시적 볼륨은 서버 프로세스가 종료될 때 삭제되는 일시적으로 생성되는 저장소 파일이며, 질의 처리 및 정렬을 수행할 때 중간 결과와 최종 결과를 저장하는 데 사용된다.`
 
-These files provide space to store intermediary and final results of queries.  Based on the size of required temporary data, it will be first stored in memory (the space size is determined by the system parameter **temp_file_memory_size_in_pages** specified in **cubrid.conf**). Exceeding data has to be stored on disk.
+:red:`이러한 파일은 질의의 중간 결과와 최종 결과를 저장할 공간을 제공한다. 필요한 일시적 데이터 크기에 따라 우선 메모리에 저장된다(공간 크기는 **cubrid.conf**에 지정된 시스템 파라미터 **temp_file_memory_size_in_pages**에 의해 결정됨). 이를 초과하는 데이터는 디스크에 저장한다.`
 
-Database will usually create and use temporary volumes to allocate disk space for temporary data. They user may however assign permanent database volumes with the purpose of storing temporary data using by running **cubrid addvoldb -p temp** command. If such volumes exist, they will have priority over temporary volumes when disk space is allocated for temporary data.
+:red:`데이터베이스에서는 일시적 데이터를 위한 디스크 공간 할당을 위해 일시적 임시 볼륨을 생성해 사용한다. 그러나 사용자는 **cubrid addvoldb -p temp** 명령을 실행해 일시적 데이터를 저장하기 위한 용도로 영구적 데이터베이스 볼륨을 할당할 수도 있다. 이러한 영구적 데이터베이스 볼륨이 있는 경우 임시 데이터를 디스크 공간에 저장할 때 일시적 볼륨보다 우선 사용한다.`
 
 The examples of queries that can use temporary data are as follows:
 
@@ -108,24 +110,24 @@ The examples of queries that can use temporary data are as follows:
 *   Queries executing sort-merge join
 *   Queries including the **CREATE INDEX** statement
 
-To have complete control on the disk space used for temporary data and to prevent it from consuming all system disk space, our recommendation is to:
+:red:`일시적 데이터에 의해 시스템의 디스크 공간이 모두 사용되는 것을 방지하려면 다음을 수행할 것을 권장한다.`
 
-*   create permanent database volumes in advance to secure the required space for temporary data
-*   limit the size of the space used in the temporary volumes when a queries are executed by setting **temp_file_max_size_in_pages** parameter in **cubrid.conf** (there is no limit by default).
+*   :red:`영구적 데이터베이스 볼륨을 미리 생성해 일시적 데이터에 필요한 공간을 확보한다.`
+*   :red:`**cubrid.conf**에서 **temp_file_max_size_in_pages** 파라미터를 설정해 질의를 수행할 때 일시적 볼륨에 사용되는 공간의 크기를 제한한다(기본적으로는 제한 없음).`
 
-Once temporary temp volume is created, it is maintained until a database restarts and its size cannot be reduced. It is recommended to make temporary temp volume automatically delete by restarting a database if its size is too big.
+:red:`일시적 임시 볼륨(temporary temp volume)이 생성되면 데이터베이스가 재시작될 때까지 유지되며 크기를 줄일 수 없다. 크기가 너무 큰 경우 데이터베이스를 재시작해 일시적 임시 볼륨이 자동으로 삭제되도록 하는 것이 좋다.`
 
-*   **File name of the temporary volumes**: The file name format of a temporary volume is *db_name*\ **_t**\ *num*, where *db_name* is the database name and *num* is the volume identifier. The volume identifier is decremented by 1 from 32766.
+*   :red:`**일시적 볼륨의 파일명**: 일시적 볼륨의 파일명 형식은 *db_name*\ **_t**\ *num*이며, 여기서 *db_name*은 데이터베이스명을, *num*은 볼륨 식별자를 나타낸다. 볼륨 식별자는 32766부터 1씩 감소한다.`
 
-*   **Configuring the temporary volume size**: The number of temporary volumes to be created is determined by the system depending on the space size needed for processing transactions. However, users can limit the total temporary volume size by configuring the **temp_file_max_size_in_pages** parameter value in the system parameter configuration file (**cubrid.conf**). The default value is -1, which means it can be created as long as free space is available. If the **temp_file_max_size_in_pages** parameter value is configured to 0, no temporary volumes will be created, and the system will have to rely exclusively on permanent volumes assigned for temporary data.
+*   :red:`**일시적 볼륨의 크기 설정**: 생성될 일시적 볼륨의 수는 트랜잭션 처리에 필요한 공간 크기에 따라 시스템에서 결정한다. 그러나 사용자가 시스템 파라미터 설정 파일(**cubrid.conf**)에서.**temp_file_max_size_in_pages** 파라미터 값을 설정해서 총 일시적 볼륨 크기를 제한할 수도 있다. 기본값은 여유 공간이 있는 한 일시적 볼륨을 무제한으로 생성할 수 있음을 나타내는 -1이다. **temp_file_max_size_in_pages** 파라미터 값이 0으로 설정된 경우 일시적 볼륨이 생성되지 않고, 시스템은 일시적 데이터에 할당된 영구적 볼륨만 사용해야 한다.`
 
-*   **Configuring storing location of temporary volumes**: By default, temporary volumes are created where the first database volume was created.  However, you can specify a different directory to store temporary volumes by configuring the **temp_volume_path** parameter value.
+*   :red:`**일시적 볼륨의 저장 위치 설정**: 기본적으로 일시적 볼륨은 최초 데이터베이스 볼륨이 생성된 위치에 생성되나 사용자가 **temp_volume_path** 파라미터 값을 설정해 일시적 볼륨을 저장할 다른 디렉터리를 지정할 수도 있다.`
 
-*   **Deleting temporary volumes**: Temporary volumes exist only while the database is running. Therefore, you must not delete the temporary volumes when running servers. They are deleted when database servers are normally terminated. When database servers are  abnormally terminated, temporary volumes are deleted on servers restart.
+*   :red:`**일시적 볼륨 삭제**: 일시적 볼륨은 데이터베이스가 실행 중인 동안에만 존재하므로 서버를 실행할 때 일시적 볼륨을 삭제해서는 안 된다. 일시적 볼륨은 데이터베이스 서버가 정상적으로 종료될 때 삭제되며, 데이터베이스 서버가 비정상적으로 종료될 경우 서버가 재시작될 때 삭제된다.`
 
 .. note::
 
-    Normally, permanent volumes are used to store permanent data, and temporary volumes are used to store temporary data. You can assign permanent volumes to store temporary data, but temporary volumes will never store permanent data!
+    :red:`일반적으로 영구적 볼륨은 영구적 데이터를 저장하는 데 사용되고, 일시적 볼륨은 일시적 데이터를 저장하는 데 사용된다. 일시적 데이터 저장을 위해 영구적 볼륨을 할당할 수는 있으나 일시적 볼륨에는 절대 영구적 데이터가 저장되지 않는다.`
 
 백업 볼륨
 ^^^^^^^^^

@@ -2,11 +2,13 @@
 :meta-keywords: cubrid configure, cubrid conf, cubrid parameters, cubrid settings, cubrid.conf, cubrid default parameters
 :meta-description: How to configure CUBRID database behavior. Set system parameters for Connection, Memory, Disk, Concurrency/Lock, Logging, Transaction Processing, Query Execution, Utilities and High Availability.
 
+.. role:: red
+
 ***********
 시스템 설정
 ***********
 
-성능과 동작에 영향을 미칠 수 있는 시스템 파라미터의 설정 정보를 제공한다. 시스템 파라미터는 시스템의 전체적인 성능과 동작을 결정한다. 이 장에서는 데이터베이스 서버, 브로커에 적용하는 설정 파일의 사용법과 개별 파라미터의 의미를 설명한다. 
+:red:`이 장에서는 시스템 성능에 영향을 미칠 수 있는 시스템 파라미터를 설정하는 방법에 대한 정보를 제공한다. 시스템 파라미터는 시스템의 전체적인 성능과 동작을 결정한다. 데이터베이스 서버 및 브로커에 설정 파일을 사용하는 방법과 각 파라미터에 대해서도 설명한다.`
 
 CUBRID 매니저 서버 환경 설정과 관련해서는 `CUBRID Manager Manual <http://www.cubrid.org/wiki_tools/entry/cubrid-manager-manual>`_ 을 참고한다.
 
@@ -63,7 +65,7 @@ SQL 문을 이용하여 CSQL 인터프리터나 CUBRID 매니저의 질의 편�
 
     SET SYSTEM PARAMETERS 'index_scan_in_oid_order=1; csql_history_num=70';
 
-**DEFAULT** for *value* will reset the parameter to its default value with an exception of **call_stack_dump_activation_list** parameter. 
+:red:`+*value*의 **DEFAULT**는 **call_stack_dump_activation_list** 파라미터를 제외하고 해당 파라미터를 기본값으로 재설정한다.`
 
 .. code-block:: sql
 
@@ -587,10 +589,10 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
     임시 결과를 저장하는 공간은 다음과 같다. 
     
     *   임시 결과 캐시 버퍼(**temp_file_memory_size_in_pages** 시스템 파라미터에 의해 확보된 메모리)
-    *   Permanent volumes with the purpose of storing temporary data.
-    *   Temporary volumes
+    *   :red:`일시적 데이터 저장을 위한 영구적 볼륨이다.`
+    *   :red:`일시적 볼륨`
     
-    If the previous space is exhausted, then the next space is used as the following order: Cache buffer for storing temporary result -> Permanent volumes -> Temporary volumes.
+    :red:`기존의 공간이 소진되면 다음에 나와 있는 순서로 공간이 사용된다. 일시적 결과 저장을 위한 캐시 버퍼 -> 영구적 볼륨 -> 일시적 볼륨`
 
 **thread_stacksize**
 
@@ -626,25 +628,25 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
     **db_volume_size**\ 는 다음과 같은 값을 설정하는 파라미터이다. 값 뒤에 B, K, M, G, T로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes, Terabytes를 의미한다. 단위를 생략하면 바이트 단위가 적용된다. 기본값은 **512M**\ 이다.
 
     *   **cubrid createdb**\ 와 **cubrid addvoldb** 유틸리티에서 **--db-volume-size** 옵션을 생략했을 때 생성되는 데이터베이스 볼륨의 기본 크기
-    *   The default size of volume that is added automatically when database is full.
+    *   :red:`데이터베이스가 가득 차면 자동으로 추가되는 볼륨의 기본 크기이다.`
 
 .. note::
 
-    The actual volume size will always be rounded up to a multiple of the size of 64 sectors. Sector size depends on page size, therefore 64 sectors size is 16M, 32M or 64M for page size 4k, 8k or 16k respectively.
+    :red:`실제 볼륨 크기는 항상 64개 섹터 크기의 배수로 올림된다. 섹터 크기는 페이지의 크기에 따라 달라지므로, 64개 섹터 크기는 페이지 크기 4k, 8k 또는 16k 각각에 대해 16M, 32M 또는 64M이다.`
 
 **dont_reuse_heap_file**
 
-        **dont_reuse_heap_file** is a parameter to configure whether or not heap files, which are deleted when deleting the table (**DROP TABLE**), are to be reused when creating a new table (**CREATE TABLE**). If this parameter is set to no, the deleted heap files can be reused; if it is set to yes, the deleted heap files are not used when creating a new table. The default value is **no**.
+        **dont_reuse_heap_file** :red:`은 새 테이블을 생성할 때(**CREATE TABLE**) 테이블 삭제 시(**DROP TABLE**) 삭제되는 힙 파일을 재사용할지 여부를 설정하는 파라미터이다. 이 파라미터를 no로 설정하면 삭제된 힙 파일이 재사용되며, 이를 yes로 설정하면 새 테이블을 생성할 때 삭제된 힙 파일이 사용되지 않는다. 기본값은 **no**이다.`
 
 **log_volume_size**
 
-    **log_volume_size**\ 는 **cubrid createdb** 유틸리티에서 **--log-volume-size** 옵션이 생략되었을 때 로그 볼륨 파일의 기본 크기를 설정하는 파라미터이다. 값 뒤에 B, K, M, G, T로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes, Terabytes를 의미한다. 단위를 생략하면 바이트 단위가 적용된다. 기본값은 **512M**\ 이다.
+    **log_volume_size**\ :red:`는 **--log-volume-size** 옵션 없이 **cubrid createdb** 유틸리티를 사용할 때 로그 볼륨 파일의 기본 크기를 설정하는 파라미터이다. 단위는 B, K, M, G 또는 T로 설정할 수 있으며, 이는 각각 바이트, 킬로바이트(KB), 메가바이트(MB), 기가바이트(GB) 및 테라바이트(TB)를 나타낸다. 단위를 생략하면 바이트가 적용된다. 기본값은 **512M**이다.`
 
 **temp_file_max_size_in_pages**
 
-    **temp_file_max_size_in_pages** is a parameter to configure the maximum number of pages to which temporary volumes can be extended. By default, this value is **-1**, which means that temporary volumes can occupy an unlimited disk space. A positive value will set a limit to these values (exceeding it may show an error and cancel some big queries).
+    **temp_file_max_size_in_pages** :red:`는 일시적 볼륨을 확장할 수 있는 최대 페이지 수를 설정하는 파라미터이다. 기본값은 일시적 볼륨이 무제한 디스크 공간을 차지할 수 있음을 뜻하는 **-1**이다. 제한을 두기 위해서는 양수 값으로 설정한다(설정된 값을 초과하면 오류가 표시되고 일부 큰 질의가 취소될 수 있음).`
 
-    If the parameter is configured to **0**, temporary volumes are not created automatically; the administrator must create permanent volumes with the purpose of storing temporary data by using the **cubrid addvoldb** utility.
+    :red:`이 파라미터를 **0**으로 설정하면 일시적 볼륨이 자동으로 생성되지 않으며 관리자가 **cubrid addvoldb** 유틸리티를 사용해 일시적 데이터를 저장하기 위한 용도로 영구적 볼륨을 생성해야 한다.`
 
     For more details see :ref:`temporary-volumes`
     
@@ -798,11 +800,11 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **error_log_level**
 
-    **error_log_level** is a server parameter to configure an error message to be stored based on severity. There are five different levels which range from **WARNING** (lowest level), to **FATAL** (highest level). The inclusion relation in messages is **FATAL** < **ERROR** < **SYNTAX** < **NOTIFICATION** < **WARNING**. The default is **NOTIFICATION**. If severity of error is **NOTIFICATION**, error messages with **NOTIFICATION**, **SYNTAX**, **ERROR** and **FATAL** levels are written to the log file.
+    **error_log_level** :red:`is a server parameter to configure an error message to be stored based on severity. There are five different levels which range from **WARNING** (lowest level), to **FATAL** (highest level). The inclusion relation in messages is **FATAL** < **ERROR** < **SYNTAX** < **NOTIFICATION** < **WARNING**. The default is **NOTIFICATION**. If severity of error is **NOTIFICATION**, error messages with **NOTIFICATION**, **SYNTAX**, **ERROR** and **FATAL** levels are written to the log file.`
 
 **error_log_warning**
 
-    **error_log_warning** is a parameter to configure whether or not error messages with a severity level of **WARNING** are to be displayed. Its default value is **no**. For this reason, you must set **error_log_warning** to **yes** to store **WARNING** messages to an error log file.
+    **error_log_warning** :red:`is a parameter to configure whether or not error messages with a severity level of **WARNING** are to be displayed. Its default value is **no**. For this reason, you must set **error_log_warning** to **yes** to store **WARNING** messages to an error log file.`
 
 **error_log_size**
 
@@ -976,7 +978,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
     **log_buffer_size**\ 는 메모리에 캐시되는 로그 버퍼의 크기를 설정하는 파라미터이다. 값 뒤에 B, K, M, G, T로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes, Terabytes를 의미한다. 단위를 생략하면 바이트 단위가 적용된다. 기본값은 128 * :ref:`log_page_size <dpg>` (log_page_size가 16K이면 **2M**) 이다.
 
-    If the value of the **log_buffer_size** parameter is large, performance can be improved (due to the decrease in disk I/O) in an environment where transactions are long and numerous. Moreover, CUBRID Multiversion Concurrency Control system relies on log to access previous row versions and to vacuum invisible versions from database. It is recommended to configure an appropriate value considering the memory size and operations of the system where CUBRID is installed.
+    :red:`If the value of the **log_buffer_size** parameter is large, performance can be improved (due to the decrease in disk I/O) in an environment where transactions are long and numerous. Moreover, CUBRID Multiversion Concurrency Control system relies on log to access previous row versions and to vacuum invisible versions from database. It is recommended to configure an appropriate value considering the memory size and operations of the system where CUBRID is installed.`
 
     *   필요한 메모리 크기 = 로그 버퍼 크기(**log_buffer_size**)
 
@@ -1183,7 +1185,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 +**cte_max_recursions**
 
-    **cte_max_recursions** is a parameter to limit the maximum number of iterations when executing the recursive part of the CTE (Common Table Expressions) statement. This avoids infinite loop and potential issues produced by the size of temporary lists.
+    **cte_max_recursions** :red:`는 CTE(Common Table Expressions) 질의문의 반복되는 부분을 수행할 때 최대 반복 횟수를 제한하는 파라미터이다. 이 파라미터는 무한 반복과 일시적 목록의 크기로 인해 발생할 수 있는 이슈를 예방한다.`
 
 **default_week_format**
 
@@ -1191,9 +1193,9 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **intl_check_input_string**
 
-    **intl_check_input_string** is a parameter to determine whether or not to check that string entered is correctly corresponded to character set used. The default value is **no**. If this value is no and character set is UTF-8 and incorrect data is enter which violate UTF-8 byte sequence, it can show abnormal behavior or database server and applications can be terminated abnormally. However, if it is guaranteed this problem does not happen, it has advantage in performance not to do it.
+    **intl_check_input_string** :red:`is a parameter to determine whether or not to check that string entered is correctly corresponded to character set used. The default value is **no**. If this value is no and character set is UTF-8 and incorrect data is enter which violate UTF-8 byte sequence, it can show abnormal behavior or database server and applications can be terminated abnormally. However, if it is guaranteed this problem does not happen, it has advantage in performance not to do it.`
 
-    UTF-8 and EUC-KR can be checked; ISO-8859-1 is one-byte encoding so it does not have to be checked because every byte is valid.
+    :red:`UTF-8 and EUC-KR can be checked; ISO-8859-1 is one-byte encoding so it does not have to be checked because every byte is valid.`
 
 **group_concat_max_len**
 
@@ -1529,7 +1531,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
     *   CUBRID에서 유니코드 정규화를 위한 결합(composition)과 분해(decomposition)는 별개로 동작하지 않는다.
 
-        It is generally used when **unicode_input_normalization** and **unicode_output_normalization** are yes. In this case, codes entered from clients are stored in compo     sed mode and output in decomposed mode.
+        :red:`It is generally used when **unicode_input_normalization** and **unicode_output_normalization** are yes. In this case, codes entered from clients are stored in composed mode and output in decomposed mode.`
 
     클라이언트 응용 프로그램이 텍스트 데이터를 분해된 형태로 CUBRID에 보낸다면, **unicode_input_normalization**\ 을 **yes**\ 로 설정하여 CUBRID가 결합된 코드로 다루게 한다.
     
@@ -1602,14 +1604,14 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 *   **server_timezone**
 
-    서버에 대한 타임존을 설정한다. 기본값은 OS의 타임존이다. 변경된 값을 반영하려면 데이터베이스를 재시작해야 한다.
-    The timezone of operating system is read depending on the operating system and information found in operating system configuration files:
+    :red:`서버에 대한 타임존을 설정한다. 기본값은 OS의 타임존이다. 변경된 값을 반영하려면 데이터베이스를 재시작해야 한다.`
+    :red:`운영 체제의 타임존은 운영 체제와 운영 체제 설정 파일에 있는 정보에 따라 다를 수 있다.`
 
-    - 윈도우에서 tzset ()API 함수와 TZNAME [0] 변수는 윈도우 방식 시간대 이름을 검색하는 데 사용된다. 이 이름은 CUBRID 매핑 데이터를 사용하여 IANA / CUBRID 스타일의 이름으로 번역된다 (매핑 파일은 % CUBRID % \\timezones\\tzdata\\windowsZones.xml 이다) 
-    - 리눅스에서 큐브리드는  "/etc/sysconfig/clock" 파일을 읽어서 구문 분석을 시도합니다. 이 파일을 사용할 수없는 경우,  "/etc/localtime"의 링크값을 읽고 사용된다.
-    - on AIX, the value of "TZ" operating system environment variable is used.
+    - :red:`Windows의 경우, tzset() 함수와 tzname[0] 변수를 사용해 Windows 스타일 타임존명을 검색한다. 이 이름은 CUBRID 매핑 데이터를 사용하는 IANA/CUBRID 스타일명으로 변환된다(매핑 파일은 %CUBRID%\\timezones\\tzdata\\windowsZones.xml임).`
+    - :red:`Linux의 경우, CUBRID에서 "/etc/sysconfig/clock".파일을 읽고 구문을 분석하려 시도한다. 이 파일이 없는 경우 링크 "/etc/localtime"의 값을 읽고 사용한다.`
+    - :red:`AIX의 경우, "TZ" 운영 체제 환경 변수의 값을 사용한다.`
 
-    서버 시간대가 지정되지 않은 모든 운영 체제와 타임존의 값을 읽을 수 없을 때 , "Asia/Seoul" 영역이 서버 시간대로 사용된다.
+    :red:`모든 운영 체제에서 server_timezone이 지정되어 있지 않은 경우 운영 체제의 타임존 값을 읽을 수 없어 "Asia/Seoul" 타임존을 서버 타임존으로 사용한다.`
 
 
 *   **tz_leap_second_support**
@@ -1793,7 +1795,7 @@ HA 관련 파라미터
 
 **enable_string_compression**
 
-    **enable_string_compression** is a parameter to configure whether string compression should be used when storing variable string type value into heap, index or list. If **enable_string_compression** value is set to **yes**, and the string is at least 255 bytes in size and the compressed string requires less size than original string, then the string is stored in compressed form.
+    **enable_string_compression** :red:`은 문자열 타입 값을 힙, 인덱스 또는 목록으로 저장할 때 문자열 압축을 사용할지 설정하는 파라미터이다. **enable_string_compression** 값을 **yes**로 설정하면 문자열 크기가 255바이트 이상이고, 압축된 문자열이 원 문자열의 크기보다 작을 경우 압축된 문자열로 저장된다.`
 
 **index_scan_in_oid_order**
 
@@ -1883,21 +1885,21 @@ If this value is small, the amount of free space for the nodes is small when an 
 
 **vacuum_prefetch_log_mode**
 
- **vacuum_prefetch_log_mode** is a parameter to configure the prefetch mode of log pages on behalf of vacuum.
+ **vacuum_prefetch_log_mode** :red:`는 vacuum을 대신하여 로그 페이지의 프리페치(prefetch) 모드를 설정하는 파라미터이다.`
        
- In mode 0, the vacuum master thread prefetch the required log pages in a shared buffer. In mode 1 (default), each vacuum worker prefetches the required log pages in its own buffer. Mode 0 also requires that **vacuum_prefetch_log_buffer_size** system parameter is configured, in mode 0 this parameter is ignored and each vacuum worker prefetches an entire vacuum log block (default 32 log pages).
+ :red:`모드 0에서는 vacuum 마스터 스레드가 공유 버퍼에서 필요한 로그 페이지를 프리페치한다. 모드 1(기본값)에서는 각 vacuum 작업자가 자체 버퍼에서 필요한 로그 페이지를 프리페치한다. 또한 모드 0에서는 **vacuum_prefetch_log_buffer_size** 시스템 파라미터를 설정해야 하지만, 모드 1에서는 이 파라미터를 무시하고 각 vacuum 작업자가 전체 vacuum 로그 블록(기본 32개의 로그 페이지)을 프리페치한다.`
        
 **vacuum_prefetch_log_buffer_size**
 
-    **vacuum_prefetch_log_buffer_size** is a parameter to configure the log prefetch buffer size of vacuum (it is used only if **vacuum_prefetch_log_mode** is set to 0).
+    **vacuum_prefetch_log_buffer_size** :red:`는 vacuum의 로그 프리페치 버퍼 크기를 설정하는 파라미터이다. 이 파라미터는 **vacuum_prefetch_log_mode**를 0으로 설정한 경우에만 사용한다.`
 
 **data_buffer_neighbor_flush_pages**
     
-  **data_buffer_neighbor_flush_pages** is a parameter to control the number of neighbour pages to be flushed with background flush (victim candidates flushing). When is less or equal to 1, the neighbour flush feature is considered deactivated.
+  **data_buffer_neighbor_flush_pages** :red:`는 백그라운드 플러시(희생자 후보 플러시) 기능을 이용해 플러시될 인접 페이지 수를 관리하는 파라미터이다. 이 값이 1 이하인 경우 인접 플러시 기능이 비활성화된 것으로 간주한다.`
 
 **data_buffer_neighbor_flush_nondirty**
     
- **data_buffer_neighbor_flush_nondirty** is a parameter to control the flushing of non-dirty neighbour pages. When victim candidates pages are flushed, and neighbour flush is activated (**data_buffer_neighbor_flush_pages** is greater than 1), than single non-dirty pages which completes a chain of neighbour (dirty) pages are also flushed.
+ **data_buffer_neighbor_flush_nondirty** :red:`는 더티가 아닌 인접 페이지의 플러시를 관리하는 파라미터이다. 희생자 후보 페이지가 플러시되고 인접 플러시 기능이 활성화될 때(**data_buffer_neighbor_flush_pages**가 1보다 클 때), 인접 (더티) 페이지를 완성하는 더티가 아닌 단일 페이지도 플러시된다.`
 
 .. _broker-configuration:
 

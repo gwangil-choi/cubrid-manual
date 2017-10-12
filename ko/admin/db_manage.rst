@@ -2,6 +2,8 @@
 :meta-keywords: cubrid databases.txt, cubrid users, cubrid volume
 :meta-description: How to manage CUBRID Databases, Users and Volumes.
 
+.. role:: red
+
 데이터베이스 관리
 =================
 
@@ -56,10 +58,10 @@ CUBRID 데이터베이스의 볼륨은 크게 영구적 볼륨, 일시적 볼륨
 
 *   영구적 볼륨 중
  
-    *   there are data volumes, that usually store permanent data, but can also store temporary data.
-    *   there are log volumes, that can be further classified as: one active log, archive logs and one background archiving log.
+    *   :red:`영구적 데이터를 저장하지만 일시적 데이터도 저장할 수 있는 데이터 볼륨이 있다.`
+    *   :red:`활성 로그, 보관 로그 및 백그라운드 보관 로그로 세분화할 수 있는 로그 볼륨이 있다.`
     
-*   In the temporary volumes, only temporary data is stored.
+*   :red:`일시적 볼륨에는 일시적 데이터만 저장된다.`
 
 볼륨에 대한 자세한 내용은 :ref:`database-volume-structure`\ 를 참고한다.
 
@@ -109,38 +111,38 @@ CUBRID 데이터베이스의 볼륨은 크게 영구적 볼륨, 일시적 볼륨
 
 *   데이터베이스 볼륨 파일
 
-    *  In the table above, *testdb*, *testdb_perm*, *testdb_temp*, *testdb_x003* ~ *testdb_x006* are classified as the database volume files.
-    *  File size is determined by **db_volume_size** in **cubrid.conf** or the **--db-volume-size** option of **cubrid createdb** and **cubrid addvoldb**.
-    *  When database remains out of space, it automatically expands existing volumes and creates new volumes.
+    *  :red:`위의 테이블에서 *testdb*, *testdb_perm*, *testdb_temp*, *testdb_x003* ~ *testdb_x006*은 데이터베이스 볼륨 파일로 분류된다.`
+    *  :red:`파일 크기는 **cubrid createdb** 및 **cubrid addvoldb**의 **cubrid.conf** 또는 **--db-volume-size** 옵션에 있는 **db_volume_size**에 의해 결정된다.`
+    *  :red:`데이터베이스에 공간이 부족해지면 기존 볼륨을 자동으로 확장해 새 볼륨을 생성한다.`
 
 *   Temporary volume
 
-    *  Temporary volumes are usually used to store temporary data. They are automatically created and destroyed by database.
-    *  File size is determined by **db_volume_size** in **cubrid.conf**.
+    *  :red:`일시적 볼륨은 일반적으로 일시적 데이터를 저장하는 데 사용된다. 이 볼륨은 데이터베이스별로 자동으로 생성되고 삭제된다.`
+    *  :red:`파일 크기는 **cubrid.conf**의 **db_volume_size**에 의해 결정된다.`
 
 *   로그 볼륨 파일
 
-    *   위의 예에서 *testdb_lgar_t*, *testdb_lgar224*, *testdb_lgat* 가 로그 볼륨 파일에 해당된다.
-    *   File size is determined by **log_volume_size** in **cubrid.conf** or the **--log-volume-size** option of **cubrid createdb**.
+    *   :red:`위에서 *testdb_lgar_t*, *testdb_lgar224* 및 *testdb_lgat*는 로그 볼륨 파일로 분류된다.`
+    *   :red:`파일 크기는 **cubrid.conf**의 **log_volume_size** 또는 **cubrid createdb**의 **--log-volume-size** 옵션에 의해 결정된다.`
 
 .. note::
 
-    Any data that has to be persistent over database restart and crash is stored in the database volumes created for permanent data purpose. The volumes store table rows (heap files), indexes (b-tree files) and several system files.
+    :red:`데이터베이스 재시작과 비정상 종료 시에도 보존해야 하는 데이터는 영구적 데이터 용도로 생성된 데이터베이스 볼륨에 저장된다. 이 볼륨은 테이블 행(힙 파일), 인덱스(b-tree 파일) 및 여러 시스템 파일을 저장한다.`
 
-    Intermediate and final results of query processing and sorting need only temporary storage. Based on the size of required temporary data, it will be first stored in memory (the space size is determined by the system parameter **temp_file_memory_size_in_pages** specified in **cubrid.conf**). Exceeding data has to be stored on disk.
+    :red:`질의 처리 및 정렬의 중간 결과와 최종 결과의 경우 일시적 저장소만 필요하다. 필요한 일시적 데이터 크기에 따라 우선 메모리에 저장된다(공간 크기는 **cubrid.conf**에 지정된 시스템 파라미터 **temp_file_memory_size_in_pages**에 의해 결정됨). 이를 초과하는 데이터는 디스크에 저장한다.`
 
-    Database will usually create and use temporary volumes to allocate disk space for temporary data. Administrator may however assign permanent database volumes with the purpose of storing temporary data using by running **cubrid addvoldb -p temp** command. If such volumes exist, they will have priority over temporary volumes when disk space is allocated for temporary data.
+    :red:`데이터베이스에서는 일시적 데이터를 위한 디스크 공간을 할당하기 위해 일반적으로 일시적 볼륨을 생성해 사용한다. 그러나 관리자는 **cubrid addvoldb -p temp** 명령을 사용해 일시적 데이터를 저장하기 위한 용도로 영구적 데이터베이스 볼륨을 할당할 수 있다. 이러한 영구적 데이터베이스 볼륨 이 있는 경우 임시 데이터를 디스크 공간에 저장할 때  일시적 볼륨 보다 우선 사용한다.`
 
-    The examples of queries that can use temporary data are as follows:
+    :red:`일시적 데이터를 사용할 수 있는 질의의 예는 다음과 같다.`
 
-    *   **SELECT** 문 등 질의 결과가 생성되는 질의
+    *   **SELECT** :red:`등의 결과 집합이 생성되는 질의`
     *   **GROUP BY** 나 **ORDER BY** 가 포함된 질의
     *   부질의(subquery)가 포함된 질의
     *   정렬 병합(sort-merge) 조인이 수행되는 질의
-    *   **CREATE INDEX** 문이 포함된 질의
+    *   **CREATE INDEX** 질의문이 포함된 질의
 
-    To have complete control on the disk space used for temporary data and to prevent it from consuming all system disk space, our recommendation is to:
+    :red:`일시적 데이터에 의해 시스템의 디스크 공간이 모두 사용되는 것을 방지하려면 다음을 수행할 것을 권장한다.`
 
-       *   create permanent database volumes in advance to secure the required space for temporary data
-       *   limit the size of the space used in the temporary volumes when a queries are executed by setting **temp_file_max_size_in_pages** parameter in **cubrid.conf** (there is no limit by default).
+       *   :red:`영구적 데이터베이스 볼륨을 미리 생성해 일시적 데이터에 필요한 공간을 확보한다.`
+       *   :red:`**cubrid.conf**에서 **emp_file_max_size_in_pages** 파라미터를 설정해 질의를 수행할 때 일시적 볼륨에 사용되는 공간의 크기를 제한한다(기본적으로는 제한 없음).`
 

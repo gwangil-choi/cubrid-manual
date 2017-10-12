@@ -2,6 +2,8 @@
 :meta-keywords: cubrid service, cubrid shell, cubrid create database, cubrid start database
 :meta-description: CUBRID quick start guide. How to launch CUBRID service, create and start a database.
 
+.. role:: red
+
 CUBRID 서비스 시작
 ==================
 
@@ -60,7 +62,7 @@ Windows 환경에서는 다음과 같은 방법으로 CUBRID 서비스를 시작
 데이터베이스 생성
 -----------------
 
-You can create databases by using the **cubrid createdb** utility and execute it where database volumes and log volumes are located. If you do not specify additional options such as **--d      b-volume-size** or **--log-volume-size**, 1.5 GB volume files are created by default (data volume is set to 512 MB, active log is set to 512 MB, and background archive log is set to 512 MB      ). ::
+:red:`데이터베이스 볼륨 및 로그 볼륨이 위치할 디렉터리에서 **cubrid createdb** 유틸리티를 실행하여 데이터베이스를 생성할 수 있다. **--db-volume-size** 또는 **--log-volume-size**와 같은 추가 옵션을 지정하지 않으면 기본적으로 1.5GB 크기의 볼륨 파일이 생성된다(데이터 볼륨 512MB, 활성 로그 512MB, 백그라운드 활성 로그 512MB로 설정됨).`
 
     % cd testdb
     % cubrid createdb testdb en_US
@@ -72,9 +74,9 @@ You can create databases by using the **cubrid createdb** utility and execute it
     -rw------- 1 cubrid dbms       176 Jan 11 15:04 testdb_lginf
     -rw------- 1 cubrid dbms       183 Jan 11 15:04 testdb_vinf
 
-In the above, *testdb* represents a data volume file, testdb_lgar_t represents a background archive log file, testdb_lgat represents an active log file, testdb_lginf represents a log information file, and testdb_vinf represents a volume information file.
+:red:`위에서 *testdb*는 데이터 볼륨 파일을, testdb_lgar_t는 백그라운드 보관 로그 파일을, testdb_lgat는 활성 로그 파일을, testdb_lginf는 로그 정보 파일을, 그리고 testdb_vinf는 볼륨 정보 파일을 나타낸다.`
 
-For details on volumes, see :ref:`database-volume-structure` . For details on creating volumes, see :ref:`creating-database`. It is recommended to classify and add volumes based on purpose by using the **cubrid addvoldb** utility. For details, see :ref:`adding-database-volume`.
+:red:`볼륨에 대한 자세한 내용은 :ref:`database-volume-structure`를, 볼륨 생성에 대한 자세한 내용은 :ref:`creating-database`를 참고한다. **cubrid addvoldb** 유틸리티를 사용해 용도에 따라 볼륨을 분류해 추가하도록 권장한다. 자세한 내용은 :ref:`adding-database-volume`을 참고한다.`
 
 데이터베이스 시작
 -----------------

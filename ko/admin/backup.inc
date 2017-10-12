@@ -1,3 +1,6 @@
+
+.. role:: red
+
 .. _backupdb:
 
 backupdb
@@ -241,7 +244,7 @@ restoredb
 
 데이터베이스 복구는 동일 버전의 CUBRID 환경에서 수행된 백업 작업에 의해 생성된 백업 파일, 활성 로그 및 보관 로그를 이용하여 특정 시점의 데이터베이스로 복구하는 작업이다. 데이터베이스 복구를 진행하려면 **cubrid restoredb** 유틸리티 또는 CUBRID 매니저를 사용한다.
 
-**cubrid restoredb** 유틸리티는 백업이 수행된 이후에 모든 보관 및 활동 로그들에 기록된 정보들을 이용하여 데이터베이스 백업으로부터 데이터베이스를 복구한다. ::
+**cubrid restoredb** :red:`유틸리티는 마지막 백업을 수행한 이후 모든 활성 로그와 보관 로그에 쓰여진 정보를 사용해 데이터베이스 백업본으로부터 데이터베이스를 복구한다.` ::
 
     cubrid restoredb [options] database_name
 

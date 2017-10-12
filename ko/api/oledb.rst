@@ -17,7 +17,7 @@ CUBRID OLE DB 드라이버는 CCI API를 기반으로 작성되었으므로, CCI
 .. note:: 
 
     *   CUBRID OLEDB 드라이버 버전이 9.1.0.p1 이상이면, 32비트와 64비트 통합 설치 패키지 하나만 설치하면 된다. 이 인스톨러는 CUBRID DB 엔진 2008 R4.1 이상 버전을 지원한다.
-    *   CUBRID OLEDB 드라이버 버전이 9.1.0 이하이면, 64비트 OS에서 문제가 발생할 수 있다. 9.1.0 이하 OLE DB 드라이버 사용자는 다음 설치 문서를 참고한다: http://www.cubrid.org/wiki_apis/entry/cubrid-oledb-driver-installation-instructions-old
+    *   CUBRID OLEDB 드라이버 버전이 9.1.0 이하이면, 64비트 OS에서 문제가 발생할 수 있다. 
 
 OLE DB 설치 및 설정
 ===================

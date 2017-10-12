@@ -2,6 +2,8 @@
 :meta-keywords: high availability, cubrid node, cubrid replication, cubrid slave, database replication, database slave
 :meta-description: CUBRID HA is an implementation of High Availability. CUBRID HA ensures database synchronization among multiple servers when providing service. When an unexpected failure occurs in the system which is operating services, this feature minimizes the service down time by allowing the other system to carry out the service automatically.
 
+.. role:: red
+
 *********
 CUBRID HA
 *********
@@ -1281,7 +1283,7 @@ CUBRID HA 구성에서 특정 peer_node의 db_name에 대한 트랜잭션 로그
 
 ::
 
-    <host-name>: the name of the remote host where copylogdb command will be executed
+    <host-name>: :red:`copylogdb 명령이 수행될 원격 호스트명`
 
 명령을 수행하는 노드가 *nodeB*\ 이고, *peer_node*\가 *nodeA*\ 라면, 다음과 같이 명령을 수행할 수 있다.
     
@@ -1305,7 +1307,7 @@ CUBRID HA 구성에서 특정 peer_node의 db_name에 대한 트랜잭션 로그
 
 ::
 
-    <host-name>: the name of the remote host where appplylogdb command will be executed
+    <host-name>: :red:`appplylogdb 명령이 수행될 원격 호스트명`
 
 
 명령을 수행하는 노드가 *nodeB*\ 이고, peer_node가 *nodeA*\ 라면, 다음과 같이 명령을 수행할 수 있다.
@@ -1364,7 +1366,7 @@ status
 
 ::
 
-    <host-name>: the name of the remote host where status command will be executed
+    <host-name>: :red:`status 명령이 수행될 원격 호스트명`
 
 
 CUBRID HA 그룹 정보와 CUBRID HA 구성 요소의 정보를 확인할 수 있다. 사용법은 다음과 같다. ::
@@ -2186,7 +2188,7 @@ CUBRID HA에서 **LOB** 칼럼 메타 데이터(Locator)는 복제되고, **LOB*
 restoreslave
 ------------
 
-**cubrid restoreslave** 는 **cubrid restoredb** 처럼 백업으로부터 데이터베이스를 복구하는점은 같지만 슬레이브와 리플리카를 재구성하는 몇 가지 편리한 기능들을 포함한다. 사용자는 **db_ha_apply_info**  에 저장할 복제 카닫로그 정보를 만들기 위해 직접 복제 관련 정보를 백업으로부터 수집할 필요가 없으며, 백업 이미지와 액티브 로그로부터 필요한 정보를 자동으로 읽어서 **db_ha_apply_info** 로 관련된 복제 카달로그 정보들을 추가한다. 백업 이미지가 생성된 노드의 상태와 현재 마스터 노드의 호스트네임은 필수적으로 지정해야 한다.  자세한 정보는 :ref:`restoredb` 를 참고한다.
+**cubrid restoreslave** :red:`는 백업본으로부터 데이터베이스를 복구하는 **cubrid restoredb**와 동일하지만 슬레이브(slave)나 레플리카(replica)를 재구성할 때 편리한 기능이 포함되어 있다. **cubrid restoreslave**를 사용하면 사용자가 **db_ha_apply_info**에 저장되는 복제 카탈로그 생성을 위해 백업 출력에서 복제 관련 정보를 수동으로 수집하지 않아도 된다. 이 명령은 백업 이미지와 활성 로그로부터 필요한 정보를 모두 자동으로 읽어서 관련 복제 카탈로그를 **db_ha_apply_info**에 추가한다. 사용자는 백업 이미지가 생성된 노드의 상태와 현재 마스터 노드의 호스트명, 이 두 가지 필수 옵션만 제공하면 된다. 자세한 내용은 :ref:`restoredb`를 참고한다.`
 
     cubrid restoreslave [OPTION] database-name
 
@@ -2194,7 +2196,7 @@ restoreslave
 
 .. option:: -s, --source-state=STATE
 
-    마스터, 슬레이브, 리플리카 중 백업 이미지가 생성된 노드의 상태를 입력한다.
+    :red:`백업 이미지가 생성된 노드의 상태를 지정해야 한다. STATE는 'master', 'slave' 또는 'replica'일 수 있다.`
 
 .. option:: -m, --master-host-name=NAME
 
@@ -3407,7 +3409,7 @@ HA 서비스 운영 중 슬레이브를 새로 추가하려면 기존의 마스�
 복제 불일치 감지 방법
 ---------------------
 
-마스터 노드와 슬레이브 노드의 데이터가 일치하지 않는 복제 노드 간 데이터 불일치 현상은 다음과 같은 과정을 통해 어느 정도 감지할 수 있다. 또한 :ref:`cubrid-checksumdb` 유틸리티를 이용하여 복제 불일치를 감지할 수 있다. 그러나, 마스터 노드와 슬레이브 노드의 데이터를 서로 직접 비교해보는 방법보다 더 정확한 확인 방법은 없음에 주의해야 한다. 복제 불일치 상태라는 판단이 서면, 마스터 노드의 데이터베이스를 슬레이브 노드에 새로 구축해야 한다(:ref:`rebuilding-replication` 참고).
+:red:`마스터 노드의 데이터와 슬레이브 노드의 데이터가 같지 않음을 나타내는 복제 노드 사이의 복제 불일치는 다음 프로세스를 통해 어느 정도는 감지할 수 있다. :ref:`cubrid-checksumdb` 유틸리티를 사용해 복제 불일치를 감지할 수도 있다. 그러나 마스터 노드의 데이터와 슬레이브 노드의 데이터를 직접 비교하는 것보다 복제 불일치를 감지하는 데 더 정확한 방법은 없다. 복제 불일치가 있는 것으로 확인되면 마스터 노드와 슬레이브 노드 간 데이터베이스를 재구성해야 한다(:ref:`rebuilding-replication` 참고).`
 
 *   **cubrid statdump** 명령을 수행하여 **Time_ha_replication_delay** 시간을 확인한다. 이 값이 클 수록 복제 지연 정도가 클 수 있다는 것을 의미하며, 지연된 시간만큼 복제 불일치가 존재할 가능성이 커진다.
 
@@ -3481,37 +3483,37 @@ HA 서비스 운영 중 슬레이브를 새로 추가하려면 기존의 마스�
 checksumdb
 ----------
 
-**checksumdb** 는 복제 무결성을 확인할 수 있는 간단한 방법을 제공한다. 기본적으로 마스터 노드로부터 각 테이블을 고정된 크기의 chunk로 분할한 후에 CRC32 값으로 계산한다. 이 계산된 값은 CUBRID HA를 통해 복제되며 마스터와 슬레이브 노드에서 CRC32 값을 비교하여 복제 무결성을 알 수 있다. **checksumdb** 는 성능 저하를 최소화 하도록 작성되었지만 마스터의 성능에 영향을 끼칠 수 있다.  
+**checksumdb** :red:`를 통해 간단하게 복제 무결성을 확인할 수 있다. 기본적으로 이 유틸리티는 마스터 노드의 각 테이블을 청크(chunk)로 분할한 후 CRC32 값을 계산한다. 계산된 값이 아닌 계산 방법이 CUBRID HA를 통해 복제된다. 결과적으로 마스터 노드와 슬레이브 노드에서 계산된 CRC32 값을 비교함으로써 **checksumdb**는 복제 무결성을 보고할 수 있다. **checksumdb**는 성능 저하를 최소화하도록 설계되긴 했으나 마스터의 성능에 영향을 미칠 수 있어 사용시 유의해야 한다.`
 
          cubrid checksumdb [options] <database-name>@<hostname>
 
  .. program:: checksumdb
 
- *   *<hostname>* : checksum 계산을 시작하려면 마스터 노드의 호스트명이 필요하다. 또한 확인하려는 특정 노드의 호스트명을 지정해서 계산이 완료된 후의 결과를 확인할 수 있다.
+ *   *<hostname>* : :red:`체크섬(checksum) 계산을 시작할 때 마스터 노드의 호스트명을 지정해야 한다. 계산이 완료된 후 결과를 가져올 때 확인할 노드의 호스트명을 지정한다.`
 
  .. option:: -c, --chunk-size=NUMBER
 
-     각각의 CRC32 계산을 선택하기 위해 특정 개수의 행을 입력할 수 있다. 기본값은 500이며, 최솟값은 100이다.  
+     :red:`각 CRC32 계산에 선택할 행 수를 지정할 수 있다. (기본값: 500행, 최소값: 100행)`
 
  .. option:: -s, --sleep=NUMBER
 
-     각각의 chunk를 계산한 후에 특정 시간만큼 정지시킬 수 있다. 기본값은 100 ms 이다.
+     :red:`각 청크를 계산한 후 지정된 시간 동안 checksumdb가 정지 상태가 된다(기본값: 100ms)`
 
  .. option:: -i, --include-class-file=FILE
 
-     -i FILE 옵션을 통해 특정 테이블의 복제 불일치 여부를 확인할 수 있다. 만약 이 옵션이 지정되지 않으면 모든 테이블에 대해서 복제 불일치 여부를 확인한다. 빈 문자열, 탭, 캐리지 리턴과 콤마를 이용해서 파일에서 테이블 이름을 구분할 수 있다.
+     :red:`-i FILE 옵션을 지정해 복제 불일치를 확인할 테이블을 지정할 수 있다. 테이블을 지정하지 않으면 전체 테이블을 확인한다. 파일 내용의 테이블명 구분자로 사용할 수 있는 기호는 빈 문자열, 탭, 개행문자 및 쉼표이다.`
 
  .. option:: -e, --exclude-class-file=FILE
 
-     -e FILE 옵션을 통해 복제 불일치 확인시 특정 테이블을 제외시킬 수 있다. -i 또는 -e 둘 중 하나만 사용할 수 있다.
+     -e :red:`FILE 옵션을 지정하여 복제 불일치 확인에서 제외할 테이블을 지정할 수 있다. -i와 -e 중 하나만 사용할 수 있다.`
 
  .. option:: -t, --timeout=NUMBER
 
-     이 옵션을 이용해서 계산시 timeout을 지정할 수 있으며, 기본값은 1000 ms 이다. 만약 timeout에 도달할 경우 계산은 중단되며, 잠시 후 다시 시작된다.
+     :red:`이 옵션으로 계산 시간 제한을 지정할 수 있다. (기본값: 1000ms) 이 시간 제한에 도달하면 계산이 취소되고 잠시 후에 다시 시작된다.`
 
  .. option:: -n, --table-name=STRING
 
-     checksum 결과를 저장할 특정 테이블을 지정할 수 있다. 기본 테이블은 db_ha_checksum 이다.
+     :red:`체크섬 결과를 저장할 테이블명을 지정할 수 있다. (기본값: db_ha_checksum)`
 
  .. option:: -r, --report-only
 
@@ -3527,7 +3529,7 @@ checksumdb
 
  .. option:: --cont-on-error
 
-     이 옵션이 없으면 에러가 발생했을 때 checksumdb가 정지한다.
+     이 옵션이 없으면 에러가 발생했을 때 checksumdb가 중지한다.
 
 다음은 checksumdb를 실행하는 예제이다. :: 
 

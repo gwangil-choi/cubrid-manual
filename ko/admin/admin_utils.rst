@@ -2,6 +2,8 @@
 :meta-keywords: cubrid create, cubrid add volume, cubrid backup, cubrid online backup, cubrid restore, cubrid unload, cubrid load, cubrid space, cubrid compact, cubrid optimize, cubrid plan dump, cubrid stat dump, cubrid check, cubrid diag, cubrid commands
 :meta-description: CUBRID comprehensive list of utilities and commands. Utilities: createdb, deletedb, backupdb, restoredb, compactdb, statdump, diagdb, checkdb, genlocale, gen_tz and many others. CUBRID commands for HA, Locale and Timezone.
 
+.. role:: red 
+
 .. _cubrid-utilities:
 
 cubrid 유틸리티
@@ -38,13 +40,13 @@ cubrid 유틸리티의 사용법(구문)은 다음과 같다. ::
         synccolldb [option] <database-name>  --- DB 콜레이션을 시스템 콜레이션에 맞게 변경하는 도구
         genlocale [option] <database-name>  --- 사용하고자 하는 로캘 정보를 컴파일하는 도구
         dumplocale [option] <database-name>   --- 컴파일된 바이너리 로캘 정보를 사람이 읽을 수 있는 텍스트로 출력하는 도구
-        gen_tz [option] [<database-name>]  --- 공유 라이브러리로 컴파일된 타임존 데이타를 포함한 C 소스 파일을 생성한다.
-        dump_tz [option]  --- 타임존 관련 정보를 표시한다.
+        gen_tz [option] [<database-name>]  --- :red:'공유 라이브러리로 컴파일할 수 있는 타임존 데이터가 포함된 C 소스 파일을 생성한다.'
+        dump_tz [option]  --- :red:'타임존 관련 정보를 표시한다.'
 
 cubrid 유틸리티 로깅
 --------------------
  
-CUBRID는 cubrid 유틸리티의 수행 결과에 대한 로깅 기능을 제공하며, 자세한 내용은 :ref:`cubrid-utility-logging`\ 을 참고한다.
+CUBRID는 cubrid 유틸리티의 수행 결과에 대한 로깅 기능을 제공하며, 자세한 내용은 :ref:`cubrid-utility-logging`\ 을 참고한다. :red:`테스트`
 
 .. _creating-database:
 
@@ -87,7 +89,7 @@ createdb
 
 .. option:: --db-volume-size=SIZE
 
-    데이터베이스를 생성할 때 첫 번째 데이터베이스 볼륨의 크기를 지정하는 옵션으로, 기본값은 cubrid.conf에 지정된 시스템 파라미터 **db_volume_size**\ 의 값이다. 최소값은 20M이다. K, M, G, T로 단위를 설정할 수 있으며, 각각 KB(kilobytes), MB(megabytes), GB(gigabytes), TB(terabytes)를 의미한다. 단위를 생략하면 바이트 단위가 적용된다. The size of the database will be always rounded up to the next multiple of the size of 64 disk sectors; the actual size is determined by the database page size and can be either 16M, 32M or 64M.
+    :red:`이 옵션은 생성될 데이터베이스 볼륨의 크기를 지정한다. 기본값은 시스템 파라미터 **db_volume_size**에 지정된 값이다. 단위는 K, M, G 및 T로 설정할 수 있으며, 각각 킬로바이트(KB), 메가바이트(MB), 기가바이트(GB) 및 테라바이트(TB)를 나타낸다. 단위를 생략하면 바이트가 적용된다. 데이터베이스의 크기는 항상 64개 디스크 섹터로 올림된다. 이 값은 페이지의 크기에 따라 달라질 수 있으며, 페이지 크기가 각각 4k, 8k 및 16k인 경우 16M, 32M 또는 64M이 될 수 있다.`
 
     다음은 첫 번째로 생성되는 testdb의 볼륨 크기를 512MB로 지정하는 구문이다. ::
 
@@ -103,7 +105,7 @@ createdb
 
 .. option:: --log-volume-size=SIZE 
 
-    생성되는 데이터베이스의 로그 볼륨 크기를 지정하는 옵션으로, 기본값은 데이터베이스 볼륨 크기와 같으며 최소값은 20M이다. K, M, G, T로 단위를 설정할 수 있으며, 각각 KB(kilobytes), MB(megabytes), GB(gigabytes), TB(terabytes)를 의미한다. 단위를 생략하면 바이트 단위가 적용된다. 
+    :red:`이 옵션은 데이터베이스 로그 볼륨의 크기를 지정한다. 기본값은 데이터베이스 볼륨 크기와 같으며, 최소값은 20M이다. 단위는 K, M, G 및 T로 설정할 수 있으며, 각각 킬로바이트(KB), 메가바이트(MB), 기가바이트(GB) 및 테라바이트(TB)를 나타낸다. 단위를 생략하면 바이트가 적용된다.`
 
     다음은 *testdb*\를 생성하고, *testdb*\의 로그 볼륨 크기를 256M로 지정하는 구문이다. ::
 
@@ -192,13 +194,13 @@ createdb
 
     *   *volcmnts*: 볼륨 헤더에 기록되는 주석 문장으로, 추가 생성되는 볼륨에 관한 정보를 임의로 부여할 수 있다. 볼륨 주석에 관한 명세 역시 생략할 수 있다.
 
-    *   *volpurp*: The purpose for which the volume will be used. It can be either permanent data (default option) or temporary.
+    *   *volpurp*: :red:`볼륨이 사용되는 용도를 나타낸다. 영구적 데이터(기본 옵션) 볼륨 또는 일시적 데이터 볼륨 중에 하나를 사용할 수 있다.` 
      
  .. note::
-   For backward compatibilty, all old keywords, **data**, **index**, **temp**, or **generic** are accepted. **temp** stands for temporary data purpose, while the rest stand for permanent data purpose. 
+   :red:`이전 버전과의 호환성을 위해 **data**, **index**, **temp** 또는 **generic** 등 기존의 모든 키워드를 사용할 수 있다. **temp**는 일시적 데이터 볼륨이고, 나머지는 영구적 데이터 볼륨을 나타낸다`
 
 
-    *   *volnpgs*: The number of pages of the additional volume to be created. The specification of the number of pages of the volume cannot be omitted; it must be specified. The actual volume size is rounded up to the next multiple of **64 sectors**. 
+    *   *volnpgs*: :red:`생성될 추가 볼륨의 페이지 수를 나타낸다. 볼륨의 페이지 수 지정은 생략할 수 없으며, 반드시 지정해야 한다. 실제 볼륨 크기는 **64 sectors**의 배수로 올림된다.`
 
 .. option:: --user-definition-file=FILE
 
@@ -280,11 +282,11 @@ createdb
 
 .. note::
 
-    *  **temp_file_max_size_in_pages** is a parameter used to configure the maximum size of temporary volumes - used for complicated queries or storing arrays - on the disk. With the default value **-1**, the temporary volumes size is only limited by the capacity of the disk specified by the **temp_volume_path** parameter. If the value is 0, no temporary volumes can be created. In this case, a permanent volume with temporary data purpose should be added by using the :ref:`cubrid addvoldb <adding-database-volume>` utility. For an efficient storage management, it is recommended to use the latter approach. 
+    *  **temp_file_max_size_in_pages** :red:`디스크에 생성되는 일시적 임시 볼륨의 최대 크기(복잡한 질의 또는 배열 저장에 사용)를 설정하는 데 사용되는 파라미터이다. 기본값 **-1**을 사용할 경우, 디스크에 생성되는 일시적 임시 볼륨 크기가 **temp_volume_path** 파라미터로 지정된 디스크의 용량으로 제한된다. 이 값이 0인 경우 일시적 임시 볼륨을 생성할 수 없다. 이런 경우에는 :ref:`cubrid addvoldb <adding-database-volume>` 유틸리티를 사용해 임시 데이터를 위한 영구적 임시 볼륨을 추가해야 한다. 효율적인 저장소 관리를 위해서는 후자의 방법을 사용할 것을 권장한다.`
     
-    *   By using the :ref:`cubrid spacedb <spacedb>` utility, you can check the remaining space of each volume. By using the :ref:`cubrid addvoldb <adding-database-volume>` utility, you can add more volumes as needed while managing the database. You are advised to do add more volumes when there is less system load. When all preassigned volumes are completely in use, the database system automatically creates new volumes.  
+    *   By using the :ref:`cubrid spacedb <spacedb>` :red:`유틸리티를 사용하면 각 볼륨의 남은 공간을 확인할 수 있다. :ref:`cubrid addvoldb <adding-database-volume>` 유틸리티를 사용하면 데이터베이스를 관리하면서 필요에 따라 볼륨을 더 추가할 수 있다. 시스템 부하가 적을 때 볼륨을 추가하는 것이 좋다. 사전 할당된 볼륨이 모두 사용 중이면 데이터베이스 시스템에서는 자동으로 새 볼륨을 생성한다.`
 
-The following example shows how to create a database, with additional volumes, including one for temporary data purpose. ::
+:red:`다음 예제에서는 영구적 임시 볼륨을 포함한 여러 볼륨을 추가하는 데이터베이스 생성 방법을 보여준다.` ::
 
     cubrid createdb --db-volume-size=512M --log-volume-size=256M cubriddb en_US
     cubrid addvoldb -S -n cubriddb_DATA01 --db-volume-size=512M cubriddb
@@ -297,9 +299,9 @@ The following example shows how to create a database, with additional volumes, i
 addvoldb
 --------
 
-If you want to micromanage CUBRID storage volumes, addvoldb is the tool for you. You can finely tune each file name, path, purpose, and size. The database system can handle all storage by itself, but it uses default values to configure each new volume.
+:red:`CUBRID 저장소 볼륨을 세부적으로 관리하려면 addvoldb 도구를 사용하면 된다. 각 볼륨 파일명, 경로, 용도 및 크기를 세분해서 관리할 수 있다. 데이터베이스 시스템은 모든 저장소 볼륨을 직접 관리할 수 있으나, 각각의 새 볼륨을 구성할 때는 기본값을 사용한다`
 
-The command for manually adding a database volume is as follows.
+:red:`데이터베이스 볼륨을 수동으로 추가하기 위한 명령은 다음과 같다.`
 
 ::
 
@@ -323,9 +325,9 @@ The command for manually adding a database volume is as follows.
 
 .. option:: --db-volume-size=SIZE
 
-    **--db-volume-size** is an option that specifies the size of the volume to be added to a specified database. If the **--db-volume-size** option is omitted, the value of the system parameter **db_volume_size** is used by default. You can set units as K, M, G and T, which stand for kilobytes (KB), megabytes (MB), gigabytes (GB), and terabytes (TB) respectively. If you omit the unit, bytes will be applied. The size of the database will be always rounded up to the next multiple of the size of 64 disk sectors; the actual size is determined by the database page size and can be either 16M, 32M or 64M.
+    **--db-volume-size** :red:`지정한 데이터베이스에 추가될 볼륨 크기를 지정하는 옵션이다. **--db-volume-size** 옵션을 생략하면 시스템 파라미터 **db_volume_size**의 값이 기본값으로 사용된다. 단위는 K, M, G 및 T로 설정할 수 있으며, 각각 킬로바이트(KB), 메가바이트(MB), 기가바이트(GB) 및 테라바이트(TB)를 나타낸다. 단위를 생략하면 바이트가 적용된다. 데이터베이스의 크기는 항상 64개 디스크 섹터로 올림된다. 이 값은 페이지의 크기에 따라 달라질 수 있으며, 페이지 크기가 각각 4k, 8k 및 16k인 경우 16M, 32M 또는 64M이 될 수 있다`
 
-    다음은 *testdb* 에 데이터 볼륨을 추가하며 볼륨 크기를 256MB로 지정하는 구문이다.  ::
+    :red:`다음은 *testdb* 에 데이터 볼륨을 추가하며 볼륨 크기를 256MB로 지정하는 구문이다.`  ::
 
         cubrid addvoldb --db-volume-size=256M testdb
 
@@ -350,26 +352,26 @@ The command for manually adding a database volume is as follows.
 
     추가된 볼륨에 관한 정보 검색을 쉽게 하기 위하여 볼륨에 관한 정보를 주석으로 처리하는 옵션이다. 이때 주석의 내용은 볼륨을 추가하는 **DBA**\ 의 이름이나 볼륨 추가의 목적을 포함하는 것이 바람직하며, 큰따옴표로 감싸야 한다.
     
-    The following example shows how to add a volume and inserts a comment with additional information. ::
+    :red:`다음 예제에서는 볼륨을 추가하고 추가 정보로 주석을 삽입하는 방법을 보여준다.`
 
         cubrid addvoldb --comment "Data volume added by cheolsoo kim because permanent data space was almost depleted." testdb
 
 .. option:: -p, --purpose=PURPOSE
 
-    This option specifies the purpose of the volume to be added. The purpose defines the type of files that will be stored in added volume:
+    :red:`이 옵션은 추가될 볼륨의 용도를 지정한다. 지정된 용도는 추가된 볼륨의 파일 타입들을 정의한다.`:
        
-    * **PERMANENT DATA** to store table rows, indexes and system files.
-    * **TEMPORARY DATA** to store intermediate and final results of query processing and sorting.
+    * **PERMANENT DATA** :red:`테이블 행, 인덱스 및 시스템 파일 저장.`
+    * **TEMPORARY DATA** :red:`질의 처리 및 정렬을 수행할 때 중간 결과와 최종 결과 저장.`
                  
-    If not specified, the purpose of the volume is by default considered **PERMANENT DATA**. The following example shows how to change it to temporary. ::
+    :red:`이 옵션이 지정되지 않은 경우 해당 볼륨의 용도는 기본적으로 **PERMANENT DATA**로 간주한다. 다음 예제에서는 임시 데이터 용도로 볼륨을 추가하는 방법을 보여준다.` ::
                   
         cubrid addvoldb -p temp testdb
 
     .. note::
                          
-     PERMANENT DATA volumes used to be classified as generic, data and index. The design of volumes has been changed, and since then the classification no longer exists. In order to avoid  invalidating your old scripts, we chose to keep the keywords as valid options, but their effect will be the same. The only remaining option value with a real effect is temp.
+     :red:`예전 버전에는 PERMANENT DATA 볼륨이 generic, data 및 index로 구분되었으나, 이번 버전부터는 볼륨 구조에 대한 설계가 변경되어 볼륨의 구분이 없어졌다. 그러나 기존에 사용하던 스크립트의 오류를 방지하기 위해 예전에 사용하였던 keyword(generic, data, index)는 유지하였고, 기존 버전의 temp는 동일한 용도로 유지하였다.`
                             
-    For detailed information on each purpose, see :ref:`database-volume-structure`.
+    :red:`각 용도에 대한 자세한 내용은 :ref:`database-volume-structure`를 참고한다.`
                                
 .. option:: -S, --SA-mode
 
@@ -450,7 +452,7 @@ renamedb
 
 *   *dest_database_name*: 새로 부여하고자 하는 데이터베이스의 이름이며, 현재 존재하는 데이터베이스 이름과 중복되어서는 안 된다. 이 역시, 데이터베이스가 생성될 디렉터리 경로명을 포함하지 않는다.
 
-다음은 **cubrid renamedb** 에 대한 [options]이다.
+:red:`다음은 **cubrid renamedb** 에 대한 [options]이다.`
 
 .. program:: renamedb
 
@@ -659,7 +661,7 @@ spacedb
 -------
 
 **cubrid spacedb** 유틸리티는 사용 중인 데이터베이스 볼륨의 공간을 확인하기 위해서 사용된다.
-The tool can show brief aggregated information on database space usage, or detailed descriptions of all volumes and files in use, based on its options.  Information returned by the **cubrid spacedb** utility includes the volume ID's, names, purpose and total/free space of each volume.
+:red:`이 도구에서는 옵션에 따라 데이터베이스 공간 사용에 대한 간략한 집계 정보나 사용 중인 모든 볼륨 및 파일에 대한 자세한 설명을 볼 수 있다. **cubrid spacedb** 유틸리티에서 반환되는 정보는 볼륨의 ID, 각 볼륨의 이름, 용도 및 총/빈 공간 정보 등이다.`
 
 ::
 
@@ -720,7 +722,7 @@ The tool can show brief aggregated information on database space usage, or detai
 
 .. option:: -s, --summarize
 
-    This option aggregates volume count, used size, free size and total size by volume types and purposes. There are three classes of volumes: permanent volumes with permanent data, permanent volumes with temporary data and temporary volume with temporary data; no temporary volumes with permanent data.  Last row shows the total values for all types of volumes. ::
+    :red:`이 옵션은 볼륨 타입 및 용도별로 볼륨 수, 사용된 크기, 빈 공간 크기 및 총 공간 크기를 집계한다. 볼륨에는 영구적 데이터를 사용하는 영구적 볼륨, 일시적 데이터를 사용하는 영구적 볼륨과 일시적 데이터를 사용하는 일시적 볼륨, 이 세 가지 종류가 있으며 영구적 데이터를 사용하는 일시적 볼륨은 없다.  마지막 행은 모든 볼륨 타입의 총 공간 값을 보여준다.` ::
 
         $ cubrid spacedb -s testdb
 
@@ -734,7 +736,7 @@ The tool can show brief aggregated information on database space usage, or detai
 
 .. option:: -p, --purpose
 
-    This option shows detailed information on the purpose of stored data. The information includes number of files, used size, size of file tables, reserved sectors size and total size. ::
+    :red:`이 옵션은 저장된 데이터의 용도에 대한 자세한 정보를 보여준다. 이런 정보에는 파일 수, 사용된 크기, 파일 테이블 크기, 예약된 섹터 크기 및 총 크기가 포함된다.` ::
     
         Space description for database 'testdb' with pagesize 16.0K. (log pagesize: 16.0K)
 
@@ -918,7 +920,7 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
 
 *   **cubrid**: CUBRID 서비스 및 데이터베이스 관리를 위한 통합 유틸리티이다.
 
-*   **statdump**: 대상 데이터베이스 서버 실행 통계 정보를 출력하는 명령어이다. 데이터베이스가 동작 중일 때에만 정상 수행된다.
+*   **statdump**: :red:`데이터베이스 서버 수행 시 통계 정보를 출력하는 명령이다.`
 
 *   *database_name*: 통계 자료를 확인하고자 하는 대상 데이터베이스 이름이다.
 
@@ -2284,7 +2286,7 @@ lockdb
     Isolation COMMITTED READ
     Timeout_period : Infinite wait
 
-Here, the transaction index is 1, the program name is csql, the user ID is dba, the host name is cubriddb, the client process identifier is 12854, the isolation level is COMMITTED READ and the lock timeout is unlimited.    
+:red:`위 내용은, 트랜잭션 인덱스는 1, 프로그램명은 csql, 사용자 ID는 dba, 호스트명은 cubriddb, 클라이언트 프로세스 식별자는 12854, 격리 수준은 COMMITTED READ 그리고 잠금 시간 제한은 무제한이다.`
 
 트랜잭션 인덱스가 0인 클라이언트는 내부적인 시스템 트랜잭션이다. 이것은 데이터베이스의 체크포인트 수행과 같이 특정한 시간에 잠금을 획득할 수 있지만 대부분의 경우 이 트랜잭션은 어떤 잠금도 획득하지 않을 것이다.
 
@@ -2299,9 +2301,9 @@ Here, the transaction index is 1, the program name is csql, the user ID is dba, 
     Object lock Table:
         Current number of ojbects which are locked = 2001
 
-**cubrid lockdb** 는 잠금을 획득한 각각의 객체에 대한 객체의 OID와 Object type, 테이블 이름을 출력한다. 추가적으로 객체에 대해서 잠금을 보유하고 있는 트랜잭션의 개수(*Num holders*), 잠금을 보유하고 있지만 상위 잠금으로 변환(예를 들어 **SCH_S_LOCK** 에서 **SCH_M_LOCK** 으로 잠금 변환)하지 못해 차단된 트랜잭션의 개수(Num blocked-holders), 객체의 잠금을 기다리는 다른 트랜잭션의 개수(*Num waiters*)가 출력된다. 그리고 잠금을 보유하고 있는 클라이언트 트랜잭션, 차단된 클라이언트 트랜잭션, 기다리는 클라이언트 트랜잭션의 리스트가 출력된다. Class에 대해서는 아니지만 row에 관해서 MVCC정보 역시 출력된다. 
+**cubrid lockdb** 는 :red:`잠금을 획득한 각 객체의 OID, 객체 타입 및 테이블명을 출력한다. 또한 객체에 대한 잠금을 보유한 트랜잭션 수(*Num holders*), 잠금을 보유하지만 잠금을 상위 잠금으로 변환(예: **SCH_S_LOCK**에서 **SCH_M_LOCK**으로의 변환)할 수 없어 차단된 트랜잭션 수(*Num blocked-holders*) 및 객체의 잠금을 기다리는 다른 트랜잭션의 수(*Num waiters*)를 출력한다. 잠금을 보유한 클라이언트 트랜잭션, 차단된 클라이언트 트랜잭션 및 대기 중인 클라이언트 트랜잭션의 목록도 출력한다. 객체 타입이 클래스가 아닌 행에서는 MVCC 정보도 표시된다.`
 
-다음 예는 object type이 instance of class, 즉 레코드인 경우, OID( O| 62| 5)인 객체에 대해서 트랜잭션 2가 **IX_LOCK** 을 가지고 있고, 트랜잭션 1이 **SCH_S_LOCK** 을 획득하고 있지만 트랜잭션 2가 **SCH_M_LOCK** 을 획득하고 있기 때문에 **SCH_M_LOCK** 으로 변환하지 못해 차단되었음을 보여준다. 그리고 트랜잭션 3은 **SCH_S_LOCK** 을 대기하고 있지만 트랜잭션 2가 **SCH_M_LOCK** 을 대기하고 있기 때문에 차단되었음을 보여준다.
+:red:`다음 예제는 객체 타입이 클래스이고, 트랜잭션 1에는 **IX_LOCK**을 보유하고 트랜잭션 2에는 **SCH_S_LOCK**을 보유한 클래스 OID( 0| 62| 5 )를 **SCH_M_LOCK**으로 변환할 수 없어 차단될 객체를 표시한다. 또한 트랜잭션 3에서 **SCH_S_LOCK**만을 기다릴 때도 트랜잭션 2는 **SCH_M_LOCK**을 기다리기 때문에 트랜잭션 3이 차단된다는 사실도 알 수 있다.`
 
 ::
 
@@ -2335,9 +2337,9 @@ Here, the transaction index is 1, the program name is csql, the user ID is dba, 
                           Start_waiting_at = Wed Feb 3 14:45:14 2016
                           Wait_for_secs = -1
 
-*Granted_mode* 는 현재 획득한 잠금의 모드를 의미하고 *Blocked_mode* 는 차단된 잠금의 모드를 의미한다. *Starting_waiting_at* 은 잠금을 요청한 시간을 의미하고 *Wait_for_secs* 는 잠금을 기다리는 시간을 의미한다. *Wait_for_secs* 의 값은 **lock_timeout** 시스템 파라미터에 의해 설정된다. 
+*Granted_mode* 는 :red:`습득한 잠금의 모드를 나타내며, *Blocked_mode*는 차단된 잠금의 모드를 나타낸다. *Starting_waiting_at*은 잠금이 요청된 시간을 나타내며, *Wait_for_secs*는 잠금의 대기 시간을 나타낸다. *Wait_for_secs* 값은 시스템 파라미터인 **lock_timeout**에 의해 결정된다.`
 
-Object type이 Class, 즉 테이블인 경우 *Nsubgranules* 가 출력되는데 이것은 해당 테이블 내의 특정 트랜잭션이 획득하고 있는 레코드 잠금과 키 잠금을 합한 개수이다.
+:red:`객체 타입이 클래스(테이블)인 경우 테이블의 특정 트랜잭션에서 획득한 레코드 잠금과 키 잠금의 합계를 나타내는 *Nsubgranules*가 표시된다.`
 
 ::
 
@@ -2728,13 +2730,13 @@ diagdb
 
 .. option:: -o, --output-file=FILE
 
-    The **-o** option is used to store information of the parameters used in the server/client process of the database into a specified file. The file is created in the current directory. If the **-o** option is not specified, the message is displayed on a console screen. ::
+    :red:`**-o** 옵션은 데이터베이스의 서버/클라이언트 프로세스에서 사용되는 파라미터 정보를 지정된 파일로 저장하는 데 사용된다. 이 파일은 현재 디렉터리에 생성된다. **-o** 옵션을 지정하지 않으면 콘솔 화면에 메시지가 표시된다.`
     
         cubrid diagdb -d8 -o logdump_output demodb
 
 .. option:: --emergency
 
-    Use **--emergency** option to suppress recovery. **This option is meant ONLY for debugging, if there are recovery issues. It is recommended to backup your database before using this option.**
+    :red:`복구를 생략(suppression)하려면 **--emergency** 옵션을 사용한다. **이 옵션은 디버깅에만 사용해야 한다. 복구 이슈가 있는 경우 이 옵션을 사용하기 전에 데이터베이스를 백업할 것을 권장한다.**` 
 
 .. _paramdump:
 
@@ -2795,7 +2797,7 @@ HA 명령어
 
 **cubrid genlocale** 유틸리티는 사용하고자 하는 로캘(locale) 정보를 컴파일하는 유틸리티이다. 이 유틸리티는 **make_locale.sh** (Windows는 **.bat**) 스크립트 내에서 실행된다.
 
-**cubrid dumplocale** 유틸리티는 컴파일된 바이너리 로캘(CUBRID 로캘 라이브러리) 파일을 사람이 읽을 수 있는 형태로 콘솔에 출력한다. 출력 값이 매우 클 수 있으므로, 리다이렉션을 이용하여 특정 파일로 저장할 것을 권장한다.
+**cubrid dumplocale** :red:`유틸리티는 컴파일된 바이너리 로케일(CUBRID 로케일 라이브러리) 파일을 콘솔에서 사용자가 읽을 수 있는 형식으로 출력한다. 출력 정보는 리다이렉션(redirection)을 사용해서 저장해 두는 것이 좋다.`
 
 **cubrid synccolldb** 유틸리티는 데이터베이스와 로캘 라이브러리 사이의 콜레이션 불일치 여부를 체크하고, 불일치하는 경우 동기화한다.
 
@@ -2803,16 +2805,14 @@ HA 명령어
 
 
 타임존 명령어
------------------
+-------------
 
-**cubrid gen_tz** utility has two modes:
+**cubrid gen_tz** :red:`유틸리티는 다음과 같이 두 가지 모드가 있다.`:
 
--   **new** mode when it compiles the IANA timezone data stored in the tzdata folder into a C source code file.
-    This file is then converted into a .so shared library for Linux or .dll library for Windows using the **make_tz.sh** (Linux) / **make_tz.bat** (Windows) scripts.
--   **extend** mode is similar to new but is used when you want to update your timezone data to a different version and ensure backward compatibility
-    with the old data. It is always used with a database name argument. In some situations, when it is impossible to ensure backward compatibility
-    just by merging the two versions of timezone data, an update of the data in the tables of the database is done.
-    It is executed using **make_tz.sh -g extend** for Linux and **make_tz.bat /extend** for Windows.
+-   **new** :red:`모드는 tzdata 폴더에 저장된 IANA 타임존 데이터를 C 소스 코드 파일로 컴파일할 때 사용한다.`
+    :red:`이후 이 파일은 **make_tz.sh** (Linux) / **make_tz.bat** (Windows) 스크립트를 통해 Linux용 .so 공유 라이브러리나 Windows용 .dll 라이브러리로 변환된다.`
+-   **extend** :red:`모드는 new 모드와 비슷하지만 타임존 데이터를 다른 버전으로 갱신하고 기존 데이터와의 호환성을 유지하려고 할 때
+    사용하며, 항상 데이터베이스명 인자와 함께 사용한다.  단순히 두 가지  버전의 타임존 데이터를 병합하여 이전 데이터와의 호환성을 유지할 수 없는 경우에는 데이터베이스 테이블의 데이터를 갱신한다.
+    Linux에서는 **make_tz.sh -g extend**를 사용하고 Windows에서는 **make_tz.bat /extend**를 사용한다.`
 
-
-**cubrid dump_tz** 유틸리티는 콘솔에 사람이 읽을 수있는 형식으로 컴파일 된 CUBRID 시간대 라이브러리 파일을 덤프한다. 파일로 출력을 재지정하여 저장하는 것이 좋다.
+**cubrid dump_tz** :red:`유틸리티는 컴파일된 CUBRID 타임존 라이브러리 파일을 콘솔에서 사용자가 읽을 수 있는 형식으로 출력한다. 출력 정보는 리다이렉션(redirection)을 사용해서 저장해 두는 것이 좋다.`

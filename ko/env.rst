@@ -2,6 +2,8 @@
 :meta-keywords: configure cubrid, cubrid port, cubrid language, cubrid environment, cubrid settings
 :meta-description: The following environment variables need to be set in order to use the CUBRID. The necessary environment variables are automatically set when the CUBRID system is installed or can be changed, as needed, by the user.
 
+.. role:: red
+
 환경 변수 설정
 ==============
 
@@ -18,7 +20,7 @@ CUBRID 환경 변수
 
 .. note:: 
 
-    *  CUBRID 매니저 사용자는 DB 서버 노드의 **CUBRID_MSG_LANG** 환경 변수를 en_US로 설정해야만 데이터베이스 관련 작업  이후 출력되는 메시지를 정상적으로 확인할 수 있다. 하지만, **CUBRID_MSG_LANG** 환경 변수가 en_US가 아닌 경우 메시지만 비정상적으로 출력될 뿐 작업은 정상적으로 실행된다.
+    *  :red:`CUBRID Manager의 사용자는 데이터베이스 관련 기능을 실행한 후 메시지를 정상적으로 출력하려면 DB 서버 노드의 환경 변수인 **CUBRID_MSG_LANG**을 **en_US**로 지정해야 한다. **CUBRID_MSG_LANG**이 **en_US**가 아닌 경우 데이터베이스 관련 기능은 정상적으로 실행되지만 손상된 메시지가 출력된다.`
     *  변경한 **CUBRID_MSG_LANG**\ 을  적용하려면 DB 서버 노드의 CUBRID 시스템이 반드시 재시작(cubrid service stop; cubrid service start)되어야 한다.
 
 *   **CUBRID_TMP**: Linux용 CUBRID에서 cub_master 프로세스와 cub_broker 프로세스의 유닉스 도메인 소켓 파일을 저장하는 위치를 지정하는 환경 변수로, 지정하지 않으면 cub_master 프로세스는 **/tmp** 디렉터리에, cub_broker 프로세스는 **$CUBRID/var/CUBRID_SOCK** 디렉터리에 유닉스 도메인 소켓 파일을 저장한다(Windows용 CUBRID에서는 사용되지 않는다).
@@ -369,7 +371,7 @@ master 노드에서도 applylogdb와 copylogdb가 동작하는데, master 노드
 CUBRID 매니저 서버 사용 포트
 ----------------------------
 
-접속 요청을 기다리는(listening) 프로세스들을 기준으로 , CUBRID 매니저 서버가 사용하는 포트는 다음과 같으며, 이들은 OS의 종류와 관계없이 동일하다.
+:red:`다음 표는 수신 프로세스에 따라 CUBRID Manager 서버에 사용되는 포트를 표시한다. 이 포트들은 OS 타입과는 상관없이 동일하다.`
 
 +--------------------------+--------------+----------------+--------------------------+
 | listener                 | requester    | port           | 방화벽 존재 시 포트 설정 |
