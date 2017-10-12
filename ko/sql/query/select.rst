@@ -2,6 +2,8 @@
 :meta-keywords: select statement, select from clause, select where clause, group by, having clause, limit clause, join query, subquery, select for update
 :meta-description: The SELECT statement specifies columns that you want to retrieve from a table.
 
+.. role:: red
+
 ******
 SELECT
 ******
@@ -587,8 +589,8 @@ LIMIT 절
     <limit_term> ::= <limit_factor> | <limit_term> * <limit_factor> | <limit_term> / <limit_factor>
     <limit_factor> ::= <unsigned int> | <input_hostvar> | ( <limit_expression> )
 
-*   *offset*: Specifies the offset of the starting row to be displayed. The offset of the starting row of the result set is 0; it can be omitted and the default value is **0**. It can be one of unsigned int, a host variable or a simple expression.
-*   *row_count*: Specifies the number of records to be displayed. It can be one of unsigned integer, a host variable or a simple expression.
+*   *offset*: :red:`표시할 시작 행의 오프셋을 지정한다. 결과 셋에 있는 시작 행의 오프셋은 0이며, 생략 가능하고 기본값은 **0**이다. 부호 없는 정수, 호스트 변수 또는 간단한 표현식 중 하나일 수 있다.`
+*   *row_count*: :red:`표시할 레코드 수를 지정한다. 부호 없는 정수, 호스트 변수 또는 간단한 표현식 중 하나일 수 있다.`
 
 .. code-block:: sql
 
@@ -1100,7 +1102,7 @@ FOR UPDATE
          
 * <*spec_name_comma_list*>: **FROM** 절에서 참조하는 테이블/뷰들의 목록
 
-* <*spec_name_comma_list*>에서 참조되는 테이블/뷰에만 잠금이 적용된다. FOR UPDATE 절에 <*spec_name_comma_list*>가 명시되지 않는 경우, **FROM** 절의 모든 테이블/뷰가 잠금 대상인 것으로 간주한다.  **FOR UPDATE** 절에서 잠금된 행들은 **UPDATE/DELETE** 문에서 잠금이 해제된다. **SELECT .. FOR UPDATE** 문 수행 시 키 잠금은 획득되지 않는다. 
+* :red:`<*spec_name_comma_list*>에 참조된 테이블/뷰만 잠긴다. <*spec_name_comma_list*>가 누락되었지만 **FOR UPDATE**가 있는 경우 **SELECT** 질의문의 **FROM** 절에 있는 모든 테이블/뷰가 참조된다고 가정한다. 행은 **X_LOCK**을 사용하여 잠근다.` 
 
 .. note:: 제약 사항 
 

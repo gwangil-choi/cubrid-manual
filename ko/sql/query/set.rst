@@ -2,6 +2,8 @@
 :meta-keywords: set statement, set system parameter, set user variable
 :meta-description: The SET statement is the syntax that specifies a system parameter's value or user-defined variables.
 
+.. role:: red
+
 ***
 SET
 ***
@@ -17,7 +19,7 @@ SQL 문을 이용하여 CSQL 인터프리터나 CUBRID 매니저의 질의 편�
 
     SET SYSTEM PARAMETERS 'parameter_name=value [{; name=value}...]'
 
-*value*에  **DEFAULT** 를 사용하면 **call_stack_dump_activation_list** 변수의 예외를 포함하여 해당 변수의 값을 그 변수의 기본값으로 재 설정한다.
+*value* :red:`의 **DEFAULT** 는 **call_stack_dump_activation_list** 파라미터를 제외하고 해당 파라미터를 기본값으로 재설정한다.` 
 
 .. code-block:: sql
 

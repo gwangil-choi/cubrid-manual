@@ -2,14 +2,16 @@
 :meta-keywords: common table expression, recursive query, recursive cte
 :meta-description: Common Table Expressions (CTEs) are temporary tables (list of results) associated with a statement.
 
+.. role:: red
+
 ***
 CTE
 ***
 
-Common Table Expressions (CTEs) are temporary tables (list of results) associated with a statement. A CTE can be referenced multiple times within the statement, and is visible only within the statement scope. It enables better separation of statement logic and may enhance execution performance. Moreover, recursive CTEs can be used to generate a hierarchical statement based on parent-child relationships, being able to reproduce **CONNECT BY** statements and other more complex queries. 
+:red:`CTE(Common Table Expressions)는 질의문과 관련된 임시 테이블(결과 목록)이다. 질의문 내에서 CTE를 여러 번 참조할 수 있으며 질의문 범위 내에서만 표시된다. CTE를 사용하면 질의문 로직을 보다 효과적으로 분리하여 수행 성능을 개선할 수 있다. 게다가 **CONNECT BY** 질의문과 그 밖의 추가적인 복잡한 질의를 재현할 수 있는 부모-자식 관계를 기반으로 한 계층 질의문을 생성할 때 재귀적 CTE를 사용할 수 있다.`
 
-A CTE is introduced using the **WITH** clause. A list of sub-queries is expected, and final query which uses the sub-queries. Each sub-query (table expression) has a name and a query definition. A table expression may refer another table expression which previously defined in the same statement.
-The general syntax is: ::
+:red:`CTE는 **WITH** 절로 시작한다. 부질의 목록과 부질의를 사용하는 최종 질의가 있어야 한다. 각 부질의(테이블 표현식)는 이름과 질의 정의를 포함한다. 테이블 표현식은 이전에 동일한 질의문에 정의된 다른 테이블 표현식을 참조할 수 있다.`
+:red:`구문은 다음과 같다.` ::
 
     WITH
       [RECURSIVE <recursive_cte_name> [ (<recursive_column_names>) ] AS <recursive_sub-query>]
@@ -19,12 +21,12 @@ The general syntax is: ::
     <final_query>
     
 
-*  *recursive_cte_name*, *cte_name1*, *cte_name2* :  identifiers for the table expressions (sub-queries)
-*  *recursive_column_names*, *cte1_column_names*, *cte2_column_names* : identifiers for the columns of the results of each table expression
-*  *sub-query1*, *sub-query2* : sub-queries which define each table expression. 
-*  *final_query* : query using table expression previously defined. Usually, the **FROM** clause of this will contain the CTEs identifiers.
+*  *recursive_cte_name*, *cte_name1*, *cte_name2* :  :red:`테이블 표현식(부질의)의 식별자`
+*  *recursive_column_names*, *cte1_column_names*, *cte2_column_names* : :red:`각 테이블 표현식 결과 컬럼에 대한 식별자`
+*  *sub-query1*, *sub-query2* : :red:`각 테이블 표현식을 정의하는 부질의`
+*  *final_query* : :red:`이전에 정의된 테이블 표현식을 사용하는 질의 일반적으로 **FROM** 절은 CTE 식별자를 포함한다.`
 
-Simplest usage is to combine result lists of table expressions:
+:red:`가장 단순한 사용법은 테이블 표현식의 결과 목록을 결합하는 것이다.`
 
 .. code-block:: sql
 
@@ -56,7 +58,7 @@ Simplest usage is to combine result lists of table expressions:
       'Frame'               'cars'
       'Wheel'               'cars'            
             
-A sub-query of one CTE may be referenced by other sub-query of another CTE (the referenced CTE needs to be defined before):
+:red:`한 CTE의 부질의가 다른 CTE의 부질의에 참조될 수 있다(참조되는 CTE가 미리 정의되어 있어야 함).` :
 
 .. code-block:: sql
 
@@ -71,9 +73,9 @@ A sub-query of one CTE may be referenced by other sub-query of another CTE (the 
     ======================
       'Frame'
 
-Error will be prompted if:
- * More than one CTE uses the same identifier name.
- * using nested **WITH** clauses.
+:red:`다음과 같은 경우 오류가 표시된다.` :
+ * :red:`둘 이상의 CTE에서 동일한 식별자명 사용.`
+ * :red:`중첩된 **WITH** 절 사용.`
  
 .. code-block:: sql
 
@@ -106,10 +108,10 @@ Error will be prompted if:
     '
     Nested WITH clauses are not supported.
 
-CTE column names
-================
+CTE 컬럼명 
+==========
 
-The column names of each CTE result may be specified after the CTE name. The number of elements in the CTE column list must match the number of columns in the CTE sub-query.
+:red:`각 CTE 결과의 컬럼명은 CTE 이름 다음에 지정할 수 있다. CTE 컬럼 목록의 요소 수는 CTE 부질의의 컬럼 수와 일치해야 한다.`
 
 .. code-block:: sql
 
@@ -139,7 +141,7 @@ The column names of each CTE result may be specified after the CTE name. The num
      'Wheel'               'cars'                       4700
      'Blade'               'drones'                       50
 
-If no column names are given in the CTE, the column names are extracted from the first inner select list of the CTE. The expressions result columns will be named according to their original text.
+:red:`CTE에 컬럼명이 없으면 CTE의 첫 번째 내부 Select 문에서 컬럼명을 가져온다. 원본 구문에 따라 표현식 결과 컬럼명이 결정된다.`
 
 .. code-block:: sql
 
@@ -156,11 +158,11 @@ If no column names are given in the CTE, the column names are extracted from the
      'Wheel'               'cars'                               4700
 
                     
-RECURSIVE clause
-================
+재귀절
+======
 
-The **RECURSIVE** keyword allows construction recurrent queries (the table expression sub-queries definition contains its own name). A recursive table expression is composed of the non-recursive part and a recursive part (which references the sub-queries by its CTE name). The recursive and non-recursive parts **must** be combined using the **UNION ALL** query operator.
-The recursive part should be defined in such way, that no cycle will be generated. Also if the recursive part contains aggregate functions, it should also contain a **GROUP BY** clause, because aggregate functions will return always a tuple and the recursive iterations will never stop. The recursive part will stop iterating when the conditions from **WHERE** clause are no longer true, and the current iteration return no results.
+**RECURSIVE** :red:`키워드를 사용하여 반복되는 질의를 구성할 수 있다(테이블 표현식 부질의 정의 자체 이름 포함). 재귀 테이블 표현식은 비재귀적 부분과 재귀적 부분(CTE 이름으로 부질의 참조)으로 구성된다. **UNION ALL** 질의 연산자를 사용하여 재귀적 부분과 비재귀적 부분을 결합** 해야 한다** .`
+:red:`반복 주기를 생성하지 않는 방식으로 재귀적 부분을 정의해야 한다. 또한 재귀적 부분에 집계 함수를 포함하는 경우 집계 함수가 항상 튜플을 반환하고 재귀 반복이 계속되므로 **GROUP BY** 절도 포함해야 한다. **WHERE** 절의 조건이 더 이상 true가 아니고, 현재 반복에서 결과가 반환되지 않을 때 재귀적 부분의 반복이 중단된다.`
 
 .. code-block:: sql
 
@@ -183,7 +185,7 @@ The recursive part should be defined in such way, that no cycle will be generate
       'Frame'                      4700
       'Wheel'                       100
 
-Using CTE in DDLs (**UPDATE** or **DELETE** data):
+:red:`DDL에서 CTE 사용(**UPDATE** 또는 **DELETE** 데이터):` :
       
 .. code-block:: sql
 
@@ -208,7 +210,7 @@ Using CTE in DDLs (**UPDATE** or **DELETE** data):
       'Car'                        8800 
   
 
-Recursive CTEs may fall into an infinite loop. To avoid such case, set the system parameter **cte_max_recursions** to a desired threshold. Its default value is 2000 recursive iterations, maximum is 1000000 and minimum 2.
+:red:`재귀적 CTE는 무한 루프에 빠질 수 있다. 이러한 경우를 방지하려면 시스템 파라미터 **cte_max_recursions**를 원하는 임계값으로 설정한다. 기본값은 2000번 재귀 반복이고, 최대값은 1000000, 최소값은 2이다.`
 
 .. code-block:: sql
 
@@ -230,16 +232,16 @@ Recursive CTEs may fall into an infinite loop. To avoid such case, set the syste
 
 .. warning::
 
-    *   Depending on the complexity of the CTE sub-queries, the result set can grow very large for sub-queries which produces large amount of data. Even the default value of **cte_max_recursions** may not be enough to avoid starvation of disk space.
+    *   :red:`CTE 부질의의 복잡도에 따라 부질의에 대한 결과 셋이 매우 크게 증가하여 대용량의 데이터가 생성될 수 있다. **cte_max_recursions** 기본값도 디스크 공간 부족을 방지하기에 충분하지 않을 수 있다.`
 
-The execution algorithm of a recursive CTE may be summarized as:
- * execute the non recursive part of CTE and add its results to then final result set
- * execute the recursive part using the result set obtained by the non recursive part, add its results to the final result set and memorize the start and end of the current iteration within the result set.
- * repeat the non recursive part execution using the result set from previous iteration and add its results to the final result set
- * if a recursive iteration produces no results, then stop
- * if the configured maximum number of iterations is reached, also stop
+:red:`재귀적 CTE의 수행 알고리즘은 다음과 같이 요약할 수 있다.`:
+ * :red:`CTE의 비재귀적 부분을 수행하고 결과를 최종 결과 셋에 추가`
+ * :red:`비재귀적 부분에서 얻은 결과 셋을 사용하여 재귀적 부분을 수행하고, 결과를 최종 결과 셋에 추가한 후, 결과 셋 내에서 현재 반복의 시작과 끝을 기억한다.`
+ * :red:`이전 반복의 결과 셋을 사용하여 비재귀적 부분의 수행을 반복하고 해당 결과를 최종 결과 셋에 추가`
+ * :red:`재귀 반복에서 결과가 생성되지 않으면 중지`
+ * :red:`설정된 최대 반복 횟수에 도달하는 경우에도 중지`
  
-The recursive CTE must be referenced directly in the **FROM** clause, referencing it in sub-query will prompt an error:
+:red:`재귀적 CTE를 **FROM** 절에서 바로 참조해야 한다. 부질의에서 참조하면 오류가 표시된다.`
 
 .. code-block:: sql
 

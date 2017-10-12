@@ -3,6 +3,8 @@
 
 :tocdepth: 3
 
+.. role:: red
+
 ****
 SHOW
 ****
@@ -112,7 +114,7 @@ SHOW COLUMNS
 
     SHOW [FULL] COLUMNS {FROM | IN} tbl_name [LIKE 'pattern' | WHERE expr];
 
-**FULL** 키워드가 사용되면 **콜레이션** 과 **코멘트**  정보를 추가로 출력한다.
+**FULL** :red:`키워드를 사용하면 추가 정보, **collation** 및 **comment**를 보여준다.`
 
 **SHOW FIELDS** 는 **SHOW COLUMNS** 와 같은 구문이다.
 
@@ -348,7 +350,7 @@ FULL이 명시되지 않으면 타임 존의 영역 이름을 가진 하나의 �
 
 FULL이 명시되면 4개의 칼럼을 가진 타임 존 정보를 출력한다.
 
-If LIKE clause is present, it indicates which timezone_region names to match.
+:red:`LIKE 절이 있는 경우 일치하는 timezone_region 이름을 나타낸다.`
 
 =================== =============== ===================================================
 칼럼 이름           타입            설명
@@ -1595,7 +1597,7 @@ Total_waiting_msecs                 NUMERIC(10,3)   전체 대기 시간(밀리�
 SHOW TRANSACTION TABLES
 -----------------------
 
-이 명령은 트랜잭션 기술자들의 내부 정보를 보여주는데 이것은 각 트랜잭션을 관리하기 위한 내부 데이터 구조이다. 이것은 유효한 트랜잭션들 만을 보여주고 따라서 결과는 어떤 트랜잭션 기술자의 일관된 스냅샷이 아닐 수도 있다.
+:red:`각 트랜잭션을 관리하는 데이터 구조인 트랜잭션 디스크립터(descriptor)의 내부 정보를 보여준다. 유효한 트랜잭션만 보여주므로, 표시되는 트랜잭션 디스크립터의 스냅샷이 일관되지 않을 수도 있다.`
 
 .. code-block:: sql
 
@@ -1720,7 +1722,7 @@ Abort_reason             VARCHAR(40)     Reason of transaction aborted. Either o
 SHOW THREADS
 ------------
 
-각 스래드의 내부 정보를 보여준다. 결과는 "Index" 컬럼에 대해서 오름차순으로 정렬되며 스래드 개체들의 일관된 스냅샷이 아닐 수도 있다.
+:red:`각 스레드의 내부 정보를 보여준다. 반환 결과는 "인덱스" 컬럼의 오름차순으로 정렬되며, 표시되는 스레드 엔트리의 스냅샷이 일관되지 않을 수도 있다.`
 SA MODE일 때에 이 문은 아무 결과도 보여주지 않는다.
 
 .. code-block:: sql
