@@ -336,7 +336,7 @@ addvoldb
     지정된 데이터베이스에 대하여 추가될 볼륨의 이름을 지정하는 옵션이다. 볼륨명은 운영체제의 파일 이름 규약을 따라야 하고, 디렉터리 경로나 공백을 포함하지 않는 단순한 이름이어야 한다.
     **-n** 옵션을 생략하면 추가되는 볼륨의 이름은 시스템에 의해 "데이터베이스 이름_볼륨 식별자"로 자동 부여된다. 예를 들어, 데이터베이스 이름이 *testdb* 이면 자동 부여된 볼륨명은 *testdb_x001* 이 된다.
 
-    The following example shows how to specify a different name, *testdb_v1*, to newly added volume. ::
+    :red:`The following example shows how to specify a different name, *testdb_v1*, to newly added volume.` ::
 
         cubrid addvoldb -n testdb_v1  testdb
 
@@ -344,7 +344,7 @@ addvoldb
 
     지정된 데이터베이스에 대하여 추가될 볼륨이 저장되는 디렉터리 경로를 지정하는 옵션이다. **-F** 옵션을 생략하면, 시스템 파라미터인 **volume_extension_path** 의 값이 기본값으로 사용된다.
 
-    The following example shows how to add a volume in the */dbtemp/addvol* directory. Since the **-n** option is not specified for the volume name, the volume name *testdb_x001* will be created. ::
+    :red:`The following example shows how to add a volume in the */dbtemp/addvol* directory. Since the **-n** option is not specified for the volume name, the volume name *testdb_x001* will be created.` ::
 
         cubrid addvoldb -F /dbtemp/addvol/ testdb
 
@@ -1438,16 +1438,16 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
         Num_mvcc_snapshot_ext:
         Time_obj_lock_acquire_time:
 
-    The following are the explanation about the above statistical information.  You can find the statistic category (database module), the name, the stat type and a brief description for each statistic.
+    :red:`The following are the explanation about the above statistical information.  You can find the statistic category (database module), the name, the stat type and a brief description for each statistic.`
 
-    There are several types of statistic, based on how they are collected:
+    :red:`There are several types of statistic, based on how they are collected` :
 
-    *  Accumulator: The stat values are incremented whenever the tracked action happens.
-    *  Counter/timer: The stat tracks both the number and the duration of an action. Also biggest and average duration are tracked.
-    *  Snapshot: The stat is peeked from database.
-    *  Complex: The stat tracks multiple values for an action, separated by various attributes.
+    *  :red:`Accumulator: The stat values are incremented whenever the tracked action happens.`
+    *  :red:`Counter/timer: The stat tracks both the number and the duration of an action. Also biggest and average duration are tracked.`
+    *  :red:`Snapshot: The stat is peeked from database.`
+    *  :red:`Complex: The stat tracks multiple values for an action, separated by various attributes.`
 
-    Most statistics are accumulators (they are incremented when an action happens). Other statistics can be counter/timers (they track both number of actions and their duration), some are peeked from database (snapshot) and some are computed based on other values.  Lastly, there are several complex statistics which track detailed information on some operations.
+    :red:`Most statistics are accumulators (they are incremented when an action happens). Other statistics can be counter/timers (they track both number of actions and their duration), some are peeked from database (snapshot) and some are computed based on other values.  Lastly, there are several complex statistics which track detailed information on some operations.`
 
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
     | Category         | Item                                     | Stat type      |  Description                                                          |
@@ -2166,7 +2166,7 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
 
 .. note::
 
-    Some sets of performance statistics are activated/deactivated by **extended_statistics_activation** system parameter. Each set is represented by a value power of two. To be activated, it needs to be present in the base-2 representation of the system parameter. This is the lists of sets that can be manipulated:
+    :red:`Some sets of performance statistics are activated/deactivated by **extended_statistics_activation** system parameter. Each set is represented by a value power of two. To be activated, it needs to be present in the base-2 representation of the system parameter. This is the lists of sets that can be manipulated` :
 
     
       ========= ===================================== =========== ====================================================================

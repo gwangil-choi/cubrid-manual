@@ -648,7 +648,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
     :red:`이 파라미터를 **0**으로 설정하면 일시적 볼륨이 자동으로 생성되지 않으며 관리자가 **cubrid addvoldb** 유틸리티를 사용해 일시적 데이터를 저장하기 위한 용도로 영구적 볼륨을 생성해야 한다.`
 
-    For more details see :ref:`temporary-volumes`
+    :red:`자세한 사항은 다음을 참고하도록 한다.`  :ref:`temporary-volumes`
     
 **temp_volume_path**
 

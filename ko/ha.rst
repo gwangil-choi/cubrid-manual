@@ -3483,51 +3483,51 @@ HA 서비스 운영 중 슬레이브를 새로 추가하려면 기존의 마스�
 checksumdb
 ----------
 
-**checksumdb** :red:`를 통해 간단하게 복제 무결성을 확인할 수 있다. 기본적으로 이 유틸리티는 마스터 노드의 각 테이블을 청크(chunk)로 분할한 후 CRC32 값을 계산한다. 계산된 값이 아닌 계산 방법이 CUBRID HA를 통해 복제된다. 결과적으로 마스터 노드와 슬레이브 노드에서 계산된 CRC32 값을 비교함으로써 **checksumdb**는 복제 무결성을 보고할 수 있다. **checksumdb**는 성능 저하를 최소화하도록 설계되긴 했으나 마스터의 성능에 영향을 미칠 수 있어 사용시 유의해야 한다.`
+**checksumdb** :red:`를 통해 간단하게 복제 무결성을 확인할 수 있다. 기본적으로 이 유틸리티는 마스터 노드의 각 테이블을 청크(chunk)로 분할한 후 CRC32 값을 계산한다. 계산된 값이 아닌 계산 방법이 CUBRID HA를 통해 복제된다. 결과적으로 마스터 노드와 슬레이브 노드에서 계산된 CRC32 값을 비교함으로써 **checksumdb**는 복제 무결성을 보고할 수 있다. **checksumdb**는 성능 저하를 최소화하도록 설계되긴 했으나 마스터의 성능에 영향을 미칠 수 있어 사용시 유의해야 한다.` ::
 
-         cubrid checksumdb [options] <database-name>@<hostname>
+        cubrid checksumdb [options] <database-name>@<hostname>
 
- .. program:: checksumdb
+.. program:: checksumdb
 
- *   *<hostname>* : :red:`체크섬(checksum) 계산을 시작할 때 마스터 노드의 호스트명을 지정해야 한다. 계산이 완료된 후 결과를 가져올 때 확인할 노드의 호스트명을 지정한다.`
+*   *<hostname>* : :red:`체크섬(checksum) 계산을 시작할 때 마스터 노드의 호스트명을 지정해야 한다. 계산이 완료된 후 결과를 가져올 때 확인할 노드의 호스트명을 지정한다.`
 
- .. option:: -c, --chunk-size=NUMBER
+.. option:: -c, --chunk-size=NUMBER
 
      :red:`각 CRC32 계산에 선택할 행 수를 지정할 수 있다. (기본값: 500행, 최소값: 100행)`
 
- .. option:: -s, --sleep=NUMBER
+.. option:: -s, --sleep=NUMBER
 
      :red:`각 청크를 계산한 후 지정된 시간 동안 checksumdb가 정지 상태가 된다(기본값: 100ms)`
 
- .. option:: -i, --include-class-file=FILE
+.. option:: -i, --include-class-file=FILE
 
      :red:`-i FILE 옵션을 지정해 복제 불일치를 확인할 테이블을 지정할 수 있다. 테이블을 지정하지 않으면 전체 테이블을 확인한다. 파일 내용의 테이블명 구분자로 사용할 수 있는 기호는 빈 문자열, 탭, 개행문자 및 쉼표이다.`
 
- .. option:: -e, --exclude-class-file=FILE
+.. option:: -e, --exclude-class-file=FILE
 
      -e :red:`FILE 옵션을 지정하여 복제 불일치 확인에서 제외할 테이블을 지정할 수 있다. -i와 -e 중 하나만 사용할 수 있다.`
 
- .. option:: -t, --timeout=NUMBER
+.. option:: -t, --timeout=NUMBER
 
      :red:`이 옵션으로 계산 시간 제한을 지정할 수 있다. (기본값: 1000ms) 이 시간 제한에 도달하면 계산이 취소되고 잠시 후에 다시 시작된다.`
 
- .. option:: -n, --table-name=STRING
+.. option:: -n, --table-name=STRING
 
      :red:`체크섬 결과를 저장할 테이블명을 지정할 수 있다. (기본값: db_ha_checksum)`
 
- .. option:: -r, --report-only
+.. option:: -r, --report-only
 
      이 옵션을 통해 checksum 계산이 완료된 후에 결과를 얻을 수 있다.
 
- .. option:: --resume
+.. option:: --resume
 
      checksum 계산이 중지되었을 경우, 이 옵션을 이용해서 다시 실행할 수 있다.
 
- .. option:: --schema-only
+.. option:: --schema-only
 
      이 옵션을 이용해서 CRC32 계산을 하지 않고 각 테이블의 스키마를 확인할 수 있다.
 
- .. option:: --cont-on-error
+.. option:: --cont-on-error
 
      이 옵션이 없으면 에러가 발생했을 때 checksumdb가 중지한다.
 
