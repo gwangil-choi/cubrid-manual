@@ -1,10 +1,10 @@
 
-+:meta-keywords: cubrid aggregate, database aggregate function, curbid analytic, database analytic function
-+:meta-description: CUBRID Aggregate/Analytic function is used when you want to analyze data and extract some results.
-
-.. role:: red
+:meta-keywords: cubrid aggregate, database aggregate function, curbid analytic, database analytic function
+:meta-description: CUBRID Aggregate/Analytic function is used when you want to analyze data and extract some results.
 
 :tocdepth: 3
+
+.. role:: red
 
 **************
 집계/분석 함수

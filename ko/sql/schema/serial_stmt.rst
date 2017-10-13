@@ -2,9 +2,11 @@
 :meta-keywords: serial definition, create serial, alter serial, drop serial
 :meta-description: Define serials in CUBRID database using create serial, alter serial and drop serial statements.
 
-****************************
-SERIAL DEFINITION STATEMENTS
-****************************
+.. role:: red
+
+*************
+시리얼 정의문
+*************
 
 CREATE SERIAL
 =============
@@ -46,7 +48,7 @@ CREATE SERIAL
 
 *   **NOCYCLE**: 시리얼이 최대 또는 최소값에 도달한 후에 시리얼 값이 더 이상 생성되지 않도록 지정한다. 기본값은 **NOCYCLE** 이다.
 
-*   **CACHE**: Stores as many serials as the number specified by "cached_num" in the cache to improve the performance of the serials and fetches a serial value when one is requested. If all cached values are used up, as many serials as "cached_num" are fetched again from the disk to the memory. If the database server stops accidentally, all cached serial values are deleted. For this reason, the serial values before and after the restart of the database server may be discontinuous. Because the transaction rollback does not affect the cached serial values, the request for the next serial will return the next value of the value used (or fetched) lastly when the transaction is rolled back. The "cached_num" after the **CACHE** keyword cannot be omitted.  If the "cached_num" is equal to or smaller than 1, the serial cache is not applied.
+*   **CACHE**: :red:`Stores as many serials as the number specified by "cached_num" in the cache to improve the performance of the serials and fetches a serial value when one is requested. If all cached values are used up, as many serials as "cached_num" are fetched again from the disk to the memory. If the database server stops accidentally, all cached serial values are deleted. For this reason, the serial values before and after the restart of the database server may be discontinuous. Because the transaction rollback does not affect the cached serial values, the request for the next serial will return the next value of the value used (or fetched) lastly when the transaction is rolled back. The "cached_num" after the **CACHE** keyword cannot be omitted.  If the "cached_num" is equal to or smaller than 1, the serial cache is not applied.`
 
 *   **NOCACHE**: 시리얼 캐시 기능을 사용하지 않으며, 매번 시리얼 값을 업데이트한다.
 

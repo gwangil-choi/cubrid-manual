@@ -1,9 +1,9 @@
 
 :meta-keywords: cubrid charset, cubrid coercibility, cubrid collation, cubrid current_user, cubrid default, cubrid last_insert_id, cubrid row_count
 
-.. role:: red
-
 :tocdepth: 3
+
+.. role:: red
 
 *********
 정보 함수
