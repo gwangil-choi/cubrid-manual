@@ -2150,7 +2150,7 @@ CUBRID가 수행하는 묵시적 타입 변환은 다음과 같다.
 
     *   :red:`**NUMERIC**을 포함한 모든 숫자 타입은 **TIMESTAMP**, **TIMESTAMPLTZ**, **TIMESTAMPTZ** 타입으로 변환될 수 있으며, 이때 입력 숫자는 최대 2,147,483,647을 초과할 수 없다.``
 
-**Implicit Type Conversion Table 2**
+**묵시적 타입 변환 표 2**
 
     +------------------+---------+-----------+---------+------------+----------+-------------+------------+-----------+-------------+------------+
     | From \\ To       | INT     | SHORT     | BIT     | VARBIT     | CHAR     | VARCHAR     | DOUBLE     | FLOAT     | NUMERIC     | BIGINT     |
