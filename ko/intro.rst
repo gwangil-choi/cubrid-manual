@@ -102,13 +102,13 @@ CUBRID는 객체 관계형 데이터베이스 관리 시스템으로서, 데이�
 
 :red:`데이터베이스에서는 일시적 데이터를 위한 디스크 공간 할당을 위해 일시적 임시 볼륨을 생성해 사용한다. 그러나 사용자는 **cubrid addvoldb -p temp** 명령을 실행해 일시적 데이터를 저장하기 위한 용도로 영구적 데이터베이스 볼륨을 할당할 수도 있다. 이러한 영구적 데이터베이스 볼륨이 있는 경우 임시 데이터를 디스크 공간에 저장할 때 일시적 볼륨보다 우선 사용한다.`
 
-The examples of queries that can use temporary data are as follows:
+:red:`The examples of queries that can use temporary data are as follows:`
 
-*   Queries creating the resultset like **SELECT**
-*   Queries including **GROUP BY** or **ORDER BY**
-*   Queries including a subquery
-*   Queries executing sort-merge join
-*   Queries including the **CREATE INDEX** statement
+*   :red:`Queries creating the resultset like **SELECT**`
+*   :red:`Queries including **GROUP BY** or **ORDER BY**`
+*   :red:`Queries including a subquery`
+*   :red:`Queries executing sort-merge join`
+*   :red:`Queries including the **CREATE INDEX** statement`
 
 :red:`일시적 데이터에 의해 시스템의 디스크 공간이 모두 사용되는 것을 방지하려면 다음을 수행할 것을 권장한다.`
 
