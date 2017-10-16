@@ -99,7 +99,6 @@ CSQL 인터프리터의 세션 명령어로 지정한 테이블의 통계 정보
 
 CUBRID SQL 질의에 대한 실행 계획(query plan)을 보기 위해서는 다음의 방법을 사용할 수 있다.
 
-*   CUBRID 매니저에서 플랜 보기 버튼을 누른다. 
 *   :red:`CUBRID Manager에서 "플랜 보기" 버튼을 누른다.`
 
     .. image:: /images/query_plan_on_CM.png
