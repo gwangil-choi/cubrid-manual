@@ -44,9 +44,9 @@ CUBRID의 서버 엔진에는 GNU GPL v2 or later 가 적용되고 CUBRID 매니
 
 업그레이드 및 마이그레이션과 관련된 정보는 :doc:`/upgrade`\ 를 참고한다.
 
-CUBRID 도구 정보는 http://www.cubrid.org/wiki_tools\ 를 참고한다.
+.. FIXME: CUBRID 도구 정보는 http://www.cubrid.org/wiki_tools\ 를 참고한다.
 
-CUBRID 드라이버 정보는 http://www.cubrid.org/wiki_apis\ 를 참고한다.
+.. FIXME: CUBRID 드라이버 정보는 http://www.cubrid.org/wiki_apis\ 를 참고한다.
 
 CUBRID 최신 소스는 https://github.com/CUBRID/cubrid 와 https://github.com/CUBRID  를 참고한다.
 
