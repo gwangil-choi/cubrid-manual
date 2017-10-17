@@ -1206,13 +1206,13 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **intl_check_input_string**
 
-    **intl_check_input_string**\ 은 입력되는 문자열이 사용하는 문자셋에 맞게 입력되는지에 대한 검사 여부를 설정하는 파라미터이다. 기본값은 **no**\ 이다. 예를 들어, 이 값이 no이고 문자셋이 UTF-8일 때 UTF-8 바이트 순서(byte sequence)에 맞지 않는 데이터가 들어오는 경우 비정상적인 동작을 보이거나 심하면 데이터베이스 서버 혹은 응용 프로그램이 비정상 종료될 수도 있다. 하지만 이러한 문제가 없다는 것이 보장된다면 검사하지 않는 것이 성능상 좀더 유리하다.
+    **intl_check_input_string**\ 은 입력되는 문자열이 사용하는 문자셋에 맞게 입력되는지에 대한 검사 여부를 설정하는 파라미터이다. 기본값은 **no** 이다. 예를 들어, 이 값이 no이고 문자셋이 UTF-8일 때 UTF-8 바이트 순서(byte sequence)에 맞지 않는 데이터가 들어오는 경우 비정상적인 동작을 보이거나 심하면 데이터베이스 서버 혹은 응용 프로그램이 비정상 종료될 수도 있다. 하지만 이러한 문제가 없다는 것이 보장된다면 검사하지 않는 것이 성능상 좀더 유리하다.
 
     UTF-8과 EUC-KR만이 검사 대상이며, ISO-8859-1은 한 바이트 인코딩이고 모든 바이트가 유효하므로 검사할 필요가 없다.
 
 **intl_collation**
 
-    **intl_collation**\ 은 특정 응용 클라이언트에 대해 콜레이션 이름을 지정하는 파라미터로서, 이 파라미터를 지정하면 "SET NAMES" 문을 통해 응용 클라이언트의 콜레이션을 변경하는 것과 같은 동작을 수행한다. 콜레이션 지정은 문자셋을 포함한다.
+    **intl_collation** 은 특정 응용 클라이언트에 대해 콜레이션 이름을 지정하는 파라미터로서, 이 파라미터를 지정하면 "SET NAMES" 문을 통해 응용 클라이언트의 콜레이션을 변경하는 것과 같은 동작을 수행한다. 콜레이션 지정은 문자셋을 포함한다.
     
     아래의 두 문장은 같은 동작을 수행한다.
 
@@ -1221,11 +1221,11 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
         SET NAMES utf8;
         SET SYSTEM PARAMETERS 'intl_collation=utf8_bin';
 
-    **intl_collation**\ 의 값으로 사용할 수 있는 값은 :ref:`collation-setting`\ 을 참고한다.
+    **intl_collation** 의 값으로 사용할 수 있는 값은 :ref:`collation-setting` 을 참고한다.
     
 **intl_date_lang**
 
-    **intl_date_lang**\ 은 **TIME**, **DATE**, **DATETIME**, **TIMESTAMP** 타입의 값을 입력 또는 출력하는 함수의 인자로 언어 이름이 생략되는 경우, 문자열의 지역화된(localized) 캘린더(월 이름과 요일 이름, 오전/오후 이름) 형식을 지정하는 파라미터이다.
+    **intl_date_lang** 은 **TIME**, **DATE**, **DATETIME**, **TIMESTAMP** 타입의 값을 입력 또는 출력하는 함수의 인자로 언어 이름이 생략되는 경우, 문자열의 지역화된(localized) 캘린더(월 이름과 요일 이름, 오전/오후 이름) 형식을 지정하는 파라미터이다.
 
     사용할 수 있는 값은 다음과 같다. 단, 이 값들을 모두 사용하려면 내장된 로캘(locale)을 제외한 나머지 로캘에 대해서는 원하는 로캘 라이브러리를 설정해야 한다. 로캘 설정에 대해서는 :ref:`locale-setting` 을 참고한다.
 
@@ -1273,7 +1273,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **intl_number_lang**
 
-    **intl_number_lang**\ 은 문자열을 숫자로, 또는 숫자를 문자열로 변환하는 함수들에서 입력되거나 출력되는 문자열에 숫자 형식을 부여할 때 적용할 로캘을 지정하는 파라미터이다. 숫자에 대해 지역화되는 것들은 자릿수 구분 기호와 소수점 기호이다. 일반적으로는 쉼표(,)와 마침표(.)가 쓰이는데, 로캘에 따라 서로 바뀔 수 있다. 예를 들어, 숫자 1000.12(천 소수점 이하 일이)는 대부분의 로캘에서는 1,000.12로 쓰이는 반면, tr_TR 로캘에서는 1.000,12로 쓰인다.
+    **intl_number_lang** 은 문자열을 숫자로, 또는 숫자를 문자열로 변환하는 함수들에서 입력되거나 출력되는 문자열에 숫자 형식을 부여할 때 적용할 로캘을 지정하는 파라미터이다. 숫자에 대해 지역화되는 것들은 자릿수 구분 기호와 소수점 기호이다. 일반적으로는 쉼표(,)와 마침표(.)가 쓰이는데, 로캘에 따라 서로 바뀔 수 있다. 예를 들어, 숫자 1000.12(천 소수점 이하 일이)는 대부분의 로캘에서는 1,000.12로 쓰이는 반면, tr_TR 로캘에서는 1.000,12로 쓰인다.
 
     지정된 언어의 숫자 형식에 따라 입력 문자열을 인식하는 함수는 다음과 같다.
 
@@ -1286,7 +1286,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **no_backslash_escapes**
 
-    **no_backslash_escapes**\ 은 이스케이프 문자로 백슬래시(\\) 사용 여부에 관한 파라미터로서, 기본값은 **yes**\ 이다. 이 파라미터 값이 **no** 이면 백슬래시(\\)가 이스케이프 문자로 사용되며, **yes** 이면 백슬래시는 일반 문자로 사용된다. 예를 들어, 이 값이 **no** 일 때 "\\n"은 개행(new line) 문자를 의미한다. 그러나 이 값이 **yes** 이면 "\\n"은 "\\"과 "n" 두 개의 문자를 의미한다.  백슬래시가 이스케이프 문자로 사용되는 경우에 대한 자세한 설명은 :ref:`escape-characters` 를 참고한다.
+    **no_backslash_escapes** 은 이스케이프 문자로 백슬래시(\\) 사용 여부에 관한 파라미터로서, 기본값은 **yes** 이다. 이 파라미터 값이 **no** 이면 백슬래시(\\)가 이스케이프 문자로 사용되며, **yes** 이면 백슬래시는 일반 문자로 사용된다. 예를 들어, 이 값이 **no** 일 때 "\\n"은 개행(new line) 문자를 의미한다. 그러나 이 값이 **yes** 이면 "\\n"은 "\\"과 "n" 두 개의 문자를 의미한다.  백슬래시가 이스케이프 문자로 사용되는 경우에 대한 자세한 설명은 :ref:`escape-characters` 를 참고한다.
 
 **only_full_group_by**
 
@@ -1294,7 +1294,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
     이 파라미터 값이 no이면 확장된 문법이 적용되므로 **GROUP BY** 절에 명시되지 않은 칼럼을 **SELECT** 칼럼 리스트에 명시할 수 있고, 이 값이 yes이면 **GROUP BY** 절에 명시된 칼럼만 **SELECT** 칼럼 리스트에 명시할 수 있다.
 
-    기본값은 **no**\ 이므로, SQL 표준에 따라 질의를 수행하려면 **only_full_group_by** 파라미터 값을 yes로 설정한다. 이 경우에는 확장된 문법이 적용되지 않으므로 실행 결과로 아래와 같은 에러가 출력된다. ::
+    기본값은 **no** 이므로, SQL 표준에 따라 질의를 수행하려면 **only_full_group_by** 파라미터 값을 yes로 설정한다. 이 경우에는 확장된 문법이 적용되지 않으므로 실행 결과로 아래와 같은 에러가 출력된다. ::
 
         ERROR: Attributes exposed in aggregate queries must also appear in the group by clause.
 
@@ -1308,7 +1308,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
         이하에 언급된 함수들을 제외한 나머지 함수들은 **oracle_style_empty_string** 파라미터의 영향을 받지 않는다.
         
-        *   **oracle_style_empty_string=yes**\일 때 빈 문자열과 NULL을 동일하게 NULL로 처리하는 함수
+        *   **oracle_style_empty_string=yes**일 때 빈 문자열과 NULL을 동일하게 NULL로 처리하는 함수
 
             *   :func:`ASCII`
             *   :func:`CONCAT_WS`
@@ -1340,7 +1340,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
             *   :func:`TRIM`
             *   :func:`UPPER`
             
-        *   **oracle_style_empty_string=yes**\일 때 빈 문자열과 NULL을 동일하게 빈 문자열로 처리하는 함수
+        *   **oracle_style_empty_string=yes** 일 때 빈 문자열과 NULL을 동일하게 빈 문자열로 처리하는 함수
         
             *   :func:`CONCAT`
             *   :func:`REPLACE`
@@ -1348,7 +1348,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
             
     .. note::
     
-        :func:`REPLACE` 함수는 10.0 미만에서 **oracle_style_empty_string=yes**\일 때의 동작이 다르다.
+        :func:`REPLACE` 함수는 10.0 미만에서 **oracle_style_empty_string=yes** 일 때의 동작이 다르다.
         
         .. code-block:: sql
         
@@ -1498,7 +1498,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **string_max_size_bytes**
 
-    **string_max_size_bytes**\ 는 문자열 함수 또는 연산에서 문자열 인자로 사용할 수 있는 최대 바이트 크기를 정의하는 파라미터이다.
+    **string_max_size_bytes** 는 문자열 함수 또는 연산에서 문자열 인자로 사용할 수 있는 최대 바이트 크기를 정의하는 파라미터이다.
     값 뒤에 B, K, M, G, T로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes, Terabytes를 의미한다. 단위를 생략하면 바이트 단위가 적용된다. 기본값은 **1,048,576** 바이트(1M)이다. 최소값은 64 바이트, 최대값은 33,554,432 바이트(32M)이다.
 
     이 파라미터에 영향을 받는 함수 및 연산식은 다음과 같다.
@@ -1515,7 +1515,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **unicode_input_normalization**
 
-    시스템 수준에서 입력할 유니코드를 결합된 코드로 저장할지 여부를 설정하는 파라미터로 기본값은 **no**\ 이다.
+    시스템 수준에서 입력할 유니코드를 결합된 코드로 저장할지 여부를 설정하는 파라미터로 기본값은 **no** 이다.
 
     일반적으로 유니코드 텍스트는 "완전히 결합된(fully composed)" 혹은 "완전히 분해된(fully decomposed)" 상태로 저장될 수 있다. 예를 들면 "완전히 결합된" 문자 'Ä'는 하나의 코드포인트인 00C4를 갖는데, 이는 UTF-8 인코딩으로 C3 84의 2바이트가 된다. 이와 달리 "완전히 분해된" 모드에서는 두 개의 코드포인트/문자 0041(문자 "A")과 0308(COMBINING DIAERESIS)이 되며, UTF-8 인코딩으로는 41 CC 88의 3바이트가 된다.
 
@@ -1533,23 +1533,23 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
         :red:`It is generally used when **unicode_input_normalization** and **unicode_output_normalization** are yes. In this case, codes entered from clients are stored in composed mode and output in decomposed mode.`
 
-    클라이언트 응용 프로그램이 텍스트 데이터를 분해된 형태로 CUBRID에 보낸다면, **unicode_input_normalization**\ 을 **yes**\ 로 설정하여 CUBRID가 결합된 코드로 다루게 한다.
+    클라이언트 응용 프로그램이 텍스트 데이터를 분해된 형태로 CUBRID에 보낸다면, **unicode_input_normalization** 을 **yes** 로 설정하여 CUBRID가 결합된 코드로 다루게 한다.
     
-    클라이언트 응용 프로그램이 분해된 형태로만 데이터를 다룰 수 있다면 **unicode_output_normalization**\ 을 **yes**\ 로 설정하여 CUBRID가 항상 분해된 코드로 데이터를 보내도록 한다.
+    클라이언트 응용 프로그램이 분해된 형태로만 데이터를 다룰 수 있다면 **unicode_output_normalization** 을 **yes** 로 설정하여 CUBRID가 항상 분해된 코드로 데이터를 보내도록 한다.
     
-    클라이언트 응용 프로그램이 입력과 출력의 형태에 대해 모두 알고 있다면, **unicode_input_normalization**\ 과 **unicode_output_normalization**\ 을 **no** 인 상태로 둔다(기본 설정). 
+    클라이언트 응용 프로그램이 입력과 출력의 형태에 대해 모두 알고 있다면, **unicode_input_normalization** 과 **unicode_output_normalization** 을 **no** 인 상태로 둔다(기본 설정). 
 
     로캘과 콜레이션에 대한 자세한 설명은 :doc:`/sql/i18n` 을 참고한다.
 
 **unicode_output_normalization**
 
-    시스템 수준에서 저장된 유니코드를 분해된 코드로 출력할 것인지 여부를 설정하는 파라미터로 기본값은 **no**\ 이다. 보다 자세한 설명은 위의 **unicode_input_normalization** 설명을 참고한다.
+    시스템 수준에서 저장된 유니코드를 분해된 코드로 출력할 것인지 여부를 설정하는 파라미터로 기본값은 **no** 이다. 보다 자세한 설명은 위의 **unicode_input_normalization** 설명을 참고한다.
 
 .. _update_use_attribute_references:
     
 **update_use_attribute_references** 
 
-    **update_use_attribute_references**\는 **UPDATE** 문에서 갱신 대상 칼럼을 명시할 때 먼저 명시한 칼럼의 값이 질의문에서 해당 칼럼을 사용하는 또 다른 칼럼의 갱신에 영향을 줄 것인지 여부를 설정하는 파라미터로서, 기본값은 **no**\ 이다. 
+    **update_use_attribute_references** 는 **UPDATE** 문에서 갱신 대상 칼럼을 명시할 때 먼저 명시한 칼럼의 값이 질의문에서 해당 칼럼을 사용하는 또 다른 칼럼의 갱신에 영향을 줄 것인지 여부를 설정하는 파라미터로서, 기본값은 **no** 이다. 
       
     아래의 UPDATE 문 결과는 **update_use_attribute_references** 파라미터의 값에 따라 달라진다. 
       
@@ -1616,7 +1616,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 *   **tz_leap_second_support**
 
-    윤초(leap second)에 대한 지원 여부를 yes 또는 no로 설정한다. 기본값은 **no**\이다. 
+    윤초(leap second)에 대한 지원 여부를 yes 또는 no로 설정한다. 기본값은 **no** 이다. 
     
     윤초(閏秒)란 태양시 평균에 근접한 하루의 시간을 유지하기 위해 협정 세계시(UTC)에서 발생하는 오차를 보정하기 위해 가끔 추가하는 1초이다. 
     
@@ -1639,7 +1639,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **max_plan_cache_entries**
 
-    **max_plan_cache_entries**\ 는 메모리에 캐시하는 질의 실행 계획의 최대 개수를 설정하는 파라미터이다. **max_plan_cache_entries** 파라미터가 -1이나 0으로 설정되면 작성된 질의 실행 계획을 메모리 캐시에 저장하지 않는 것이며, 1 이상의 정수값이 설정되면 설정된 개수만큼의 질의 실행 계획을 메모리 캐시한다.
+    **max_plan_cache_entries** 는 메모리에 캐시하는 질의 실행 계획의 최대 개수를 설정하는 파라미터이다. **max_plan_cache_entries** 파라미터가 -1이나 0으로 설정되면 작성된 질의 실행 계획을 메모리 캐시에 저장하지 않는 것이며, 1 이상의 정수값이 설정되면 설정된 개수만큼의 질의 실행 계획을 메모리 캐시한다.
 
     다음은 최대 1,000개의 질의에 대해 질의 실행 계획 캐시 기능을 수행하는 예제이다. ::
 
@@ -1647,7 +1647,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **max_filter_pred_cache_entries**
 
-    **max_filter_pred_cache_entries**\ 는 메모리에 캐시하는 필터링된 인덱스 표현식의 최대 개수를 설정하는 파라미터이다. 필터링된 인덱스 표현식은 컴파일된 상태로 저장되므로, 서버에서 즉시 사용할 수 있다. 캐시에 저장되어 있지 않을 경우, 필터링된 인덱스 표현식을 데이터베이스 스키마에서 가져와서 해석하는 과정이 필요하다.
+    **max_filter_pred_cache_entries** 는 메모리에 캐시하는 필터링된 인덱스 표현식의 최대 개수를 설정하는 파라미터이다. 필터링된 인덱스 표현식은 컴파일된 상태로 저장되므로, 서버에서 즉시 사용할 수 있다. 캐시에 저장되어 있지 않을 경우, 필터링된 인덱스 표현식을 데이터베이스 스키마에서 가져와서 해석하는 과정이 필요하다.
 
 .. _utility-parameters:
 
@@ -1670,18 +1670,18 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **backup_volume_max_size_bytes**
 
-    **backup_volume_max_size_bytes**\ 는 **cubrid backupdb** 유틸리티에 의해 생성되는 백업 볼륨 파일의 분할 크기를 바이트 단위로 설정하는 파라미터이다. 
+    **backup_volume_max_size_bytes** 는 **cubrid backupdb** 유틸리티에 의해 생성되는 백업 볼륨 파일의 분할 크기를 바이트 단위로 설정하는 파라미터이다. 
     값 뒤에 B, K, M, G, T로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes, Terabytes를 의미한다. 단위를 생략하면 바이트 단위가 적용된다. 기본값은 0이고, 최소값은 32K이다. 
     
     기본값인 **0** 으로 설정하면 생성되는 백업 볼륨이 분할되지 않으며, 0보다 큰 값을 설정하면 지정된 크기의 단위로 백업 볼륨 파일을 분할하여 생성한다.
 
 **communication_histogram**
 
-    **communication_histogram**\ 은 csql 인터프리터의 :ref:`csql-session-commands` " **;.h** "와  관련된 파라미터이며, 기본값은 **no**\ 이다. :ref:`CSQL 실행 통계 정보 출력 <csql-execution-statistics>`\ 를 참고한다.
+    **communication_histogram** 은 csql 인터프리터의 :ref:`csql-session-commands` " **;.h** "와  관련된 파라미터이며, 기본값은 **no** 이다. :ref:`CSQL 실행 통계 정보 출력 <csql-execution-statistics>` 를 참고한다.
 
 **compactdb_page_reclaim_only**
 
-    **compactdb_page_reclaim_only**\ 는 **compactdb** 유틸리티와 관련된 파라미터로 이미 할당된 저장 영역의 OID를 재사용하기 위하여 이미 삭제된 객체의 저장 영역을 정리하는 유틸리티이다. **compactdb** 유틸리티에 의해 저장 영역이 재정렬되는 작업은 3단계로 구분할 수 있으며, **compactdb_page_reclaim_only** 파라미터를 통해 재정렬 작업의 단위를 선택할 수 있다. 기본값인 **0** 으로 설정하면 1, 2, 3단계를 모두 수행하므로 데이터 단위, 테이블 단위, 파일 단위로 저장 영역을 재정렬한다. 1로 설정하면 1단계를 생략하므로 테이블 및 파일 단위로 저장 영역을 재정렬하고, 2로 설정하면 1, 2단계를 생략하므로 파일 단위로만 저장 영역을 재정렬한다.
+    **compactdb_page_reclaim_only** 는 **compactdb** 유틸리티와 관련된 파라미터로 이미 할당된 저장 영역의 OID를 재사용하기 위하여 이미 삭제된 객체의 저장 영역을 정리하는 유틸리티이다. **compactdb** 유틸리티에 의해 저장 영역이 재정렬되는 작업은 3단계로 구분할 수 있으며, **compactdb_page_reclaim_only** 파라미터를 통해 재정렬 작업의 단위를 선택할 수 있다. 기본값인 **0** 으로 설정하면 1, 2, 3단계를 모두 수행하므로 데이터 단위, 테이블 단위, 파일 단위로 저장 영역을 재정렬한다. 1로 설정하면 1단계를 생략하므로 테이블 및 파일 단위로 저장 영역을 재정렬하고, 2로 설정하면 1, 2단계를 생략하므로 파일 단위로만 저장 영역을 재정렬한다.
 
     *   1단계 : 데이터 단위로 저장 영역을 재정렬한다.
     *   2단계 : 테이블 단위로 저장 영역을 재정렬한다.
@@ -1689,7 +1689,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **csql_history_num**
 
-    **csql_history_num**\ 은 CSQL 인터프리터와 관련된 파라미터로 CSQL 인터프리터 내에서 히스토리 내역으로 저장되는 SQL 문의 개수를 설정하는 파라미터이다. 기본값은 **50**\ 이다.
+    **csql_history_num** 은 CSQL 인터프리터와 관련된 파라미터로 CSQL 인터프리터 내에서 히스토리 내역으로 저장되는 SQL 문의 개수를 설정하는 파라미터이다. 기본값은 **50** 이다.
 
 .. _ha-parameters:
 
@@ -1706,7 +1706,7 @@ HA 관련 파라미터
 
 **ha_mode**
 
-    **ha_mode**\ 는 CUBRID HA 기능을 설정하기 위한 파라미터이며, 기본값은 **off**\ 이다.
+    **ha_mode** 는 CUBRID HA 기능을 설정하기 위한 파라미터이며, 기본값은 **off** 이다.
 
     *   off : CUBRID HA 기능을 사용하지 않는다.
     *   on : 설정한 노드는 failover의 대상이 되는 노드로, CUBRID HA 기능을 사용한다.
@@ -1783,7 +1783,7 @@ HA 관련 파라미터
     
 **agg_hash_respect_order**
 
-    **agg_hash_respect_order**  는 집계 함수에서 그룹이 순서대로 반환되는지 여부를 설정하는 파라미터이다. 기본값은 **yes**  이다. :ref:`max_agg_hash_size <max_agg_hash_size>`\ 를 참고한다.
+    **agg_hash_respect_order**  는 집계 함수에서 그룹이 순서대로 반환되는지 여부를 설정하는 파라미터이다. 기본값은 **yes**  이다. :ref:`max_agg_hash_size <max_agg_hash_size>` 를 참고한다.
     
     이 모든 그룹(키와 누적 결과)이 해시 메모리에 상주할 수 있으면, "agg_hash_respect_order=no" 설정은 결과를 출력하기 전에 정렬하는 과정을 생략할 것이므로, 순서가 보장되지 않을 것이라고 예측할 수 있다. 그러나, 오버플로우가 발생하면 정렬 과정이 수행되어야 하며 "agg_hash_respect_order=false"로 설정되었더라도 정렬된 결과를 얻게 된다.
 
@@ -1799,13 +1799,13 @@ HA 관련 파라미터
 
 **index_scan_in_oid_order**
 
-    **index_scan_in_oid_order**\ 는 인덱스를 스캔한 후 검색 결과 데이터를 가져오는 순서를 OID 순으로 지정하기 위한 파라미터이다. 기본값인 **no**\ 로 설정하면 데이터 순서대로 결과를 가져오고, yes로 설정하면 OID 순서대로 결과를 가져온다.
+    **index_scan_in_oid_order** 는 인덱스를 스캔한 후 검색 결과 데이터를 가져오는 순서를 OID 순으로 지정하기 위한 파라미터이다. 기본값인 **no** 로 설정하면 데이터 순서대로 결과를 가져오고, yes로 설정하면 OID 순서대로 결과를 가져온다.
 
 **index_unfill_factor**
 
-    최초 인덱스 생성 후 **INSERT** 나 **UPDATE**\ 를 실행할 때 인덱스 페이지가 꽉 차서 여유 공간이 없으면 인덱스 페이지 노드 분할(split)이 발생하는데, 이는 오퍼레이션 시간을 증가시켜 성능에 영향을 미친다. **index_unfill_factor**\ 는 인덱스를 생성할 때 각 인덱스 페이지 노드의 여유 공간을 확보하는 비율을 지정하는 파라미터이다. **index_unfill_factor** 설정값은 인덱스를 처음 생성할 때만 적용되며, 페이지에 지정된 빈 공간의 비율을 동적으로 유지하지 않는다. 값의 범위는 0부터 0.5까지이고 기본값은 **0.05**\ 이다.
+    최초 인덱스 생성 후 **INSERT** 나 **UPDATE** 를 실행할 때 인덱스 페이지가 꽉 차서 여유 공간이 없으면 인덱스 페이지 노드 분할(split)이 발생하는데, 이는 오퍼레이션 시간을 증가시켜 성능에 영향을 미친다. **index_unfill_factor** 는 인덱스를 생성할 때 각 인덱스 페이지 노드의 여유 공간을 확보하는 비율을 지정하는 파라미터이다. **index_unfill_factor** 설정값은 인덱스를 처음 생성할 때만 적용되며, 페이지에 지정된 빈 공간의 비율을 동적으로 유지하지 않는다. 값의 범위는 0부터 0.5까지이고 기본값은 **0.05** 이다.
 
-    인덱스를 생성할 때 인덱스의 페이지 노드에 여유 공간이 없이(**index_unfill_factor**\ 를 0으로 설정) 생성한다면, 추가로 삽입할 때마다 매번 인덱스 페이지 노드의 분할이 발생하여 성능에 영향을 끼친다.
+    인덱스를 생성할 때 인덱스의 페이지 노드에 여유 공간이 없이(**index_unfill_factor** 를 0으로 설정) 생성한다면, 추가로 삽입할 때마다 매번 인덱스 페이지 노드의 분할이 발생하여 성능에 영향을 끼친다.
 
     **index_unfill_factor** 값이 크면 인덱스 생성 시 노드 여유 공간을 많이 확보한다. 따라서 최초 인덱스 생성 후 노드 여유 공간이 꽉 찰 때까지 상대적으로 긴 시간 동안 인덱스 노드의 분할이 발생하지 않으므로, 상대적으로 성능이 나을 수 있다. 이 값이 작으면 인덱스 생성 시 노드 여유 공간이 작기 때문에, 인덱스 노드의 여유 공간이 금방 꽉 차게 될 가능성이 높으므로, 상대적으로 **INSERT** 나 **UPDATE** 에 의한 인덱스 노드 분할 발생 가능성이 높다.
 
@@ -1813,11 +1813,11 @@ HA 관련 파라미터
 
 **java_stored_procedure**
 
-    **java_stored_procedure**\ 는 Java 가상 머신(Java Virtual Machine, JVM)을 실행하여 Java 저장 프로시저(Java stored procedure)를 사용하게 하기 위한 파라미터이다. 기본값인 **no**\ 로 설정하며 JVM이 실행되지 않고, yes로 설정하면 JVM이 실행되어 Java 저장 프로시저(Java stored procedure)를 사용할 수 있다. 따라서, Java 저장 프로시저를 사용할 계획이 있는 경우에는 파라미터를 yes로 설정해야 한다.
+    **java_stored_procedure** 는 Java 가상 머신(Java Virtual Machine, JVM)을 실행하여 Java 저장 프로시저(Java stored procedure)를 사용하게 하기 위한 파라미터이다. 기본값인 **no**\ 로 설정하며 JVM이 실행되지 않고, yes로 설정하면 JVM이 실행되어 Java 저장 프로시저(Java stored procedure)를 사용할 수 있다. 따라서, Java 저장 프로시저를 사용할 계획이 있는 경우에는 파라미터를 yes로 설정해야 한다.
 
 **multi_range_optimization_limit**
 
-    **multi_range_optimization_limit**\ 은 다중 범위(col IN (? , ?, ... ,?))의 조건을 가지며 인덱스 사용이 가능한 질의에서, **LIMIT** 절이 지정하는 행의 개수가 이 파라미터가 지정하는 숫자 이내이면 인덱스 정렬 방식에 대한 최적화를 수행한다. 기본값은 **100**\ 이다.
+    **multi_range_optimization_limit** 은 다중 범위(col IN (? , ?, ... ,?))의 조건을 가지며 인덱스 사용이 가능한 질의에서, **LIMIT** 절이 지정하는 행의 개수가 이 파라미터가 지정하는 숫자 이내이면 인덱스 정렬 방식에 대한 최적화를 수행한다. 기본값은 **100** 이다.
 
     예를 들어, 이 파라미터의 값이 50일 때 LIMIT 10이면 이 파라미터가 지정한 값 이내이므로 각 조건에 해당하는 범위의 값을 정렬하면서 결과를 생성한다. LIMIT 60이면 파라미터 설정값을 초과하므로 각 조건에 해당하는 범위의 값을 모두 가져온 후 정렬한다.
 
@@ -1825,19 +1825,19 @@ HA 관련 파라미터
 
 **optimizer_enable_merge_join**
 
-    **optimizer_enable_merge_join**\ 는 정렬 병합 조인(sort merge join) 계획을 질의 실행 계획의 후보에 포함할 것인지 여부를 지정하는 파라미터이다. 기본값은 **no**\ 이다. 정렬 병합 조인과 관련된 내용은 :ref:`sql-hint`\를 참고한다.
+    **optimizer_enable_merge_join** 는 정렬 병합 조인(sort merge join) 계획을 질의 실행 계획의 후보에 포함할 것인지 여부를 지정하는 파라미터이다. 기본값은 **no** 이다. 정렬 병합 조인과 관련된 내용은 :ref:`sql-hint` 를 참고한다.
 
 **pthread_scope_process**
 
-    **pthread_scope_process**\ 는 스레드의 경쟁 범위를 설정하는 파라미터로 AIX 시스템에서만 적용된다. no로 설정하면 경쟁 범위가 **PTHREAD_SCOPE_SYSTEM**\ 이 되고, yes로 설정하면 **PTHREAD_SCOPE_PROCESS** 가 된다. 기본값은 **yes**\ 이다.
+    **pthread_scope_process** 는 스레드의 경쟁 범위를 설정하는 파라미터로 AIX 시스템에서만 적용된다. no로 설정하면 경쟁 범위가 **PTHREAD_SCOPE_SYSTEM** 이 되고, yes로 설정하면 **PTHREAD_SCOPE_PROCESS** 가 된다. 기본값은 **yes** 이다.
 
 **server**
 
-    **server**\ 는 CUBRID 서비스 시작 시 자동으로 시작하도록 하는 데이터베이스 서버 프로세스들의 이름을 등록하는 파라미터이다. 해당 데이터베이스들의 이름을 쉼표(,)로 구분하여 나열한다.
+    **server** 는 CUBRID 서비스 시작 시 자동으로 시작하도록 하는 데이터베이스 서버 프로세스들의 이름을 등록하는 파라미터이다. 해당 데이터베이스들의 이름을 쉼표(,)로 구분하여 나열한다.
 
 **service**
 
-    **service**\ 는 CUBRID 서비스 시작 시 자동으로 시작하는 프로세스를 등록하는 파라미터로 **server**, **broker**, **manager**, **heartbeat** 의 네 종류 프로세스가 있다. 일반적으로 **service=server,broker,manager**\ 와 같이 세 종류 프로세스를 등록한다. 각 프로세스에 따른 동작은 다음과 같다.
+    **service** 는 CUBRID 서비스 시작 시 자동으로 시작하는 프로세스를 등록하는 파라미터로 **server**, **broker**, **manager**, **heartbeat** 의 네 종류 프로세스가 있다. 일반적으로 **service=server,broker,manager** 와 같이 세 종류 프로세스를 등록한다. 각 프로세스에 따른 동작은 다음과 같다.
 
     *   **server** : **@server** 파라미터에서 지정한 데이터베이스 프로세스를 시작한다.
     *   **broker** : 브로커 프로세스를 시작한다.
@@ -1846,7 +1846,7 @@ HA 관련 파라미터
 
 **session_state_timeout**
 
-    **session_state_timeout**\ 은 DB 서버 프로세스 내에서 세션 데이터가 유지되는 시간을 정의하는 시스템 파라미터이다. 세션 데이터는 드라이버가 연결을 종료하거나 세션 기간이 만료될(expired) 때 삭제되며, 응용 클라이언트가 비정상 종료되면 지정한 시간 이후에 세션 기간이 만료된다.
+    **session_state_timeout** 은 DB 서버 프로세스 내에서 세션 데이터가 유지되는 시간을 정의하는 시스템 파라미터이다. 세션 데이터는 드라이버가 연결을 종료하거나 세션 기간이 만료될(expired) 때 삭제되며, 응용 클라이언트가 비정상 종료되면 지정한 시간 이후에 세션 기간이 만료된다.
 
     CUBRID 세션 데이터에 해당하는 것은 **SET** 으로 정의된 사용자 변수, **PREPARE** 문, 가장 마지막에 삽입한 ID(**LAST_INSERT_ID**), 가장 마지막에 실행한 문장에 영향받은 레코드의 개수(**ROW_COUNT**)이다. **SET** 으로 정의된 사용자 변수와 **PREPARE** 문은 세션 기간이 만료되기 전에 **DROP** / **DEALLOCATE** 문을 수행하여 삭제할 수 있다.
 
@@ -1854,28 +1854,28 @@ HA 관련 파라미터
 
 **sort_limit_max_count**
 
-    "ORDER BY ... LIMIT *N*\ " 구문에 의해 top-N개의 행이 정렬될 때 적용될 수 있는 SORT-LIMIT 최적화와 관련하여, 해당 최적화를 적용하는 것을 제한하는 LIMIT 행 개수를 명시한다. *N*\ 의 값이 **sort_limit_max_count**\ 의 값보다 작을 때 SORT-LIMIT 최적화가 적용된다. 기본값은 **1,000**\ 이며, 최소값은 0(최적화를 항상 안 한다는 뜻), 최대값은 INT_MAX이다.
+    "ORDER BY ... LIMIT *N* " 구문에 의해 top-N개의 행이 정렬될 때 적용될 수 있는 SORT-LIMIT 최적화와 관련하여, 해당 최적화를 적용하는 것을 제한하는 LIMIT 행 개수를 명시한다. *N* 의 값이 **sort_limit_max_count** 의 값보다 작을 때 SORT-LIMIT 최적화가 적용된다. 기본값은 **1,000** 이며, 최소값은 0(최적화를 항상 안 한다는 뜻), 최대값은 INT_MAX이다.
 
-    좀더 자세한 사항은 :ref:`sort-limit-optimization`\ 를 참고한다.
+    좀더 자세한 사항은 :ref:`sort-limit-optimization` 를 참고한다.
 
 **sql_trace_slow**
 
     **sql_trace_slow**  는 장기 실행 질의(long running query)로 판단될 질의 실행 시간을 설정하는 파라미터이다. 
-    ms, s, min, h 단위를 지정할 수 있으며 각각 milliseconds, seconds, minutes, hours를 의미한다. 단위 생략 시 기본 단위는 밀리초(ms)이다. 기본값은 **-1**\ 이고 최대값은 86,400,000 밀리초(24h)이다. -1은 무한대 시간을 의미하며 어떤 질의도 장기 실행 질의로 판단되지 않는다. 자세한 내용은 아래의 **sql_trace_execution_plan** 의 설명을 참고한다.
+    ms, s, min, h 단위를 지정할 수 있으며 각각 milliseconds, seconds, minutes, hours를 의미한다. 단위 생략 시 기본 단위는 밀리초(ms)이다. 기본값은 **-1** 이고 최대값은 86,400,000 밀리초(24h)이다. -1은 무한대 시간을 의미하며 어떤 질의도 장기 실행 질의로 판단되지 않는다. 자세한 내용은 아래의 **sql_trace_execution_plan** 의 설명을 참고한다.
     
     .. note::
         
-        **sql_trace_slow**\ 는 서버의 질의 실행 시간을 기준으로 실행 시간 초과 여부를 판단하며, **MAX_QUERY_TIMEOUT** 브로커 파라미터는 브로커 단에서의 질의 실행 시간을 기준으로 이를 판단한다.
+        **sql_trace_slow** 는 서버의 질의 실행 시간을 기준으로 실행 시간 초과 여부를 판단하며, **MAX_QUERY_TIMEOUT** 브로커 파라미터는 브로커 단에서의 질의 실행 시간을 기준으로 이를 판단한다.
 
 **sql_trace_execution_plan**
 
-    **sql_trace_execution_plan**\ 은 **sql_trace_slow** 파라미터 값의 설정 시간을 초과한 장기 실행 질의(long running query)의 실행 계획을 출력할지 여부를 설정하는 파라미터이다. 기본값은 **no**\ 이다.
+    **sql_trace_execution_plan** 은 **sql_trace_slow** 파라미터 값의 설정 시간을 초과한 장기 실행 질의(long running query)의 실행 계획을 출력할지 여부를 설정하는 파라미터이다. 기본값은 **no** 이다.
 
     이 값이 yes이면 서버 에러 로그 파일($CUBRID/log/server 이하의 파일), CAS 로그 파일($CUBRID/log/broker/sql_log 이하의 파일)에 해당 SQL 문, 질의 실행 계획, cubrid statdump 명령의 출력 정보를 기록하며, cubrid plandump를 실행할 때 해당 SQL 문과 질의 실행 계획을 출력한다. 
 
     이 값이 no면 서버 에러 로그 파일, CAS 로그 파일에 해당 SQL문만 기록하며, cubrid plandump를 실행할 때 해당 SQL 문만 출력한다.
 
-    예를 들어 5초를 초과하면 느린 질의(slow query)로 규정하고 해당 질의의 실행 계획을 로그 파일에 출력하고 싶은 경우, **sql_trace_slow**\ 의 값을 5,000(ms)로 설정하고 **sql_trace_execution_plan** 의 값을 yes로 설정한다. 
+    예를 들어 5초를 초과하면 느린 질의(slow query)로 규정하고 해당 질의의 실행 계획을 로그 파일에 출력하고 싶은 경우, **sql_trace_slow** 의 값을 5,000(ms)로 설정하고 **sql_trace_execution_plan** 의 값을 yes로 설정한다. 
         
     단, 서버 에러 로그 파일에는 error_log_level 파라미터의 값이 NOTIFICATION인 경우에만 해당 정보를 기록한다.
 
@@ -1914,7 +1914,7 @@ cubrid_broker.conf 설정 파일과 기본 제공 파라미터
 브로커 시스템 파라미터
 ^^^^^^^^^^^^^^^^^^^^^^
 
-다음은 **cubrid_broker.conf** 설정 파일에 사용할 수 있는 브로커 파라미터이다. 각 파라미터에 대한 설명은 :ref:`broker-common-parameters` 및 :ref:`parameter-by-broker` 를 참조한다. 동적으로 설정값 변경이 가능한 파라미터는 **broker_changer** 유틸리티를 이용하여 한시적으로 변경할 수 있다. **cubrid broker restart**\ 로 전체 브로커를 재시작한 후에도 값이 적용되도록 하려면 **cubrid_broker.conf** 에 설정된 값을 변경해 두어야 한다.
+다음은 **cubrid_broker.conf** 설정 파일에 사용할 수 있는 브로커 파라미터이다. 각 파라미터에 대한 설명은 :ref:`broker-common-parameters` 및 :ref:`parameter-by-broker` 를 참조한다. 동적으로 설정값 변경이 가능한 파라미터는 **broker_changer** 유틸리티를 이용하여 한시적으로 변경할 수 있다. **cubrid broker restart** 로 전체 브로커를 재시작한 후에도 값이 적용되도록 하려면 **cubrid_broker.conf** 에 설정된 값을 변경해 두어야 한다.
 
 +---------------------------------+-------------------------+---------------------------------+--------+------------------------------+-----------+
 | 적용 구분                       | 용도                    | 파라미터 이름                   | 타입   | 기본값                       | 동적 변경 |
@@ -2060,80 +2060,80 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
 **ACCESS_CONTROL**
 
-    **ACCESS_CONTROL**\ 은 브로커에 접속하는 응용 클라이언트를 제한하기 위한 파라미터이다. 기본값은 **OFF**\ 이다. 자세한 내용은 :ref:`limiting-broker-access`\ 을 참고한다.
+    **ACCESS_CONTROL** 은 브로커에 접속하는 응용 클라이언트를 제한하기 위한 파라미터이다. 기본값은 **OFF** 이다. 자세한 내용은 :ref:`limiting-broker-access` 을 참고한다.
 
 **ACCESS_CONTROL_FILE**
 
-    **ACCESS_CONTROL_FILE**\ 은 브로커에 접속을 허용하는 데이터베이스 이름, 데이터베이스 사용자 ID, IP 목록을 저장한 파일 이름을 지정하는 파라미터이다. IP 목록은 하나의 브로커 내에서 <*db_name*>:<*db_user*> 별로 최대 256 라인까지 작성될 수 있다.  자세한 내용은 :ref:`limiting-broker-access`\ 을 참고한다.
+    **ACCESS_CONTROL_FILE** 은 브로커에 접속을 허용하는 데이터베이스 이름, 데이터베이스 사용자 ID, IP 목록을 저장한 파일 이름을 지정하는 파라미터이다. IP 목록은 하나의 브로커 내에서 <*db_name*>:<*db_user*> 별로 최대 256 라인까지 작성될 수 있다.  자세한 내용은 :ref:`limiting-broker-access` 을 참고한다.
 
 로그
 ^^^^
 
 **ADMIN_LOG_FILE**
 
-    **ADMIN_LOG_FILE**\ 은 CUBRID 브로커의 구동에 관한 시간 기록을 저장하는 파일을 지정하기 위한 파라미터이다. 기본값은 **log/broker/cubrid_broker.log** 파일이다.
+    **ADMIN_LOG_FILE** 은 CUBRID 브로커의 구동에 관한 시간 기록을 저장하는 파일을 지정하기 위한 파라미터이다. 기본값은 **log/broker/cubrid_broker.log** 파일이다.
 
 브로커 서버(cub_broker)
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 **MASTER_SHM_ID**
 
-    **MASTER_SHM_ID**\ 는 CUBRID 브로커를 관리하기 위해 사용되는 공유 메모리의 ID를 설정하는 파라미터로, 이 값은 시스템 내에서 유일한 값이어야 한다. 기본값은 **30,001**\ 로 설정된다.
+    **MASTER_SHM_ID** 는 CUBRID 브로커를 관리하기 위해 사용되는 공유 메모리의 ID를 설정하는 파라미터로, 이 값은 시스템 내에서 유일한 값이어야 한다. 기본값은 **30,001** 로 설정된다.
 
 .. _parameter-by-broker:
 
 브로커별 파라미터
 -----------------
 
-다음은 브로커에 개별적으로 적용되는 파라미터로 *[%broker_name]* 아래에 각각 작성된다. *broker_name*\의 최대 길이는 영문 63자이다.
+다음은 브로커에 개별적으로 적용되는 파라미터로 *[%broker_name]* 아래에 각각 작성된다. *broker_name* 의 최대 길이는 영문 63자이다.
 
 접속
 ^^^^
 
 **ACCESS_LIST**
 
-    **ACCESS_LIST**\ 는 CUBRID 브로커로 접근을 허용하는 응용 클라이언트의 IP 주소 리스트를 저장할 파일 이름을 지정하는 파라미터이다. 210.192.33.*와 210.194.34.*인 IP 주소의 접근을 허용하려면 이를 임의의 파일(ip_lists.txt)에 저장하여 이 파라미터의 값으로 파일명을 설정한다.
+    **ACCESS_LIST** 는 CUBRID 브로커로 접근을 허용하는 응용 클라이언트의 IP 주소 리스트를 저장할 파일 이름을 지정하는 파라미터이다. 210.192.33.*와 210.194.34.*인 IP 주소의 접근을 허용하려면 이를 임의의 파일(ip_lists.txt)에 저장하여 이 파라미터의 값으로 파일명을 설정한다.
 
 **ACCESS_MODE**
 
-    **ACCESS_MODE**\ 는 브로커의 모드를 설정하는 파라미터로 기본값은 **RW**\ 이다. 자세한 내용은 :ref:`ha-cubrid-broker-conf` 를 참고한다.
+    **ACCESS_MODE** 는 브로커의 모드를 설정하는 파라미터로 기본값은 **RW** 이다. 자세한 내용은 :ref:`ha-cubrid-broker-conf` 를 참고한다.
 
 **BROKER_PORT**
 
-    **BROKER_PORT**\ 는 해당 브로커의 포트 번호를 지정하기 위한 파라미터로 시스템 내에서 유일한 값이면서 65,535 이하의 값이어야 한다. **query_editor** 의 브로커 포트는 기본값이 **30,000** 으로 설정되며, **broker1** 의 브로커 포트는 기본값이 **33,000** 으로 설정된다.
+    **BROKER_PORT** 는 해당 브로커의 포트 번호를 지정하기 위한 파라미터로 시스템 내에서 유일한 값이면서 65,535 이하의 값이어야 한다. **query_editor** 의 브로커 포트는 기본값이 **30,000** 으로 설정되며, **broker1** 의 브로커 포트는 기본값이 **33,000** 으로 설정된다.
 
 **CONNECT_ORDER**
 
-    CAS가 연결할 호스트 순서를 결정할 때 **$CUBRID_DATABASES/databases.txt**\ 에 설정된 호스트에서 순서대로 연결을 시도할지 랜덤한 순서대로 연결을 시도할지를 지정하는 파라미터이다.
-    기본값은 **SEQ**\ 이며 순서대로 연결을 시도한다. 이 값이 **RANDOM**\ 이면 랜덤한 순서대로 연결을 시도한다. **PREFERRED_HOSTS** 파라미터 값이 명시되어 있으면 먼저 **PREFERRED_HOSTS**\ 에 명시된 호스트의 순서대로 연결을 시도한 후 실패할 경우에만 **$CUBRID_DATABASES/databases.txt**\의 설정 값을 사용한다.
+    CAS가 연결할 호스트 순서를 결정할 때 **$CUBRID_DATABASES/databases.txt** 에 설정된 호스트에서 순서대로 연결을 시도할지 랜덤한 순서대로 연결을 시도할지를 지정하는 파라미터이다.
+    기본값은 **SEQ** 이며 순서대로 연결을 시도한다. 이 값이 **RANDOM** 이면 랜덤한 순서대로 연결을 시도한다. **PREFERRED_HOSTS** 파라미터 값이 명시되어 있으면 먼저 **PREFERRED_HOSTS** 에 명시된 호스트의 순서대로 연결을 시도한 후 실패할 경우에만 **$CUBRID_DATABASES/databases.txt** 의 설정 값을 사용한다.
 
 **ENABLE_MONITOR_HANG**
 
-    **ENABLE_MONITOR_HANG**\ 은 일정 비율 이상의 CAS가 멈춘(hang) 것으로 판단되면 응용 프로그램이 해당 브로커로의 접속을 차단할 것인지 지정하는 파라미터이다. 이 값이 ON이면 해당 기능을 수행한다. 기본값은 OFF로, 해당 기능을 수행하지 않는다. 
+    **ENABLE_MONITOR_HANG** 은 일정 비율 이상의 CAS가 멈춘(hang) 것으로 판단되면 응용 프로그램이 해당 브로커로의 접속을 차단할 것인지 지정하는 파라미터이다. 이 값이 ON이면 해당 기능을 수행한다. 기본값은 OFF로, 해당 기능을 수행하지 않는다. 
 
     브로커 프로세스는 CAS의 멈춤(hang)이 1분 이상 지속되는 경우 CAS를 멈춘(hang) 상태로 판단하고, 해당 CAS의 개수에 따라 해당 브로커 프로세스가 비정상으로 판단되면 정상화되기 전까지 해당 브로커로 접속을 시도하는 응용 프로그램을 차단하여, 접속 URL에 설정한 대체 호스트(altHosts)로의 접속을 유도한다.
 
 **KEEP_CONNECTION**
 
-    **KEEP_CONNECTION**\ 은 CAS와 응용 클라이언트 사이의 연결 방식을 지정하는 파라미터로 **ON** / **AUTO** 중 하나로 설정된다. 이 파라미터가 **ON** 으로 설정되면 커넥션 단위로 CAS와 연결한다. 또한 **AUTO**\ 로 설정되면 CAS의 개수가 클라이언트 개수보다 많은 경우 커넥션 단위로 연결하고, CAS의 개수가 클라이언트의 개수보다 적은 경우 트랜잭션 단위로 연결한다. 기본값은 **AUTO**\ 이다.
+    **KEEP_CONNECTION** 은 CAS와 응용 클라이언트 사이의 연결 방식을 지정하는 파라미터로 **ON** / **AUTO** 중 하나로 설정된다. 이 파라미터가 **ON** 으로 설정되면 커넥션 단위로 CAS와 연결한다. 또한 **AUTO** 로 설정되면 CAS의 개수가 클라이언트 개수보다 많은 경우 커넥션 단위로 연결하고, CAS의 개수가 클라이언트의 개수보다 적은 경우 트랜잭션 단위로 연결한다. 기본값은 **AUTO** 이다.
 
 **MAX_NUM_DELAYED_HOSTS_LOOKUP**
 
-    databases.txt의 db-host에 여러 대의 DB 서버를 명시한 HA 환경에서 거의 모든 DB 서버에서 복제 지연이 발생하는 경우, **MAX_NUM_DELAYED_HOSTS_LOOKUP** 파라미터에서 명시한 대수의 복제 지연 서버까지만 연결 여부를 검토한 후 연결을 결정한다(어떤 DB 서버의 복제 지연 여부는 standby 상태의 호스트만을 대상으로 판단하며, :ref:`ha_delay_limit <ha_delay_limit>` 파라미터의 설정에 따라 결정됨). 보다 자세한 사항은 :ref:`MAX_NUM_DELAYED_HOSTS_LOOKUP <MAX_NUM_DELAYED_HOSTS_LOOKUP>`\ 을 참고한다.
+    databases.txt의 db-host에 여러 대의 DB 서버를 명시한 HA 환경에서 거의 모든 DB 서버에서 복제 지연이 발생하는 경우, **MAX_NUM_DELAYED_HOSTS_LOOKUP** 파라미터에서 명시한 대수의 복제 지연 서버까지만 연결 여부를 검토한 후 연결을 결정한다(어떤 DB 서버의 복제 지연 여부는 standby 상태의 호스트만을 대상으로 판단하며, :ref:`ha_delay_limit <ha_delay_limit>` 파라미터의 설정에 따라 결정됨). 보다 자세한 사항은 :ref:`MAX_NUM_DELAYED_HOSTS_LOOKUP <MAX_NUM_DELAYED_HOSTS_LOOKUP>` 을 참고한다.
 
 **PREFERRED_HOSTS**
 
-    **PREFERRED_HOSTS**\ 는 CAS가 우선적으로 연결할 호스트 순서를 지정하는 파라미터이다. **PREFERRED_HOSTS**\ 에 설정된 호스트 순서대로 연결을 시도했으나 실패하는 경우 **$CUBRID_DATABASES/databases.txt**\ 에 설정된 호스트 순서대로 연결을 시도한다. 기본값은 **NULL**\ 이다. 자세한 내용은 :ref:`ha-cubrid-broker-conf` 를 참고한다.
+    **PREFERRED_HOSTS** 는 CAS가 우선적으로 연결할 호스트 순서를 지정하는 파라미터이다. **PREFERRED_HOSTS** 에 설정된 호스트 순서대로 연결을 시도했으나 실패하는 경우 **$CUBRID_DATABASES/databases.txt** 에 설정된 호스트 순서대로 연결을 시도한다. 기본값은 **NULL** 이다. 자세한 내용은 :ref:`ha-cubrid-broker-conf` 를 참고한다.
 
 .. _reconnect_time:
     
 **RECONNECT_TIME** 
   
-    특정 상황에서 **RECONNECT_TIME**\으로 명시한 시간이 경과하면 CAS가 다른 DB 서버에 재연결을 시도한다. 기본값은 600s(10min)이다. 값 뒤에 ms, s, min, h의 단위 지정이 가능하며, 각각 milliseconds, seconds, minutes, hours를 의미한다. 단위가 생략되면 s로 지정된다. 
+    특정 상황에서 **RECONNECT_TIME** 으로 명시한 시간이 경과하면 CAS가 다른 DB 서버에 재연결을 시도한다. 기본값은 600s(10min)이다. 값 뒤에 ms, s, min, h의 단위 지정이 가능하며, 각각 milliseconds, seconds, minutes, hours를 의미한다. 단위가 생략되면 s로 지정된다. 
   
     CAS가 서버에 재연결을 시도하는 특정 상황은 다음과 같다. 
      
-    *   CAS가 **PREFERRED_HOSTS**\에 명시한 DB 서버가 아닌 databases.txt의 db-host에 명시한 DB 서버에 연결한 경우
+    *   CAS가 **PREFERRED_HOSTS** 에 명시한 DB 서버가 아닌 databases.txt의 db-host에 명시한 DB 서버에 연결한 경우
     *   "ACCESS_MODE=RO"(Read Only)인 CAS가 standby DB 서버가 아닌 active DB 서버에 연결한 경우 
     *   CAS가 복제 지연 상태인 DB 서버와 연결한 경우
     
@@ -2143,7 +2143,7 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
 **REPLICA_ONLY**
   
-    **REPLICA_ONLY**\의 값이 **ON**\이면 CAS가 레플리카에만 접속된다. 기본값은 **OFF**\이다. **REPLICA_ONLY**\의 값이 **ON**\이더라도 **ACCESS_MODE**\의 값이 **RW**\이면 레플리카 DB에 직접 접속하여 쓰기 작업을 수행할 수 있다. 단, 레플리카에 직접 쓰는 데이터는 복제되지 않는다.
+    **REPLICA_ONLY** 의 값이 **ON** 이면 CAS가 레플리카에만 접속된다. 기본값은 **OFF** 이다. **REPLICA_ONLY** 의 값이 **ON** 이더라도 **ACCESS_MODE** 의 값이 **RW** 이면 레플리카 DB에 직접 접속하여 쓰기 작업을 수행할 수 있다. 단, 레플리카에 직접 쓰는 데이터는 복제되지 않는다.
 
     .. note::
     
@@ -2154,15 +2154,15 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
 **APPL_SERVER_MAX_SIZE**
 
-    **APPL_SERVER_MAX_SIZE**\ 는 CAS가 처리하는 프로세스 메모리 사용량의 최대 크기를 지정하는 파라미터이다. 값 뒤에 B, K, M, G로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes를 의미한다. 단위 생략 시 M으로 지정된다. 
+    **APPL_SERVER_MAX_SIZE** 는 CAS가 처리하는 프로세스 메모리 사용량의 최대 크기를 지정하는 파라미터이다. 값 뒤에 B, K, M, G로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes를 의미한다. 단위 생략 시 M으로 지정된다. 
     
-    이 파라미터는 진행 중인 트랜잭션이 있을 경우 사용자에 의해 정상 종료(커밋 혹은 롤백)되기를 기다렸다가 CAS를 재구동하는 동작에 영향을 준다. **APPL_SERVER_MAX_SIZE_HARD_LIMIT**\ 는 **APPL_SERVER_MAX_SIZE**\ 와 비슷하지만, 진행 중인 트랜잭션이 있을 경우 이를 강제 종료(롤백)하고 CAS를 재구동하는 동작에 영향을 준다는 점이 다르다.
+    이 파라미터는 진행 중인 트랜잭션이 있을 경우 사용자에 의해 정상 종료(커밋 혹은 롤백)되기를 기다렸다가 CAS를 재구동하는 동작에 영향을 준다. **APPL_SERVER_MAX_SIZE_HARD_LIMIT** 는 **APPL_SERVER_MAX_SIZE** 와 비슷하지만, 진행 중인 트랜잭션이 있을 경우 이를 강제 종료(롤백)하고 CAS를 재구동하는 동작에 영향을 준다는 점이 다르다.
 
     **APPL_SERVER_MAX_SIZE** 파라미터는 Windows 버전과 Linux 버전의 기본값이 다르므로 주의한다.
 
     Windows 버전의 CUBRID는 32비트 버전에서는 **APPL_SERVER_MAX_SIZE** 의 기본값이 **40** (MB)이고, 64비트 버전에서는 **80** (MB)이다. 최대값은  Windows 버전과 Linux 버전 모두 동일하며 2,097,151 (MB)이다. 현재 프로세스의 크기가 **APPL_SERVER_MAX_SIZE** 의 값을 초과하면, 브로커가 해당 CAS를 재구동한다.
 
-    Linux 버전의 CUBRID는 **APPL_SERVER_MAX_SIZE** 의 기본값이 **0**\ 이고, 다음의 경우에 해당 CAS를 재구동한다. 
+    Linux 버전의 CUBRID는 **APPL_SERVER_MAX_SIZE** 의 기본값이 **0** 이고, 다음의 경우에 해당 CAS를 재구동한다. 
 
     *   **APPL_SERVER_MAX_SIZE** 의 값이 0 또는 음수인 경우: 현재 프로세스의 크기가 CAS의 초기 메모리의 2배가 될 때
     *   **APPL_SERVER_MAX_SIZE** 의 값이 양수인 경우: **APPL_SERVER_MAX_SIZE** 의 설정 값을 초과할 때
@@ -2173,17 +2173,17 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
 **APPL_SERVER_MAX_SIZE_HARD_LIMIT**
  
-    **APPL_SERVER_MAX_SIZE_HARD_LIMIT**\ 는 CAS가 처리하는 프로세스 메모리 사용량의 최대 크기를 지정하는 파라미터이다. 값 뒤에 B, K, M, G로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes를 의미한다. 단위 생략 시 M으로 지정된다. 기본값은 **1,024** (MB)이며, 최대값은 2,097,151 (MB)이다. 
+    **APPL_SERVER_MAX_SIZE_HARD_LIMIT** 는 CAS가 처리하는 프로세스 메모리 사용량의 최대 크기를 지정하는 파라미터이다. 값 뒤에 B, K, M, G로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes를 의미한다. 단위 생략 시 M으로 지정된다. 기본값은 **1,024** (MB)이며, 최대값은 2,097,151 (MB)이다. 
     
-    이 파라미터는 진행 중인 트랜잭션이 있어도 이를 강제 종료(롤백)하고 CAS를 재구동하는 동작에 영향을 준다. **APPL_SERVER_MAX_SIZE**\ 는 **APPL_SERVER_MAX_SIZE_HARD_LIMIT**\ 와 비슷하지만, 진행 중인 트랜잭션이 있을 경우 사용자에 의해 정상 종료(커밋 혹은 롤백)되기를 기다렸다가 CAS를 재구동하는 동작에 영향을 준다는 점이 다르다.
+    이 파라미터는 진행 중인 트랜잭션이 있어도 이를 강제 종료(롤백)하고 CAS를 재구동하는 동작에 영향을 준다. **APPL_SERVER_MAX_SIZE** 는 **APPL_SERVER_MAX_SIZE_HARD_LIMIT** 와 비슷하지만, 진행 중인 트랜잭션이 있을 경우 사용자에 의해 정상 종료(커밋 혹은 롤백)되기를 기다렸다가 CAS를 재구동하는 동작에 영향을 준다는 점이 다르다.
  
     .. note:: 
  
-        이 값을 너무 작게 설정하면 CAS가 빈번하게 재구동될 수 있으므로 주의한다. CAS를 재구동할 때 메모리 사용량이 증가해도 트랜잭션이 정상 종료되기까지 기다리기 위해 **APPL_SERVER_MAX_SIZE**\ 를 설정하고, 메모리 사용량이 허용하는 기준을 넘으면 트랜잭션을 강제 종료하기 위해 **APPL_SERVER_MAX_SIZE_HARD_LIMIT**\ 를 설정한다. 따라서, 일반적으로 **APPL_SERVER_MAX_SIZE_HARD_LIMIT** 의 값을 **APPL_SERVER_MAX_SIZE** 의 값보다 크게 설정한다.
+        이 값을 너무 작게 설정하면 CAS가 빈번하게 재구동될 수 있으므로 주의한다. CAS를 재구동할 때 메모리 사용량이 증가해도 트랜잭션이 정상 종료되기까지 기다리기 위해 **APPL_SERVER_MAX_SIZE** 를 설정하고, 메모리 사용량이 허용하는 기준을 넘으면 트랜잭션을 강제 종료하기 위해 **APPL_SERVER_MAX_SIZE_HARD_LIMIT** 를 설정한다. 따라서, 일반적으로 **APPL_SERVER_MAX_SIZE_HARD_LIMIT** 의 값을 **APPL_SERVER_MAX_SIZE** 의 값보다 크게 설정한다.
 
 **APPL_SERVER_PORT**
 
-    **APPL_SERVER_PORT**\ 는 Windows 운영체제에서만 추가하는 파라미터로 응용 클라이언트와 통신하는 CAS의 통신 포트를 지정하는 파라미터이다. Linux 운영체제에서는 응용 클라이언트와 CAS가 통신하기 위해 유닉스 도메인 소켓(unix domain socket)을 사용하므로, **APPL_SERVER_PORT** 가 사용되지 않는다. 기본값은 **BROKER_PORT** 파라미터 값에 1을 더한 값으로 설정되며, 지정한 번호의 포트부터 1씩 더한 번호의 포트들이 CAS의 개수만큼 사용된다. 예를 들어, **BROKER_PORT** 의 값이 30,000이고 **APPL_SERVER_PORT** 의 값을 설정하지 않은 상태에서 **MIN_NUM_APPL_SERVER** 의 값이 5이면 브로커 초기 구동 시 5개의 CAS가 각각 30,001~30,005의 포트를 사용한다. 같은 조건이고 **APPL_SERVER_PORT** 의 값만 35,000라면 브로커 초기 구동 시 5개의 CAS가 각각 35,000~35,004의 포트를 사용한다.  CAS의 최대 개수가 **cubrid_broker_conf** 의 **MAX_NUM_APPL_SERVER** 파라미터에 의해 제한되므로 설정할 수 있는 CAS의 통신 포트의 개수 역시 최대 **MAX_NUM_APPL_SERVER** 파라미터의 설정값으로 제한된다.
+    **APPL_SERVER_PORT** 는 Windows 운영체제에서만 추가하는 파라미터로 응용 클라이언트와 통신하는 CAS의 통신 포트를 지정하는 파라미터이다. Linux 운영체제에서는 응용 클라이언트와 CAS가 통신하기 위해 유닉스 도메인 소켓(unix domain socket)을 사용하므로, **APPL_SERVER_PORT** 가 사용되지 않는다. 기본값은 **BROKER_PORT** 파라미터 값에 1을 더한 값으로 설정되며, 지정한 번호의 포트부터 1씩 더한 번호의 포트들이 CAS의 개수만큼 사용된다. 예를 들어, **BROKER_PORT** 의 값이 30,000이고 **APPL_SERVER_PORT** 의 값을 설정하지 않은 상태에서 **MIN_NUM_APPL_SERVER** 의 값이 5이면 브로커 초기 구동 시 5개의 CAS가 각각 30,001~30,005의 포트를 사용한다. 같은 조건이고 **APPL_SERVER_PORT** 의 값만 35,000라면 브로커 초기 구동 시 5개의 CAS가 각각 35,000~35,004의 포트를 사용한다.  CAS의 최대 개수가 **cubrid_broker_conf** 의 **MAX_NUM_APPL_SERVER** 파라미터에 의해 제한되므로 설정할 수 있는 CAS의 통신 포트의 개수 역시 최대 **MAX_NUM_APPL_SERVER** 파라미터의 설정값으로 제한된다.
  
     Windows 운영체제에서 응용 클라이언트와 CUBRID 브로커 사이에 방화벽이 존재한다면 반드시 **BROKER_PORT** 및 **APPL_SERVER_PORT** 에서 설정된 통신 포트를 열어야 한다.
  
@@ -2193,25 +2193,25 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
 **APPL_SERVER_SHM_ID**
 
-    **APPL_SERVER_SHM_ID**\ 는 CAS가 이용하는 공유 메모리 ID를 지정하기 위한 파라미터로 시스템 내에서 유일한 값이어야 한다. 기본값은 해당 브로커의 포트와 동일한 값이다.
+    **APPL_SERVER_SHM_ID** 는 CAS가 이용하는 공유 메모리 ID를 지정하기 위한 파라미터로 시스템 내에서 유일한 값이어야 한다. 기본값은 해당 브로커의 포트와 동일한 값이다.
 
 **AUTO_ADD_APPL_SERVER**
     
-    **AUTO_ADD_APPL_SERVER**\ 는 필요한 경우 CAS를 **MAX_NUM_APPL_SERVER** 값까지 자동으로 증가시킬지 설정하는 파라미터로 ON과 OFF를 가지며, 기본값은 **ON**\ 이다.
+    **AUTO_ADD_APPL_SERVER** 는 필요한 경우 CAS를 **MAX_NUM_APPL_SERVER** 값까지 자동으로 증가시킬지 설정하는 파라미터로 ON과 OFF를 가지며, 기본값은 **ON** 이다.
 
 .. _max-num-appl-server:
 
 **MAX_NUM_APPL_SERVER**
 
-    **MAX_NUM_APPL_SERVER**\ 는 해당 브로커에 동시 접속할 수 있는 CAS의 최대 개수를 설정하는 파라미터로, 기본값은 **40**\ 이다.
+    **MAX_NUM_APPL_SERVER** 는 해당 브로커에 동시 접속할 수 있는 CAS의 최대 개수를 설정하는 파라미터로, 기본값은 **40** 이다.
 
 **MIN_NUM_APPL_SERVER**
 
-    **MIN_NUM_APPL_SERVER**\ 는 해당 브로커에 대한 연결 요청이 없더라도 기본적으로 대기하고 있는 CAS 프로세스의 최소 개수를 설정하는 파라미터로, 기본값은 **5**\ 이다.
+    **MIN_NUM_APPL_SERVER** 는 해당 브로커에 대한 연결 요청이 없더라도 기본적으로 대기하고 있는 CAS 프로세스의 최소 개수를 설정하는 파라미터로, 기본값은 **5** 이다.
 
 **TIME_TO_KILL**
 
-    **TIME_TO_KILL**\ 은 자동 추가된 CAS 중 유휴 상태의 CAS를 제거하기 위한 기준 시간을 설정하는 파라미터이다. 값 뒤에 ms, s, min, h의 단위 지정이 가능하며, 각각 milliseconds, seconds, minutes, hours를 의미한다. 단위가 생략되면 s로 지정되며, 기본값은 **120**\ s이다. 
+    **TIME_TO_KILL** 은 자동 추가된 CAS 중 유휴 상태의 CAS를 제거하기 위한 기준 시간을 설정하는 파라미터이다. 값 뒤에 ms, s, min, h의 단위 지정이 가능하며, 각각 milliseconds, seconds, minutes, hours를 의미한다. 단위가 생략되면 s로 지정되며, 기본값은 **120** s이다. 
     
     유휴 상태(idle)란 작업이 없이 쉬고 있는 상태로, 이 상태가 **TIME_TO_KILL** 시간 이상 유지되면 해당 CAS를 제거한다.
 
@@ -2224,17 +2224,17 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
 **CCI_DEFAULT_AUTOCOMMIT**
 
-    **CCI_DEFAULT_AUTOCOMMIT**\ 은 CCI 인터페이스 또는 CCI기반 인터페이스(PHP, OLE DB, Perl, Python, Ruby 등)로 개발된 응용 프로그램의 자동 커밋 여부를 설정하는 파라미터로 기본값은 **ON**\ 이다. 이 파라미터는 JDBC로 개발된 응용 프로그램에는 영향을 끼치지 않는다. 
+    **CCI_DEFAULT_AUTOCOMMIT** 은 CCI 인터페이스 또는 CCI기반 인터페이스(PHP, OLE DB, Perl, Python, Ruby 등)로 개발된 응용 프로그램의 자동 커밋 여부를 설정하는 파라미터로 기본값은 **ON** 이다. 이 파라미터는 JDBC로 개발된 응용 프로그램에는 영향을 끼치지 않는다. 
 
     **CCI_DEFAULT_AUTOCOMMIT** 파라미터의 값이 OFF인 경우 트랜잭션이 종료될 때까지 브로커 응용 서버(CAS) 프로세스를 점유한 상태가 되므로, **SELECT** 문 수행 시에도 fetch 완료 후 반드시 커밋을 수행할 것을 권장한다.
 
     .. note:: 
 
-        **CCI_DEFAULT_AUTOCOMMIT**  파라미터는 2008 R4.0부터 지원하기 시작했고, 이 때 기본값은 OFF였다. **CCI_DEFAULT_AUTOCOMMIT**\ 을 설정하지 않은 2008 R4.0 혹은 그 전 버전 사용자는 자동 커밋 모드가 OFF이므로, 2008 R4.1 이상 버전으로 업그레이드한 사용자가 기존 응용 프로그램을 그대로 사용하고자 하는 경우, 이 값을 OFF로 설정해야 의도하지 않은 트랜잭션의 자동 커밋을 방지할 수 있다.
+        **CCI_DEFAULT_AUTOCOMMIT**  파라미터는 2008 R4.0부터 지원하기 시작했고, 이 때 기본값은 OFF였다. **CCI_DEFAULT_AUTOCOMMIT** 을 설정하지 않은 2008 R4.0 혹은 그 전 버전 사용자는 자동 커밋 모드가 OFF이므로, 2008 R4.1 이상 버전으로 업그레이드한 사용자가 기존 응용 프로그램을 그대로 사용하고자 하는 경우, 이 값을 OFF로 설정해야 의도하지 않은 트랜잭션의 자동 커밋을 방지할 수 있다.
 
     .. warning:: 
 
-        ODBC 드라이버는 **CCI_DEFAULT_AUTOCOMMIT**\ 의 설정이 무시되어 항상 OFF인 상태로 동작하므로, 프로그램에서 자동 커밋 여부를 직접 설정해야 한다.
+        ODBC 드라이버는 **CCI_DEFAULT_AUTOCOMMIT** 의 설정이 무시되어 항상 OFF인 상태로 동작하므로, 프로그램에서 자동 커밋 여부를 직접 설정해야 한다.
 
 **LONG_QUERY_TIME**
 
@@ -2246,7 +2246,7 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
 **LONG_TRANSACTION_TIME**
 
-    **LONG_TRANSACTION_TIME**\ 은 장기 실행 트랜잭션(long-duration transaction)으로 판단될 트랜잭션의 실행 시간을 설정하는 파라미터이다. 값 뒤에 ms, s, min, h의 단위 지정이 가능하며, 각각 milliseconds, seconds, minutes, hours를 의미한다. 단위가 생략되면 s로 지정된다. 기본값은 **60** (초)이고, 최대값은 86,400(하루)이다.
+    **LONG_TRANSACTION_TIME** 은 장기 실행 트랜잭션(long-duration transaction)으로 판단될 트랜잭션의 실행 시간을 설정하는 파라미터이다. 값 뒤에 ms, s, min, h의 단위 지정이 가능하며, 각각 milliseconds, seconds, minutes, hours를 의미한다. 단위가 생략되면 s로 지정된다. 기본값은 **60** (초)이고, 최대값은 86,400(하루)이다.
 
     소수점을 사용하여 밀리초(msec) 단위의 값을 설정할 수 있다. 예를 들어 값을 0.5로 설정하여 500밀리초로 설정할 수 있다. 
     
@@ -2256,14 +2256,14 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
 **MAX_PREPARED_STMT_COUNT**
 
-    **MAX_PREPARED_STMT_COUNT**\ 은 사용자(응용 프로그램) 접속 당 허용하는 prepared statement의 개수를 제한하는 파라미터이다. 기본값은 **2,000**\ 이며 최소값은 1이다. 이 파라미터 값을 사용자가 적절히 지정함으로써, 응용 프로그램의 작성 실수로 인해 시스템이 허용하는 메모리를 초과하여 prepared statement 문을 생성하는 것을 사전에 방지할 수 있다.
+    **MAX_PREPARED_STMT_COUNT** 은 사용자(응용 프로그램) 접속 당 허용하는 prepared statement의 개수를 제한하는 파라미터이다. 기본값은 **2,000** 이며 최소값은 1이다. 이 파라미터 값을 사용자가 적절히 지정함으로써, 응용 프로그램의 작성 실수로 인해 시스템이 허용하는 메모리를 초과하여 prepared statement 문을 생성하는 것을 사전에 방지할 수 있다.
     
-    .. note:: **broker_changer** 명령을 이용하여 **MAX_PREPARED_STMT_COUNT**\의 값을 동적으로 변경하고자 하는 경우 이전의 설정 값보다 큰 값으로 설정하는 경우만 허용하며, 이전의 설정 값보다 작은 값으로 설정하는 것은 허용하지 않는다.
+    .. note:: **broker_changer** 명령을 이용하여 **MAX_PREPARED_STMT_COUNT** 의 값을 동적으로 변경하고자 하는 경우 이전의 설정 값보다 큰 값으로 설정하는 경우만 허용하며, 이전의 설정 값보다 작은 값으로 설정하는 것은 허용하지 않는다.
 
 **MAX_QUERY_TIMEOUT**
 
-    **MAX_QUERY_TIMEOUT**\ 은 질의 수행의 타임아웃을 설정하는 브로커 파라미터로, 질의 수행을 시작한 후 지정 시간을 초과하면 수행하던 질의를 멈추고 롤백한다. 
-    값 뒤에 ms, s, min, h의 단위 지정이 가능하며, 각각 milliseconds, seconds, minutes, hours를 의미한다. 단위가 생략되면 s로 지정된다. 기본값은 **0**\ 이며, 무한 대기를 의미한다. 값의 범위는 0부터 86400초(1일)까지이다. 
+    **MAX_QUERY_TIMEOUT** 은 질의 수행의 타임아웃을 설정하는 브로커 파라미터로, 질의 수행을 시작한 후 지정 시간을 초과하면 수행하던 질의를 멈추고 롤백한다. 
+    값 뒤에 ms, s, min, h의 단위 지정이 가능하며, 각각 milliseconds, seconds, minutes, hours를 의미한다. 단위가 생략되면 s로 지정된다. 기본값은 **0** 이며, 무한 대기를 의미한다. 값의 범위는 0부터 86400초(1일)까지이다. 
     
     응용 프로그램에서 질의 타임아웃을 설정한 경우, 0을 제외하고 **MAX_QUERY_TIMEOUT** 값과 응용 프로그램의 질의 타임아웃 값 중 작은 값을 적용한다.
 
@@ -2273,14 +2273,14 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
 **SESSION_TIMEOUT**
 
-    **SESSION_TIMEOUT**\ 은 응용 클라이언트에 대한 CAS의 세션 타임 아웃 값을 설정하는 파라미터이다. 
+    **SESSION_TIMEOUT** 은 응용 클라이언트에 대한 CAS의 세션 타임 아웃 값을 설정하는 파라미터이다. 
     값 뒤에 ms, s, min, h의 단위 지정이 가능하며, 각각 milliseconds, seconds, minutes, hours를 의미한다. 단위가 생략되면 s로 지정된다. 기본값은 **300** (초)이다. 
     
     트랜잭션 시작 이후 커밋 혹은 롤백하지 않은 채로 아무런 요청이 없는 상태에서 이 파라미터가 설정한 시간을 초과하면 해당 응용 클라이언트와 CAS 간의 접속이 종료된다. 
 
 **STATEMENT_POOLING**
 
-    **STATEMENT_POOLING**\ 은 statement 풀링 기능의 사용 여부를 설정하는 파라미터로 기본값은 **ON**\ 이다.
+    **STATEMENT_POOLING** 은 statement 풀링 기능의 사용 여부를 설정하는 파라미터로 기본값은 **ON** 이다.
 
     CUBRID는 트랜잭션이 커밋 또는 롤백되는 경우, 해당 클라이언트 세션에 존재하는 prepared statement의 핸들을 모두 close하는데, **STATEMENT_POOLING** 의 값이 **ON** 인 경우에는 prepared statement의 핸들을 지속적으로 풀에 유지하므로 이를 재사용할 수 있다. 따라서, prepared statement를 재사용하는 일반 응용 프로그램 또는 statement pooling이 구현된 DBCP와 같은 라이브러리가 적용된 환경에서는 반드시 기본 설정(**ON**)을 유지해야 한다.
 
@@ -2299,11 +2299,11 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
 **ACCESS_LOG**
 
-    **ACCESS_LOG**\ 는 해당 브로커의 접속 로그를 저장할 것인지 지정하는 파라미터로 기본값은 **OFF**\ 이다. 브로커 접속 로그 파일명은 *broker_name*\ **.access**\ 이고, **$CUBRID/log/broker** 디렉터리에 저장된다.
+    **ACCESS_LOG** 는 해당 브로커의 접속 로그를 저장할 것인지 지정하는 파라미터로 기본값은 **OFF** 이다. 브로커 접속 로그 파일명은 *broker_name*\ **.access**\ 이고, **$CUBRID/log/broker** 디렉터리에 저장된다.
 
 **ACCESS_LOG_DIR** 
      
-    **ACCESS_LOG_DIR**  은 브로커 접속 로그(**ACCESS_LOG**) 파일이 생성되는 디렉토리를 지정한다. 기본값은 **log/broker**\ 이다. 
+    **ACCESS_LOG_DIR**  은 브로커 접속 로그(**ACCESS_LOG**) 파일이 생성되는 디렉토리를 지정한다. 기본값은 **log/broker** 이다. 
 
 **ACCESS_LOG_MAX_SIZE**
 
@@ -2311,25 +2311,25 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
 **ERROR_LOG_DIR**
 
-    **ERROR_LOG_DIR**  은 브로커에 대한 에러 로그가 저장되는 디렉터리를 지정하는 파라미터로, 기본값은 **log/broker/error_log**\ 이다. 브로커 에러 로그 파일명은 *broker_ name_id.err*\ 이다.
+    **ERROR_LOG_DIR**  은 브로커에 대한 에러 로그가 저장되는 디렉터리를 지정하는 파라미터로, 기본값은 **log/broker/error_log** 이다. 브로커 에러 로그 파일명은 *broker_ name_id.err*\ 이다.
 
 **LOG_DIR**
                        
-    **LOG_DIR**\ 은 SQL 로그가 저장되는 디렉터리를 지정하는 파라미터로, 기본값은 **log/broker/sql_log**\ 이다. SQL 로그가 기록되는 파일명은 *broker_name_id.sql.log*\ 이다.
+    **LOG_DIR** 은 SQL 로그가 저장되는 디렉터리를 지정하는 파라미터로, 기본값은 **log/broker/sql_log** 이다. SQL 로그가 기록되는 파일명은 *broker_name_id.sql.log* 이다.
 
 .. _slow-log:
 
 **SLOW_LOG**
 
-    SLOW SQL 로깅 여부를 지정하는 파라미터이다. 기본값은 **ON**\ 이다. 이 값이 **ON**\ 이면 **LONG_QUERY_TIME** 시간을 초과한 장기 실행(long-duration query) 질의문 또는 에러가 발생한 질의문이 SLOW SQL 로그 파일에 저장된다. 생성되는 파일의 이름은 *broker_name_id.slow.log*\ 이며, **SLOW_LOG_DIR** 이하에 생성된다.
+    SLOW SQL 로깅 여부를 지정하는 파라미터이다. 기본값은 **ON** 이다. 이 값이 **ON** 이면 **LONG_QUERY_TIME** 시간을 초과한 장기 실행(long-duration query) 질의문 또는 에러가 발생한 질의문이 SLOW SQL 로그 파일에 저장된다. 생성되는 파일의 이름은 *broker_name_id.slow.log* 이며, **SLOW_LOG_DIR** 이하에 생성된다.
 
 **SLOW_LOG_DIR**
 
-    SLOW SQL 로그 파일이 생성되는 디렉터리를 지정한다. 기본값은 **log/broker/sql_log**\ 이다.
+    SLOW SQL 로그 파일이 생성되는 디렉터리를 지정한다. 기본값은 **log/broker/sql_log** 이다.
 
 **SQL_LOG**
 
-    **SQL_LOG**\ 는 응용 클라이언트의 요청에 따라 CAS가 처리한 SQL 문에 대해 어떤 로그를 기록할 것인지 결정하는 파라미터로 기본값은 **ON**\ 이다. 이 파라미터가 **ON** 으로 설정되면, 모든 로그를 기록한다. SQL 로그가 기록되는 파일명은 *broker_name_id.sql.log*\ 이며, 설치 디렉터리의 **log/broker/sql_log** 디렉터리에 생성된다. 파라미터 값은 다음과 같다.
+    **SQL_LOG** 는 응용 클라이언트의 요청에 따라 CAS가 처리한 SQL 문에 대해 어떤 로그를 기록할 것인지 결정하는 파라미터로 기본값은 **ON** 이다. 이 파라미터가 **ON** 으로 설정되면, 모든 로그를 기록한다. SQL 로그가 기록되는 파일명은 *broker_name_id.sql.log* 이며, 설치 디렉터리의 **log/broker/sql_log** 디렉터리에 생성된다. 파라미터 값은 다음과 같다.
 
     *   **OFF** : 모든 로그를 기록하지 않음
     *   **ERROR** : 에러가 발생한 질의에 대한 로그만 기록
@@ -2339,18 +2339,18 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
 **SQL_LOG_MAX_SIZE**
 
-    **SQL_LOG_MAX_SIZE**\ 는 SQL 로그 파일과 SLOW SQL 로그 파일의 최대 크기를 지정하는 파라미터이다. 
+    **SQL_LOG_MAX_SIZE** 는 SQL 로그 파일과 SLOW SQL 로그 파일의 최대 크기를 지정하는 파라미터이다. 
     값 뒤에 B, K, M, G로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes를 의미한다. 단위 생략 시 K로 지정된다. 기본값은 **10,000** (KB)이다. 
     
-    *   **SQL_LOG** 파라미터가 **ON** 으로 설정된 경우에 생성되는 SQL 로그 파일의 크기가 파라미터의 설정값에 도달하면 *broker_name_id.sql.log.bak*\ 이 생성된다.
-    *   **SLOW_LOG** 파라미터가 **ON** 으로 설정된 경우에 생성되는 SLOW SQL 로그 파일의 크기가 이 파라미터의 설정값에 도달하면 *broker_name_id.slow.log.bak*\ 이 생성된다.
+    *   **SQL_LOG** 파라미터가 **ON** 으로 설정된 경우에 생성되는 SQL 로그 파일의 크기가 파라미터의 설정값에 도달하면 *broker_name_id.sql.log.bak* 이 생성된다.
+    *   **SLOW_LOG** 파라미터가 **ON** 으로 설정된 경우에 생성되는 SLOW SQL 로그 파일의 크기가 이 파라미터의 설정값에 도달하면 *broker_name_id.slow.log.bak* 이 생성된다.
 
 기타
 ^^^^
 
 **MAX_STRING_LENGTH**
 
-    **MAX_STRING_LENGTH**\ 는 BIT, VARBIT, CHAR, VARCHAR인 데이터 타입에 대해서 최대 문자열 길이를 지정하는 파라미터이다. 기본값인 **-1**\ 로 설정되면 데이터베이스에서 정의된 문자열 길이가 그대로 사용되고, 파라미터의 값이 **100** 으로 설정되면 임의의 속성이 VARCHAR(1000)으로 정의되었어도 100으로 정의된 것처럼 동작한다.
+    **MAX_STRING_LENGTH** 는 BIT, VARBIT, CHAR, VARCHAR인 데이터 타입에 대해서 최대 문자열 길이를 지정하는 파라미터이다. 기본값인 **-1** 로 설정되면 데이터베이스에서 정의된 문자열 길이가 그대로 사용되고, 파라미터의 값이 **100** 으로 설정되면 임의의 속성이 VARCHAR(1000)으로 정의되었어도 100으로 정의된 것처럼 동작한다.
 
 **SERVICE**
 
@@ -2359,9 +2359,9 @@ CUBRID 설치 시 생성되는 기본 브로커 설정 파일인 **cubrid_broker
 
 **SOURCE_ENV**
 
-    **SOURCE_ENV** 는 브로커 각각에 대해 개별적으로 운영체제 환경 변수를 설정할 수 있는 파일을 정하는 파라미터로, 파일 확장자는 반드시 **env** 여야 한다. **cubrid.conf**\ 에서 지정하는 모든 파라미터는 환경 변수를 통해서도 설정할 수 있다. 예를 들어, **cubrid.conf**\ 에서 **lock_timeout**\ 은 환경 변수 **CUBRID_LOCK_TIMEOUT**\ 으로 지정할 수 있다. 또 다른 예로, broker1에서만 데이터 정의문 수행을 차단하려면 **SOURCE_ENV**\ 에서 지정한 파일에 **CUBRID_BLOCK_DDL_STATEMENT**\ 를 1로 설정하면 된다.
+    **SOURCE_ENV** 는 브로커 각각에 대해 개별적으로 운영체제 환경 변수를 설정할 수 있는 파일을 정하는 파라미터로, 파일 확장자는 반드시 **env** 여야 한다. **cubrid.conf** 에서 지정하는 모든 파라미터는 환경 변수를 통해서도 설정할 수 있다. 예를 들어, **cubrid.conf** 에서 **lock_timeout** 은 환경 변수 **CUBRID_LOCK_TIMEOUT** 으로 지정할 수 있다. 또 다른 예로, broker1에서만 데이터 정의문 수행을 차단하려면 **SOURCE_ENV** 에서 지정한 파일에 **CUBRID_BLOCK_DDL_STATEMENT** 를 1로 설정하면 된다.
 
-    환경변수가 있으면 **cubrid.conf** 보다 우선한다. 기본값은 **cubrid.env**\ 이다.
+    환경변수가 있으면 **cubrid.conf** 보다 우선한다. 기본값은 **cubrid.env** 이다.
 
 HA 설정
 =======

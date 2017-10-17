@@ -89,7 +89,7 @@ createdb
 
 .. option:: --db-volume-size=SIZE
 
-    :red:`이 옵션은 생성될 데이터베이스 볼륨의 크기를 지정한다. 기본값은 시스템 파라미터 **db_volume_size**에 지정된 값이다. 단위는 K, M, G 및 T로 설정할 수 있으며, 각각 킬로바이트(KB), 메가바이트(MB), 기가바이트(GB) 및 테라바이트(TB)를 나타낸다. 단위를 생략하면 바이트가 적용된다. 데이터베이스의 크기는 항상 64개 디스크 섹터로 올림된다. 이 값은 페이지의 크기에 따라 달라질 수 있으며, 페이지 크기가 각각 4k, 8k 및 16k인 경우 16M, 32M 또는 64M이 될 수 있다.`
+    :red:`이 옵션은 생성될 데이터베이스 볼륨의 크기를 지정한다. 기본값은 시스템 파라미터 **db_volume_size** 에 지정된 값이다. 단위는 K, M, G 및 T로 설정할 수 있으며, 각각 킬로바이트(KB), 메가바이트(MB), 기가바이트(GB) 및 테라바이트(TB)를 나타낸다. 단위를 생략하면 바이트가 적용된다. 데이터베이스의 크기는 항상 64개 디스크 섹터로 올림된다. 이 값은 페이지의 크기에 따라 달라질 수 있으며, 페이지 크기가 각각 4k, 8k 및 16k인 경우 16M, 32M 또는 64M이 될 수 있다.`
 
     다음은 첫 번째로 생성되는 testdb의 볼륨 크기를 512MB로 지정하는 구문이다. ::
 
@@ -197,10 +197,10 @@ createdb
     *   *volpurp*: :red:`볼륨이 사용되는 용도를 나타낸다. 영구적 데이터(기본 옵션) 볼륨 또는 일시적 데이터 볼륨 중에 하나를 사용할 수 있다.` 
      
  .. note::
-   :red:`이전 버전과의 호환성을 위해 **data**, **index**, **temp** 또는 **generic** 등 기존의 모든 키워드를 사용할 수 있다. **temp**는 일시적 데이터 볼륨이고, 나머지는 영구적 데이터 볼륨을 나타낸다`
+   :red:`이전 버전과의 호환성을 위해 **data**, **index**, **temp** 또는 **generic** 등 기존의 모든 키워드를 사용할 수 있다. **temp** 는 일시적 데이터 볼륨이고, 나머지는 영구적 데이터 볼륨을 나타낸다`
 
 
-    *   *volnpgs*: :red:`생성될 추가 볼륨의 페이지 수를 나타낸다. 볼륨의 페이지 수 지정은 생략할 수 없으며, 반드시 지정해야 한다. 실제 볼륨 크기는 **64 sectors**의 배수로 올림된다.`
+    *   *volnpgs*: :red:`생성될 추가 볼륨의 페이지 수를 나타낸다. 볼륨의 페이지 수 지정은 생략할 수 없으며, 반드시 지정해야 한다. 실제 볼륨 크기는 **64 sectors** 의 배수로 올림된다.`
 
 .. option:: --user-definition-file=FILE
 
@@ -284,7 +284,7 @@ createdb
 
     *  **temp_file_max_size_in_pages** :red:`디스크에 생성되는 일시적 임시 볼륨의 최대 크기(복잡한 질의 또는 배열 저장에 사용)를 설정하는 데 사용되는 파라미터이다. 기본값 **-1**을 사용할 경우, 디스크에 생성되는 일시적 임시 볼륨 크기가 **temp_volume_path** 파라미터로 지정된 디스크의 용량으로 제한된다. 이 값이 0인 경우 일시적 임시 볼륨을 생성할 수 없다. 이런 경우에는 :ref:`cubrid addvoldb <adding-database-volume>` 유틸리티를 사용해 임시 데이터를 위한 영구적 임시 볼륨을 추가해야 한다. 효율적인 저장소 관리를 위해서는 후자의 방법을 사용할 것을 권장한다.`
     
-    *   By using the :ref:`cubrid spacedb <spacedb>` :red:`유틸리티를 사용하면 각 볼륨의 남은 공간을 확인할 수 있다. :ref:`cubrid addvoldb <adding-database-volume>` 유틸리티를 사용하면 데이터베이스를 관리하면서 필요에 따라 볼륨을 더 추가할 수 있다. 시스템 부하가 적을 때 볼륨을 추가하는 것이 좋다. 사전 할당된 볼륨이 모두 사용 중이면 데이터베이스 시스템에서는 자동으로 새 볼륨을 생성한다.`
+    *  :ref:`cubrid spacedb <spacedb>` :red:`유틸리티를 사용하면 각 볼륨의 남은 공간을 확인할 수 있다. :ref:`cubrid addvoldb <adding-database-volume>` 유틸리티를 사용하면 데이터베이스를 관리하면서 필요에 따라 볼륨을 더 추가할 수 있다. 시스템 부하가 적을 때 볼륨을 추가하는 것이 좋다. 사전 할당된 볼륨이 모두 사용 중이면 데이터베이스 시스템에서는 자동으로 새 볼륨을 생성한다.`
 
 :red:`다음 예제에서는 영구적 임시 볼륨을 포함한 여러 볼륨을 추가하는 데이터베이스 생성 방법을 보여준다.` ::
 
@@ -371,7 +371,7 @@ addvoldb
                          
      :red:`예전 버전에는 PERMANENT DATA 볼륨이 generic, data 및 index로 구분되었으나, 이번 버전부터는 볼륨 구조에 대한 설계가 변경되어 볼륨의 구분이 없어졌다. 그러나 기존에 사용하던 스크립트의 오류를 방지하기 위해 예전에 사용하였던 keyword(generic, data, index)는 유지하였고, 기존 버전의 temp는 동일한 용도로 유지하였다.`
                             
-    :red:`각 용도에 대한 자세한 내용은 :ref:`database-volume-structure`를 참고한다.`
+     :red:`각 용도에 대한 자세한 내용은 :ref:`database-volume-structure`를 참고한다.`
                                
 .. option:: -S, --SA-mode
 
@@ -592,7 +592,7 @@ copydb
 
         cubrid copydb -r -F /home/usr/CUBRID/databases demodb new_demodb
 
-.. option:: -d 또는 --delete-source
+.. option:: -d, --delete-source
 
     새로운 데이터베이스로 복사한 후, 원본 데이터베이스를 제거한다. 이 옵션이 주어지면 데이터베이스 복사 후 **cubrid deletedb** 를 수행하는 것과 동일하다. 단, 원본 데이터베이스에 **LOB** 데이터를 포함하는 경우, 원본 데이터베이스 대한 **LOB** 파일 디렉터리 경로가 새로운 데이터베이스로 복사되어 **databases.txt** 의 **lob-base-path** 항목에 등록된다. ::
 
@@ -1447,7 +1447,7 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
     *  :red:`Snapshot: The stat is peeked from database.`
     *  :red:`Complex: The stat tracks multiple values for an action, separated by various attributes.`
 
-    :red:`Most statistics are accumulators (they are incremented when an action happens). Other statistics can be counter/timers (they track both number of actions and their duration), some are peeked from database (snapshot) and some are computed based on other values.  Lastly, there are several complex statistics which track detailed information on some operations.`
+    :red:`Most statistics are accumulators (they are incremented when an action happens). Other statistics can be counter/timers (they track both number of actions and their duration), some are peeked from database (snapshot) and some are computed based on other values.  Lastly, there are several complex statistics which track detailed information on some operations.`. 
 
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
     | Category         | Item                                     | Stat type      |  Description                                                          |
@@ -2101,7 +2101,7 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
 
 .. option:: -o, --output-file=FILE
 
-    대상 데이터베이스 서버의 실행 통계 정보를 지정된 파일에 저장한다. ::
+    **-o** 옵션을 이용하여 대상 데이터베이스 서버의 실행 통계 정보를 지정된 파일에 저장한다. ::
 
         cubrid statdump -o statdump.log testdb
 
@@ -2166,7 +2166,7 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
 
 .. note::
 
-    :red:`Some sets of performance statistics are activated/deactivated by **extended_statistics_activation** system parameter. Each set is represented by a value power of two. To be activated, it needs to be present in the base-2 representation of the system parameter. This is the lists of sets that can be manipulated` :
+    :red:`Some sets of performance statistics are activated/deactivated by **extended_statistics_activation** system parameter. Each set is represented by a value power of two. To be activated, it needs to be present in the base-2 representation of the system parameter. This is the lists of sets that can be manipulated`:
 
     
       ========= ===================================== =========== ====================================================================
@@ -2812,7 +2812,6 @@ HA 명령어
 -   **new** :red:`모드는 tzdata 폴더에 저장된 IANA 타임존 데이터를 C 소스 코드 파일로 컴파일할 때 사용한다.`
     :red:`이후 이 파일은 **make_tz.sh** (Linux) / **make_tz.bat** (Windows) 스크립트를 통해 Linux용 .so 공유 라이브러리나 Windows용 .dll 라이브러리로 변환된다.`
 -   **extend** :red:`모드는 new 모드와 비슷하지만 타임존 데이터를 다른 버전으로 갱신하고 기존 데이터와의 호환성을 유지하려고 할 때
-    사용하며, 항상 데이터베이스명 인자와 함께 사용한다.  단순히 두 가지  버전의 타임존 데이터를 병합하여 이전 데이터와의 호환성을 유지할 수 없는 경우에는 데이터베이스 테이블의 데이터를 갱신한다.
-    Linux에서는 **make_tz.sh -g extend**를 사용하고 Windows에서는 **make_tz.bat /extend**를 사용한다.`
+    사용하며, 항상 데이터베이스명 인자와 함께 사용한다.  단순히 두 가지  버전의 타임존 데이터를 병합하여 이전 데이터와의 호환성을 유지할 수 없는 경우에는 데이터베이스 테이블의 데이터를 갱신한다.  Linux에서는 **make_tz.sh -g extend** 를 사용하고 Windows에서는 **make_tz.bat /extend** 를 사용한다.`
 
 **cubrid dump_tz** :red:`유틸리티는 컴파일된 CUBRID 타임존 라이브러리 파일을 콘솔에서 사용자가 읽을 수 있는 형식으로 출력한다. 출력 정보는 리다이렉션(redirection)을 사용해서 저장해 두는 것이 좋다.`
