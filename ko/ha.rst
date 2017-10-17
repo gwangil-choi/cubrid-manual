@@ -1283,9 +1283,9 @@ CUBRID HA 구성에서 특정 peer_node의 db_name에 대한 트랜잭션 로그
 
 ::
 
-    <host-name>: :red:`copylogdb 명령이 수행될 원격 호스트명`
+    :red:'<host-name>: copylogdb 명령이 수행될 원격 호스트명'
 
-명령을 수행하는 노드가 *nodeB*\ 이고, *peer_node*\가 *nodeA*\ 라면, 다음과 같이 명령을 수행할 수 있다.
+명령을 수행하는 노드가 *nodeB* 이고, *peer_node* 가 *nodeA* 라면, 다음과 같이 명령을 수행할 수 있다.
     
 ::
     
@@ -1307,7 +1307,7 @@ CUBRID HA 구성에서 특정 peer_node의 db_name에 대한 트랜잭션 로그
 
 ::
 
-    <host-name>: :red:`appplylogdb 명령이 수행될 원격 호스트명`
+    <host-name>: :red:'appplylogdb 명령이 수행될 원격 호스트명'
 
 
 명령을 수행하는 노드가 *nodeB*\ 이고, peer_node가 *nodeA*\ 라면, 다음과 같이 명령을 수행할 수 있다.
@@ -1366,7 +1366,7 @@ status
 
 ::
 
-    <host-name>: :red:`status 명령이 수행될 원격 호스트명`
+    <host-name>: :red:'status 명령이 수행될 원격 호스트명'
 
 
 CUBRID HA 그룹 정보와 CUBRID HA 구성 요소의 정보를 확인할 수 있다. 사용법은 다음과 같다. ::
