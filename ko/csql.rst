@@ -213,7 +213,7 @@ CSQL 시작 옵션
 
 .. option:: -r, --read-only
 
-    You can connect to the read-only database with the **-r** option.  Retrieving data is only allowed in the read-only database; creating databases and entering data are not allowed. ::
+    :red:`You can connect to the read-only database with the **-r** option.  Retrieving data is only allowed in the read-only database; creating databases and entering data are not allowed.` ::
 
         csql -r demodb
 
