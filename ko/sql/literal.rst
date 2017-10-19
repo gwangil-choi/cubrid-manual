@@ -85,7 +85,8 @@ CUBRID에서 리터럴(literal) 값을 작성하는 방법을 기술한다.
     *   문자열 앞에 오는 리터럴은 <날짜/시간 타입> WITH TIMEZONE 또는 <날짜/시간 타입> WITH LOCAL TIME ZONE으로 대체할 수 있다.
 
         ::
-            DATETIME WITH TIMEZONE = datetimetz
+
+            :red:'DATETIME WITH TIMEZONE = datetimetz'
             DATETIME WITH LOCAL TIMEZONE = datetimeltz
             TIMESTAMP WITH TIMEZONE = timestamptz
             TIMESTAMP WITH LOCAL TIMEZONE = timestampltz

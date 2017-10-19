@@ -1183,7 +1183,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
     **compat_numeric_division_scale**  은 나눗셈 연산의 결과 값(몫)에 대하여 소수점 이하 자릿수를 몇 자리까지 표시할 것인가를 지정하기 위한 파라미터로 **no** 로 설정하면 몫의 소수점 이하 자릿수가 9개가 되고, **yes** 로 설정하면 몫의 소수점 이하 자릿수가 피연산자의 소수점 이하 자릿수에 따라 결정된다. 기본값은 **no**  이다.
 
-+**cte_max_recursions**
+**cte_max_recursions**
 
     **cte_max_recursions** :red:`는 CTE(Common Table Expressions) 질의문의 반복되는 부분을 수행할 때 최대 반복 횟수를 제한하는 파라미터이다. 이 파라미터는 무한 반복과 일시적 목록의 크기로 인해 발생할 수 있는 이슈를 예방한다.`
 
@@ -1308,7 +1308,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
         이하에 언급된 함수들을 제외한 나머지 함수들은 **oracle_style_empty_string** 파라미터의 영향을 받지 않는다.
         
-        *   **oracle_style_empty_string=yes**일 때 빈 문자열과 NULL을 동일하게 NULL로 처리하는 함수
+        *   **oracle_style_empty_string=yes** 일 때 빈 문자열과 NULL을 동일하게 NULL로 처리하는 함수
 
             *   :func:`ASCII`
             *   :func:`CONCAT_WS`

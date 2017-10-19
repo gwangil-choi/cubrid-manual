@@ -350,7 +350,7 @@ Linux 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항�
 
     #.  사용자의 홈 디렉터리(/home1/cub_user) 이하에서 자동으로 실행되는 셸 스크립트에 아래의 환경 변수를 추가한다.
     
-        :red:`You may have to create a directory for **$CUBRID_DATABASES**. You can designate any directory you have enough permission.`
+        :red:`**$CUBRID_DATABASES** 변수에 설정된 디렉토리 생성이 필요하다. 적절한 권한이 있는 임의의 디렉토리를 지정할 수 있다.`
 
         다음은 bash 셸로 수행하는 경우 .bash_profile에 다음을 추가하는 예이다.
 

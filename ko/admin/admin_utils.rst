@@ -2096,7 +2096,7 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
 
 .. Note::  
 
-    (*) : These statistics measure the non-MVCC operations or MVCC operations which are performed in-place (decided internally)
+    (*) : :red:`These statistics measure the non-MVCC operations or MVCC operations which are performed in-place (decided internally)`
 
 
 .. option:: -o, --output-file=FILE

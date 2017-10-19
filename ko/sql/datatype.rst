@@ -956,7 +956,7 @@ DATETIME, TIMESTAMP, TIME 타입의 값을 입력 값으로 사용하는 함수�
 
 .. note::
     
-    :red:`:func:`TO_TIMESTAMP_TZ` 및 :func:`TO_DATETIME_TZ` 함수는 날짜/시간 인자에 TZR, TZD, TZH 및 TZM 정보를 포함할 수 있다는 것을 제외하고는 :func:`TO_TIMESTAMP` 및 :func:`TO_DATETIME` 함수와 동일하다.`
+    :func:`TO_TIMESTAMP_TZ` :red:`및` :func:`TO_DATETIME_TZ` :red:`함수는 날짜/시간 인자에 TZR, TZD, TZH 및 TZM 정보를 포함할 수 있다는 것을 제외하고는 :func:`TO_TIMESTAMP` 및 :func:`TO_DATETIME` 함수와 동일하다.`
 
 타임존의 지역 이름은 IANA(Internet Assigned Numbers Authority) 타임존 데이터베이스에 있는 지역을 사용하는데, IANA 타임존에 대해서는 http://www.iana.org/time-zones\을 참고한다.
 
@@ -1133,8 +1133,8 @@ CUBRID는 두 종류의 문자열(character string) 타입을 지원한다.
 
 :red:`**문자열 압축**`
 
-    :red:`가변 문자열 타입 값(VARCHAR(n))은 데이터베이스(힙 파일, 인덱스 파일 또는 목록 파일)에 저장하기 전에 압축할 수 있다(LZO1X 알고리즘 사용). 바이트 단위 크기가 최소 255바이트 이상이면 압축이 시도된다(이 값은 미리 정의되어 있으며 변경할 수 없음). 압축이 효율적이지 않으면(압축 값의 크기 및 오버헤드가 압축 전의 원래 값과 동일하거나 큰 경우) 압축되지 않은 채로 값이 저장된다. 압축은 기본적으로 활성화되어 있으며 시스템 파라미터 :ref:`enable_string_compression<enable_string_compression>`를 설정하여 비활성화할 수 있다. 압축 오버헤드는 8바이트(압축 버퍼 크기 4바이트, 압축 해제 문자열 예상 크기 4바이트)이다. 
-    :red:`데이터베이스에서 읽을 때 압축된 문자열이 해제된다.` 
+    :red:`가변 문자열 타입 값(VARCHAR(n))은 데이터베이스(힙 파일, 인덱스 파일 또는 목록 파일)에 저장하기 전에 압축할 수 있다(LZO1X 알고리즘 사용). 바이트 단위 크기가 최소 255바이트 이상이면 압축이 시도된다(이 값은 미리 정의되어 있으며 변경할 수 없음). 압축이 효율적이지 않으면(압축 값의 크기 및 오버헤드가 압축 전의 원래 값과 동일하거나 큰 경우) 압축되지 않은 채로 값이 저장된다. 압축은 기본적으로 활성화되어 있으며 시스템 파라미터 :ref:`enable_string_compression<enable_string_compression>`를 설정하여 비활성화할 수 있다. 압축 오버헤드는 8바이트(압축 버퍼 크기 4바이트, 압축 해제 문자열 예상 크기 4바이트)이다.` 
+    :red:`데이터베이스에서 읽을 때 압축된 문자열이 해제된다.`
     :red:`값의 압축 여부를 파악하려면 :ref:`DISK_SIZE<disk_size>` 함수 결과를 인자가 동일한 :ref:`OCTET_LENGTH<octet_length>` 함수 결과와 비교한다. DISK_SIZE 값이 더 작으면(값 오버헤드 무시) 압축이 사용되었음을 나타낸다.`
 
 
