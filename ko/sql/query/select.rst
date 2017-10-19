@@ -49,8 +49,8 @@ SELECT
      
     <join_table_specification> ::=
         {
-            [INNER | {LEFT | RIGHT} [OUTER]] JOIN | 
-            STRAIGHT_JOIN
+            [INNER | {LEFT | RIGHT} [OUTER]] JOIN 
+
         } <table_specification> ON <search_condition>
      
     <join_table_specification2> ::= 
@@ -589,8 +589,8 @@ LIMIT 절
     <limit_term> ::= <limit_factor> | <limit_term> * <limit_factor> | <limit_term> / <limit_factor>
     <limit_factor> ::= <unsigned int> | <input_hostvar> | ( <limit_expression> )
 
-*   *offset*: :red:`표시할 시작 행의 오프셋을 지정한다. 결과 셋에 있는 시작 행의 오프셋은 0이며, 생략 가능하고 기본값은 **0**이다. 부호 없는 정수, 호스트 변수 또는 간단한 표현식 중 하나일 수 있다.`
-*   *row_count*: :red:`표시할 레코드 수를 지정한다. 부호 없는 정수, 호스트 변수 또는 간단한 표현식 중 하나일 수 있다.`
+*   *offset*: :red:`출력할 렏코드의 시작 행의 오프셋을 지정한다. 결과 셋에 있는 시작 행의 오프셋은 0이다. 생략할 수 있으며 기본값은 **0**이다. 부호 없는 정수, 호스트 변수 또는 간단한 표현식 중 하나일 수 있다.`
+*   *row_count*: :red:`출력하고자 하는 레코드 개수를 명시한다.  부호 없는 정수, 호스트 변수 또는 간단한 표현식 중 하나일 수 있다.`
 
 .. code-block:: sql
 
@@ -671,8 +671,8 @@ LIMIT 절
         
     <join_table_specification> ::=
         {
-            [INNER | {LEFT | RIGHT} [OUTER]] JOIN |
-            STRAIGHT_JOIN
+            [INNER | {LEFT | RIGHT} [OUTER]] JOIN 
+           
         } <table_specification> ON <search_condition>
      
     <join_table_specification2> ::= 
@@ -687,7 +687,7 @@ LIMIT 절
 
     *   {**LEFT** | **RIGHT**} [**OUTER**] **JOIN**: **LEFT** 는 왼쪽 외부 조인을 수행하는 질의를 만드는데 사용되고, **RIGHT** 는 오른쪽 외부 조인을 수행하는 질의를 만드는데 사용된다.
 
-    *   **STRAIGHT_JOIN**: (작성중)
+
      
 *   <*join_table_specification2*>
 
@@ -968,9 +968,9 @@ CUBRID는 외부 조인 중 왼쪽 외부 조인과 오른쪽 외부 조인만 �
                 1            1            1            1
              NULL         NULL            2            2
 
-STRAIGHT_JOIN
--------------
-CUBRIDSUS-12814
+
+
+
 
 
 
@@ -1102,7 +1102,7 @@ FOR UPDATE
          
 * <*spec_name_comma_list*>: **FROM** 절에서 참조하는 테이블/뷰들의 목록
 
-* :red:`<*spec_name_comma_list*>에 참조된 테이블/뷰만 잠긴다. <*spec_name_comma_list*>가 누락되었지만 **FOR UPDATE**가 있는 경우 **SELECT** 질의문의 **FROM** 절에 있는 모든 테이블/뷰가 참조된다고 가정한다. 행은 **X_LOCK**을 사용하여 잠근다.` 
+:red:`<*spec_name_comma_list*>에 참조된 테이블/뷰만 잠긴다. <*spec_name_comma_list*>가 누락되었지만 **FOR UPDATE**가 있는 경우 **SELECT** 질의문의 **FROM** 절에 있는 모든 테이블/뷰가 참조된다고 가정한다. 행은 **X_LOCK**을 사용하여 잠근다.` 
 
 .. note:: 제약 사항 
 

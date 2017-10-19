@@ -443,6 +443,7 @@ DATE_FORMAT
     SELECT DATE_FORMAT(datetimetz'2012-02-02 10:10:10 Europe/Zurich CET', '%TZR %TZD %TZH %TZM');
 
 ::
+
     'Europe/Zurich CET 01 00'
 
 FORMAT
