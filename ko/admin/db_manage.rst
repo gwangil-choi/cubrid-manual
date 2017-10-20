@@ -115,7 +115,7 @@ CUBRID 데이터베이스의 볼륨은 크게 영구적 볼륨, 일시적 볼륨
     *  :red:`파일 크기는 **cubrid createdb** 및 **cubrid addvoldb**의 **cubrid.conf** 또는 **--db-volume-size** 옵션에 있는 **db_volume_size**에 의해 결정된다.`
     *  :red:`데이터베이스에 공간이 부족해지면 기존 볼륨을 자동으로 확장해 새 볼륨을 생성한다.`
 
-*   Temporary volume
+*   일시적 볼륨 
 
     *  :red:`일시적 볼륨은 일반적으로 일시적 데이터를 저장하는 데 사용된다. 이 볼륨은 데이터베이스별로 자동으로 생성되고 삭제된다.`
     *  :red:`파일 크기는 **cubrid.conf**의 **db_volume_size**에 의해 결정된다.`

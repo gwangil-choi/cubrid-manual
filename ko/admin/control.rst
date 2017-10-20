@@ -1688,8 +1688,8 @@ CAS 에러는 브로커 응용 서버(CAS) 프로세스에서 발생하는 에�
 
 .. _cubrid-manager-server:
 
-매니저 서버
-===========
+:red:`CUBRID 매니저 서버`
+=========================
 
 CUBRID 매니저 서버 구동
 -----------------------
@@ -1755,7 +1755,7 @@ CUBRID 매니저 서버의 환경 설정 파일에서 주석은 "#"으로 처리
 
 **auto_job_timeout**
 
-    **auto_job_timeout** :red:`is a parameter used to configure timeout of auto job for cub_auto. The default value is 43200 (12 hour).`
+    **auto_job_timeout** :red:`는 작업 자동화(cub_auto)의 작업이 유지되기 위한 최대 시간이다. 기본값은 43,200 (12 시간)이다.`
 
 **mon_cub_auto**
 
