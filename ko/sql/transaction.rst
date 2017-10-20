@@ -249,13 +249,13 @@ CCI 로 개발된 응용 프로그램 역시 커서 유지가 기본 동작이�
 
 다수의 사용자들이 데이터베이스에서 읽고 쓰는 권한을 가질 때, 한 명 이상의 사용자가 동시에 같은 데이터에 접근할 가능성이 있다. 데이터베이스의 무결성을 보호하고, 사용자와 트랜잭션이 항상 정확하고 일관된 데이터를 지니기 위해서는 다중 사용자 환경에서의 접근과 갱신에 대한 통제가 필수적이다. 적정한 통제가 없으면 데이터는 어긋난 순서로 부정확하게 갱신될 수 있다.
 
-:red:`The transaction must ensure database concurrency, and each transaction must guarantee appropriate results. When multiple transactions are being executed at once, an event in transaction *T1* should not affect an event in transaction *T2*. This means isolation. Transaction isolation level is the degree to which a transaction is separated from all other concurrent transactions. The higher isolation level means the lower interference from other transactions. The lower isolation level means the higher the concurrency.  A database determines whether which lock is applied to tables and records based on these isolation levels. Therefore, can control the level of consistency and concurrency specific to a service by setting appropriate isolation level.`
+:red:`트랜잭션은 데이터베이스 동시성을 보장해야하며 각 트랜잭션은 적절한 결과를 보장해야한다. 한 번에 여러 트랜잭션이 실행될 때 트랜잭션 *T1*의 이벤트가 트랜잭션 *T2*의 이벤트에 영향을 미치지 않아야 한다. 이것은 격리를 의미한다. 트랜잭션 격리 수준은 트랜잭션이 다른 모든 동시 트랜잭션과 분리되는 정도이다. 격리 수준이 높으면 다른 트랜잭션의 간섭이 적음을 의미한다. 격리 수준이 낮으면 동시성이 높다는 것을 의미한다. 데이터베이스는 격리 레벨에 따라 어떤 잠금(lock)이 테이블과 레코드에 적용할 것인지 판별한다. 따라서 적절한 격리 수준을 설정하여 서비스 고유의 일관성 및 동시성 수준을 제어 할 수 있다.`
 
 트랜잭션 격리 수준 설정을 통해 트랜잭션 간 간섭을 허용할 수 있는 읽기 연산의 종류는 다음과 같다.
 
-*   **Dirty read** : :red:`A transaction *T2* can read *D'* before a transaction *T1* updates data *D* to *D'* and commits it.`
-*   **Non-repeatable read** : :red:`A transaction *T1* can read changed value, if a transaction *T2* updates or deletes data and commits while data is retrieved in the transaction *T1* multiple times.`
-*   **Phantom read** : :red:`A transaction *T1* can read *E*, if a transaction *T2* inserts new record *E* and commits while data is retrieved in the transaction *T1* multiple times.`
+*   **더티 읽기 (Dirty read)** : :red:`트랜잭션 *T1* 이 데이터 *D* 를 *D'* 으로 갱신한 후 커밋을 수행하기 전에 트랜잭션 *T2* 가 *D'* 을 읽을 수 있다.`
+*   **반복할 수 없는 읽기 (Non-repeatable read)** : :red:`트랜잭션 *T1* 이 데이터를 반복 조회하는 중에 다른 트랜잭션 *T2*가 데이터를 갱신 혹은 삭제하고 커밋하는 경우, 트랜잭션 *T1* 은 수정된 값을 읽을 수 있다.`
+*   **유령 읽기 (Phantom read)** : :red:`트랜잭션 *T1* 에서 데이터를 여러 번 조회하는 중에 다른 트랜잭션 *T2* 가 새로운 레코드 *E* 를 삽입하고 커밋한 경우, 트랜잭션 *T1* 은 *E* 를 읽을 수 있다.`
 
 :red:`이러한 간섭을 기반으로 SQL 표준은 트랜잭션 격리 수준을 네 가지로 정의한다.`
 
@@ -284,7 +284,7 @@ CCI 로 개발된 응용 프로그램 역시 커서 유지가 기본 동작이�
 | :ref:`isolation-level-4` (4)   | X      | O         | O      | X                    |
 +--------------------------------+--------+-----------+--------+----------------------+
 
-:red:`CUBRID 격리 수준의 기본값은 :ref:`isolation-level-4`이다.`
+:red:`CUBRID 격리 수준의 기본값은` :ref:`isolation-level-4` :red:`이다.`
 
 .. _mvcc-snapshot:
 
@@ -761,7 +761,7 @@ CUBRID는 트랜잭션이 수행하고자 하는 연산의 종류에 따라 획�
 
         특정 행에 공유 잠금이 설정됨에 따라 상위 객체인 테이블에 의도 공유 잠금이 설정되면, 다른 트랜잭션은 칼럼을 추가하거나 테이블 이름을 변경하는 등의 테이블 스키마를 변경할 수 없고, 모든 행을 갱신하는 작업을 수행할 수 없다. 그러나 일부 행을 갱신하는 작업이나, 모든 행을 조회하는 작업은 허용된다.
 
-*   **의도 배타 잠금(Intent exclusive lock, IX_LOCK)** 
+    *   **의도 배타 잠금(Intent exclusive lock, IX_LOCK)** 
     
         특정 행에 배타 잠금이 설정됨에 따라 상위 객체인 테이블에 의도 배타 잠금이 설정되면, 다른 트랜잭션은 테이블 스키마를 변경할 수 없고, 모든 행을 갱신하는 작업은 물론, 모든 행을 조회하는 작업은 수행할 수 없다. 그러나, 일부 행을 갱신하는 작업은 허용된다.
 
@@ -996,8 +996,8 @@ CUBRID는 트랜잭션이 수행하고자 하는 연산의 종류에 따라 획�
 +---------------------------------------------------------+---------------------------------------------------------+----------------------------------------------------------------------------+
 |                                                         | ::                                                      | T2가 블럭에서 해제되어 T1이 이미 갱신한 개체의 갱신을 시도한다.            |
 |                                                         |                                                         | REPEATABLE READ 격리 수준에서 이것은 허용되지 않고                         |
-|                                                         |     ERROR: 동시 갱신의 충돌로                           | 오류가 전송된.                                                             |
-|                                                         |     직렬성 위반                                         |                                                                            |
+|                                                         |     ERROR: Serializable conflict due                    | 오류가 전송됨                                                              | 
+|                                                         |     to concurrent updates                               |                                                                            |
 +---------------------------------------------------------+---------------------------------------------------------+----------------------------------------------------------------------------+
 
 unique 제약 조건을 보호하기 위한 잠금
@@ -1237,10 +1237,10 @@ CUBRID는 트랜잭션 잠금 설정이 허용될 때까지 잠금을 대기하�
 
 .. _set-transaction-isolation-level:
 
-격리 수준 설정
---------------
+트랜잭션 격리 수준 설정
+-----------------------
 
-**$CUBRID/conf/cubrid.conf** :red:`의 **isolation_level** 및 **SET TRANSACTION** 질의문을 사용하여 트랜잭션 격리 수준을 설정할 수 있다. 기본적으로 **READ COMMITTED** 수준이 설정되어 있으며, 4~6 수준 중에서 4 수준에 해당한다(1~3 수준은 CUBRID의 이전 버전에서 사용되었으며 더 이상 사용하지 않음). 이에 관한 상세한 설명은 :ref:`database-concurrency`을 참고한다.` ::
+**$CUBRID/conf/cubrid.conf** :red:`의 **isolation_level** 및 **SET TRANSACTION** 문을 사용하여 트랜잭션 격리 수준을 설정할 수 있다. 기본적으로 **READ COMMITTED** 수준이 설정되어 있으며, 4~6 수준 중에서 4 수준에 해당한다(1~3 수준은 CUBRID의 이전 버전에서 사용되었으며 더 이상 사용하지 않음). 이에 관한 상세한 설명은 :ref:`database-concurrency`을 참고한다.` ::
 
     SET TRANSACTION ISOLATION LEVEL isolation_level_spec ;
     
@@ -1286,7 +1286,7 @@ CUBRID는 트랜잭션 잠금 설정이 허용될 때까지 잠금을 대기하�
 트랜잭션 격리 수준 값 확인
 --------------------------
 
-:red:`You can assign the current isolation level to *variable* by using the **GET TRANSACTION ISOLATION LEVEL** statement. The following is a statement that verifies the isolation level. ::`
+:red:`**GET TRANSACTION** 문을 이용하여 현재 클라이언트에 설정된 격리 수준 값을 출력하거나 *variable* 에 할당할 수 있다. 아래는 격리 수준을 확인하기 위한 구문이다.` ::
 
     GET TRANSACTION ISOLATION LEVEL [ { INTO | TO } variable ] [ ; ]
 
