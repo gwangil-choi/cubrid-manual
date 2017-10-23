@@ -149,13 +149,13 @@ CUBRID에서 SystemTap 사용하기
 CUBRID 소스 빌드
 ----------------
 
-:red:`SystemTap can be used only on Linux.`
+:red:`SystemTap 은 리눅스에서만 사용할 수 있다.`
 
 :red:`CUBRID 소스를 빌드해 SystemTap을 사용하려면 **ENABLE_SYSTEMTAP**을 **ON**으로 설정한다(기본값).`
 
-:red:`This option is already included in the release build, a user not building the CUBRID source but installing CUBRID with the installation package can also use SystemTap script.`
+:red:`이 옵션은 릴리즈 빌드에 포함되어 있으며, CUBRID 소스 파일을 빌드하지 않고 인스톨 패키지를 이용하여 설치한 사용자라도 SystemTap 스크립트를 이용할 수 있다.`
 
-:red:`The below is an example of building the CUBRID source.`
+:red:`다음은 CUBRID의 소스를 빌드하는 예이다.`
 
 ::
 

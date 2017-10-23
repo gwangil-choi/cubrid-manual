@@ -800,11 +800,11 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **error_log_level**
 
-    **error_log_level** :red:`is a server parameter to configure an error message to be stored based on severity. There are five different levels which range from **WARNING** (lowest level), to **FATAL** (highest level). The inclusion relation in messages is **FATAL** < **ERROR** < **SYNTAX** < **NOTIFICATION** < **WARNING**. The default is **NOTIFICATION**. If severity of error is **NOTIFICATION**, error messages with **NOTIFICATION**, **SYNTAX**, **ERROR** and **FATAL** levels are written to the log file.`
+    **error_log_level** :red:`은 에러 심각성(severity) 수준에 따라 에러 로그 파일에 저장할 에러 메시지를 지정할 수 있는 서버 파라미터이다. 에러 심각성 수준은 가장 낮은 수준인 **WARNING** 부터 가장 심각한 수준인 **FATAL** 까지 총 5단계로 구성되며, 그에 따른 에러 메시지 포함 관계는 **FATAL** < **ERROR** < **SYNTAX** < **NOTIFICATION** < **WARNING** 이다. 기본값은 **NOTIFICATION** 이며, 이 경우 **FATAL** , **ERROR** , **SYNTAX** , **NOTIFICATION**  에 해당하는 에러 메시지가 에러 로그 파일에 기록된다.`
 
 **error_log_warning**
 
-    **error_log_warning** :red:`is a parameter to configure whether or not error messages with a severity level of **WARNING** are to be displayed. Its default value is **no**. For this reason, you must set **error_log_warning** to **yes** to store **WARNING** messages to an error log file.`
+    **error_log_warning** :red:`은 에러 심각성(severity) 수준이 **WARNING** 인 에러 메시지의 출력 여부를 설정할 수 있는 서버 파라미터이다. 기본값은 no이다. **WARNING** 메시지가 에러 로그 파일에 저장되도록 하려면, **error_log_warning** 의 값을 **yes** 로 설정해야 한다.`
 
 **error_log_size**
 
@@ -978,7 +978,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
     **log_buffer_size**\ 는 메모리에 캐시되는 로그 버퍼의 크기를 설정하는 파라미터이다. 값 뒤에 B, K, M, G, T로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes, Terabytes를 의미한다. 단위를 생략하면 바이트 단위가 적용된다. 기본값은 128 * :ref:`log_page_size <dpg>` (log_page_size가 16K이면 **2M**) 이다.
 
-    :red:`If the value of the **log_buffer_size** parameter is large, performance can be improved (due to the decrease in disk I/O) in an environment where transactions are long and numerous. Moreover, CUBRID Multiversion Concurrency Control system relies on log to access previous row versions and to vacuum invisible versions from database. It is recommended to configure an appropriate value considering the memory size and operations of the system where CUBRID is installed.`
+    :red:`**log_buffer_size** 파라미터의 설정값이 크면 데이터베이스 수정 연산이 많고, 길고 큰 트랜잭션이 많은 환경에서는 디스크 I/O가 감소되어 성능이 향상될 수 있다. CUBRID의 MVCC 시스템은 이전 버전의 값에 접근하는 것과 데이터베이스에서 사라진 값을 회수하기 위해 로그에 의존한다. 따라서  CUBRID가 설치된 시스템의 메모리 크기 및 작업 연산의 크기를 고려하여 적당한 값으로 설정할 것을 권장한다.`
 
     *   필요한 메모리 크기 = 로그 버퍼 크기(**log_buffer_size**)
 
@@ -1193,9 +1193,9 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **intl_check_input_string**
 
-    **intl_check_input_string** :red:`is a parameter to determine whether or not to check that string entered is correctly corresponded to character set used. The default value is **no**. If this value is no and character set is UTF-8 and incorrect data is enter which violate UTF-8 byte sequence, it can show abnormal behavior or database server and applications can be terminated abnormally. However, if it is guaranteed this problem does not happen, it has advantage in performance not to do it.`
+    **intl_check_input_string** :red:`is a parameter to determine whether or not to check that string entered is correctly corresponded to character set used. The default value is **no**. If this value is no and character set is UTF-8 and incorrect data is enter which violate UTF-8 byte sequence, it can show abnormal behavior or database server and applications can be terminated abnormally. However, if it is guaranteed this problem does not happen, it has advantage in performance not to do it. 중복된 설명임`
 
-    :red:`UTF-8 and EUC-KR can be checked; ISO-8859-1 is one-byte encoding so it does not have to be checked because every byte is valid.`
+    :red:`UTF-8 and EUC-KR can be checked; ISO-8859-1 is one-byte encoding so it does not have to be checked because every byte is valid. 중복된 설명`
 
 **group_concat_max_len**
 
@@ -1531,7 +1531,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
     *   CUBRID에서 유니코드 정규화를 위한 결합(composition)과 분해(decomposition)는 별개로 동작하지 않는다.
 
-        :red:`It is generally used when **unicode_input_normalization** and **unicode_output_normalization** are yes. In this case, codes entered from clients are stored in composed mode and output in decomposed mode.`
+        :red:`보통은 **unicode_input_normalization** 와 **unicode_output_normalization** 의 값이 yes로 사용한다. 이 경우 클라이언트로부터 입력된 코드는 결합 모드로 저장되고 출력은 분해 모드로 저장된다.`
 
     클라이언트 응용 프로그램이 텍스트 데이터를 분해된 형태로 CUBRID에 보낸다면, **unicode_input_normalization** 을 **yes** 로 설정하여 CUBRID가 결합된 코드로 다루게 한다.
     
@@ -1807,9 +1807,9 @@ HA 관련 파라미터
 
     인덱스를 생성할 때 인덱스의 페이지 노드에 여유 공간이 없이(**index_unfill_factor** 를 0으로 설정) 생성한다면, 추가로 삽입할 때마다 매번 인덱스 페이지 노드의 분할이 발생하여 성능에 영향을 끼친다.
 
-    **index_unfill_factor** 값이 크면 인덱스 생성 시 노드 여유 공간을 많이 확보한다. 따라서 최초 인덱스 생성 후 노드 여유 공간이 꽉 찰 때까지 상대적으로 긴 시간 동안 인덱스 노드의 분할이 발생하지 않으므로, 상대적으로 성능이 나을 수 있다. 이 값이 작으면 인덱스 생성 시 노드 여유 공간이 작기 때문에, 인덱스 노드의 여유 공간이 금방 꽉 차게 될 가능성이 높으므로, 상대적으로 **INSERT** 나 **UPDATE** 에 의한 인덱스 노드 분할 발생 가능성이 높다.
-
-:red:`If this value is small, the amount of free space for the nodes is small when an index is created. Therefore, it is likely that the index nodes are spilt by **INSERT** or **UPDATE** because free space for the index nodes is filled in a short period of time.`
+    **index_unfill_factor** 값이 크면 인덱스 생성 시 노드 여유 공간을 많이 확보한다. 따라서 최초 인덱스 생성 후 노드 여유 공간이 꽉 찰 때까지 상대적으로 긴 시간 동안 인덱스 노드의 분할이 발생하지 않으므로, 상대적으로 성능이 나을 수 있다. 
+    
+    이 값이 작으면 인덱스 생성 시 노드 여유 공간이 작기 때문에, 인덱스 노드의 여유 공간이 금방 꽉 차게 될 가능성이 높으므로, 상대적으로 **INSERT** 나 **UPDATE** 에 의한 인덱스 노드 분할 발생 가능성이 높다.
 
 **java_stored_procedure**
 

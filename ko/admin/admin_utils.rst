@@ -337,7 +337,7 @@ addvoldb
     지정된 데이터베이스에 대하여 추가될 볼륨의 이름을 지정하는 옵션이다. 볼륨명은 운영체제의 파일 이름 규약을 따라야 하고, 디렉터리 경로나 공백을 포함하지 않는 단순한 이름이어야 한다.
     **-n** 옵션을 생략하면 추가되는 볼륨의 이름은 시스템에 의해 "데이터베이스 이름_볼륨 식별자"로 자동 부여된다. 예를 들어, 데이터베이스 이름이 *testdb* 이면 자동 부여된 볼륨명은 *testdb_x001* 이 된다.
 
-    :red:`The following example shows how to specify a different name, *testdb_v1*, to newly added volume.` ::
+    :red:`다음은 testdb라는 데이터베이스에 볼륨을 추가하는 예이며, 추가되는 볼륨명은 *testdb_v1* 이 된다.` ::
 
         cubrid addvoldb -n testdb_v1  testdb
 
@@ -345,7 +345,7 @@ addvoldb
 
     지정된 데이터베이스에 대하여 추가될 볼륨이 저장되는 디렉터리 경로를 지정하는 옵션이다. **-F** 옵션을 생략하면, 시스템 파라미터인 **volume_extension_path** 의 값이 기본값으로 사용된다.
 
-    :red:`The following example shows how to add a volume in the */dbtemp/addvol* directory. Since the **-n** option is not specified for the volume name, the volume name *testdb_x001* will be created.` ::
+    :red:`다음은 testdb라는 데이터베이스에 볼륨을 추가하는 구문이며, 추가 볼륨은 */dbtemp/addvol* 디렉터리에 생성된다. 볼륨명에 관한 **-n** 옵션을 지정하지 않았으므로, 볼륨명은 *testdb_x001* 으로 만들어진다.` ::
 
         cubrid addvoldb -F /dbtemp/addvol/ testdb
 
