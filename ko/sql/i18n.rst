@@ -979,7 +979,7 @@ CHARSET과 COLLATE 수정자
       'utf8_bin'                     -1
       
 
-:red:`모든 인자의 변환도가 11이고 콜레이션이 서로 다른 표현식에서는 실행중에 공통 콜레이션이 확인된다(오류를 유발하는 변환도 값 기반 유추 규칙의 제외 사항).`
+:red:`모든 인자의 변환도가 11이고 콜레이션이 서로 다른 표현식에서는 실행중에 공통 콜레이션이 확인된다(오류를 유발하는 변환도 값 기반 유추 규칙의 예외 사항).`
 
 .. code-block:: sql
 
@@ -1681,12 +1681,12 @@ LIKE 조건 최적화
 JDBC에서 i18n 문자 사용
 =======================
 
-:red:`CUBRID JDBC는 문자열 및 CUBRIDBinaryString 객체를 사용하는 서버에서 수신된 문자열 타입 값을 저장한다. 문자열 객체는 각 문자를 저장하기 위해 내부적으로 UTF-16을 사용하며, 바이너리 문자셋을 제외한 모든 문자열을 DB 값으로 저장하는 데 사용된다. CUBRIDBinaryString은 바이트 배열을 사용하며 바이너리 문자셋의 데이터베이스 문자열 값을 저장하는 데 사용된다.`
-:red:`서버에서 수신된 각 문자열 값의 데이터 버퍼에는 서버에서 수신된 값의 문자셋이 포함된다. 이 문자셋은 컬럼 또는 표현식 결과의 문자셋이나 데이터베이스에 해당 항목이 없는 기타 모든 문자열의 시스템 문자셋 중 하나이다.`
+:red:`CUBRID JDBC는 문자열 및 CUBRIDBinaryString 객체를 사용하여 서버에서 수신된 문자열 타입 값을 저장한다. 문자열 객체는 각 문자를 저장하기 위해 내부적으로 UTF-16을 사용하며, 바이너리 문자셋을 제외한 모든 문자열을 저장하는 데 사용된다. CUBRIDBinaryString은 바이트 배열을 사용하며 바이너리 문자셋의  문자열 값을 저장하는 데 사용된다.`
+:red:`서버에서 수신된 각 문자열 값의 데이터 버퍼에는 서버에서 수신된 값의 문자셋이 포함된다. 이 문자셋은 컬럼의 문자셋,  표현식 결과의 문자셋, 시스템 문자셋(문자셋이 표현되지 않은 경우) 중 하나이다`
 
 .. note::
 
-    :red:`이전 버전에서는 데이터베이스 값에서 JDBC 문자열 객체를 인스턴스화하는 데 연결 문자셋이 사용되었다.`
+    :red:`이전 버전에서는 JDBC 문자열 객체를 인스턴스화하는 데 연결URL의 문자셋이 사용되었다.`
 
 :red:`UTF-8 문자셋을 갖는 컬럼 한 개와 바이너리 문자셋을 갖는 다른 컬럼이 포함된 테이블 생성:`
 
@@ -1779,8 +1779,8 @@ JDBC에서 i18n 문자 사용
 
 먼저 구동 중인 큐브리드 서비스를 종료한 후, OS에 따라 다음 절차를 수행한다.
 
-Windows
-^^^^^^^
+윈도우즈
+^^^^^^^^
 
 1.  http://www.iana.org/time-zones 에서 최신의 타임존 데이터를 내려받는다.
 
@@ -1800,8 +1800,8 @@ Windows
 
     **make_locale** 스크립트를 Windows에서 실행하려면, Visual C++ 2005, 2008 또는 2010 중 하나가 설치되어 있어야 한다.
     
-Linux
-^^^^^
+리눅스
+^^^^^^
 
 1.  Download the recent data from http://www.iana.org/time-zones 에서 최신의 타임존 데이터를 내려 받는다.
 
@@ -1822,7 +1822,7 @@ Linux
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 :red:`CUBRID에서 빌드된 타임존 라이브러리에는 타임존 데이터의 MD5 체크섬이 포함된다. 이 해시는 해당 라이브러리에서 생성된 모든 데이터베이스의 **db_root** 시스템 테이블의 **timezone_checksum** 컬럼에 저장된다. 타임존 라이브러리가 변경되고(새로운 타임존 데이터로 다시 컴파일됨) 체크섬이 변경되면 기존 데이터베이스로 CUBRID 서버와 그 밖의 모든 CUBRID 도구를 시작할 수 없다.`
-:red:`+이러한 호환성 문제를 방지하는 방법 중 하나는 **make_tz** 도구의 **extend** 인자를 사용하는 것이다. extend 옵션을 사용하면 데이터베이스의 **timezone_checksum** 값도 새로운 타임존 라이브러리의 새로운 MD5 체크섬으로 변경된다.`
+:red:`이러한 호환성 문제를 방지하는 방법 중 하나는 **make_tz** 도구의 **extend** 인자를 사용하는 것이다. extend 옵션을 사용하면 데이터베이스의 **timezone_checksum** 값도 새로운 타임존 라이브러리의 새로운 MD5 체크섬으로 변경된다.`
 :red:`IANA 사이트에서 다른 타임존 라이브러리 버전을 사용하려는 경우 extend 기능을 사용해야 한다. 이 기능이 수행하는 두 가지 작업은 다음과 같다.`
 
 -   :red:`이전 타임존 데이터와 새 타임존 데이터를 병합하여 새 라이브러리를 생성한다.`
@@ -1846,23 +1846,23 @@ Linux
 :red:`해결책은 두 가지가 있다.`
 
 -   :red:`각 사용자에게 자신의 데이터베이스가 포함된 폴더에 액세스할 수 있는 권한을 부여하고, **CUBRID_DATABASES** 변수의 값을 동일하게 만든다.`
--   :red:`이것이 불가능한 경우 각 사용자에 대해 다음을 수행할 수 있다(마지막 작업 예외).`
+-   :red:`이것이 불가능한 경우 각 사용자에 대해 다음을 수행할 수 있다.`
 
     -   :red:`현재 타임존 라이브러리 및 **databases.txt** 파일 백업`
     -   :red:`**databases.txt** 파일에서 현재 사용자의 데이터베이스를 제외한 모든 데이터베이스 삭제`
     -   :red:`extend 실행`
     -   :red:`**databases.txt** 파일 및 타임존 라이브러리 복구`
 
-:red:`마지막 사용자의 경우 **databases.txt** 파일을 백업하고 복구해야 한다.`
+:red:`단 마지막 사용자의 경우  최종 단계에서 **databases.txt** 파일만 복구하고 타임존 라이브러리 복구는 하지 않는다.`
 
-In Linux:
+리눅스의 경우:
 
     ::
 
         make_tz.sh -g extend 
 
 
-In Windows:
+윈도우즈의 경우:
 
         ::
 
@@ -2007,7 +2007,7 @@ LDML 파일에 새로운 로캘을 추가하려면 다음이 요구된다.
 LDML 캘린더 정보
 ----------------
 
-*   :red:`첫 번째 부분은 **DATE**, **DATETIME**, **TIME**, **TIMESTAMP**, **DATETIME WITH TIME ZONE** 및 **TIMESTAMP WITH TIME ZONE** 데이터 타입과 문자열 간의 변환을 위한 기본 CUBRID 형식으로 이루어진다. 이 형식은 :func:`TO_DATE`, :func:`TO_TIME`, :func:`TO_DATETIME`, :func:`TO_TIMESTAMP`, :func:`TO_CHAR`, :func:`TO_DATETIME_TZ`, :func:`TO_TIMESTAMP_TZ` 함수에서 사용된다. 허용되는 형식 요소는 데이터 타입에 따라 다르며 :func:`TO_CHAR` 함수(:ref:`Date/Time Format 1 <datetime-format1>`)에서 사용된다. 이 형식의 문자열에는 ASCII 문자만 허용된다. **DATE** 및 **TIME** 형식은 30바이트(문자), **DATETIME** 및 **TIMESTAMP** 형식은 48자, **DATETIME WITH TIME ZONE** 및 **TIMESTAMP WITH TIME ZONE** 은 70자까지 허용된다.`
+*   :red:`첫 번째 부분은 **DATE**, **DATETIME**, **TIME**, **TIMESTAMP**, **DATETIME WITH TIME ZONE** 및 **TIMESTAMP WITH TIME ZONE** 데이터와 문자열 간의 타입변환을 위한 기본 CUBRID 형식으로 이루어진다. 이 형식은 :func:`TO_DATE`, :func:`TO_TIME`, :func:`TO_DATETIME`, :func:`TO_TIMESTAMP`, :func:`TO_CHAR`, :func:`TO_DATETIME_TZ`, :func:`TO_TIMESTAMP_TZ` 함수에서 사용된다. 허용되는 형식 요소는 데이터 타입에 따라 다르며 :func:`TO_CHAR` 함수(:ref:`Date/Time Format 1 <datetime-format1>`)에서 사용된다. 이 형식의 문자열에는 ASCII 문자만 허용된다. **DATE** 및 **TIME** 형식은 30바이트(문자), **DATETIME** 및 **TIMESTAMP** 형식은 48자, **DATETIME WITH TIME ZONE** 및 **TIMESTAMP WITH TIME ZONE** 은 70자까지 허용된다.`
 *   <months>는 긴 형식과 축약된 형식 둘 다에 대한 월 이름이 필요하다. 허용되는 크기는 축약된 형식에 대해 15자(또는 60 바이트)이고 긴 형식에 대해 25자(또는 100바이트)이다.
 *   <days>는 긴 형식과 축약된 형식 둘 다에 대한 요일 이름이 필요하다. 허용되는 크기는 축약된 형식에 대해 10자(또는 40 바이트)이고 긴 형식에 대해 15자(또는 60 바이트)이다.
 
