@@ -8,11 +8,11 @@
 KILL
 ****
 
-**KILL** :red:`구문은 **TRANSACTION** 또는 **QUERY** 수정자와 함께 트랜잭션을 종료한다.`
+**KILL** :red:`구문은 **TRANSACTION** 또는 **QUERY** 수정자를 사용하여 트랜잭션을 종료한다.`
 
 ::
 
-    KILL [TRANSACTION | QUERY] 트랜 인덱스, ... ;
+    KILL [TRANSACTION | QUERY] tran_index, ... ;
 
 \
 

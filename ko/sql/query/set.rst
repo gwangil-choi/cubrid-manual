@@ -19,7 +19,7 @@ SQL 문을 이용하여 CSQL 인터프리터나 CUBRID 매니저의 질의 편�
 
     SET SYSTEM PARAMETERS 'parameter_name=value [{; name=value}...]'
 
-*value* :red:`의 **DEFAULT** 는 **call_stack_dump_activation_list** 파라미터를 제외하고 해당 파라미터를 기본값으로 재설정한다.` 
+*value* :red:`**call_stack_dump_activation_list** 파라미터를 제외하고 해당 파라미터의 *value* 를 **DEFAULT** 로 설정하면  기본값으로 재설정된다.` 
 
 .. code-block:: sql
 

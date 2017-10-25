@@ -187,7 +187,7 @@ Fail-over, Fail-back 감지
   
 Fail-over 혹은 Fail-back이 발생하면 노드는 역할을 변경하게 된다. 
   
-fail-over 후 마스터로 변경되는 노드 혹은 fail-back 후 슬레이브로 변경되는 노드의 cub_master 로그 파일은 다음과 같이 노드 정보를 포함한다. 
+Fail-over 후 마스터로 변경되는 노드 혹은 Fail-back 후 슬레이브로 변경되는 노드의 cub_master 로그 파일은 다음과 같이 노드 정보를 포함한다. 
   
 :: 
   
@@ -206,7 +206,7 @@ fail-over 후 마스터로 변경되는 노드 혹은 fail-back 후 슬레이브
     testhost01 1 unknown 32767 0 
     ================================================================================ 
   
-위의 예는 fail-over로 인해 testhost02 서버가 슬레이브에서 마스터로 역할을 변경하는 도중 cub_master 로그에 출력하는 정보이다. 
+위의 예는 Fail-over로 인해 testhost02 서버가 슬레이브에서 마스터로 역할을 변경하는 도중 cub_master 로그에 출력하는 정보이다. 
 
 HA 구동 실패
 ============
