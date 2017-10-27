@@ -68,45 +68,45 @@ CUBRID 데이터베이스의 볼륨은 크게 영구적 볼륨, 일시적 볼륨
 다음은 *testdb* 데이터베이스를 운영할 때 발생하는 데이터베이스 관련 파일의 예이다.
 
 +----------------+-------+-----------------+----------------+------------------------------------------------------------------------------------------------------+
-| File name      | Size  | Purpose         | Classification | Description                                                                                          |
+| 파일 이름      | 크기  | 종류            | 분류           | 설명                                                                                                 |
 +================+=======+=================+================+======================================================================================================+
-| testdb         | 512MB | | permanent     | | Database     | | The firstly created volume when DB is created.                                                     |
-|                |       | | data          | | volume       | | This volume stores permanent data (system, heap and index files).                                  |
-|                |       |                 |                | | This volume includes database meta information.                                                    |
-|                |       |                 |                | | **cubrid createdb** uses by default the size specified by **db_volume_size** in **cubrid.conf**.   |
+| testdb         | 512MB | | permanent     | | Database     | | DB 생성시 최초로 생성되는 볼륨                                                                     |
+|                |       | | data          | | volume       | | 이 볼륨은 영구 데이터를 저장한다. (시스템,힙과 인덱스 파일들)                                      |
+|                |       |                 |                | | 이 볼륨은 데이터베이스 메타 정보를 포함한다.                                                       |
+|                |       |                 |                | | **cubrid createdb** 는 **cubrid.conf** 의 **db_volume_size** 에 명시된 디폴트 크기를 사용한다.     |
 +----------------+-------+-----------------+                +------------------------------------------------------------------------------------------------------+
-| testdb_perm    | 512MB | | permanent     |                | | Manually added volume using **cubrid addvoldb** utility                                            |
-|                |       | | data          |                | | This volume stores permanent data (system, heap and index files).                                  |
+| testdb_perm    | 512MB | | permanent     |                | | **cubrid addvoldb** 유틸리티를 사용해 수동으로 생성된 볼륨                                         |
+|                |       | | data          |                | | 이 볼륨은 영구 데이터를 저장한다. (시스템,힙과 인덱스 파일들)                                      |
 +----------------+-------+-----------------+                +------------------------------------------------------------------------------------------------------+
-| testdb_temp    | 512MB | | temporary     |                | | Manually added volume using **cubrid addvoldb** utility                                            |
-|                |       | | data          |                | | This volume stores temporary data (query results, list files, sort files, join object hashes).     |
+| testdb_temp    | 512MB | | temporary     |                | | **cubrid addvoldb** 유틸리티를 사용해 수동으로 생성된 볼륨                                         |
+|                |       | | data          |                | | 이 볼륨은 일시적 데이터를 저장한다. (질의 결과, 리스트 파일들, 정렬 파일들, 결합 객체 해시들)      |
 +----------------+-------+-----------------+                +------------------------------------------------------------------------------------------------------+
-| testdb_x003    | 512MB | | permanent     |                | | Automatically created when database requires more space.                                           |
-|                |       | | data          |                | | This volume stores permanent data (system, heap and index files).                                  |
+| testdb_x003    | 512MB | | permanent     |                | | 데이터베이스의 공간이 더 필요할 때 자동으로 생성                                                   |
+|                |       | | data          |                | | 이 볼륨은 영구 데이터를 저장한다. (시스템,힙과 인덱스 파일들)                                      |
 +----------------+-------+-----------------+                +------------------------------------------------------------------------------------------------------+
-| testdb_x004    | 512MB | | permanent     |                | | Automatically created when database requires more space.                                           |
-|                |       | | data          |                | | This volume stores permanent data (system, heap and index files).                                  |
+| testdb_x004    | 512MB | | permanent     |                | | 데이터베이스의 공간이 더 필요할 때 자동으로 생성                                                   |
+|                |       | | data          |                | | 이 볼륨은 영구 데이터를 저장한다. (시스템,힙과 인덱스 파일들)                                      |
 +----------------+-------+-----------------+                +------------------------------------------------------------------------------------------------------+
-| testdb_x005    | 512MB | | permanent     |                | | Automatically created when database requires more space.                                           |
-|                |       | | data          |                | | This volume stores permanent data (system, heap and index files).                                  |
+| testdb_x005    | 512MB | | permanent     |                | | 데이터베이스의 공간이 더 필요할 때 자동으로 생성                                                   |
+|                |       | | data          |                | | 이 볼륨은 영구 데이터를 저장한다. (시스템,힙과 인덱스 파일들)                                      |
 +----------------+-------+-----------------+                +------------------------------------------------------------------------------------------------------+
-| testdb_x006    | 64MB  | | permanent     |                | | Automatically created when database requires more space.                                           |
-|                |       | | data          |                | | This volume stores permanent data (system, heap and index files).                                  |
-|                |       |                 |                | | The size of volume is not maximized (yet).                                                         |
+| testdb_x006    | 64MB  | | permanent     |                | | 데이터베이스의 공간이 더 필요할 때 자동으로 생성                                                   |
+|                |       | | data          |                | | 이 볼륨은 영구 데이터를 저장한다. (시스템,힙과 인덱스 파일들)                                      |
+|                |       |                 |                | | 이 볼륨의 크기는 아직 최대화 되지 않음                                                             |
 +----------------+-------+-----------------+----------------+------------------------------------------------------------------------------------------------------+
-| testdb_t32766  | 512MB | | temporary     | | Temporary    | | Automatically created when database requires more space.                                           |
-|                |       | | data          | | Volume       | | This volume stores temporary data (query results, list files, sort files, join object hashes).     |
+| testdb_t32766  | 512MB | | temporary     | | Temporary    | | 데이터베이스의 공간이 더 필요할 때 자동으로 생성                                                   |
+|                |       | | data          | | Volume       | | 이 볼륨은 일시적 데이터를 저장한다. (질의 결과, 리스트 파일들, 정렬 파일들, 결합 객체 해시들)      |
 +----------------+-------+-----------------+----------------+------------------------------------------------------------------------------------------------------+
-| testdb_lgar_t  | 512MB | | background    | | Log          | | A log file which is related to the background archiving feature.                                   |
-|                |       | | archiving     | | volume       | | This is used when storing the archiving log.                                                       |
+| testdb_lgar_t  | 512MB | | background    | | Log          | | 백그라운드 보관(background archiving) 기능과 관련된 로그 파일                                      |
+|                |       | | archiving     | | volume       | | 보관 로그를 저장할 때 사용된다.                                                                    |
 +----------------+-------+-----------------+                +------------------------------------------------------------------------------------------------------+
-| testdb_lgar224 | 512MB | | archive       |                | | Archiving logs are continuously archived and the files ending with three digits are created.       |
-|                |       |                 |                | | At this time, archiving logs from 001~223 seem to be removed normally by **cubrid backupdb** -r    |
-|                |       |                 |                | | option or the setting of **log_max_archives** in **cubrid.conf**. When archiving logs are removed, |
-|                |       |                 |                | | you can see the removed archiving log numbers in the REMOVE section of lginf file.                 |
-|                |       |                 |                | | See :ref:`managing-archive-logs`.                                                                  |
+| testdb_lgar224 | 512MB | | archive       |                | | 보관 로그(archiving log)가 계속 쌓이면서 세 자리 숫자로 끝나는 파일들이 생성된다.                  |
+|                |       |                 |                | | cubrid backupdb -r 옵션 또는 cubrid.conf의 log_max_archives 파라미터의 설정으로 인해 001~223까지의 |
+|                |       |                 |                | | 보관 로그들은 정상적으로 삭제된 것으로 보인다. 보관 로그가  삭제되는 경우, lginf 파일의 REMOVE     |
+|                |       |                 |                | | 섹션에서 삭제된 보관 로그 번호를 확인할 수 있다.                                                   |
+|                |       |                 |                | | :ref:`managing-archive-logs` 를 참고한다.                                                          |
 +----------------+-------+-----------------+                +------------------------------------------------------------------------------------------------------+
-| testdb_lgat    | 512MB | | active        |                | | Active log file                                                                                    |
+| testdb_lgat    | 512MB | | active        |                | | 활성로그(Active log) 파일                                                                          |
 +----------------+-------+-----------------+----------------+------------------------------------------------------------------------------------------------------+
 
 *   데이터베이스 볼륨 파일

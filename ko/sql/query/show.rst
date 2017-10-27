@@ -659,8 +659,8 @@ SHOW EXEC STATISTICS
     'heap_stats_bestspace_entries'          0
     'heap_stats_bestspace_maxed'            0
 
-진단
-====
+진단(Diagnostics)
+=================
 
 SHOW VOLUME HEADER
 ------------------
@@ -674,31 +674,31 @@ SHOW VOLUME HEADER
 해당 구문은 다음과 같은 칼럼을 출력한다.
 
 =================================== =============== ======================================================================================================================================
-Column name                         Type            Description
+칼럼 이름                           타입            설명
 =================================== =============== ======================================================================================================================================
-Volume_id                           INT             Volume identifier
-Magic_symbol                        VARCHAR(100)    Magic value for for a volume file
-Io_page_size                        INT             Size of DB volume
-Purpose                             VARCHAR(32)     Volume purposes, 'Permanent data purpose' or 'Temporary data purpose'
-Type                                VARCHAR(32)     Volume type, 'Permanent Volume' or 'Temporary Volume'
-Sector_size_in_pages                INT             Size of sector in pages
-Num_total_sectors                   INT             Total number of sectors
-Num_free_sectors                    INT             Number of free sectors
-Num_max_sectors                     INT             Maximum number of sectors
-Hint_alloc_sector                   INT             Hint for next sector to be allocated
-Sector_alloc_table_size_in_pages    INT             Size of sector allocation table in page
-Sector_alloc_table_first_page       INT             First page of sector allocation table
-Page_alloc_table_size_in_pages      INT             Size of page allocation table in page
-Page_alloc_table_first_page         INT             First page of page allocation table
-Last_system_page                    INT             Last system page
-Creation_time                       DATETIME        Database creation time
-Db_charset                          INT             Charset number of database
-Checkpoint_lsa                      VARCHAR(64)     Lowest log sequence address to start the recovery process of this volume
-Boot_hfid                           VARCHAR(64)     System Heap file for booting purposes and multi volumes
-Full_name                           VARCHAR(255)    The full path of volume
-Next_volume_id                      INT             Next volume identifier
-Next_vol_full_name                  VARCHAR(255)    The full path of next volume
-Remarks                             VARCHAR(64)     Volume remarks
+Volume_id                           INT             볼륨 식별자 
+Magic_symbol                        VARCHAR(100)    볼륨 파일의 매직 값
+Io_page_size                        INT             DB 볼륨의 페이지
+Purpose                             VARCHAR(32)     볼륨 사용 목적 : '영구적 데이터 목적' 또는 '일시적 데이터 목적'
+Type                                VARCHAR(32)     볼륨 타입, '영구적 볼륨' 또는 '일시적 볼륨'
+Sector_size_in_pages                INT             페이지 내 섹터의 크기
+Num_total_sectors                   INT             섹터 전체 개수
+Num_free_sectors                    INT             여유 섹터 개수
+Num_max_sectors                     INT             섹터 수의 최대값
+Hint_alloc_sector                   INT             할당될 다음 섹터에 대한 힌트
+Sector_alloc_table_size_in_pages    INT             페이지 내 섹터 할당 테이브 크기
+Sector_alloc_table_first_page       INT             섹터 할당 테이블의 첫번째 페이지 
+Page_alloc_table_size_in_pages      INT             페이지 내 페이지 할당 테이블의 크기
+Page_alloc_table_first_page         INT             페이지 할당 테이블의 첫번째 페이지
+Last_system_page                    INT             마지막 시스템 페이지
+Creation_time                       DATETIME        데이터베이스 생성 시간
+Db_charset                          INT             데이터베이스 문자셋번호 
+Checkpoint_lsa                      VARCHAR(64)     이 볼륨의 복구 절차를 시작하는 가장 작은 로그 일련 주소
+Boot_hfid                           VARCHAR(64)     다중 볼륨과 데이터베이스 기동을 위한 시스템 힙 파일ID
+Full_name                           VARCHAR(255)    볼륨의 전체 경로
+Next_volume_id                      INT             다음 볼륨의 ID
+Next_vol_full_name                  VARCHAR(255)    다음 볼륨의 전체 경로
+Remarks                             VARCHAR(64)     볼륨에 대한 설명
 =================================== =============== ======================================================================================================================================
 
 다음은 이 구문을 수행한 예이다.
@@ -748,45 +748,45 @@ OF file_name을 생략하면 메모리의 헤더 정보를 출력하며, OF file
 =================================== =============== ======================================================================================================================================
 Column name                         Type            Description
 =================================== =============== ======================================================================================================================================
-Volume_id                           INT             Volume identifier
-Magic_symbol                        VARCHAR(32)     Magic value for log file
-Magic_symbol_location               INT             Magic symbol location from log page
-Creation_time                       DATETIME        Database creation time
-Release                             VARCHAR(32)     CUBRID Release version
-Compatibility_disk_version          VARCHAR(32)     Compatibility of the database against the current release of CUBRID
-Db_page_size                        INT             Size of pages in the database
-Log_page_size                       INT             Size of log pages in the database
-Shutdown                            INT             Was the log shutdown
-Next_trans_id                       INT             Next transaction identifier
-Num_avg_trans                       INT             Number of average transactions
-Num_avg_locks                       INT             Average number of object locks
-Num_active_log_pages                INT             Number of pages in the active log portion
-Db_charset                          INT             Charset number of database
-First_active_log_page               BIGINT          Logical pageid at physical location 1 in active log
-Current_append                      VARCHAR(64)     Current append location
-Checkpoint                          VARCHAR(64)     Lowest log sequence address to start the recovery process
-Next_archive_page_id                BIGINT          Next logical page to archive
-Active_physical_page_id             INT             Physical location of logical page to archive
-Next_archive_num                    INT             Next log archive number
-Last_archive_num_for_syscrashes     INT             Last log archive needed for system crashes
-Last_deleted_archive_num            INT             Last deleted archive number
-Backup_lsa_level0                   VARCHAR(64)     LSA of backup level 0
-Backup_lsa_level1                   VARCHAR(64)     LSA of backup level 1
-Backup_lsa_level2                   VARCHAR(64)     LSA of backup level 2
-Log_prefix                          VARCHAR(256)    Log prefix name
-Has_logging_been_skipped            INT             Whether or not logging skipped
-Perm_status                         VARCHAR(64)     Reserved for future expansion
-Backup_info_level0                  VARCHAR(128)    detail information of backup level 0. currently only backup start-time is used
-Backup_info_level1                  VARCHAR(128)    detail information of backup level 1. currently only backup start-time is used
-Backup_info_level2                  VARCHAR(128)    detail information of backup level 2. currently only backup start-time is used
-Ha_server_state                     VARCHAR(32)     current ha state, one of flowing value: na, idle, active, to-be-active, standby, to-be-standby, maintenance, dead
-Ha_file                             VARCHAR(32)     ha replication status, one of following value: clear, archived, sync
-Eof_lsa                             VARCHAR(64)     EOF LSA
-Smallest_lsa_at_last_checkpoint     VARCHAR(64)     The smallest LSA of the last checkpoint, can be NULL LSA
-Next_mvcc_id                        BIGINT          The next MVCCID will be used for the next transaction
-Mvcc_op_log_lsa                     VARCHAR(32)     The LSA used to link log entries for MVCC operation
-Last_block_oldest_mvcc_id           BIGINT          Used to find the oldest MVCCID in a block of log data, can be NULL
-Last_block_newest_mvcc_id           BIGINT          Used to find the newest MVCCID in a block of log data, can be NULL
+Volume_id                           INT             볼륨 식별자
+Magic_symbol                        VARCHAR(32)     로그 파일의 매직 값
+Magic_symbol_location               INT             로그 페이지의 매직 심볼 위치
+Creation_time                       DATETIME        데이터베이스 생성 시간
+Release                             VARCHAR(32)     CUBRID 릴리즈 버전
+Compatibility_disk_version          VARCHAR(32)     현재 릴리즈 버전에 대한 DB의 호환성
+Db_page_size                        INT             DB 페이지의 크기
+Log_page_size                       INT             로그 페이지의 크기
+Shutdown                            INT             로그 셧다운의 여부
+Next_trans_id                       INT             다음 트랜잭션 ID
+Num_avg_trans                       INT             평균 트랜잭션 개수
+Num_avg_locks                       INT             평균 객체 잠금 개수
+Num_active_log_pages                INT             활성로그 부분에서 페이지 개수
+Db_charset                          INT             DB의 문자셋 번호
+First_active_log_page               BIGINT          활성 로그에서 물리적 위치 1에 대한 놀리 페이지 
+Current_append                      VARCHAR(64)     현재의 추가된 위치 
+Checkpoint                          VARCHAR(64)     복구 프로세스를 시작하는 가장 작은 로그 일련 주소 
+Next_archive_page_id                BIGINT          보관할 다음 논리 페이지 
+Active_physical_page_id             INT             보관할 논리 페이지의 물리직 위치 
+Next_archive_num                    INT             다음 보관 로그 번호 Next log archive number
+Last_archive_num_for_syscrashes     INT             시스템 비정상 종료의 마지막 로그 보관 번호 
+Last_deleted_archive_num            INT             지워진 보관 로그의 마지막번호 
+Backup_lsa_level0                   VARCHAR(64)     백업 수준 0의 LSA
+Backup_lsa_level1                   VARCHAR(64)     백업 수준 1의 LSA 
+Backup_lsa_level2                   VARCHAR(64)     백업 수준 2의 LSA
+Log_prefix                          VARCHAR(256)    로그 prefix 이름
+Has_logging_been_skipped            INT             로깅의 생략 여부
+Perm_status                         VARCHAR(64)     현재 사용하지 않음
+Backup_info_level0                  VARCHAR(128)    백업 수준 0의 상세 정보. 현재는 백업 시작 시간만 저장됨
+Backup_info_level1                  VARCHAR(128)    백업 수준 1의 상세 정보. 현재는 백업 시작 시간만 저장됨
+Backup_info_level2                  VARCHAR(128)    백업 수준 2의 상세 정보. 현재는 백업 시작 시간만 저장됨
+Ha_server_state                     VARCHAR(32)     HA 서버 상태. 다음 값 중 하나: na, idle, active, to-be-active, standby, to-be-standby, maintenance, dead
+Ha_file                             VARCHAR(32)     HA 복제 상태. 다음 값 중 하나: clear, archived, sync
+Eof_lsa                             VARCHAR(64)     LSA 파일의 끝
+Smallest_lsa_at_last_checkpoint     VARCHAR(64)     맨 마지막 체크포인트의 가장 작은 LSA, NULL LSA가 될 수 있음
+Next_mvcc_id                        BIGINT          다음 트랜잭션에서 사용될 다음 MVCCID 값 
+Mvcc_op_log_lsa                     VARCHAR(32)     MVCC 동작에 대한 로그 시작점에 사용되는 LSA
+Last_block_oldest_mvcc_id           BIGINT          로그 데이터 블록에서 가장 오래된 MVCC 를 찾기 위한 ID 값, NULL 값이 될 수 있음 
+Last_block_newest_mvcc_id           BIGINT          로그 데이터 블록에서 가장 최신의 MVCC 를 찾기 위한 ID 값, NULL 값이 될 수 있음
 =================================== =============== ======================================================================================================================================
 
 다음은 이 구문을 수행한 예이다.
@@ -1278,7 +1278,7 @@ Contiguous_free_area                INT             페이지 내 연속된 여�
 Free_space_offset                   INT             페이지의 처음부터 페이지 내 첫번째 여유 공간 바이트 영역까지의 바이트 오프셋
 Need_update_best_hint               INT             undo 복구를 위해 저장이 필요하면 true
 Is_saving                           INT             이 페이지를 위해 베스트 페이지를 업데이트해야 되면 true
-Flags                               INT             Flag value of the page
+Flags                               INT             페이지의 플래그 값 
 =================================== =============== ======================================================================================================================================
 
 다음은 이 구문을 수행한 예이다.
@@ -1377,19 +1377,19 @@ ALL 키워드를 사용하고 인덱스 이름을 생략하면 해당 테이블�
 =================================== =============== ======================================================================================================================================
 Column name                         Type            Description
 =================================== =============== ======================================================================================================================================
-Table_name                          VARCHAR(256)    Table name
-Index_name                          VARCHAR(256)    Index name
+Table_name                          VARCHAR(256)    테이블명 
+Index_name                          VARCHAR(256)    인덱스명 
 Btid                                VARCHAR(64)     BTID (volid|fileid|root_pageid)
-Node_level                          INT             Node level (1 for LEAF, 2 or more for NON_LEAF)
-Max_key_len                         INT             Maximum key length for the subtree
-Num_oids                            INT             Number of OIDs stored in the Btree
-Num_nulls                           INT             Number of NULLs (they aren't stored)
-Num_keys                            INT             Number of unique keys in the Btree
-Topclass_oid                        VARCHAR(64)     Topclass oid or NULL OID (non unique index)(volid|pageid|slotid)
-Unique                              INT             Unique or non-unique
+Node_level                          INT             노드 수준 (1 은 단말, 2 이상은 비단말)
+Max_key_len                         INT             서브트리의 최대 키 길이
+Num_oids                            INT             B트리에 저당된 OID 개수 
+Num_nulls                           INT             NULL 의 개수  (저장 되지 않음)
+Num_keys                            INT             B트리에 있는 고유 키의 개수 
+Topclass_oid                        VARCHAR(64)     최상위 클래스의 oid 또는  NULL OID (고유 인덱스가 아님)(volid|pageid|slotid)
+Unique                              INT             고유값 유무 
 Overflow_vfid                       VARCHAR(32)     VFID (volid|fileid)
-Key_type                            VARCHAR(256)    Type name
-Columns                             VARCHAR(256)    the list of columns which consists of the index
+Key_type                            VARCHAR(256)    타입명
+Columns                             VARCHAR(256)    인덱스를 구성하는 칼럼 리스트 
 =================================== =============== ======================================================================================================================================
 
 다음은 이 구문을 수행한 예이다.
@@ -1606,60 +1606,60 @@ SHOW TRANSACTION TABLES
 해당 구문은 다음의 칼럼을 출력한다.
 
 ======================== =============== ==============================================================================================================================================================
-Column name              Type            Description
+칼럼 이름                타입            설명
 ======================== =============== ==============================================================================================================================================================
-Tran_index               INT             Index on the transaction table or NULL for unassigned transaction descriptor slot
-Tran_id                  INT             Transaction Identifier
-Is_loose_end             INT             0 for Ordinary transactions, 1 for loose-end transactions
-State                    VARCHAR(64)     State of the transaction. Either one of the followings:
+Tran_index               INT             트랜잭션 테이블의 인덱스 또는 할당되지 않은 트랜잭션 슬롯일 경우 NULL 값 
+Tran_id                  INT             트랜잭션 식별자 
+Is_loose_end             INT             0 : 완료된 트랜잭션일 경우 , 1 : 완료되지 않은 트랜잭션
+State                    VARCHAR(64)     트랜잭션의 상태. 다음 값 중 하나의 상태:
                                          'TRAN_RECOVERY', 'TRAN_ACTIVE', 'TRAN_UNACTIVE_COMMITTED', 'TRAN_UNACTIVE_WILL_COMMIT', 'TRAN_UNACTIVE_COMMITTED_WITH_POSTPONE', 
                                          'TRAN_UNACTIVE_ABORTED', 'TRAN_UNACTIVE_UNILATERALLY_ABORTED', 'TRAN_UNACTIVE_2PC_PREPARE', 'TRAN_UNACTIVE_2PC_COLLECTING_PARTICIPANT_VOTES',
                                          'TRAN_UNACTIVE_2PC_ABORT_DECISION', 'TRAN_UNACTIVE_2PC_COMMIT_DECISION', 'TRAN_UNACTIVE_COMMITTED_INFORMING_PARTICIPANTS', 
                                          'TRAN_UNACTIVE_ABORTED_INFORMING_PARTICIPANTS','TRAN_STATE_UNKNOWN'
-Isolation                VARCHAR(64)     Isolation level of the transaction. Either one of the followings: 'SERIALIZABLE', 'REPEATABLE READ', 'COMMITTED READ', 'TRAN_UNKNOWN_ISOLATION'
-Wait_msecs               INT             Wait until this number of milliseconds for locks.
-Head_lsa                 VARCHAR(64)     First log address of transaction.
-Tail_lsa                 VARCHAR(64)     Last log record address of transaction.
-Undo_next_lsa            VARCHAR(64)     Next log record address of transaction for UNDO purposes.
-Postpone_next_lsa        VARCHAR(64)     Next address of a postpone record to be executed.
-Savepoint_lsa            VARCHAR(64)     Address of last save-point.
-Topop_lsa                VARCHAR(64)     Address of last top operation.
-Tail_top_result_lsa      VARCHAR(64)     Address of last partial abort/commit.
-Client_id                INT             Unique identifier of client application bind to transaction.
-Client_type              VARCHAR(40)     Type of the client. Either one of the followings: 'SYSTEM_INTERNAL', 'DEFAULT', 'CSQL', 'READ_ONLY_CSQL', 'BROKER', 'READ_ONLY_BROKER', 'SLAVE_ONLY_BROKER',
+Isolation                VARCHAR(64)     트랜잭션의 격리 수준. 다음 중 하나의 상태: 'SERIALIZABLE', 'REPEATABLE READ', 'COMMITTED READ', 'TRAN_UNKNOWN_ISOLATION'
+Wait_msecs               INT             잠금 상태로 대기(milliseconds)
+Head_lsa                 VARCHAR(64)     트랜잭션 로그의 처음 주소 
+Tail_lsa                 VARCHAR(64)     트랜잭션 로그의 마지각 주소
+Undo_next_lsa            VARCHAR(64)     UNDO  트랜잭션의 다음 로그 기록
+Postpone_next_lsa        VARCHAR(64)     실행 될 연기된 레코드의 다음 주소
+Savepoint_lsa            VARCHAR(64)     마지막 저장 포인트의 주소
+Topop_lsa                VARCHAR(64)     마지막 최상위 동작의 주소 
+Tail_top_result_lsa      VARCHAR(64)     마지막 부분 취소 또는 커밋의 주소
+Client_id                INT             클라이언트의 트랜잭션 고유 식별자
+Client_type              VARCHAR(40)     클라이언트 타입. 다음 중 하나 값 'SYSTEM_INTERNAL', 'DEFAULT', 'CSQL', 'READ_ONLY_CSQL', 'BROKER', 'READ_ONLY_BROKER', 'SLAVE_ONLY_BROKER',
                                          'ADMIN_UTILITY', 'ADMIN_CSQL', 'LOG_COPIER', 'LOG_APPLIER', 'RW_BROKER_REPLICA_ONLY', 'RO_BROKER_REPLICA_ONLY', 'SO_BROKER_REPLICA_ONLY', 
                                          'ADMIN_CSQL_WOS', 'UNKNOWN'
-Client_info              VARCHAR(256)    General information of client application.
-Client_db_user           VARCHAR(40)     Current login database account from client application.
-Client_program           VARCHAR(256)    Program name of client application.
-Client_login_user        VARCHAR(16)     Current login user of OS which running the client application.
-Client_host              VARCHAR(64)     Host name of client application.
-Client_pid               INT             Process id of client application.
-Topop_depth              INT             Depth of nested top operation.
-Num_unique_btrees        INT             Number of unique btrees contained in unique_stat_info array.
-Max_unique_btrees        INT             Size of unique_stat_info_array.
-Interrupt                INT             The flag of whether or not interrupt current transaction. 0 for No, 1 for Yes.
-Num_transient_classnames INT             Number of transient classnames by this transaction.
-Repl_max_records         INT             Capacity of replication record array.
-Repl_records             VARCHAR(20)     Replication record buffer array, display address pointer as 0x12345678 or NULL for 0x00000000.
-Repl_current_index       INT             Current position of replication record in the array.
-Repl_append_index        INT             Current position of appended record in the array.
-Repl_flush_marked_index  INT             Index of flush marked replication record at first.
-Repl_insert_lsa          VARCHAR(64)     Insert Replication target LSA.
-Repl_update_lsa          VARCHAR(64)     Update Replication target LSA.
-First_save_entry         VARCHAR(20)     First save entry for the transaction, display address pointer as 0x12345678 or NULL for 0x00000000.
-Tran_unique_stats        VARCHAR(20)     Local statistical info for multiple row. display address pointer as 0x12345678 or NULL for 0x00000000.
-Modified_class_list      VARCHAR(20)     List of dirty classes, display address pointer as 0x12345678 or NULL for 0x00000000.
-Num_temp_files           INT             Number of temporary files.
-Waiting_for_res          VARCHAR(20)     Waiting resource. Just display address pointer as 0x12345678 or NULL for 0x00000000.
-Has_deadlock_priority    INT             Whether or not have deadlock priority. 0 for No, 1 for Yes.
-Suppress_replication     INT             Suppress writing replication logs when flag is set.
-Query_timeout            DATETIME        A query should be executed before query_timeout time or NULL for waiting until query complete.
-Query_start_time         DATETIME        Current query start time or NULL for query completed.
-Tran_start_time          DATETIME        Current transaction start time or NULL for transaction completed.
+Client_info              VARCHAR(256)    클라이언트의 정보 
+Client_db_user           VARCHAR(40)     클라이언트의 데이터베이스 로그인 계정
+Client_program           VARCHAR(256)    클라이언트의 프로그램명 
+Client_login_user        VARCHAR(16)     클라이언트틀 수행 중인 로긴 사용자 
+Client_host              VARCHAR(64)     클라이언트의 호스트명
+Client_pid               INT             클라이언트의 프로세스 id 
+Topop_depth              INT             최상위 동작의 단계 
+Num_unique_btrees        INT             unique_stat_info 배열에 포함된 고유한 btree 의 개수
+Max_unique_btrees        INT             unique_stat_info_array 의 크기
+Interrupt                INT             수행 중인 트랜잭션의 인터럽트 유무, 0 : 무, 1 : 유 
+Num_transient_classnames INT             트랜잭션에 의해 일시적으로 생성되는 클래스의 개수
+Repl_max_records         INT             복제 레코드 배열의 크기
+Repl_records             VARCHAR(20)     복제 레코드 버퍼 배열, 주소 포인터를 0x12345678 처럼 나타냄, NULL 일 경우  0x00000000.
+Repl_current_index       INT             복제 레코드의 현재 위치 
+Repl_append_index        INT             추가 레코드의 현재 위치 
+Repl_flush_marked_index  INT             플러시 표시된 복제 레코드의 인덱스
+Repl_insert_lsa          VARCHAR(64)     복제 대상 LSA 삽입
+Repl_update_lsa          VARCHAR(64)     복제 대상 LSA 갱신
+First_save_entry         VARCHAR(20)     트랜잭션의 처음 저장 시작점. 주소 포인터를 0x12345678 처럼 나타냄, NULL 일 경우  0x00000000  
+Tran_unique_stats        VARCHAR(20)     다중 열에 대한 로컬 통계 정보. 주소 포인터를 0x12345678 처럼 나타냄, NULL 일 경우  0x00000000
+Modified_class_list      VARCHAR(20)     더티 클래서의 목록, 주소 포인터를 0x12345678 처럼 나타냄, NULL 일 경우  0x00000000
+Num_temp_files           INT             일시적 파일의 개수 
+Waiting_for_res          VARCHAR(20)     대기 리소스, 주소 포인터를 0x12345678 처럼 나타냄, NULL 일 경우  0x00000000.
+Has_deadlock_priority    INT             데드락 우선순위 유무,  0 : 무, 1 : 유
+Suppress_replication     INT             플래그가 세팅 될 때 복제 로그 생략 
+Query_timeout            DATETIME        일정 시간 내에 퀴리는 수행되어야 한다.  NULL 일 경우 질의가 끝날 때 까지 기다린다.
+Query_start_time         DATETIME        질의 시작 시간,  NULL 일 경우 질의 완료
+Tran_start_time          DATETIME        트랜잭션 시작 시간,  NULL 일 경우 트랜잭션이 끝날 때 
 Xasl_id                  VARCHAR(64)     vpid:(volid|pageid),vfid:(volid|pageid) or NULL for query completed.
-Disable_modifications    INT             Disable modification if greater than zero.
-Abort_reason             VARCHAR(40)     Reason of transaction aborted. Either one of the followings: 'NORMAL', 'ABORT_DUE_TO_DEADLOCK', 'ABORT_DUE_ROLLBACK_ON_ESCALATION'
+Disable_modifications    INT             0보다 클 경우 수정을 금지 
+Abort_reason             VARCHAR(40)     트랜잭션 중지 사유, 다음 중 하나이다. 'NORMAL', 'ABORT_DUE_TO_DEADLOCK', 'ABORT_DUE_ROLLBACK_ON_ESCALATION'
 ======================== =============== ==============================================================================================================================================================
 
 다음은 이 구문을 수행한 예이다.
@@ -1732,39 +1732,39 @@ SA MODE일 경우 이 구문은 아무런 결과도 출력하지 않는다.
 해당 구문은 다음의 칼럼을 출력한다.
 
 =========================== =============== ==============================================================================================================================================================
-Column name                 Type            Description
+칼럼명                      타입            설영
 =========================== =============== ==============================================================================================================================================================
-Index                       INT             Thread entry index.
-Jobq_index                  INT             Job queue index only for worker threads. NULL for non-worker threads.
-Thread_id                   BIGINT          Thread id.
-Tran_index                  INT             Transaction index to which this thread belongs. If no related tran index, NULL.
-Type                        VARCHAR(8)      Thread type. Either one of the followings: 'MASTER', 'SERVER', 'WORKER', 'DAEMON', 'VACUUM_MASTER', 'VACUUM_WORKER', 'NONE', 'UNKNOWN'.
-Status                      VARCHAR(8)      Thread status. Either one of the followings: 'DEAD', 'FREE', 'RUN', 'WAIT', 'CHECK'.
-Resume_status               VARCHAR(32)     Resume status. Either one of the followings: 'RESUME_NONE', 'RESUME_DUE_TO_INTERRUPT', 'RESUME_DUE_TO_SHUTDOWN', 'PGBUF_SUSPENDED', 'PGBUF_RESUMED', 
+Index                       INT             쓰레드 시작 인덱스
+Jobq_index                  INT             워커 쓰레드의 작업 큐 인덱스.  non-worker 쓰레드의 경우 NULL 
+Thread_id                   BIGINT          쓰레드 id.
+Tran_index                  INT             쓰레드가 속한 트랜잭션 인덱스. 관련 쓰레드가 없을 경우 NULL
+Type                        VARCHAR(8)      쓰레드 종류. 다음 중 하나이다. 'MASTER', 'SERVER', 'WORKER', 'DAEMON', 'VACUUM_MASTER', 'VACUUM_WORKER', 'NONE', 'UNKNOWN'.
+Status                      VARCHAR(8)      쓰레드 상태. 다음 중 하나이다. 'DEAD', 'FREE', 'RUN', 'WAIT', 'CHECK'.
+Resume_status               VARCHAR(32)     재시작 상태. 다음 중 하나이다. 'RESUME_NONE', 'RESUME_DUE_TO_INTERRUPT', 'RESUME_DUE_TO_SHUTDOWN', 'PGBUF_SUSPENDED', 'PGBUF_RESUMED', 
                                             'JOB_QUEUE_SUSPENDED', 'JOB_QUEUE_RESUMED', 'CSECT_READER_SUSPENDED', 'CSECT_READER_RESUMED', 'CSECT_WRITER_SUSPENDED', 'CSECT_WRITER_RESUMED',
                                             'CSECT_PROMOTER_SUSPENDED', 'CSECT_PROMOTER_RESUMED', 'CSS_QUEUE_SUSPENDED', 'CSS_QUEUE_RESUMED', 'QMGR_ACTIVE_QRY_SUSPENDED', 'QMGR_ACTIVE_QRY_RESUMED',
                                             'QMGR_MEMBUF_PAGE_SUSPENDED', 'QMGR_MEMBUF_PAGE_RESUMED', 'HEAP_CLSREPR_SUSPENDED', 'HEAP_CLSREPR_RESUMED', 'LOCK_SUSPENDED', 'LOCK_RESUMED', 
                                             'LOGWR_SUSPENDED', 'LOGWR_RESUMED'
-Net_request                 VARCHAR(64)     The net request name in net_requests array, such as: 'LC_ASSIGN_OID'. If not request name, shows NULL
-Conn_client_id              INT             Client id whom this thread is responding, if no client id, shows NULL
-Conn_request_id             INT             Request id which this thread is processing, if no request id, shows NULL
-Conn_index                  INT             Connection index, if not connection index, shows NULL
-Last_error_code             INT             Last error code
-Last_error_msg              VARCHAR(256)    Last error message, if message length is more than 256, it will be truncated, If no error message, shows NULL
-Private_heap_id             VARCHAR(20)     The address of id of thread private memory allocator, such as: 0x12345678. If no related heap id, shows NULL.
-Query_entry                 VARCHAR(20)     The address of the QMGR_QUERY_ENTRY*, such as: 0x12345678, if no related QMGR_QUERY_ENTRY, shows NULL.
-Interrupted                 INT             0 or 1, is this request/transaction interrupted
-Shutdown                    INT             0 or 1, is server going down?
-Check_interrupt             INT             0 or 1
-Wait_for_latch_promote      INT             0 or 1, whether this thread is waiting for latch promotion.
-Lockwait_blocked_mode       VARCHAR(24)     Lockwait blocked mode. Either one of the followings: 'NULL_LOCK', 'IS_LOCK', 'S_LOCK', 'IS_LOCK', 'IX_LOCK', 'SIX_LOCK', 'X_LOCK', 'SCH_M_LOCK', 'UNKNOWN'
-Lockwait_start_time         DATETIME        Start blocked time, if not in blocked state, shows NULL
-Lockwait_msecs              INT             Time in milliseconds, if not in blocked state, shows NULL
-Lockwait_state              VARCHAR(24)     The lock wait state such as: 'SUSPENDED', 'RESUMED', 'RESUMED_ABORTED_FIRST', 'RESUMED_ABORTED_OTHER', 'RESUMED_DEADLOCK_TIMEOUT', 'RESUMED_TIMEOUT', 
-                                            'RESUMED_INTERRUPT'. If not in blocked state, shows NULL
-Next_wait_thread_index      INT             The next wait thread index, if not exist, shows NULL
-Next_tran_wait_thread_index INT             The next wait thread index in lock manager, if not exist, shows NULL
-Next_worker_thread_index    INT             The next worker thread index in css_Job_queue.worker_thrd_list, if not exist, shows NULL
+Net_request                 VARCHAR(64)      net_requests 배열의 net 요청 이름, 예: 'LC_ASSIGN_OID'. 요청 이름이 없을 경우  NULL  
+Conn_client_id              INT             쓰레드에 응답하는 클라이언트의 id , 클라이언트의 id 가 없을 경우 NULL 
+Conn_request_id             INT             쓰레드가 처리하고 있는 요청의 id , 요청 id 가 없을 경우 NULL 
+Conn_index                  INT             연결 인덱스, 없을 경우 NULL
+Last_error_code             INT             마지막에러 코드 
+Last_error_msg              VARCHAR(256)    마지막 에러 메세지, 메세지가 256 자 보다 클 경우 부분만 보인다. 에러 메세지가 없을 경우 NULL
+Private_heap_id             VARCHAR(20)     쓰레드 내부 메모리 할당자의 주소, 예: 0x12345678. 관련 힙 id 가 없을 경우 NULL
+Query_entry                 VARCHAR(20)     QMGR_QUERY_ENTRY의 주소 , 예: 0x12345678,  연관된 QMGR_QUERY_ENTRY 가 없을 경우 NULL.
+Interrupted                 INT             리퀘스트/트랜잭션의 인터럽트 유/무 0 또는 1
+Shutdown                    INT             서버의 셧다운 유/무 0 또는 1
+Check_interrupt             INT             0 또는 1
+Wait_for_latch_promote      INT             0 또는 1, 쓰레드가 래치 프로모션(latch promotion)을 대기 하는 유/무 
+Lockwait_blocked_mode       VARCHAR(24)     잠금대기 블록 모드, 다음 중 하나이다. 'NULL_LOCK', 'IS_LOCK', 'S_LOCK', 'IS_LOCK', 'IX_LOCK', 'SIX_LOCK', 'X_LOCK', 'SCH_M_LOCK', 'UNKNOWN'
+Lockwait_start_time         DATETIME        블록된 시작 시간, 블록된 상태가 없을 경우 NULL
+Lockwait_msecs              INT             블록 상태였던 시간(milliseconds), 블록 된 상태가 없을 경우 NULL
+Lockwait_state              VARCHAR(24)     잠금 대기 상태 예: 'SUSPENDED', 'RESUMED', 'RESUMED_ABORTED_FIRST', 'RESUMED_ABORTED_OTHER', 'RESUMED_DEADLOCK_TIMEOUT', 'RESUMED_TIMEOUT', 
+                                            'RESUMED_INTERRUPT'. 블록 된 상태가 없을 경우  NULL
+Next_wait_thread_index      INT             다음 대기 쓰레드 인덱스, 없을 경우 NULL
+Next_tran_wait_thread_index INT             잠금 매니저의 다음 대기 쓰레드 인덱스, 없을 경우 NULL
+Next_worker_thread_index    INT             css_Job_queue.worker_thrd_list 의 다음 워커 쓰레드, 없을 경우 NULL
 =========================== =============== ==============================================================================================================================================================
 
 다음은 이 구문을 수행한 예이다.
@@ -1841,12 +1841,12 @@ SHOW JOB QUEUES
 이 질의는 다음의 칼럼들을 출력한다:
 
 =========================== =============== =======================================================
-Column name                 Type            Description
+칼럼명                      타입            설명
 =========================== =============== =======================================================
-Jobq_index                  INT             The index of job queue
-Num_total_workers           INT             Total number of work threads of the queue
-Num_busy_workers            INT             The number of busy worker threads of the queue
-Num_connection_workers      INT             The number of connection worker threads of the queue
+Jobq_index                  INT             작업 큐의 인덱스
+Num_total_workers           INT             큐의 워커 쓰레드 총 개수 
+Num_busy_workers            INT             큐의 활성 워크 쓰레드의 개수 
+Num_connection_workers      INT             큐의 연결(connection) 워커 쓰레드의 수
 =========================== =============== =======================================================
 
 

@@ -676,7 +676,7 @@ CUBRID 9.0에서 부터, **ALTER** 문의 **ANALYZE PARTITION** 절은 더 이�
 
     ERROR: Invalid codeset '_iso88591' for partition value. Expecting '_utf8' codeset.
 
-CUBRID uses the collation defined on the table when performing comparisons on the partitioning key. The following example will return an error because, for utf8_en_ci collation 'test' equals 'TEST'.
+:red:`분할 키에서 비교 작업을 수행할 때 분할 테이블에 정의된 콜레이션을 사용한다. 다음 예제에서 utf8_en_ci 콜레이션의 'test'는 'TEST'와 같으므로 오류를 반환한다.`
 
 .. code-block:: sql
 

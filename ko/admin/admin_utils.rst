@@ -1439,370 +1439,372 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
         Num_mvcc_snapshot_ext:
         Time_obj_lock_acquire_time:
 
-    :red:`The following are the explanation about the above statistical information.  You can find the statistic category (database module), the name, the stat type and a brief description for each statistic.`
+    :red:`다음은 위의 통계 정보에 대한 설명이다. 통계 카테고리 (데이터베이스 모듈), 이름, 통계 유형 및 각 통계에 대한 간략한 설명을 볼 수 있다.`
 
-    :red:`There are several types of statistic, based on how they are collected` :
+    :red:`수집 방법에 따라 몇 가지 유형의 통계가 있다.` :
 
-    *  :red:`Accumulator: The stat values are incremented whenever the tracked action happens.`
-    *  :red:`Counter/timer: The stat tracks both the number and the duration of an action. Also biggest and average duration are tracked.`
-    *  :red:`Snapshot: The stat is peeked from database.`
-    *  :red:`Complex: The stat tracks multiple values for an action, separated by various attributes.`
+    *  :red:`Accumulator: Accumulator : 트래킹이 발생할 때마다 통계 값이 증가한다.`
+    *  :red:`Counter/timer: 통계는 작업의 수와 지속 기간을 모두 추적한다. 또한 최대 및 평균 지속 시간을 추적한다.`
+    *  :red:`Snapshot: 통계 정보는 데이터베이스의 내부 정보이다.`
+    *  :red:`Complex: 통계는 다양한 속성으로 구분 된 작업에 대한 여러 값을 추적한다.`
 
-    :red:`Most statistics are accumulators (they are incremented when an action happens). Other statistics can be counter/timers (they track both number of actions and their duration), some are peeked from database (snapshot) and some are computed based on other values.  Lastly, there are several complex statistics which track detailed information on some operations.`. 
+    :red:`대부분의 통계는 누적값이다. (트래킹이 발생하면 증가한다). 다른 통계는 카운터/타이머가 될 수 있으며 (작업 수와 지속 시간을 모두 추적), 일부는 데이터베이스(스냅샷)으로부터 나오고 다른 일부는 다른 값을 기반으로 계산된다. 마지막으로, 일부 작업에 대한 자세한 정보를 추적하는 몇 가지 복잡한 통계가 있다.` 
 
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | Category         | Item                                     | Stat type      |  Description                                                          |
+    | 분류             | 항목                                     | 통계 타입      |  설명                                                                 |
     +==================+==========================================+================+=======================================================================+
-    | File I/O         | Num_file_removes                         | Accumulator    | The number of files removed                                           |
+    | File I/O         | Num_file_removes                         | Accumulator    | 삭제한 파일 개수                                                      |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_file_creates                         | Accumulator    | The number of files created                                           |
+    |                  | Num_file_creates                         | Accumulator    | 생성한 파일 개수                                                      |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_file_ioreads                         | Accumulator    | The number of files read                                              |
+    |                  | Num_file_ioreads                         | Accumulator    | 디스크로부터 읽을 횟수                                                |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_file_iowrites                        | Accumulator    | The number of files stored                                            |
+    |                  | Num_file_iowrites                        | Accumulator    | 디스크로 저장한 횟수                                                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_file_iosynches                       | Accumulator    | The number of file synchronization                                    |
+    |                  | Num_file_iosynches                       | Accumulator    | 디스크와 동기화를 수행한 횟수                                         |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..file_iosync_all                        | Counter/timer  | The number and duration of sync all files                             |
+    |                  | ..file_iosync_all                        | Counter/timer  | 모든 파일을 동기화한 횟수와 지속 기간                                 |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_file_page_allocs                     | Accumulator    | The number of page allocations                                        |
+    |                  | Num_file_page_allocs                     | Accumulator    | 할당한 페이지 개수                                                    |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_file_page_deallocs                   | Accumulator    | The number of page deallocations                                      |
+    |                  | Num_file_page_deallocs                   | Accumulator    | 회수한 페이지 개수                                                    |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | Page buffer      | Num_data_page_fetches                    | Accumulator    | The number of fetched pages                                           |
+    | Page buffer      | Num_data_page_fetches                    | Accumulator    | 가져오기(fetch)한 페이지 개수                                         |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_dirties                    | Accumulator    | The number of dirty pages                                             |
+    |                  | Num_data_page_dirties                    | Accumulator    | 더티 페이지 개수                                                      |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_ioreads                    | Accumulator    | | The number of pages read from disk                                  |
-    |                  |                                          |                | | (more means less efficient, it correlates with lower hit ratio)     |
+    |                  | Num_data_page_ioreads                    | Accumulator    | | 디스크에서 읽은 페이지 수                                           |
+    |                  |                                          |                | | (이 값이 클수록 덜 효율적이며,히트율이 낮은 것과 상관됨)            |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_iowrites                   | Accumulator    | The number of pages write to disk (more means less efficient)         |
+    |                  | Num_data_page_iowrites                   | Accumulator    | 디스크에 기록한 페이지 수 (이 값이 클수록 덜 효율적임)                |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_private_quota              | Snapshot       | The target number of pages for private LRU lists                      |
+    |                  | Num_data_page_private_quota              | Snapshot       | 전용 LRU 리스트에 대한 타켓 페이지의 개수                             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_private_count              | Snapshot       | The actual number of pages for private LRU lists                      |
+    |                  | Num_data_page_private_count              | Snapshot       | 전용 LRU 리스트에 대한 실제 페이지의 개수                             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_fixed                      | Snapshot       | The number of fixed pages in data buffer                              |
+    |                  | Num_data_page_fixed                      | Snapshot       | 데이터 버퍼에서 수정된 페이지의 개수                                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_dirty                      | Snapshot       | The number of dirty pages in data buffer                              |
+    |                  | Num_data_page_dirty                      | Snapshot       | 데이터 버퍼에서 더티 페이지의 개수                                    |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_lru1                       | Snapshot       | The number of pages in LRU1 zone in data buffer                       |
+    |                  | Num_data_page_lru1                       | Snapshot       | 데이터 버퍼에서 LRU1 존의 페이지의 개수                               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_lru2                       | Snapshot       | The number of pages in LRU2 zone in data buffer                       |
+    |                  | Num_data_page_lru2                       | Snapshot       | 데이터 버퍼에서 LRU2 존의 페이지의 개수                               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_lru3                       | Snapshot       | The number of pages in LRU3 zone in data buffer                       |
+    |                  | Num_data_page_lru3                       | Snapshot       | 데이터 버퍼에서 LRU3 존의 페이지의 개수                               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_victim_candidate           | Snapshot       | | The number of victim candidate pages in data buffer                 |
+    |                  | Num_data_page_victim_candidate           | Snapshot       | | 데이터 버퍼에서 희생 후보로 선정된 데이터 페이지 개수               |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | Logs             | Num_log_page_fetches                     | Accumulator    | The number of fetched log pages                                       |
+    | Logs             | Num_log_page_fetches                     | Accumulator    | 가져오기(fetch)한 로그 페이지의 개수                                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_log_page_ioreads                     | Accumulator    | The number of log pages read                                          |
+    |                  | Num_log_page_ioreads                     | Accumulator    | 읽은 로그 페이지의 개수                                               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_log_page_iowrites                    | Accumulator    | The number of log pages stored                                        |
+    |                  | Num_log_page_iowrites                    | Accumulator    | 저장한 로그 페이지의 개수                                             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_log_append_records                   | Accumulator    | The number of log records appended                                    |
+    |                  | Num_log_append_records                   | Accumulator    | 추가한(append) 로그 레코드의 개수                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_log_archives                         | Accumulator    | The number of logs archived                                           |
+    |                  | Num_log_archives                         | Accumulator    | 보관 로그의 개수                                                      |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_log_start_checkpoints                | Accumulator    | The number of started checkpoints                                     |
+    |                  | Num_log_start_checkpoints                | Accumulator    | 체크 포인트 시작 횟수                                                 |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_log_end_checkpoints                  | Accumulator    | The number of ended checkpoints                                       |
+    |                  | Num_log_end_checkpoints                  | Accumulator    | 체크 포인트 종료 횟수                                                 |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_log_wals                             | Accumulator    | The number of log flushes requested to write a data page.             |
+    |                  | Num_log_wals                             | Accumulator    | 데이터 페이지로 쓰여진 로그 플러시 횟수                               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_log_page_iowrites_for_replacement    | Accumulator    | | The number of log data pages written to disk due to replacements    |
-    |                  |                                          |                | | (should be zero)                                                    |
+    |                  | Num_log_page_iowrites_for_replacement    | Accumulator    | | 대체된 로그 데이터 페이지의 횟수                                    |
+    |                  |                                          |                | | (0 이 되어야 함)                                                    |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_log_page_replacements                | Accumulator    | The number of log data pages discarded due to replacements            |
+    |                  | Num_log_page_replacements                | Accumulator    | 대체되어 취소된 로그 데이터 페이지의 횟수                             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_prior_lsa_list_size                  | Accumulator    | | Current size of the prior LSA(Log Sequence Address) list.           |
-    |                  |                                          |                | | CUBRID write the order of writing into the prior LSA list, before   |
-    |                  |                                          |                | | writing operation from the log buffer to the disk; this list is     |
-    |                  |                                          |                | | used to raise up the concurrency by reducing the waiting time of    |
-    |                  |                                          |                | | the transaction from writing to disk                                |
+    |                  | Num_prior_lsa_list_size                  | Accumulator    | | 이전 LSA(Log Sequence Address) 리스트의 현재 크기.                  |
+    |                  |                                          |                | | CUBRID는 로그 버퍼로부터 디스크로 기록하기 전에 이전 LSA 목록에     |
+    |                  |                                          |                | | 쓰기 순서를 기록한다.                                               |
+    |                  |                                          |                | | 이 목록은 디스크에 기록하는 트랜잭션 대기시간을 줄임으로써 동시성을 |
+    |                  |                                          |                | | 높이는데 사용된다.                                                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_prior_lsa_list_maxed                 | Accumulator    | | The count of the prior LSA list being reached at the maximum size.  |
-    |                  |                                          |                | | The maximum size of the prior LSA list is log_buffer_size * 2.      |
-    |                  |                                          |                | | If this value is big, we can assume that log writing jobs happen a  |
-    |                  |                                          |                | | lot at the same time                                                |
+    |                  | Num_prior_lsa_list_maxed                 | Accumulator    | | 이전 LSA 리스의 카운트가 최대 크기에 도달함.                        |
+    |                  |                                          |                | | 이전 LSA 목록의 최대 크기는 log_buffer_size * 2 이다.               |
+    |                  |                                          |                | | 이 값이 크면 로그 작성 작업이 동시에 많이 발생한다고                |
+    |                  |                                          |                | | 가정할 수 있다.                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_prior_lsa_list_removed               | Accumulator    | | The count of LSA being moved from prior LSA list into log buffer.   |
-    |                  |                                          |                | | We can assume that the commits have happened at the similar count   |
-    |                  |                                          |                | | with this value                                                     |
+    |                  | Num_prior_lsa_list_removed               | Accumulator    | | 이전 LSA 목록에서 로그 버퍼로 이동한  LSA의 수.                     |
+    |                  |                                          |                | | 커밋이  이 값과 비슷한 수로 발생했다고 가정 할 수 있다.             |
+    |                  |                                          |                | |                                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Log_page_buffer_hit_ratio                | Computed       | | Hit ratio of log page buffers                                       |
+    |                  | Log_page_buffer_hit_ratio                | Computed       | | 로그 페이지 버퍼의 히트 비율                                        |
     |                  |                                          |                | | (Num_log_page_fetches - Num_log_page_fetch_ioreads)*100             |
     |                  |                                          |                | | / Num_log_page_fetches                                              |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | Concurrency/lock | Num_page_locks_acquired                  | Accumulator    | The number of locked pages acquired                                   |
+    | Concurrency/lock | Num_page_locks_acquired                  | Accumulator    | 페이지 잠금을 획득한 횟수                                             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_object_locks_acquired                | Accumulator    | The number of locked objects acquired                                 |
+    |                  | Num_object_locks_acquired                | Accumulator    | 오브젝트 잠금을 획득한 횟수                                           |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_page_locks_converted                 | Accumulator    | The number of locked pages converted                                  |
+    |                  | Num_page_locks_converted                 | Accumulator    | 페이지 잠금 타입을 변환한 횟수                                        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_object_locks_converted               | Accumulator    | The number of locked objects converted                                |
+    |                  | Num_object_locks_converted               | Accumulator    | 오브젝트 잠금 타입을 변환한 횟수                                      |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_page_locks_re-requested              | Accumulator    | The number of locked pages requested                                  |
+    |                  | Num_page_locks_re-requested              | Accumulator    | 페이지 잠금을 재요청한 횟수                                           |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_object_locks_re-requested            | Accumulator    | The number of locked objects requested                                |
+    |                  | Num_object_locks_re-requested            | Accumulator    | 오브젝트 잠금을 재요청한 횟수                                         |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_page_locks_waits                     | Accumulator    | The number of locked pages waited                                     |
+    |                  | Num_page_locks_waits                     | Accumulator    | 잠금을 대기하는 페이지 개수                                           |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_object_locks_waits                   | Accumulator    | The number of locked objects waited                                   |
+    |                  | Num_object_locks_waits                   | Accumulator    | 잠금을 대기하는 오브젝트 개수                                         |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_object_locks_time_waited_usec        | Accumulator    | The time in microseconds spent on waiting for all object locks        |
+    |                  | Num_object_locks_time_waited_usec        | Accumulator    | 모든 오브젝트를 잠금하는 데 소요된 시간 (microseconds)                |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Time_obj_lock_acquire_time               | Complex        | Time consumer for locking objects classified by lock mode             |
+    |                  | Time_obj_lock_acquire_time               | Complex        | 잠김 오브젝트를 잠금 모드별로 분류하는데 소요된 시간                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | Transactions     | Num_tran_commits                         | Accumulator    | The number of commits                                                 |
+    | Transactions     | Num_tran_commits                         | Accumulator    | 커밋한 횟수                                                           |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_tran_rollbacks                       | Accumulator    | The number of rollbacks                                               |
+    |                  | Num_tran_rollbacks                       | Accumulator    | 롤백한 횟수                                                           |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_tran_savepoints                      | Accumulator    | The number of savepoints                                              |
+    |                  | Num_tran_savepoints                      | Accumulator    | 세이브포인트 횟수                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_tran_start_topops                    | Accumulator    | The number of top operations started                                  |
+    |                  | Num_tran_start_topops                    | Accumulator    | 시작한 최상위 동작 횟수                                               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_tran_end_topops                      | Accumulator    | The number of top operations stopped                                  |
+    |                  | Num_tran_end_topops                      | Accumulator    | 종료한 최상위 동작 횟수                                               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_tran_interrupts                      | Accumulator    | The number of interruptions                                           |
+    |                  | Num_tran_interrupts                      | Accumulator    | 인터럽트 횟수                                                         |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | Index            | Num_btree_inserts                        | Accumulator    | The number of nodes inserted                                          |
+    | Index            | Num_btree_inserts                        | Accumulator    | 삽입된 노드의 개수                                                    |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_btree_deletes                        | Accumulator    | The number of nodes deleted                                           |
+    |                  | Num_btree_deletes                        | Accumulator    | 삭제된 노드의 개수                                                    |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_btree_updates                        | Accumulator    | The number of nodes updated                                           |
+    |                  | Num_btree_updates                        | Accumulator    | 갱신된 노드의 개수                                                    |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_btree_covered                        | Accumulator    | | The number of cases in which an index includes all data upon query  |
-    |                  |                                          |                | | execution                                                           |
+    |                  | Num_btree_covered                        | Accumulator    | | 질의 시 인덱스가 데이터를 모두 포함한 경우의 개수                   |
+    |                  |                                          |                | |                                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_btree_noncovered                     | Accumulator    | | The number of cases in which an index includes some or no data upon |
-    |                  |                                          |                | | query execution                                                     |
+    |                  | Num_btree_noncovered                     | Accumulator    | | 질의 시 인덱스가 데이터를 일부분만 포함하거나                       |
+    |                  |                                          |                | | 전혀 포함하지 않은 경우의 개수                                      |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_btree_resumes                        | Accumulator    | | The exceeding number of index scan specified due to too many        |
-    |                  |                                          |                | | results                                                             |
+    |                  | Num_btree_resumes                        | Accumulator    | | index_scan_oid_buffer_pages를 초과한 인덱스 스캔 횟수               |
+    |                  |                                          |                | |                                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_btree_multirange_optimization        | Accumulator    | | The number of executions on multi-range optimization for the        |
-    |                  |                                          |                | | WHERE ... IN ... LIMIT condition query statement                    |
+    |                  | Num_btree_multirange_optimization        | Accumulator    | | WHERE ... IN ... LIMIT 조건 질의문에 대해                           |
+    |                  |                                          |                | | 다중 범위 최적화(multi-range optimization)를 수행한 횟수            |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_btree_splits                         | Accumulator    | The number of B-tree split-operations                                 |
+    |                  | Num_btree_splits                         | Accumulator    | B-tree 노드 분할 연산 횟수                                            |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_btree_merges                         | Accumulator    | The number of B-tree merge-operations                                 |
+    |                  | Num_btree_merges                         | Accumulator    | B-tree 노드 합병 연산 횟수                                            |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_btree_get_stats                      | Accumulator    | The number of B-tree get stat calls                                   |
+    |                  | Num_btree_get_stats                      | Accumulator    | B-tree 노드 통계 호출 횟수                                            |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_leaf                                | Counter/timer  | The number and duration of all operations in index leaves             |
+    |                  | ..bt_leaf                                | Counter/timer  | 인덱스 단말에서 모든 수행기간과 횟수                                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_find_unique                         | Counter/timer  | The number and duration of B-tree 'find-unique' operations            |
+    |                  | ..bt_find_unique                         | Counter/timer  | B-tree 의 'find-unique' 수행 기간과 횟수                              |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..btrange_search                         | Counter/timer  | The number and duration of B-tree 'range-search' operations           |
+    |                  | ..btrange_search                         | Counter/timer  | B-tree 의 'range-search' 수행 기간과 횟수                             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_insert_obj                          | Counter/timer  | The number and duration of B-tree 'insert object' operations          |
+    |                  | ..bt_insert_obj                          | Counter/timer  | B-tree 의 'insert-object' 수행 기간과 횟수                            |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_delete_obj                          | Counter/timer  | The number and duration of B-tree 'physical delete object' operations |
+    |                  | ..bt_delete_obj                          | Counter/timer  | B-tree 의 'physical delete object' 수행 기간과 횟수                   |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_mvcc_delete                         | Counter/timer  | The number and duration of B-tree 'mvcc delete' operations            |
+    |                  | ..bt_mvcc_delete                         | Counter/timer  | B-tree 의 'mvcc delete' 수행 기간과 횟수                              |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_mark_delete                         | Counter/timer  | The number and duration of B-tree mark delete operations              |
+    |                  | ..bt_mark_delete                         | Counter/timer  | B-tree 의 'mark delete' 수행 기간과 횟수                              |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_undo_insert                         | Counter/timer  | The number and duration of B-tree 'undo insert' operations            |
+    |                  | ..bt_undo_insert                         | Counter/timer  | B-tree 의 'undo insert' 수행 기간과 횟수                              |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_undo_delete                         | Counter/timer  | The number and duration of B-tree 'undo physical delete' operations   |
+    |                  | ..bt_undo_delete                         | Counter/timer  | B-tree 의 'undo physical delete' 수행 기간과 횟수                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_undo_mvcc_delete                    | Counter/timer  | The number and duration of B-tree 'undo mvcc delete' operations       |
+    |                  | ..bt_undo_mvcc_delete                    | Counter/timer  | B-tree 의 'undo mvcc delete' 수행 기간과 횟수                         |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_vacuum                              | Counter/timer  | The number and duration of B-tree vacuum deleted object operations    |
+    |                  | ..bt_vacuum                              | Counter/timer  | B-tree 의 'vacuum deleted object' 수행 기간과 횟수                    |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_vacuum_insid                        | Counter/timer  | The number and duration of vacuum operations on B-tree 'insert id'    |
+    |                  | ..bt_vacuum_insid                        | Counter/timer  | B-tree 의 'insert id' 수행 기간과 횟수                                |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_fix_ovf_oids                        | Counter/timer  | The number and duration of B-tree overflow page fixes                 |
+    |                  | ..bt_fix_ovf_oids                        | Counter/timer  | B-tree 의 'overflow page fix' 수행 기간과 횟수                        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_unique_rlocks                       | Counter/timer  | The number and duration of blocked read locks on unique indexes       |
+    |                  | ..bt_unique_rlocks                       | Counter/timer  | 고유 인덱스에서 블록 읽음 잠금의 수행 기간과 횟수                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_unique_wlocks                       | Counter/timer  | The number and duration of blocked write locks on unique indexes      |
+    |                  | ..bt_unique_wlocks                       | Counter/timer  | 고유 인덱스에서 블록 쓰기 잠금의 수행 기간과 횟수                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_traverse                            | Counter/timer  | The number and duration of B-tree traverse                            |
+    |                  | ..bt_traverse                            | Counter/timer  | B-tree 횡단의 수행 기간과 횟수                                        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_find_unique_traverse                | Counter/timer  | The number and duration of B-tree traverse for 'find unique'          |
+    |                  | ..bt_find_unique_traverse                | Counter/timer  | B-tree 'find unique' 횡단의 수행 기간과 횟수                          |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_range_search_traverse               | Counter/timer  | The number and duration of B-tree traverse for 'range search'         |
+    |                  | ..bt_range_search_traverse               | Counter/timer  | B-tree 'range search' 횡단의 수행 기간과 횟수                         |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_insert_traverse                     | Counter/timer  | The number and duration of B-tree traverse for 'insert'               |
+    |                  | ..bt_insert_traverse                     | Counter/timer  | B-tree 'insert' 횡단의 수행 기간과 횟수                               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_delete_traverse                     | Counter/timer  | The number and duration of B-tree traverse for 'physical delete'      |
+    |                  | ..bt_delete_traverse                     | Counter/timer  | B-tree 'physical delete' 횡단의 수행 기간과 횟수                      |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_mvcc_delete_traverse                | Counter/timer  | The number and duration of B-tree traverse for 'mvcc delete'          |
+    |                  | ..bt_mvcc_delete_traverse                | Counter/timer  | B-tree 'mvcc delete' 횡단의 수행 기간과 횟수                          |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_mark_delete_traverse                | Counter/timer  | The number and duration of B-tree traverse for 'mark delete'          |
+    |                  | ..bt_mark_delete_traverse                | Counter/timer  | B-tree 'mark delete' 횡단의 수행 기간과 횟수                          |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_undo_insert_traverse                | Counter/timer  | The number and duration of B-tree traverse for 'undo physical insert' |
+    |                  | ..bt_undo_insert_traverse                | Counter/timer  | B-tree 'undo physical insert' 횡단의 수행 기간과 횟수                 |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_undo_delete_traverse                | Counter/timer  | The number and duration of B-tree traverse for 'undo physical delete' |
+    |                  | ..bt_undo_delete_traverse                | Counter/timer  | B-tree 'undo physical delete' 횡단의 수행 기간과 횟수                 |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_undo_mvcc_delete_traverse           | Counter/timer  | The number and duration of B-tree traverse for 'undo delete'          |
+    |                  | ..bt_undo_mvcc_delete_traverse           | Counter/timer  | B-tree 'undo delete' 횡단의 수행 기간과 횟수                          |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_vacuum_traverse                     | Counter/timer  | The number and duration of B-tree traverse for vacuum deleted object  |
+    |                  | ..bt_vacuum_traverse                     | Counter/timer  | B-tree 'vacuum deleted object' 횡단의 수행 기간과 횟수                |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..bt_vacuum_insid_traverse               | Counter/timer  | The number and duration of B-tree traverse for vacuum 'insert id'     |
+    |                  | ..bt_vacuum_insid_traverse               | Counter/timer  | B-tree 'vacuum insert id' 횡단의 수행 기간과 횟수                     |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | Query            | Num_query_selects                        | Accumulator    | The number of SELECT query execution                                  |
+    | Query            | Num_query_selects                        | Accumulator    | SELECT 쿼리의 수행 횟수                                               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_query_inserts                        | Accumulator    | The number of INSERT query execution                                  |
+    |                  | Num_query_inserts                        | Accumulator    | INSERT 쿼리의 수행 횟수                                               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_query_deletes                        | Accumulator    | The number of DELETE query execution                                  |
+    |                  | Num_query_deletes                        | Accumulator    | DELETE 쿼리의 수행 횟수                                               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_query_updates                        | Accumulator    | The number of UPDATE query execution                                  |
+    |                  | Num_query_updates                        | Accumulator    | UPDATE 쿼리의 수행 횟수                                               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_query_sscans                         | Accumulator    | The number of sequential scans (full scan)                            |
+    |                  | Num_query_sscans                         | Accumulator    | 순차 스캔(full scan) 횟수                                             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_query_iscans                         | Accumulator    | The number of index scans                                             |
+    |                  | Num_query_iscans                         | Accumulator    | 인덱스 스캔 횟수                                                      |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_query_lscans                         | Accumulator    | The number of LIST scans                                              |
+    |                  | Num_query_lscans                         | Accumulator    | 리스트 스캔 횟수                                                      |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_query_setscans                       | Accumulator    | The number of SET scans                                               |
+    |                  | Num_query_setscans                       | Accumulator    | 셋(SET) 스캔 횟수                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_query_methscans                      | Accumulator    | The number of METHOD scans                                            |
+    |                  | Num_query_methscans                      | Accumulator    | 메쏘드(METHOD) 스캔 횟수                                              |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_query_nljoins                        | Accumulator    | The number of nested loop joins                                       |
+    |                  | Num_query_nljoins                        | Accumulator    | 중첩 루프 조인 (nested loop joins) 횟수                               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_query_mjoins                         | Accumulator    | The number of parallel joins                                          |
+    |                  | Num_query_mjoins                         | Accumulator    | 병합 조인(parallel join) 횟수                                         |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_query_objfetches                     | Accumulator    | The number of fetch objects                                           |
+    |                  | Num_query_objfetches                     | Accumulator    | 객체를 가져오기(fetch) 한 횟수                                        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_query_holdable_cursors               | Snapshot       | The number of holdable cursors in the current server.                 |
+    |                  | Num_query_holdable_cursors               | Snapshot       | 현재 서버에서 유지할 수 있는 커서의 개수                              |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | Sort             | Num_sort_io_pages                        | Accumulator    | | The number of pages fetched on the disk during sorting              |
-    |                  |                                          |                | | (more means less efficient)                                         |
+    | Sort             | Num_sort_io_pages                        | Accumulator    | | 정렬하는 동안 디스크에서 페치한 페이지 개수                         |
+    |                  |                                          |                | | (이 값이 클수록 덜 효율적임)                                        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_sort_data_pages                      | Accumulator    | | The number of pages found on the page buffer during sorting         |
-    |                  |                                          |                | | (more means less efficient)                                         |
+    |                  | Num_sort_data_pages                      | Accumulator    | | 정렬하는 동안 페이지 버퍼에서 발견된 페이지 개수                    |
+    |                  |                                          |                | | (이 값이 클수록 덜 효율적임)                                        |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | Network request  | Num_network_requests                     | Accumulator    | The number of network requested                                       |
+    | Network request  | Num_network_requests                     | Accumulator    | 네트워크 요청 횟수                                                    |
     |                  |                                          |                |                                                                       |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | Heap             | Num_heap_stats_bestspace_entries         | Accumulator    | The number of best pages which are saved on the "best page" list      |
+    | Heap             | Num_heap_stats_bestspace_entries         | Accumulator    | 최적합 페이지 목록에 저장된 적합 페이지 개수                          |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_stats_bestspace_maxed           | Accumulator    | The maximum number of pages which can be saved on the "best page" list|
+    |                  | Num_heap_stats_bestspace_maxed           | Accumulator    | 최적합 페이지 목록에 저장할 수 있는 있는 페이지 최대값                |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_stats_sync_bestspace            | Accumulator    | | The updated number of the "best page" list.                         |
+    |                  | Num_heap_stats_sync_bestspace            | Accumulator    | | 최적합 페이지 리스트의 갱신 횟수                                    |
     |                  |                                          |                |                                                                       |
-    |                  |                                          |                | | "Best pages" means that the data pages of which the free space is   |
-    |                  |                                          |                | | more than 30% in the environment of multiple INSERTs and DELETEs.   |
-    |                  |                                          |                | | Only some information of these pages are saved as the "best page"   |
-    |                  |                                          |                | | list. In the "best page" list, the information of a million pages is|
-    |                  |                                          |                | | saved at once. This list is searched when INSERTing a record, and   |
-    |                  |                                          |                | | then this list is updated when there are no free space to store this|
-    |                  |                                          |                | | record on the pages. If there are still no free space to store this |
-    |                  |                                          |                | | record even this list is updated for several times, this recored is |
-    |                  |                                          |                | | stored into a new page.                                             |
+    |                  |                                          |                | | "최적합 페이지"는  여러 개의 INSERT 및 DELETE 환경에서 여유 공간이  |
+    |                  |                                          |                | | 30% 이상 있는 것을 의미한다.                                        |
+    |                  |                                          |                | | 이 페이지의 일부 정보 만 "최적합 페이지"로 저장된다.                |
+    |                  |                                          |                | | "최적합 페이지"목록에서 백만 페이지의 정보는한 번에 저장될 수 있다. |
+    |                  |                                          |                | | 최적합 페이지 목록은 레코드를 INSERT 할 때 검색된다.                |
+    |                  |                                          |                | | 이 목록은  페이지에 저장공간이 없을 때 갱신된다.                    |
+    |                  |                                          |                | | 이 목록이 여러번 갱신되어서                                         |
+    |                  |                                          |                | | 더 이상 저장할 공간이없는 경우 레코드는 새 페이지에 저장된다.       |
+    |                  |                                          |                | |                                                                     |
     |                  |                                          |                |                                                                       |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_home_inserts                    | Accumulator    | The number of inserts in heap HOME type records                       |
+    |                  | Num_heap_home_inserts                    | Accumulator    | 힙에서 홈 타입 레코드의 삽입 횟수                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_big_inserts                     | Accumulator    | The number of inserts in heap BIG type records                        |
+    |                  | Num_heap_big_inserts                     | Accumulator    | 힙에서 빅 타입 레코드의 삽입 횟수                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_assign_inserts                  | Accumulator    | The number of inserts in heap ASSIGN type records                     |
+    |                  | Num_heap_assign_inserts                  | Accumulator    | 힙에서 할당(Assign) 타입 레코드의 삽입 횟수                           |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_home_deletes                    | Accumulator    | The number of deletes from heap HOME type records in non-MVCC mode    |
+    |                  | Num_heap_home_deletes                    | Accumulator    | MVCC 모드가 아니며  힙에서 홈 타입 레코드의 삭제 횟수                 |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_home_mvcc_deletes               | Accumulator    | The number of deletes from heap HOME type records in MVCC mode        |
+    |                  | Num_heap_home_mvcc_deletes               | Accumulator    | MVCC 모드이며 힙에서 홈 타입 레코드의 삭제 횟수                       |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_home_to_rel_deletes             | Accumulator    | | The number of deletes from heap HOME to RELOCATION type records in  |
-    |                  |                                          |                | | MVCC mode                                                           |
+    |                  | Num_heap_home_to_rel_deletes             | Accumulator    | | MVCC 모드이며 힙에서 홈 타입에서 재배치(RELOCATION) 타입으로 변경된 |
+    |                  |                                          |                | | 레코드의 삭제 횟수                                                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_home_to_big_deletes             | Accumulator    | The number of deletes from heap HOME to BIG type records in MVCC mode |
+    |                  | Num_heap_home_to_big_deletes             | Accumulator    | MVCC 모드이며 힙에서 홈 타입에서 빅 타입으로 변경된 레코드의 삭제 횟수|
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_rel_deletes                     | Accumulator    | | The number of deletes from heap RELOCATION type records in non-MVCC |
-    |                  |                                          |                | | mode                                                                |
+    |                  | Num_heap_rel_deletes                     | Accumulator    | | MVCC 모드가 아니며 힙에서 재배치(RELOCATION) 타입 레코드의 삭제 횟수|
+    |                  |                                          |                | |                                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_rel_mvcc_deletes                | Accumulator    | The number of deletes from heap RELOCATION type records in MVCC mode  |
+    |                  | Num_heap_rel_mvcc_deletes                | Accumulator    | MVCC 모드이며 힙에서 재배치(RELOCATION) 타입 레코드의 삭제 횟수       |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_rel_to_home_deletes             | Accumulator    | | The number of deletes from heap RELOCATION to HOME type records in  |
-    |                  |                                          |                | | MVCC mode                                                           |
+    |                  | Num_heap_rel_to_home_deletes             | Accumulator    | | MVCC 모드이며 힙에서 재배치(RELOCATION) 타입에서 홈 타입으로 변경된 |
+    |                  |                                          |                | | 레코드의 삭제 횟수                                                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_rel_to_big_deletes              | Accumulator    | | The number of deletes from heap RELOCATION to BIG type records in   |
-    |                  |                                          |                | | MVCC mode                                                           |
+    |                  | Num_heap_rel_to_big_deletes              | Accumulator    | | MVCC 모드이며 힙에서 재배치(RELOCATION) 타입에서 빅 타입으로 변경된 |
+    |                  |                                          |                | | 레코드의 삭제 횟수                                                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_rel_to_rel_deletes              | Accumulator    | | The number of deletes from heap RELOCATION to RELOCATION type       |
-    |                  |                                          |                | | records in MVCC mode                                                |
+    |                  | Num_heap_rel_to_rel_deletes              | Accumulator    | | MVCC 모드이며 힙에서 재배치(RELOCATION) 타입에서 재배치 타입으로    |
+    |                  |                                          |                | | 변경된 레코드의 삭제 횟수                                           |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_big_deletes                     | Accumulator    | The number of deletes from heap BIG type records in non-MVCC mode     |
+    |                  | Num_heap_big_deletes                     | Accumulator    | 비 MVCC 모드에서 힙 빅타입 레코드의 삭제 횟수                         |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_big_mvcc_deletes                | Accumulator    | The number of deletes from heap BIG type records in MVCC mode         |
+    |                  | Num_heap_big_mvcc_deletes                | Accumulator    | MVCC 모드에서 힙 빅타입 레코드의 삭제 횟수                            |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_home_updates                    | Accumulator    | | The number of updates in place of heap HOME type records in         |
-    |                  |                                          |                | | non-MVCC mode(*)                                                    |
+    |                  | Num_heap_home_updates                    | Accumulator    | | 비 MVCC 모드에서 힙 홈 타입레코드의 갱신 횟수                       |
+    |                  |                                          |                | |                                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_home_to_rel_updates             | Accumulator    | | The number of updates of heap HOME to RELOCATION type records in    |
-    |                  |                                          |                | | non-MVCC mode(*)                                                    |
+    |                  | Num_heap_home_to_rel_updates             | Accumulator    | | 비 MVCC 모드에서 힙 홈타입에서 재배치 타입으로 갱신된 레코드의 횟수 |
+    |                  |                                          |                | |                                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_home_to_big_updates             | Accumulator    | | The number of updates of heap HOME to BIG type records in non-MVCC  |
-    |                  |                                          |                | | mode(*)                                                             |
+    |                  | Num_heap_home_to_big_updates             | Accumulator    | | 비 MVCC 모드에서 힙 홈타입에서 빅 타입으로 갱신된 레코드의 횟수     |
+    |                  |                                          |                | |                                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_rel_updates                     | Accumulator    | | The number of updates of heap RELOCATION type records in non-MVCC   |
-    |                  |                                          |                | | mode(*)                                                             |
+    |                  | Num_heap_rel_updates                     | Accumulator    | | 비 MVCC 모드에서 힙 재배치 레코드의 갱신 횟수                       |
+    |                  |                                          |                | |                                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_rel_to_home_updates             | Accumulator    | | The number of updates of heap RELOCATION to HOME type records in    |
-    |                  |                                          |                | | non-MVCC mode(*)                                                    |
+    |                  | Num_heap_rel_to_home_updates             | Accumulator    | | 비 MVCC 모드에서 힙 재배치 타입에서 홈 타입으로 갱신된 레코드의 횟수|
+    |                  |                                          |                | |                                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_rel_to_rel_updates              | Accumulator    | | The number of updates of heap RELOCATION to RELOCATION type records |
-    |                  |                                          |                | | in non-MVCC mode(*)                                                 |
+    |                  | Num_heap_rel_to_rel_updates              | Accumulator    | | 비 MVCC 모드에서 힙 재배치타입에서 재배치타입으로 갱신된 레코드의 s |
+    |                  |                                          |                | | 횟수                                                                |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
     |                  | Num_heap_rel_to_big_updates              | Accumulator    | | The number of updates of heap RELOCATION to BIG type records in     |
     |                  |                                          |                | | non-MVCC mode(*)                                                    |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_big_updates                     | Accumulator    | The number of updates of heap BIG type records in non-MVCC mode(*)    |
+    |                  | Num_heap_big_updates                     | Accumulator    | 비 MVCC 모드에서 힙 빅 타입으로 갱신된 레코드의 횟수                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_home_vacuums                    | Accumulator    | The number of vacuumed heap HOME type records                         |
+    |                  | Num_heap_home_vacuums                    | Accumulator    | 회수된 힙 홈 타입 레코드의 횟수                                       |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_big_vacuums                     | Accumulator    | The number of vacuumed heap BIG type records                          |
+    |                  | Num_heap_big_vacuums                     | Accumulator    | 회수된 힙 빅 타입 레코드의 횟수                                       |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_rel_vacuums                     | Accumulator    | The number of vacuumed heap RELOCATION type records                   |
+    |                  | Num_heap_rel_vacuums                     | Accumulator    | 회수된 힙 재배치 타입 레코드의 횟수                                   |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_insid_vacuums                   | Accumulator    | The number of vacuumed heap newly inserted records                    |
+    |                  | Num_heap_insid_vacuums                   | Accumulator    | 회수된 새로 삽입된 힙 레코드의 횟수                                   |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_heap_remove_vacuums                  | Accumulator    | The number of vacuum operations that remove heap records              |
+    |                  | Num_heap_remove_vacuums                  | Accumulator    | 삭제된 힙 레코드 회수 횟수                                            |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..heap_insert_prepare                    | Counter/timer  | The number and duration of preparing heap insert operation            |
+    |                  | ..heap_insert_prepare                    | Counter/timer  | 힙 삽입 횟수 및 지속 기간                                             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..heap_insert_execute                    | Counter/timer  | The number and duration of executing heap insert operation            |
+    |                  | ..heap_insert_execute                    | Counter/timer  | 힙 삽입 수행 횟수 및 지속 기간                                        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..heap_insert_log                        | Counter/timer  | The number and duration of logging heap insert operation              |
+    |                  | ..heap_insert_log                        | Counter/timer  | 힙 삽입 로깅 횟수 및 지속 기간                                        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..heap_delete_prepare                    | Counter/timer  | The number and duration of preparing heap delete operation            |
+    |                  | ..heap_delete_prepare                    | Counter/timer  | 힙 삭제 준비 횟수 및 지속 기간                                        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..heap_delete_execute                    | Counter/timer  | The number and duration of executing heap delete operation            |
+    |                  | ..heap_delete_execute                    | Counter/timer  | 힙 삭제 수행 횟수 및 지속 기간                                        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..heap_delete_log                        | Counter/timer  | The number and duration of logging heap delete operation              |
+    |                  | ..heap_delete_log                        | Counter/timer  | 힙 삭제 로깅 횟수 및 지속 기간                                        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..heap_update_prepare                    | Counter/timer  | The number and duration of preparing heap update operation            |
+    |                  | ..heap_update_prepare                    | Counter/timer  | 힙 갱신 준비 횟수 및 지속 기간                                        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..heap_update_execute                    | Counter/timer  | The number and duration of executing heap update operation            |
+    |                  | ..heap_update_execute                    | Counter/timer  | 힙 갱신 수행 횟수 및 지속 기간                                        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..heap_update_log                        | Counter/timer  | The number and duration of logging heap update operation              |
+    |                  | ..heap_update_log                        | Counter/timer  | 힙 갱신 로깅 횟수 및 지속 기간                                        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..heap_vacuum_prepare                    | Counter/timer  | The number and duration of preparing heap vacuum operation            |
+    |                  | ..heap_vacuum_prepare                    | Counter/timer  | 힙 회수 준비 횟수 및 지속 기간                                        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..heap_vacuum_execute                    | Counter/timer  | The number and duration of executing heap vacuum operation            |
+    |                  | ..heap_vacuum_execute                    | Counter/timer  | 힙 회수 수행 횟수 및 지속 기간                                        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..heap_vacuum_log i                      | Counter/timer  | The number and duration of logging heap vacuum operation              |
+    |                  | ..heap_vacuum_log i                      | Counter/timer  | 힙 회수 로깅 횟수 및 지속 기간                                        |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | Query plan cache | Num_plan_cache_add                       | Accumulator    | The number of entries added to query cache                            |
+    | Query plan cache | Num_plan_cache_add                       | Accumulator    | 쿼리 캐시 엔트리가 새로  시작된  횟수                                 |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_plan_cache_lookup                    | Accumulator    | The number of lookups in query cache                                  |
+    |                  | Num_plan_cache_lookup                    | Accumulator    | 특정 키를 사용하여 쿼리 캐시 룩업(Lookup)을 시도한 횟수               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_plan_cache_hit                       | Accumulator    | The number of hits in query cache                                     |
+    |                  | Num_plan_cache_hit                       | Accumulator    | 회수된 힙 홈 타입 레코드의 횟수                                       |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_plan_cache_miss                      | Accumulator    | The number of misses in query cache                                   |
+    |                  | Num_plan_cache_miss                      | Accumulator    | 질의 문자열 해시 테이블에서 엔트리를 찾지 못한(miss) 횟수             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_plan_cache_full                      | Accumulator    | The number of times query cache becomes full                          |
+    |                  | Num_plan_cache_full                      | Accumulator    | 캐시 엔트리의 개수가 최대값을 넘어 희생자(victim) 탐색을 시도한 횟수  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_plan_cache_delete                    | Accumulator    | The number of entries deleted from query cache                        |
+    |                  | Num_plan_cache_delete                    | Accumulator    | 캐시 엔트리가 삭제된(victimized) 횟수                                 |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_plan_cache_invalid_xasl_id           | Accumulator    | The number of failed attempts of retrieving entries by XASL ID.       |
+    |                  | Num_plan_cache_invalid_xasl_id           |                | xasl_id 해시 테이블에서 엔트리를 찾지 못한(miss) 횟수.                |
+    |                  |                                          |                | 서버에서 특정 엔트리가 제거(victimized)되었는데, 해당 엔트리를        |
+    |                  |                                          |                | 클라이언트에서 요청했을 때 발생하는 에러 횟수                         |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_plan_cache_entries                   | Snapshot       | The current number of entires in query cache                          |
+    |                  | Num_plan_cache_entries                   | Snapshot       | 쿼리 캐시 엔트리의 현재 횟수                                          |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | HA               | Time_ha_replication_delay                | Accumulator    | Replication latency time (sec.)                                       |
+    | HA               | Time_ha_replication_delay                | Accumulator    | 복제 지연 시간(초)                                                    |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
     | Vacuuming        | Num_vacuum_log_pages_vacuumed            | Accumulator    | The number of log data pages processed by vacuum workers.             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+

@@ -652,7 +652,7 @@ _db_partition
 |          |              | 1 - RANGE                  |
 |          |              | 2 - LIST                   |
 +----------+--------------+----------------------------+
-| pexpr    | VARCHAR(255) | Parent only                |
+| pexpr    | VARCHAR(255) | Parent 에만 해당           |
 +----------+--------------+----------------------------+
 | pvalues  | SEQUENCE OF  | Parent - 칼럼명, Hash size |
 |          |              | RANGE - MIN/MAX value      |
