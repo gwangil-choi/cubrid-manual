@@ -1806,188 +1806,191 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
     | HA               | Time_ha_replication_delay                | Accumulator    | 복제 지연 시간(초)                                                    |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | Vacuuming        | Num_vacuum_log_pages_vacuumed            | Accumulator    | The number of log data pages processed by vacuum workers.             |
+    | Vacuuming        | Num_vacuum_log_pages_vacuumed            | Accumulator    | 회수 워커에 의해 처리된 데이터 페이지 로그 횟수                       |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_vacuum_log_pages_to_vacuum           | Accumulator    | | The number of log data pages to be vacuumed by vacuum workers.      |
-    |                  |                                          |                | | (if value is much bigger than Num_vacuum_log_pages_vacuumed,        |
-    |                  |                                          |                | | it means vacuum system lags behind)                                 |
+    |                  | Num_vacuum_log_pages_to_vacuum           | Accumulator    | | 회수 워커가 회수 할 로그 데이터 페이지 수                           |
+    |                  |                                          |                | | (값이 Num_vacuum_log_pages_vacuumed보다 훨씬 큰 경우                |
+    |                  |                                          |                | | 이는 회수 시스템이 효율적이지 않다는 것을 의미한다.)                |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_vacuum_prefetch_requests_log_pages   | Accumulator    | The number of requests to prefetch buffer for log pages from vacuum   |
+    |                  | Num_vacuum_prefetch_requests_log_pages   | Accumulator    | 회수시스템에서 로그 페이지 용 버퍼를 프리 페치하기위한 요청 수        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_vacuum_prefetch_hits_log_pages       | Accumulator    | The number of hits to prefetch buffer for log pages from vacuum       |
+    |                  | Num_vacuum_prefetch_hits_log_pages       | Accumulator    | 회수시스템에서 로그 페이지를 미리 버퍼하는 히트 수                    |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..vacuum_master                          | Counter/timer  | The number and duration of vacuum master iterations.                  |
+    |                  | ..vacuum_master                          | Counter/timer  | 회수 마스터 작업 반복 횟수와 지속 시간                                |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..vacuum_job                             | Counter/timer  | The number and duration of vacuum jobs                                |
+    |                  | ..vacuum_job                             | Counter/timer  | 회수 작업 횟수와 지속 시간                                            |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..vacuum_worker_process_log              | Counter/timer  | The number and duration of process log tasks                          |
+    |                  | ..vacuum_worker_process_log              | Counter/timer  | 로그 처리 횟수와 지속 시간                                            |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..vacuum_worker_execute                  | Counter/timer  | The number and duration of execute vacuum tasks                       |
+    |                  | ..vacuum_worker_execute                  | Counter/timer  | 회수 작업 수행 횟수와 지속 시간                                       |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Vacuum_data_page_buffer_hit_ratio        | Computed       | Hit ratio of vacuuming data page buffers                              |
+    |                  | Vacuum_data_page_buffer_hit_ratio        | Computed       | 회수 데이퍼 페이지 버퍼의 히트 비율                                   |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Vacuum_page_efficiency_ratio             | Computed       | | Ratio between number of page unfix of vacuum with dirty flag and    |
-    |                  |                                          |                | | total number of page unfix of vacuum. Ideally, the vacuum process   |
-    |                  |                                          |                | | performsonly write operations since it cleans up all unused records.|
-    |                  |                                          |                | | Even with an optimized vacuum process, 100% efficiency is not       |
-    |                  |                                          |                | | possible.                                                           |
+    |                  | Vacuum_page_efficiency_ratio             | Computed       | | 더티 플래그가 있는 회수되지 않은 페이지 수와 회수되지 않은 페이지   |
+    |                  |                                          |                | | 수의 비율. 이상적으로는, 사용되지 않는 모든 레코드를 정리하므로     |
+    |                  |                                          |                | | 회수 작업은 쓰기 작업 만 수행한다.                                  |
+    |                  |                                          |                | | 최적화 된 회수 작업이라도 100% 효율은 가능하지 않다.                |
+    |                  |                                          |                | |                                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Vacuum_page_fetch_ratio                  | Computed       | Ratio (percentage) of page unfix from vacuum module versus total.     |
+    |                  | Vacuum_page_fetch_ratio                  | Computed       | 회수 모듈에서 수정되지 않은 페이지와 총 페이지의 비율 (백분율)        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_avoid_dealloc              | Snapshot       | The number of data pages that cannot be deallocated by vacuum         |
+    |                  | Num_data_page_avoid_dealloc              | Snapshot       | 회수 시스템에 의해 할당 해제 될 수 없는 데이터 페이지 수              |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | Page buffer fix  | Data_page_fix_lock_acquire_time_msec     | Computed       | Time waiting for other transaction to load page from disk             |
+    | Page buffer fix  | Data_page_fix_lock_acquire_time_msec     | Computed       | 디스크에서 페이지를 로드하는 트랜잭션이 기다리는 시간                 |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Data_page_fix_hold_acquire_time_msec     | Computed       | Time to obtain page latch                                             |
+    |                  | Data_page_fix_hold_acquire_time_msec     | Computed       | 페이지 래치를 획득하는 시간                                           |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Data_page_fix_acquire_time_msec          | Computed       | Total time to fix page                                                |
+    |                  | Data_page_fix_acquire_time_msec          | Computed       | 페이지를 수정하는 총 시간                                             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Data_page_allocate_time_ratio            | Computed       | | Ratio of time necessary for page loading from disk versus the total |
-    |                  |                                          |                | | time of fixing a page                                               |
+    |                  | Data_page_allocate_time_ratio            | Computed       | | 디스크에서 페이지를 로딩하는 데 필요한 시간과                       |
+    |                  |                                          |                | | 페이지를 수정하는 총 시간의 비율                                    |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Data_page_total_promote_success          | Computed       | Number of successful page latch promotions from shared to exclusive   |
+    |                  | Data_page_total_promote_success          | Computed       | 공유에서 상호배제로의 성공적인 페이지 래치 프로모션 수                |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Data_page_total_promote_fail             | Computed       | Number of failed page latch promotions                                |
+    |                  | Data_page_total_promote_fail             | Computed       | 페이지 래치 프로모션 실패 횟수                                        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Data_page_total_promote_time_msec        | Computed       | Time for promoting page latches                                       |
+    |                  | Data_page_total_promote_time_msec        | Computed       | 페이지 래치를 승격(promotion)시키는 시간                              |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_hash_anchor_waits          | Accumulator    | Number of waits on page buffer hash bucket                            |
+    |                  | Num_data_page_hash_anchor_waits          | Accumulator    | 페이지 버퍼 해시 버킷의 대기 수                                       |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Time_data_page_hash_anchor_wait          | Accumulator    | Total wait time on page buffer hash bucket                            |
+    |                  | Time_data_page_hash_anchor_wait          | Accumulator    | 페이지 버퍼 해시 버킷의 총 대기 시간                                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_fix_ext                    | Complex        | | Number of data page fixes classified by:                            |
-    |                  |                                          |                | | - module (system, worker, vacuum)                                   |
-    |                  |                                          |                | | - page type                                                         |
-    |                  |                                          |                | | - page fetch/found mode                                             |
-    |                  |                                          |                | | - page latch mode                                                   |
-    |                  |                                          |                | | - page latch condition                                              |
+    |                  | Num_data_page_fix_ext                    | Complex        | | 다음으로 분류 된 데이터 페이지 수정 수, 분류는 다음과 같다.         |
+    |                  |                                          |                | | - 모듈(system, worker, vacuum)                                      |
+    |                  |                                          |                | | - 페이지 타입                                                       |
+    |                  |                                          |                | | - 페이지 페치/발견 모드                                             |
+    |                  |                                          |                | | - 페이지 래치 모드                                                  |
+    |                  |                                          |                | | - 페이지 래치 조건                                                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Time_data_page_lock_acquire_time         | Complex        | | Time consumed waiting for other thread to load data page from disk: |
-    |                  |                                          |                | | - module (system, worker, vacuum)                                   |
-    |                  |                                          |                | | - page type                                                         |
-    |                  |                                          |                | | - page fetch/found mode                                             |
-    |                  |                                          |                | | - page latch mode                                                   |
-    |                  |                                          |                | | - page latch condition                                              |
+    |                  | Time_data_page_lock_acquire_time         | Complex        | | 다른 스레드가 디스크에서 데이터 페이지를 로드 할 때까지 대기 시간   |
+    |                  |                                          |                | | - 모둘 (system, worker, vacuum)                                     |
+    |                  |                                          |                | | - 페이지 타입                                                       |
+    |                  |                                          |                | | - 페이지 페치/발견 모드                                             |
+    |                  |                                          |                | | - 페이지 래치 모드                                                  |
+    |                  |                                          |                | | - 페이지 래치 조건                                                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Time_data_page_hold_acquire_time         | Complex        | | Time consumed waiting for data page latch:                          |
-    |                  |                                          |                | | - module (system, worker, vacuum)                                   |
-    |                  |                                          |                | | - page type                                                         |
-    |                  |                                          |                | | - page fetch/found mode                                             |
-    |                  |                                          |                | | - page latch mode                                                   |
+    |                  | Time_data_page_hold_acquire_time         | Complex        | | 데이터 페이지 래치 대기 시간:                                       |
+    |                  |                                          |                | | - 모듈(system, worker, vacuum)                                      |
+    |                  |                                          |                | | - 페이지 타입                                                       |
+    |                  |                                          |                | | - 페이지 페치/발견 모드                                             |
+    |                  |                                          |                | | - 페이지 래치 모드                                                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Time_data_page_fix_acquire_time          | Complex        | | Time consumed fixing data page:                                     |
-    |                  |                                          |                | | - module (system, worker, vacuum)                                   |
-    |                  |                                          |                | | - page type                                                         |
-    |                  |                                          |                | | - page fetch/found mode                                             |
-    |                  |                                          |                | | - page latch mode                                                   |
-    |                  |                                          |                | | - page latch condition                                              |
+    |                  | Time_data_page_fix_acquire_time          | Complex        | | 데이터 페이지 수정 시간:                                            |
+    |                  |                                          |                | | - 모듈(system, worker, vacuum)                                      |
+    |                  |                                          |                | | - 페이지 타입                                                       |
+    |                  |                                          |                | | - 페이지 패치/발견 모드                                             |
+    |                  |                                          |                | | - 페이지 래치 모드                                                  |
+    |                  |                                          |                | | - 페이지 래치 조건                                                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_promote_ext                | Complex        | | Number of data page promotions classified by:                       |
-    |                  |                                          |                | | - module (system, worker, vacuum)                                   |
-    |                  |                                          |                | | - page type                                                         |
-    |                  |                                          |                | | - promote latch condition                                           |
-    |                  |                                          |                | | - holder latch mode                                                 |
-    |                  |                                          |                | | - successful/failed promotion                                       |
+    |                  | Num_data_page_promote_ext                | Complex        | | 다음으로 분류 된 데이터 페이지 프로모션 수: 분류는 다음과 같다.     |
+    |                  |                                          |                | | - 모듈(system, worker, vacuum)                                      |
+    |                  |                                          |                | | - 페이지 타입                                                       |
+    |                  |                                          |                | | - 프로모션 래치 조건                                                |
+    |                  |                                          |                | | - 홀더 래치 모드                                                    |
+    |                  |                                          |                | | - 성공/실패 프로모션                                                |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_promote_time_ext           | Complex        | | Time consumed for data page promotions classified by:               |
-    |                  |                                          |                | | - module (system, worker, vacuum)                                   |
-    |                  |                                          |                | | - page type                                                         |
-    |                  |                                          |                | | - promote latch condition                                           |
-    |                  |                                          |                | | - holder latch mode                                                 |
-    |                  |                                          |                | | - successful/failed promotion                                       |
+    |                  | Num_data_page_promote_time_ext           | Complex        | | 다음으로 분류 된 데이터 페이지 프로모션 수: 분류는 다음과 같다.     |
+    |                  |                                          |                | | - 모듈(system, worker, vacuum)                                      |
+    |                  |                                          |                | | - 페이지 타입                                                       |
+    |                  |                                          |                | | - 프로모션 래치 조건                                                |
+    |                  |                                          |                | | - 홀더 래치 모드                                                    |
+    |                  |                                          |                | | - 성공/실패 프로모션                                                |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | Page buffer      | Num_unfix_void_to_private_top            | Accumulator    | Unfix newly loaded data page and add to top of private LRU list       |
+    | Page buffer      | Num_unfix_void_to_private_top            | Accumulator    | 수정되지 않고 새로 로드된 데이터 페이지 및 내부 LRU 맨 위에 추가된 수 |
     | | unfix          +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_void_to_private_mid            | Accumulator    | Unfix newly loaded data page and add to middle of private LRU list    |
+    |                  | Num_unfix_void_to_private_mid            | Accumulator    | 수정되지 않고 새로 로드된 데이터 페이지 및 내부 LRU 중간에 추가된 수  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_void_to_shared_mid             | Accumulator    | Unfix newly loaded data page and add to middle of shared LRU list     |
+    |                  | Num_unfix_void_to_shared_mid             | Accumulator    | 수정되지 않고 새로 로드된 데이터 페이지 및 공유 LRU 중간에 추가된 수  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_lru1_private_to_shared_mid     | Accumulator    | Unfix data page and move from zone 1 of private list to shared middle |
+    |                  | Num_unfix_lru1_private_to_shared_mid     | Accumulator    | 수정되지 않고 데이터 페이지 및 내부 목록의 영역1에서 공유 중간으로    |
+    |                  |                                          |                | 이동된 수                                                             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_lru2_private_to_shared_mid     | Accumulator    | Unfix data page and move from zone 2 of private list to shared middle |
+    |                  | Num_unfix_lru2_private_to_shared_mid     | Accumulator    | 수정되지 않고 데이터 페이지 및 내부 목록의 영역2에서 공유 중간으로    |
+    |                  |                                          |                | 이동된 수                                                             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_lru3_private_to_shared_mid     | Accumulator    | Unfix data page and move from zone 3 of private list to shared middle |
+    |                  | Num_unfix_lru3_private_to_shared_mid     | Accumulator    | 수정되지 않고 데이터 페이지 및 내부 목록의 영역1에서 공유 중간으로    |
+    |                  |                                          |                | 이동된 수                                                             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_lru2_private_keep              | Accumulator    | Unfix data page and keep it in zone 2 of private list                 |
+    |                  | Num_unfix_lru2_private_keep              | Accumulator    | 데이터 페이지를 수정하지 않고 내부 리스트 2에 보관한 수               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_lru2_shared_keep               | Accumulator    | Unfix data page and keep it in zone 2 of shared  list                 |
+    |                  | Num_unfix_lru2_shared_keep               | Accumulator    | 데이터 페이지를 수정하지 않고 공유된 내부 리스트 2에 보관한 수        |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_lru2_private_to_top            | Accumulator    | Unfix data page and boost it from zone 2 of private list to its top   |
+    |                  | Num_unfix_lru2_private_to_top            | Accumulator    | 데이터 페이지를 수정하지 않고 내부 목록의 영역2에서 상단으로 올린 수  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_lru2_shared_to_top             | Accumulator    | Unfix data page and boost it from zone 2 of shared list to its top    |
+    |                  | Num_unfix_lru2_shared_to_top             | Accumulator    | 데이터 페이지를 수정하지 않고 공유 목록의 영역2에서 상단으로 올린 수  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_lru3_private_to_top            | Accumulator    | Unfix data page and boost it from zone 3 of private list to its top   |
+    |                  | Num_unfix_lru3_private_to_top            | Accumulator    | 데이터 페이지를 수정하지 않고 내부 목록의 영역3에서 상단으로 올린 수  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_lru3_shared_to_top             | Accumulator    | Unfix data page and boost it from zone 3 of shared list to its top    |
+    |                  | Num_unfix_lru3_shared_to_top             | Accumulator    | 데이터 페이지를 수정하지 않고 공유 목록의 영역3에서 상단으로 올린 수  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_lru1_private_keep              | Accumulator    | Unfix data page and keep it in zone 1 of private list                 |
+    |                  | Num_unfix_lru1_private_keep              | Accumulator    | 데이터 페이지를 수정하지 않고 내부 목록의 영역1에 보관한 수           |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_lru2_shared_keep               | Accumulator    | Unfix data page and keep it in zone 2 of shared  list                 |
+    |                  | Num_unfix_lru2_shared_keep               | Accumulator    | 데이터 페이지를 수정하지 않고 공유 목록의 영역2에 보관한 수           |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_void_to_private_mid_vacuum     | Accumulator    | | Unfix newly loaded data page and add to middle of private LRU list  |
-    |                  |                                          |                | | (vacuum thread)                                                     |
+    |                  | Num_unfix_void_to_private_mid_vacuum     | Accumulator    | | 새로 로드된 데이터 페이지를 수정하지 않고 내부 LRU 목록 중간에      |
+    |                  |                                          |                | | 추가한 수 (회수 쓰레드)                                             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_lru1_any_keep_vacuum           | Accumulator    | | Unfix data page and keep it in zone 1 of private/shared list        |
-    |                  |                                          |                | | (vacuum thread)                                                     |
+    |                  | Num_unfix_lru1_any_keep_vacuum           | Accumulator    | | 새로 로드된 데이터 페이지를 수정하지 않고 내부 공유 목록 영역 1에   |
+    |                  |                                          |                | | 보관한 수 (회수 쓰레드)                                             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_lru2_any_keep_vacuum           | Accumulator    | | Unfix data page and keep it in zone 2 of private/shared list        |
-    |                  |                                          |                | | (vacuum thread)                                                     |
+    |                  | Num_unfix_lru2_any_keep_vacuum           | Accumulator    | | 새로 로드된 데이터 페이지를 수정하지 않고 내부 공유 목록 영역 2에   |
+    |                  |                                          |                | | 보관한 수 (회수 쓰레드)                                             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_lru3_any_keep_vacuum           | Accumulator    | | Unfix data page and keep it in zone 3 of private/shared list        |
-    |                  |                                          |                | | (vacuum thread)                                                     |
+    |                  | Num_unfix_lru3_any_keep_vacuum           | Accumulator    | | 새로 로드된 데이터 페이지를 수정하지 않고 내부 공유 목록 영역 3에   |
+    |                  |                                          |                | | 보관한 수 (회수 쓰레드)                                             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_void_aout_found                | Accumulator    | Newly loaded data page was found in AOUT list                         |
+    |                  | Num_unfix_void_aout_found                | Accumulator    | AOUT 목록에 새로 로드 된 데이터 페이지가 발견된 수                    |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_void_aout_not_found            | Accumulator    | Newly loaded data page was not found in AOUT list                     |
+    |                  | Num_unfix_void_aout_not_found            | Accumulator    | AOUT 목록에 새로 로드 된 데이터 페이지가 발견되지 않은 수             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_void_aout_found_vacuum         | Accumulator    | Newly loaded data page was found in AOUT list (vacuum thread)         |
+    |                  | Num_unfix_void_aout_found_vacuum         | Accumulator    | AOUT 목록에 새로 로드 된 데이터 페이지가 발견된 수(회수 쓰레드)       |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_void_aout_not_found_vacuum     | Accumulator    | Newly loaded data page was not found in AOUT list (vacuum thread)     |
+    |                  | Num_unfix_void_aout_not_found_vacuum     | Accumulator    | AOUT 목록에 새로 로드 된 데이터 페이지가 발견되지 않은 수(회수 쓰레드)|
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_unfix_ext                  | Complex        | | Number of data page unfixes classified by:                          |
-    |                  |                                          |                | | - module (system, worker, vacuum)                                   |
-    |                  |                                          |                | | - page type                                                         |
-    |                  |                                          |                | | - dirty or not                                                      |
-    |                  |                                          |                | | - dirtied by holder or not                                          |
-    |                  |                                          |                | | - holder latch mode                                                 |
+    |                  | Num_data_page_unfix_ext                  | Complex        | | 다음으로 분류 된 수정되지 않은 데이터 페이지  수:                   |
+    |                  |                                          |                | | - 모듈(system, worker, vacuum)                                      |
+    |                  |                                          |                | | - 페이지 타입                                                       |
+    |                  |                                          |                | | - 더티이거나 아니 경우                                              |
+    |                  |                                          |                | | - 홀더에 의한 더티이거나 아닌 경우                                  |
+    |                  |                                          |                | | - 홀더 래치 모드                                                    |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | Page buffer I/O  | Data_page_buffer_hit_ratio               | Computed       | | Hit ratio of data page buffers                                      |
+    | Page buffer I/O  | Data_page_buffer_hit_ratio               | Computed       | | 데이터 페이지 버퍼의 히트 비율                                      |
     |                  |                                          |                | | (Num_data_page_fetches - Num_data_page_ioreads)*100                 |
     |                  |                                          |                | | / Num_data_page_fetches                                             |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_adaptive_flush_pages                 | Accumulator    | The number of data pages requested from adaptive flush controller.    |
+    |                  | Num_adaptive_flush_pages                 | Accumulator    | 적응형 플러시 컨트롤러에서 요청한 데이터 페이지 수                    |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_adaptive_flush_log_pages             | Accumulator    | The number of log data pages requested from adaptive flush controller |
+    |                  | Num_adaptive_flush_log_pages             | Accumulator    | 적응형 플러시 컨트롤러에서 요청한 로그 데이터 페이지 수               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_adaptive_flush_max_pages             | Accumulator    | The total number of page tokens assigned by adaptive flush controller |
+    |                  | Num_adaptive_flush_max_pages             | Accumulator    | 적응형 플러시 컨트롤러부터 할당된 토큰 페이지 총 수                   |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..compensate_flush                       | Counter/timer  | | The number and duration of flush compensations force by adaptive    |
-    |                  |                                          |                | | flush controller                                                    |
+    |                  | ..compensate_flush                       | Counter/timer  | | 적응형 플러시 컨트롤러에 의한 플러시 보정의 횟수와 지속 시간        |
+    |                  |                                          |                | |                                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..flush_collect                          | Counter/timer  | The number and duration of flush thread collecting BCB sets           |
+    |                  | ..flush_collect                          | Counter/timer  | BCB 세트를 수집하는 플러시 쓰레드의 수와 지속 시간                    |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..flush_flush                            | Counter/timer  | The number and duration of flush thread flushing BCB sets             |
+    |                  | ..flush_flush                            | Counter/timer  | BCB 세트를 플러싱하는 플러시 쓰레드의 수와 지속 시간                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..flush_sleep                            | Counter/timer  | The number and duration of flush thread pauses                        |
+    |                  | ..flush_sleep                            | Counter/timer  | 플러시 쓰레드 일시 정지 수와 지속 시간                                |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..flush_collect_per_page                 | Counter/timer  | The number and duration of flush thread collecting one BCB            |
+    |                  | ..flush_collect_per_page                 | Counter/timer  | 한개의 BCB 를 수집하는 플러시 쓰레드의 수와 지속시간                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..flush_flush_per_page                   | Counter/timer  | The number and duration of flush thread flushing one BCB              |
+    |                  | ..flush_flush_per_page                   | Counter/timer  | 한개의 BCB 를 플러싱하는 플러시 쓰레드의 수와 지속시간                |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_writes                     | Accumulator    | The total number of data pages flushed to disk                        |
+    |                  | Num_data_page_writes                     | Accumulator    | 디스크로 플러싱된 데이타 페이지의 총 수                               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_dirty_to_post_flush        | Accumulator    | Number of flushed pages sent to post-flush thread for processing      |
+    |                  | Num_data_page_dirty_to_post_flush        | Accumulator    | 포스트 플러시 쓰레드로 보내진 플러시 된 페이지 수                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_skipped_flush              | Accumulator    | The total number of BCB's that flush thread skipped                   |
+    |                  | Num_data_page_skipped_flush              | Accumulator    | 플러시 쓰레드가 생략된 BCB의 총 수                                    |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_skipped_flush_need_wal     | Accumulator    | | The number of BCB's that flush thread skipped because it required   |
-    |                  |                                          |                | | log data pages be flushed first                                     |
+    |                  | Num_data_page_skipped_flush_need_wal     | Accumulator    | | 로그 데이터 페이지를 먼저 플러시해야하기 때문에                     |
+    |                  |                                          |                | | 플러시 쓰레드를 생략한 BCB 수                                       |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | | Num_data_page_skipped\                 | Accumulator    | | The number of BCB's that flush thread skipped because they have     |
-    |                  | | \_flush_already_flushed                |                | | been flushed already                                                |
+    |                  | | Num_data_page_skipped\                 | Accumulator    | | 이미 플러시 되어서 쓰레드를 생략한 BCB 수                           |
+    |                  | | \_flush_already_flushed                |                | |                                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_skipped_flush_fixed_or_hot | Accumulator    | | The number of BCB's that flush thread skipped because they are fixed|
-    |                  |                                          |                | | or have been fixed since collected.                                 |
+    |                  | Num_data_page_skipped_flush_fixed_or_hot | Accumulator    | | BCB가 수정되었거나 수집 된 후 수정되었기 때문에                     |
+    |                  |                                          |                | | 플러시 스레드를 생략한 BCB의 수                                     |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
     | | Page buffer    | ..alloc_bcb                              | Counter/timer  | | The number and duration of BCB allocation to store new data page.   |
     | | victimization  |                                          |                | | When a database is just started, the page buffer has available      |
