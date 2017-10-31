@@ -1962,7 +1962,7 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
     |                  | Num_adaptive_flush_log_pages             | Accumulator    | 적응형 플러시 컨트롤러에서 요청한 로그 데이터 페이지 수               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_adaptive_flush_max_pages             | Accumulator    | 적응형 플러시 컨트롤러부터 할당된 토큰 페이지 총 수                   |
+    |                  | Num_adaptive_flush_max_pages             | Accumulator    | 적응형 플러시 컨트롤러부터 할당된 토큰 페이지 합계                    |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
     |                  | ..compensate_flush                       | Counter/timer  | | 적응형 플러시 컨트롤러에 의한 플러시 보정의 횟수와 지속 시간        |
     |                  |                                          |                | |                                                                     |
@@ -1977,11 +1977,11 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
     |                  | ..flush_flush_per_page                   | Counter/timer  | 한개의 BCB 를 플러싱하는 플러시 쓰레드의 수와 지속시간                |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_writes                     | Accumulator    | 디스크로 플러싱된 데이타 페이지의 총 수                               |
+    |                  | Num_data_page_writes                     | Accumulator    | 디스크로 플러싱된 데이타 페이지의 합계                                |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
     |                  | Num_data_page_dirty_to_post_flush        | Accumulator    | 포스트 플러시 쓰레드로 보내진 플러시 된 페이지 수                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_skipped_flush              | Accumulator    | 플러시 쓰레드가 생략된 BCB의 총 수                                    |
+    |                  | Num_data_page_skipped_flush              | Accumulator    | 플러시 쓰레드가 생략된 BCB의 합계                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
     |                  | Num_data_page_skipped_flush_need_wal     | Accumulator    | | 로그 데이터 페이지를 먼저 플러시해야하기 때문에                     |
     |                  |                                          |                | | 플러시 쓰레드를 생략한 BCB 수                                       |
@@ -1992,117 +1992,117 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
     |                  | Num_data_page_skipped_flush_fixed_or_hot | Accumulator    | | BCB가 수정되었거나 수집 된 후 수정되었기 때문에                     |
     |                  |                                          |                | | 플러시 스레드를 생략한 BCB의 수                                     |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | | Page buffer    | ..alloc_bcb                              | Counter/timer  | | The number and duration of BCB allocation to store new data page.   |
-    | | victimization  |                                          |                | | When a database is just started, the page buffer has available      |
-    |                  |                                          |                | | BCB's ready to be picked. However, once page buffer becomes full    |
-    |                  |                                          |                | | all BCB's are in use, one must be victimized. The time tracked here |
-    |                  |                                          |                | | includes BCB victimization and loading from disk.                   |
+    | | Page buffer    | ..alloc_bcb                              | Counter/timer  | | 새로운 데이터 페이지를 저장하기위한 BCB 할당의 수와 기간.           |
+    | | victimization  |                                          |                | | 데이터베이스가 시작되고 BCB가 준비가 될 때 페이지 버퍼는 사용       |
+    |                  |                                          |                | | 가능하다. 그러나 페이지 버퍼가 모두 사용되면모든 BCB가 사용 중이므로|
+    |                  |                                          |                | | 페이지 버퍼 중 하나는 희생되어야 한다. 여기서 추적되는 시간은       |
+    |                  |                                          |                | | BCB 희생 및 디스크 로딩을 포함한다.                                 |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..alloc_bcb_search_victim                | Counter/timer  | The number and duration of searches through all LRU lists for victims |
+    |                  | ..alloc_bcb_search_victim                | Counter/timer  | 희생(Victim)자에 대한 모든 LRU 목록을 통한 검색 횟수 및 기간          |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..alloc_bcb_cond_wait_high_prio          | Counter/timer  | The number and duration of direct victim waits in high-priority queue |
+    |                  | ..alloc_bcb_cond_wait_high_prio          | Counter/timer  | 우선 순위가 높은 대기열에서 즉시 희생(Victim)  대기의 수와 기간       |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | ..alloc_bcb_cond_wait_low_prio           | Counter/timer  | The number and duration of direct victim waits in low-priority queue  |
+    |                  | ..alloc_bcb_cond_wait_low_prio           | Counter/timer  | 우선 순위가 낮은 대기열에서 즉시 희생(Victim)  대기의 수와 기간       |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_alloc_bcb_prioritize_vacuum          | Accumulator    | The number of vacuum direct victim waits in high-priority queue       |
+    |                  | Num_alloc_bcb_prioritize_vacuum          | Accumulator    | 우선 순위가 높은 대기열에서 즉시 희생(Victim)  회수의 수와 기간       |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_alloc_bcb_wait_threads_high_priority | Snapshot       | The current number of direct victim waiters in high-priority queue    |
+    |                  | Num_alloc_bcb_wait_threads_high_priority | Snapshot       | 우선 순위가 높은 대기열에서 즉시 희생(Victim)  대기의 현재 수와 기간  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_alloc_bcb_wait_threads_low_priority  | Snapshot       | The current number of direct victim waiters in low-priority queue     |
+    |                  | Num_alloc_bcb_wait_threads_low_priority  | Snapshot       | 우선 순위가 낮은 대기열에서 즉시 희생(Victim)  대기의 현재 수와 기간  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_flushed_bcbs_wait_for_direct_victim  | Snapshot       | | The current number of BCB's waiting for post-flush thread to process|
-    |                  |                                          |                | | them and assign directly.                                           |
+    |                  | Num_flushed_bcbs_wait_for_direct_victim  | Snapshot       | | post-flush 쓰레드가 처리하여 즉시 할당하는 BCB 대기 현재 수         |
+    |                  |                                          |                | |                                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_victim_use_invalid_bcb               | Accumulator    | The number of BCB's allocated from invalid list                       |
+    |                  | Num_victim_use_invalid_bcb               | Accumulator    | 유효하지 않은 목록에서 할당 된 BCB의 수                               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_data_page_avoid_victim               | Accumulator    | | The number of BCB's that cannot be victimized because they are      |
-    |                  |                                          |                | | in process of being flushed to disk                                 |
+    |                  | Num_data_page_avoid_victim               | Accumulator    | | 디스크로 플러시되는 과정에서 희생 당할 수없는 BCB의 수              |
+    |                  |                                          |                | |                                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_victim_assign_direct_vacuum_void     | Accumulator    | The number of direct victims assigned from void zone by vacuum worker |
+    |                  | Num_victim_assign_direct_vacuum_void     | Accumulator    | 회수 작업자가 무효(void) 영역에서 배정한 직접 희생자 수               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_victim_assign_direct_vacuum_lru      | Accumulator    | The number of direct victims assigned from LRU zone 3 by vacuum worker|
+    |                  | Num_victim_assign_direct_vacuum_lru      | Accumulator    | 회수 작업자가 LRU 3영역에서 배정한 직접 희생자 수                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_victim_assign_direct_flush           | Accumulator    | The number of direct victims assigned by flush thread                 |
+    |                  | Num_victim_assign_direct_flush           | Accumulator    | 플러시 쓰레드가 지정한 직접 희생자 수                                 |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_victim_assign_direct_panic           | Accumulator    | | The number of direct victims assigned by panicked LRU searches.     |
-    |                  |                                          |                | | If there are a lot of waiters for victims, threads that found other |
-    |                  |                                          |                | | victims while searching LRU list, will also try to assign more      |
-    |                  |                                          |                | | directly.                                                           |
-    |                  |                                          |                | | Page buffer maintenance thread assignments are also counted here    |
+    |                  | Num_victim_assign_direct_panic           | Accumulator    | | 패닉 LRU 검색에 의해 할당 된 직접 희생자의 수                       |
+    |                  |                                          |                | | 희생자를 위한 대기자가 많으면 LRU 목록을 검색하는 동안              |
+    |                  |                                          |                | | 다른 희생자를 찾은 쓰레드가 더 직접 할당하려고 시도한다.            |
+    |                  |                                          |                | |                                                                     |
+    |                  |                                          |                | | 페이지 버퍼 유지 관리 쓰레드 할당도 여기에  포함된다.               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_victim_assign_direct_adjust_lru      | Accumulator    | The number of direct victims assigned when BCB falls to LRU zone 3    |
+    |                  | Num_victim_assign_direct_adjust_lru      | Accumulator    | BCB가 LRU 3영역으로 떨어질 때 할당 된 직접 희생자 수                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | | Num_victim_assign_direct_adjust_lru\   | Accumulator    | | The number of BCB's falling to LRU zone 3 **not** assigned as direct|
-    |                  | | \_to_vacuum                            |                | | victims because a vacuum thread is expected to access it            |
+    |                  | | Num_victim_assign_direct_adjust_lru\   | Accumulator    | | 회수 쓰레드가 액세스할 것으로 예상되어 직접 희생자로 지정되지       |
+    |                  | | \_to_vacuum                            |                | | **않은** LRU 영역 3으로 떨어지는 BCB의 횟수                         |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | | Num_victim_assign_direct_search\       | Accumulator    | | The number of direct victims assigned by flush thread while         |
-    |                  | | \_for_flush                            |                | | collecting BCB sets for flush                                       |
+    |                  | | Num_victim_assign_direct_search\       | Accumulator    | | BCB 셋(Set)을 수집하는 동안 플러시 쓰레드에 의해 할당된             |
+    |                  | | \_for_flush                            |                | | 직접 희생자 수                                                      |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_victim_shared_lru_success            | Accumulator    | The number of successful victim searches in shared LRU lists          |
+    |                  | Num_victim_shared_lru_success            | Accumulator    | 공유 LRU 목록에서 성공한 희생자 검색 수                               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_victim_own_private_lru_success       | Accumulator    | The number of successful victim searches in own private LRU lists     |
+    |                  | Num_victim_own_private_lru_success       | Accumulator    | 자체 내부 LRU 목록에서 성공한 희생자 검색 수                          |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_victim_other_private_lru_success     | Accumulator    | The number of successful victim searches in other private LRU lists   |
+    |                  | Num_victim_other_private_lru_success     | Accumulator    | 다른 내부 LRU 목록에서 성공한 희생자 검색 수                          |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_victim_shared_lru_fail               | Accumulator    | The number of failed victim searches in shared LRU lists              |
+    |                  | Num_victim_shared_lru_fail               | Accumulator    | 공유 LRU 목록에서 실패한 희생자 검색 수                               |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_victim_own_private_lru_fail          | Accumulator    | The number of failed victim searches in own private LRU lists         |
+    |                  | Num_victim_own_private_lru_fail          | Accumulator    | 자체 내부 LRU 목록에서 실패한 희생자 검색 수                          |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_victim_other_private_lru_fail        | Accumulator    | The number of failed victim searches in other private LRU lists       |
+    |                  | Num_victim_other_private_lru_fail        | Accumulator    | 다른 내부 LRU 목록에서 실패한 희생자 검색 수                          |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_victim_all_lru_fail                  | Accumulator    | | The number of unlucky streaks to find victims in the sequence:      |
-    |                  |                                          |                | | 1.  Own private LRU list (if over quota)                            |
-    |                  |                                          |                | | 2.  Other private LRU list (if own private is over quota)           |
-    |                  |                                          |                | | 3.  Shared LRU list                                                 |
-    |                  |                                          |                | | (this is simplified explanation, see *pgbuf_get_victim* function)   |
+    |                  | Num_victim_all_lru_fail                  | Accumulator    | | 시퀀스에서 희생자를 찾는  좋지 않은 경향의 수:                      |
+    |                  |                                          |                | | 1.  자체 내부 LRU 목록(쿼터가 초과될 경우)                          |
+    |                  |                                          |                | | 2.  다른 내부 LRU 목록(자체 내부 쿼터가 초과될 경우)                |
+    |                  |                                          |                | | 3.  공유 LRU 목록                                                   |
+    |                  |                                          |                | | (자세한 설명은 다음을 보도록 한다. *pgbuf_get_victim* 함수)         |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_victim_get_from_lru                  | Accumulator    | The total number of victim searches in any LRU list                   |
+    |                  | Num_victim_get_from_lru                  | Accumulator    | 모든 LRU 목록의 희생자 검색 합계                                      |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_victim_get_from_lru_was_empty        | Accumulator    | | The number of victim searches in any LRU list that stop             |
-    |                  |                                          |                | | immediately because candidate count is zero                         |
+    |                  | Num_victim_get_from_lru_was_empty        | Accumulator    | | 후보 수가 0이기 때문에 즉시 중지되는 모든 LRU 목록의 희생자 검색 수 |
+    |                  |                                          |                | |                                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_victim_get_from_lru_fail             | Accumulator    | | The number of failed victim searches in any LRU list although the   |
-    |                  |                                          |                | | candidate count was not zero                                        |
+    |                  | Num_victim_get_from_lru_fail             | Accumulator    | | 후보 수가 0이 아니더라도 LRU 목록에서 희생자 검색 실패 횟수         |
+    |                  |                                          |                | |                                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_victim_get_from_lru_bad_hint         | Accumulator    | | The number of failed victim searches in any LRU list because victim |
-    |                  |                                          |                | | was wrong                                                           |
+    |                  | Num_victim_get_from_lru_bad_hint         | Accumulator    | | 희생자가 잘못되어 모든 LRU 목록에서 희생자 검색 실패 횟수           |
+    |                  |                                          |                | |                                                                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_lfcq_prv_get_total_calls             | Accumulator    | The number of victim searches in non-zero candidate private LRUs queue|
+    |                  | Num_lfcq_prv_get_total_calls             | Accumulator    | 후보 수가 0이 아닌 내부 LRU 큐에서 희생자 검색 수                     |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_lfcq_prv_get_empty                   | Accumulator    | The number of times non-zero candidate private LRUs queue was empty   |
+    |                  | Num_lfcq_prv_get_empty                   | Accumulator    | 0이 아닌 후보 내부 LRUs 큐가 비어있는 횟수                            |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_lfcq_prv_get_big                     | Accumulator    | | The number of victim searches in only very big non-zero candidate   | 
-    |                  |                                          |                | | private LRUs queue (in this context, very big means way over quota) |
+    |                  | Num_lfcq_prv_get_big                     | Accumulator    | | 매우 큰 0이 아닌 후보 내부 LRU 대기열의 희생자 검색 수              | 
+    |                  |                                          |                | | (이 경우 매우 큰 것의 의미는 할당량을 초과하는 방법을 나타냄)       |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_lfcq_shr_get_total_calls             | Accumulator    | The number of victim searches in non-zero candidate shared LRUs queue |
+    |                  | Num_lfcq_shr_get_total_calls             | Accumulator    | 0이 아닌 후보 공유 LRU 대기열에서 희생자 검색 수                      |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_lfcq_shr_get_empty                   | Accumulator    | The number of times non-zero candidate shared LRUs queue was empty    |
+    |                  | Num_lfcq_shr_get_empty                   | Accumulator    | 0이 아닌 후보 공유 LRUs 큐가 비어있는 횟수                            |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_lfcq_big_private_lists               | Snapshot       | The current number of very big non-zero candidate private LRU lists   |
+    |                  | Num_lfcq_big_private_lists               | Snapshot       | 내부 LRU 목록의 매우 큰 0이 아닌 후보 현재 수                         |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_lfcq_private_lists                   | Snapshot       | The current number of non-zero candidate private LRU lists            |
+    |                  | Num_lfcq_private_lists                   | Snapshot       | 내부 LRU 목록의 0이 아닌 후보  현재 수                                |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_lfcq_shared_lists                    | Snapshot       | The current number of non-zero candidate shared LRU lists             |
+    |                  | Num_lfcq_shared_lists                    | Snapshot       | 공유 LRU 목록의 0이 아닌 후보  현재 수                                |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
-    | MVCC snapshot    | Time_get_snapshot_acquire_time:          | Accumulator    | Total time consumed by all transactions to get a snapshot             |
+    | MVCC snapshot    | Time_get_snapshot_acquire_time:          | Accumulator    | 스냅샷을 얻기 위해 모든 트랜잭션이 소비 한 총 시간                    |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Count_get_snapshot_retry:                | Accumulator    | The number of retries to acquire MVCC snapshot                        |
+    |                  | Count_get_snapshot_retry:                | Accumulator    | MVCC 스냅 샷을 얻기 위한 재시도 횟수                                  |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Time_tran_complete_time:                 | Accumulator    | Time spent to invalidate snapshot and MVCCID on commit/rollback       |
+    |                  | Time_tran_complete_time:                 | Accumulator    | 커밋 / 롤백시 스냅샷 및 MVCCID를 무효화하는 데 소요 된 시간           |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Time_get_oldest_mvcc_acquire_time:       | Accumulator    | Time spend to acquire "global oldest MVCC ID"                         |
+    |                  | Time_get_oldest_mvcc_acquire_time:       | Accumulator    | "가장 오래된 전역 MVCC ID" 을 획득하기 위해 걸린 시간                 |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Count_get_oldest_mvcc_retry:             | Accumulator    | The number of retries to acquire "global oldest MVCC ID"              |
+    |                  | Count_get_oldest_mvcc_retry:             | Accumulator    | "가장 오래된 MVCC ID"를 얻기 위한 재시도 횟수                         |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_mvcc_snapshot_ext                    | Complex        | | Number of data page fixes classified by:                            |
-    |                  |                                          |                | | - snapshot type                                                     |
-    |                  |                                          |                | | - insert/delete MVCCID's status                                     |
-    |                  |                                          |                | | - visible/invisible                                                 |
+    |                  | Num_mvcc_snapshot_ext                    | Complex        | | 데이터 페이지 수정 수, 다음과 같이 분류됨:                          |
+    |                  |                                          |                | | - 스냅샵 타입                                                       |
+    |                  |                                          |                | | - 삽입/삭제 MVCCID의 상태                                           |
+    |                  |                                          |                | | - 가시성/비가시성                                                   |
     +------------------+------------------------------------------+----------------+-----------------------------------------------------------------------+
 
 .. Note::  
 
-    (*) : :red:`These statistics measure the non-MVCC operations or MVCC operations which are performed in-place (decided internally)`
+    (*) : :red:`통계수치는 내부에서 수행되는 비 MVCC 작업 또는 MVCC 작업을 측정한다 (내부적으로 결정됨)`
 
 
 .. option:: -o, --output-file=FILE
