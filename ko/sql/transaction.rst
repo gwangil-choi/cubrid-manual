@@ -350,19 +350,19 @@ CCI 로 개발된 응용 프로그램 역시 커서 유지가 기본 동작이�
 
 
 +--------------------+--------------------------+---------------------+--------------------------------------------------------+
-| Insert MVCCID      | Previous version LSA     | Delete MVCCID       | Snapshot test result                                   |
+| MVCCID 삽입        | LSA 이전 버전            | MVCCID 삭제         | 스냅샷 테스트 결과                                     |
 +====================+==========================+=====================+========================================================+
-| Not visible        | NULL                     | None or not visible | | Version is too *new* and is not visible              |
-|                    |                          |                     | | Row has no previous version, so it is ignored        |
+| Not visible        | NULL                     | 없거나              | | 버전이 너무 *최신* 이며 가시적이지 않다.             |
+|                    |                          | 가시적이지 않다.    | | 행에 이전 버전이 없으므로 무시된다.                  |
 |                    +--------------------------+---------------------+--------------------------------------------------------+
-|                    | LSA                      | None or not visible | | Version is too *new* and is not visible              |
-|                    |                          |                     | | Row has previous version and snapshot must check it  |
+|                    | LSA                      | 없거나              | | 버전이 너무 *최신* 이며 가시적이지 않다.             |
+|                    |                          | 가시적이지 않다.    | | 행에 이전 버전이 있고 스냅샷이  확인해야한다.        |
 +--------------------+--------------------------+---------------------+--------------------------------------------------------+
-| None or visible    | LSA or NULL              | None or not visible | | Version is visible and its data is fetched           |
-|                    |                          |                     | | It does not matter if row has previous versions      |
+| None or visible    | LSA or NULL              | 없거나              | | 버전이 가시적이며 데이터가 페치(fetch)된다.          |
+|                    |                          | 가시적이지 않다.    | | 행에 이전 버전이 있는지 여부는 중요하지 않다.        |
 |                    |                          +---------------------+--------------------------------------------------------+
-|                    |                          | Visible             | | Version is too old, was deleted and is not visible   |
-|                    |                          |                     | | It does not matter if row has previous versions      |
+|                    |                          | 가시적이다.         | | 버전이 너무 오래되고, 삭제되어 가시적이지 않다.      |
+|                    |                          |                     | | 행에 이전 버전이 있는지 여부는 중요하지 않다.        |
 +--------------------+--------------------------+---------------------+--------------------------------------------------------+
 
 :red:`버전이 최신이지만 로그에 저장된 이전 버전이 있는 경우 이전 버전에서 동일한 확인 과정이 반복된다. 더 이상 이전 버전이 없거나(해당 트랜잭션에 대해 전체 행 체인이 최신인 경우) 가시성 버전을 발견하면 확인이 중지된다.`

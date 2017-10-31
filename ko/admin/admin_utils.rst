@@ -2172,15 +2172,15 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
 
 .. note::
 
-    :red:`Some sets of performance statistics are activated/deactivated by **extended_statistics_activation** system parameter. Each set is represented by a value power of two. To be activated, it needs to be present in the base-2 representation of the system parameter. This is the lists of sets that can be manipulated`:
+    :red:`일부 성능 통계 세트는 **extended_statistics_activation** 시스템 매개 변수에 의해 활성화/비활성화 된다. 각 세트는 2의 제곱으로 표시된다. 활성화 되려는 시스템 매개 변수는 2진 표현으로 나타난다. 아래는 조작 할 수 있는 세트 목록이다.`
 
     
       ========= ===================================== =========== ====================================================================
-      Value     Name                                  Active      Description
-                                                      Default                
+      값        이름                                  활성        설명
+                                                      기본값               
       ========= ===================================== =========== ====================================================================
-      **1**     **Detailed b-tree pages**             Yes         | Classifies b-tree pages into 3 categories: root, non-leaf and leaf
-                                                                  | Affected statistics:
+      **1**     **Detailed b-tree pages**             Yes         | B- 트리 페이지를 3 가지 카테고리로 분류한다.: 루트, 비단말,단말
+                                                                  | 영향을 받는 통계수치:
                                                                   | - Num_data_page_fix_ext
                                                                   | - Time_data_page_lock_acquire_time
                                                                   | - Time_data_page_hold_acquire_time
@@ -2188,15 +2188,15 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
                                                                   | - Num_data_page_promote_ext
                                                                   | - Num_data_page_promote_time_ext
                                                                   | - Num_data_page_unfix_ext
-      **2**     **MVCC Snapshot**                     Yes         | Activates statistics collection for MVCC snapshot:
+      **2**     **MVCC Snapshot**                     Yes         | MVCC 스냅샷에 대한 통계 수집 활성화:
                                                                   | - Num_mvcc_snapshot_ext
-      **4**     **Time locks**                        Yes         | Activate statistics collection for timing lock waits:
+      **4**     **Time locks**                        Yes         | 타이밍 잠금 대기에 대한 통계 수집 활성화:
                                                                   | - Num_object_locks_time_waited_usec
-      **8**     **Hash anchor waits**                 Yes         | Activate statistics collection for hash anchor waits:
+      **8**     **Hash anchor waits**                 Yes         | 해시 앵커 대기에 대한 통계 수집 활성화:
                                                                   | - Num_data_page_hash_anchor_waits
                                                                   | - Time_data_page_hash_anchor_wait
-      **16**    **Extended victimization**            No          | Activate statistics collection for extended page buffer I/O and
-                                                                  | victimization module:
+      **16**    **Extended victimization**            No          | 확장 페이지 버퍼 I/O 및 희생화 모듈에 대한 
+                                                                  | 통계 수집 활성화:
                                                                   | - Num_data_page_writes
                                                                   | - flush_collect_per_page
                                                                   | - flush_flush_per_page

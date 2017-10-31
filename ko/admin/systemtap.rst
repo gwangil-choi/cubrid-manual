@@ -200,17 +200,17 @@ SystemTap의 가장 유용한 기능은 마커를 사용자 소스 코드(CUBRID
 
 .. function:: conn_start(connection_id, user)
 
-    This marker is triggered when the query execution process on the server has begun.
+    서버에서 질의 실행이 시작되면 이 마커가 발동된다.
 
-    :param connection_id: an integer containing the connection ID.
-    :param user: The username used by this connection.
+    :param connection_id: 연결 ID를 포함한 정수값
+    :param user: 연결의 사용자 이름.
     
 .. function:: conn_end(connection_id, user)
 
-    어떤 이유와 관계 없이 연결이 종료될 때 이 마커가 발동된다.
+    서버에서 질의 실행이 끝나면 이 마커가 발동된다.
     
-    :param connection_id: 연결 ID
-    :param user: 연결에서 사용된 사용자 이름
+    :param connection_id: 연결 ID를 포함한 정수값
+    :param user: 연결의 사용자 이름
 
 질의 마커
 ---------

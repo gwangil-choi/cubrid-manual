@@ -68,56 +68,56 @@ DB 마이그레이션
 :red:`다음 표는 http://ftp.cubrid.org/CUBRID_Engine/10.1.0/Linux/에서 배포하는 예약어 검출 스크립트인 check_reserved.sql와 cubrid unloaddb/loaddb 유틸리티를 사용해 마이그레이션을 수행하는 방법을 보여준다. (:ref:`unloaddb` 및 :ref:`loaddb` 참고)`
 
 +------------------------------------+-----------------------------------------------+-----------------------------------------------+
-| Step                               | Linux Environment                             | Windows Environment                           |
+| 단계                               | Linux 환경                                    | Windows 환경                                  |
 +====================================+===============================================+===============================================+
-| Step C1: Stop CUBRID Service       | % cubrid service stop                         | Stop CUBRID Service Tray.                     |
+| Step C1: CUBRID Service 종료       | % cubrid service stop                         | CUBRID Service Tray 를 종료한다               |
 +------------------------------------+-----------------------------------------------+-----------------------------------------------+
-| Step C2: Execute the reserved      | Execute the following command in the directory where the reserved word detection              |
-|         words detection script     | script is located.                                                                            |
+| Step C2: 예약어 검출 스크립트      | 예약어 검출 스크립트가 위치하는 디렉토리에서 아래 명령을 실행한다.                            |
+|          실행                      |                                                                                               |
 |                                    |                                                                                               |
-|                                    | Execute migration or identifier modification by checking the detection result                 |
-|                                    | (For the allowable identifier).                                                               |
+|                                    | 검출 결과를 확인하여 마이그레이션 진행 또는 식별자 수정 작업을 진행한다.                      |
+|                                    | (허가된 식별자에 대해)                                                                        |
 |                                    |                                                                                               |
 |                                    |   % csql -S -u dba -i check_reserved.sql testdb                                               |
 +------------------------------------+-----------------------------------------------------------------------------------------------+
-| Step C3: Unload the earlier        | Store the databases.txt file and the configuration files under the conf directory             |
-|          version of the DB         | of the earlier version in a separate directory (C3a).                                         |
+| Step C3: 이전 버전 DB 언로드       | 이전 버전의 databases.txt 및 설정 파일을 별도의 디렉토리에 보관한다. (C3a)                    |
 |                                    |                                                                                               |
-|                                    | Execute the cubrid unloaddb utility and store the file generated at this point in a           |
-|                                    | separate directory (C3b).                                                                     |
+|                                    |                                                                                               |
+|                                    | cubrid unload 유틸리티를 실행하고 이 때 생성된 파일을 별도 디렉토리에 보관한다.(C3b)          |
+|                                    |                                                                                               |
 |                                    |                                                                                               |
 |                                    |   % cubrid unloaddb -S testdb                                                                 |
 |                                    |                                                                                               |
-|                                    | Delete the existing database (C3c).                                                           |
+|                                    | 이전 DB 를 제거 한다. (C3c)                                                                   |
 |                                    |                                                                                               |
 |                                    |   % cubrid deletedb testdb                                                                    |
 |                                    +-----------------------------------------------+-----------------------------------------------+
-|                                    |                                               | Uninstall the earlier version of CUBRID.      |
+|                                    |                                               | 이전 버전의 큐브리드를 언인스톨한다.          |
 +------------------------------------+-----------------------------------------------+-----------------------------------------------+
-| Step C4: Install new version       | See :ref:`install-execute`                                                                    |
+| Step C4: 새 버전을 인스톨한다.     | 다음을 참고한다. :ref:`install-execute`                                                       |
 +------------------------------------+-----------------------------------------------------------------------------------------------+
-| Step C5: Database creation and     | Go to the directory where you want to create a database, and create one.                      |
-|          data loading              | At this time, be cautious about locale setting(\*). (C5a)                                     |
+| Step C5: DB 생성 및 데이터 로딩    | 원하는 DB 생성 디렉토리로 이동 후 DB 생성                                                     |
+|                                    | 이 때 로캐일 세팅에 주의한다.(\*). (C5a)                                                      |
 |                                    |                                                                                               |
 |                                    |   % cd $CUBRID/databases/testdb                                                               |
 |                                    |                                                                                               |
 |                                    |   % cubrid createdb testdb en_US                                                              |
 |                                    |                                                                                               |
-|                                    | Execute the cubrid loaddb utility with the stored files in (C3b). (C5b)                       |
+|                                    | cubrid loaddb 유틸리티를 C3b를 가지고  실행. (C5b)                                            |
 |                                    |                                                                                               |
 |                                    |   % cubrid loaddb -s testdb_schema -d testdb_objects -i testdb_indexes testdb                 |
 +------------------------------------+-----------------------------------------------------------------------------------------------+
-| Step C6: Back up the new version   |   % cubrid backupdb -S testdb                                                                 |
-|          of the DB                 |                                                                                               |
+| Step C6: 새 버전의 DB 백업         |   % cubrid backupdb -S testdb                                                                 |
+|                                    |                                                                                               |
 +------------------------------------+-----------------------------------------------+-----------------------------------------------+
-| Step C7: Configure the CUBRID      | Modify the configuration file.                | Start the service by selecting                |
-|          environment and start     | At this point, partially modify               | CUBRID Service Tray > [Service Start].        |
-|          the CUBRID Service        | the configuration files from the earlier      |                                               |
-|                                    | version stored in step (C3a) to fit the new   | Start the database server from the            |
-|                                    | version.                                      | command prompt.                               |
+| Step C7:  CUBRID 환경 설정 및      | 환경 설정 파일을 수정한다. 이 때              | CUBRID Service Tray > [Service Start] 를      |
+|           CUBRID Service 구동      | (C3a)에서 보관한 이전 버전의 환경 설정 파일을 | 선택하여 서비스를 시작한다.                   |
+|                                    | 새 버전에 맞게 수정한다.                      |                                               |
+|                                    |                                               | 명령 프롬프트 창에서 DB 서버를 구동한다.      |
 |                                    |                                               |                                               |
-|                                    | (For configuring system parameter, see        |   % cubrid server start testdb                |
-|                                    | :ref:`conf-from-41` and :doc:`admin/config`)  |                                               |
+|                                    |                                               |                                               |
+|                                    | (시스템 파라미터 설정은 다음을 참조           |   % cubrid server start testdb                |
+|                                    | :ref:`conf-from-41` 과 :doc:`admin/config`)   |                                               |
 |                                    |                                               |                                               |
 |                                    |   % cubrid service start                      |                                               |
 |                                    |                                               |                                               |
@@ -333,16 +333,16 @@ CUBRID 2008 R2.2 이상 버전에서 CUBRID 10.1 으로 HA 마이그레이션
 +------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+
 | Step                                                 | Description                                                                                               |
 +======================================================+===========================================================================================================+
-| Steps C1-C6: Perform :ref:`db-migrate-to-10`         | Run the CUBRID upgrade and database migration in the master node, and back up the new version's database  |
-|                                                      | on the master node.                                                                                       |
+| Steps C1-C6: 다음 실행 :ref:`db-migrate-to-10`       | 마스터 노드에서 CUBRID 업그레이드 및 DB 마이그레이션을 수행하고 새 버전의 DB를 백업한다.                  |
+|                                                      |                                                                                                           |
 |                                                      |                                                                                                           |
 +------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+
-| Step C7: Install new version in the slave node       | Delete the previous version of the database from the slave node and install a new version.                |
+| Step C7: 슬레이브 노드에 CUBRID 새 버전 설치         | 슬레이브 노드에서 이전 버전의 DB는 삭제하고, 새 버전을 설치한다.                                          |
 |                                                      |                                                                                                           |
-|                                                      | For more information, see :ref:`install-execute`.                                                         |
+|                                                      | 상세 정보는 다음을 참고한다.  :ref:`install-execute`.                                                     |
 +------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+
-| Step C8: Restore the backup copy of the master node  | Restore the new database backup copy (testdb_bk*) of the master node, which is created in step H6         |
-|          in the slave node                           | , to the slave node.                                                                                      |
+| Step C8: 마스터 노드 백업본을 슬레이브 노드에서 복구 | H6 단계에서 생성된 마스터 노드의 새 버전 DB 백업본(예: testdb_bk*)을 슬레이브 노드에서 복구한다.          |
+|                                                      |                                                                                                           |
 |                                                      |                                                                                                           |
 |                                                      |   % scp user1\ @master:$CUBRID/databases/databases.txt $CUBRID/databases/.                                |
 |                                                      |                                                                                                           |
@@ -354,14 +354,14 @@ CUBRID 2008 R2.2 이상 버전에서 CUBRID 10.1 으로 HA 마이그레이션
 |                                                      |                                                                                                           |
 |                                                      |   % cubrid restoredb testdb                                                                               |
 +------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+
-| Step C9: Reconfigure HA environment and start        | In the master node and the slave node, set the CUBRID environment configuration file (cubrid.conf)        |
-|          HA mode                                     | and the HA environment configuration file (cubrid_ha.conf)                                                |
+| Step C9: HA 환경 재구성 후 HA모드 구동               | 마스터 및 슬레이브 노드에서 CUBRID 환경 설정 파일(cubrid.conf) 및                                         |
+|                                                      | HA 환경 설정 파일(cubrid_ha.conf)을 설정한다. (cubrid_ha.conf)                                            |
 |                                                      |                                                                                                           |
-|                                                      | See :ref:`quick-server-config`.                                                                           |
+|                                                      | 다음을 참고한다. :ref:`quick-server-config`.                                                              |
 +------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+
-| Step C10: Install new version in the broker server,  | For more information about installation, see :ref:`install-execute`.                                      |
-|           and start the broker                       |                                                                                                           |
-|                                                      | Start the broker in the Broker server. See :ref:`quick-broker-config`.                                    |
+| Step C10: 브로커 서버에 새 버전 설치 및 브로커 구동  | 설치 상세 정보는 다음을 참고한다.  :ref:`install-execute`.                                                |
+|                                                      |                                                                                                           |
+|                                                      | 브로커 서버에 있는 브로커를 시작한다.  다음을 참고한다.  :ref:`quick-broker-config`.                      |
 |                                                      |                                                                                                           |
 |                                                      |   % cubrid broker start                                                                                   |
 +------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+

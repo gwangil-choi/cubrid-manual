@@ -100,29 +100,29 @@ csql을 실행하고 난 후에는 csql> 프롬프트에서 원하는 SQL문을 
 =========
 
 +--------------------------+-----------------------------------------------------------------------------+-----------------------------------------------------------------+
-|                          | Summary of features                                                         | Downloads of the recent files                                   |
+|                          | 특징 요약                                                                   | 최신 파일 다운로드                                              |
 +==========================+=============================================================================+=================================================================+
-| CUBRID Manager           | Java client tool for SQL execution & DB operation.                          | `CUBRID Manager Download                                        |
+| CUBRID Manager           | SQL 실행 및 DB 운영을 위한 Java 클라이언트 도구이다                         | `CUBRID Manager Download                                        |
 |                          |                                                                             | <http://ftp.cubrid.org/CUBRID_Tools/CUBRID_Manager>`_           |
-|                          | 1) Java-based management tool (JRE 1.6 or higher required)                  |                                                                 |
+|                          | 1) JAVA 기반 관리 도구(JRE 1.6이상 요구)                                    |                                                                 |
 |                          |                                                                             |                                                                 |
-|                          | 2) Auto upgrade after the initial download                                  |                                                                 |
+|                          | 2) 최초 다운로드 후 이후 버전 업데이트는 자동 실행                          |                                                                 |
 |                          |                                                                             |                                                                 |
-|                          | 3) Useful to manage multiple hosts                                          |                                                                 |
+|                          | 3) 멀티 호스트 관리에 적합                                                  |                                                                 |
 |                          |                                                                             |                                                                 |
-|                          | 4) DB access via CUBRID Manager server                                      |                                                                 |
+|                          | 4) CUBRID Manager 서버를 통해 DB 접속                                       |                                                                 |
 +--------------------------+-----------------------------------------------------------------------------+-----------------------------------------------------------------+
-| CUBRID Migration Toolkit | Java-based client tool to migrate schema and data from source DB            | `CUBRID Migration Toolkit Download                              |
-|                          | (MySQL, Oracle, CUBRID) to CUBRID.                                          | <http://ftp.cubrid.org/CUBRID_Tools/CUBRID_Migration_Toolkit>`_ |
+| CUBRID Migration Toolkit | 소스 DB(MySQL, Oracle, CUBRID)에서 CUBRID로 데이터 및 스키마를 이전하는     | `CUBRID Migration Toolkit Download                              |
+|                          | Java 기반 틀라이언트 도구이다.                                              | <http://ftp.cubrid.org/CUBRID_Tools/CUBRID_Migration_Toolkit>`_ |
 |                          |                                                                             |                                                                 |
-|                          | 1) Java-based management tool (JRE 1.6 or higher required)                  |                                                                 |
+|                          | 1) JAVA 기반 관리 도구(JRE 1.6 이상 요구)                                   |                                                                 |
 |                          |                                                                             |                                                                 |
-|                          | 2) Auto upgrade after the initial download                                  |                                                                 |
+|                          | 2) 최초 다운로드 후 이후 버전 업데이트는 자동 실행                          |                                                                 |
 |                          |                                                                             |                                                                 |
-|                          | 3) Available migration only for multiple queries results,                   |                                                                 |
-|                          |    the reuse of migration scenario; good to batch job                       |                                                                 |
+|                          | 3) 다중 SQL문 실행 결과만 이전 가능,                                        |                                                                 |
+|                          |    작업 시나리오 재사용 가능하여 배치 작업에 유리                           |                                                                 |
 |                          |                                                                             |                                                                 |
-|                          | 4) Direct DB access with JDBC                                               |                                                                 |
+|                          | 4) JDBC로 DB에 직접 접속                                                    |                                                                 |
 +--------------------------+-----------------------------------------------------------------------------+-----------------------------------------------------------------+
 
 .. +--------------------------+-----------------------------------------------------------------------------+-----------------------------------------------------------------+---------------------------------------------------------------------+
