@@ -1279,9 +1279,8 @@ How to use this utility is as shown below. ::
 
     $ cubrid heartbeat copylogdb <start|stop> [ -h <host-name> ] db_name peer_node
 
-::
 
-    <host-name>: the name of the remote host where copylogdb command will be executed 
+* <host-name> : the name of the remote host where copylogdb command will be executed 
     
 When *nodeB* is a node to run a command and *nodeA* is *peer_node*, you can run the command as follows.
     
@@ -1303,9 +1302,8 @@ How to use this utility is as shown below. ::
 
     $ cubrid heartbeat applylogdb <start|stop> [ -h <host-name> ] db_name peer_node
 
-::
 
-    <host-name>: the name of the remote host where appplylogdb command will be executed 
+* <host-name> : the name of the remote host where appplylogdb command will be executed 
     
 
 When *nodeB* is a node to run a command and *nodeA* is *peer_node*, you can run the command as follows.
@@ -1362,9 +1360,8 @@ status
 
     $ cubrid heartbeat status [-v] [ -h <host-name> ]
 
-::
 
-    <host-name>: the name of the remote host where status command will be executed 
+* <host-name> : the name of the remote host where status command will be executed 
     
 
 This utility is used to output the information of CUBRID HA group and CUBRID HA components. How to use this utility is as shown below. ::

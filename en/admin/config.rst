@@ -1189,12 +1189,6 @@ The following are parameters related to SQL statements and data types supported 
 
     **default_week_format** is a parameter to configure default value for the *mode* attribute of the :func:`WEEK` function. The default value is **0**. For details, see :func:`WEEK`.
 
-**intl_check_input_string**
-
-    **intl_check_input_string** is a parameter to determine whether or not to check that string entered is correctly corresponded to character set used. The default value is **no**. If this value is **no** and character set is UTF-8 and incorrect data is enter which violate UTF-8 byte sequence, it can show abnormal behavior or database server and applications can be terminated abnormally. However, if it is guaranteed this problem does not happen, it has advantage in performance not to do it.
-
-    UTF-8 and EUC-KR can be checked; ISO-8859-1 is one-byte encoding so it does not have to be checked because every byte is valid.
-
 **group_concat_max_len**
 
     **group_concat_max_len** is a parameter used to limit the return value size of the :func:`GROUP_CONCAT` function.

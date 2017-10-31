@@ -194,9 +194,8 @@ The following shows [options] available with the **cubrid** **createdb** utility
 
     *   *volpurp*: The purpose for which the volume will be used. It can be either permanent data (default option) or temporary. 
 
-	.. note:: 
-		For backward compatibility, all old keywords, **data**, **index**, **temp**, or **generic** are accepted. **temp** stands for temporary data purpose, while the rest stand for permanent data purpose.
-
+    .. note::
+      For backward compatibility, all old keywords, **data**, **index**, **temp**, or **generic** are accepted. **temp** stands for temporary data purpose, while the rest stand for permanent data purpose.
 
     *   *volnpgs*: The number of pages of the additional volume to be created. The specification of the number of pages of the volume cannot be omitted; it must be specified. The actual volume size is rounded up to the next multiple of **64 sectors**.
 
@@ -942,7 +941,7 @@ The following shows [options] available with the **cubrid statdump** utility.
     
         cubrid statdump demodb
         
-    The following outputs the same values with the above. **-c** option doesn't work if it is not used with **-i** option together.
+    The following outputs the same values with the above. **-c** option doesn't work if it is not used with **-i** option together. ::
     
         cubrid statdump -c demodb
 
