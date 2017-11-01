@@ -1,5 +1,5 @@
-Enhancements
-------------
+개선사항
+--------
 
 * `[758] <https://github.com/CUBRID/cubrid/pull/758>`_ `[CBRD-21440] <http://jira.cubrid.org/browse/CBRD-21440>`_ unreserve "open" and "close" to allow them as identifiers
 * `[684] <https://github.com/CUBRID/cubrid/pull/684>`_ `[CBRD-20399] <http://jira.cubrid.org/browse/CBRD-20399>`_ Extension of DEFAULT Clause in create statements   
@@ -74,8 +74,8 @@ Enhancements
 * `[9] <https://github.com/CUBRID/cubrid/pull/9>`_ `[CBRD-20156] <http://jira.cubrid.org/browse/CBRD-20156>`_ introduce light weight rwlock  
 * `[5] <https://github.com/CUBRID/cubrid/pull/5>`_ `[CBRD-20037] <http://jira.cubrid.org/browse/CBRD-20037>`_  Write the timezone checksum in all the available databases on disk   
 
-Bug Fixes
----------
+수정사항
+--------
 
 * `[787] <https://github.com/CUBRID/cubrid/pull/787>`_ `[CBRD-21488] <http://jira.cubrid.org/browse/CBRD-21488>`_ fix deadlock: don't latch page after locking class repr
 * `[785] <https://github.com/CUBRID/cubrid/pull/785>`_ `[CBRD-21484] <http://jira.cubrid.org/browse/CBRD-21484>`_ uses IX_LOCK checking index files to skip immature indexes
@@ -686,8 +686,8 @@ Bug Fixes
 * `[6] <https://github.com/CUBRID/cubrid/pull/6>`_ `[TOOLS-4265] <http://jira.cubrid.org/browse/TOOLS-4265>`_ _op_get_db_user_id() in cm_common causes core dump  
 * `[3] <https://github.com/CUBRID/cubrid/pull/3>`_ `[CBRD-20140] <http://jira.cubrid.org/browse/CBRD-20140>`_ Adapt trim functions to EUCKR charset 
 
-Other Changes
--------------
+기타 변경
+---------
 
 * `[726] <https://github.com/CUBRID/cubrid/pull/726>`_ `[CBRD-20146] <http://jira.cubrid.org/browse/CBRD-20146>`_ beautify layout  
 * `[712] <https://github.com/CUBRID/cubrid/pull/712>`_ `[CBRD-20573] <http://jira.cubrid.org/browse/CBRD-20573>`_ change disk compatibility number, remove obsoleted recovery indexes  
