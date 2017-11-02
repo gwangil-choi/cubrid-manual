@@ -1372,7 +1372,7 @@ PERCENTILE_CONT
 
     .. seealso:: 
     
-        :func:`Difference between PERCENTILE_DISC and PERCENTILE_CONT <compare-pd-pc>`
+        :ref:`PERCENTILE_DISC와 PERCENTILE_CONT 의 차이 <compare-pd-pc>`
 
 집계 함수인 경우, **PERCENTILE_DISC** 함수는 **ORDER BY** 절에 명시된 순서로 결과 값을 정렬한 후, 집계 그룹에 있는 행에서 백분위에 해당하는 보간 값을 반환한다.
 
@@ -1487,7 +1487,7 @@ PERCENTILE_DISC
 
     .. seealso:: 
     
-        :ref:`Difference between PERCENTILE_DISC and PERCENTILE_CONT <compare-pd-pc>`
+        :ref:`PERCENTILE_DISC 와 PERCENTILE_CONT 의 차이 <compare-pd-pc>`
 
 집계 함수의 경우, 이것은 **ORDER BY** 절에 기술된 순서로 결과를 정렬한다; 그리고 집계 그룹에 있는 행에서 백분위에 위치한 값을 반환한다.
 
