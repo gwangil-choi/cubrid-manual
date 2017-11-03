@@ -201,7 +201,7 @@ DB를 CUBRID로 전환하는 경우, 장비를 이전하는 경우, 운영 DB로
 
 .. image:: /images/gs_manager_migration.png
 
-보다 자세한 정보는 http://www.cubrid.org/wiki_tools/entry/cubrid-migration-toolkit-manual 을 참고한다.
+.. FIXME: 보다 자세한 정보는 http://www.cubrid.org/wiki_tools/entry/cubrid-migration-toolkit-manual 을 참고한다.
 
 드라이버
 ========

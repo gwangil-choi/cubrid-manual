@@ -214,7 +214,7 @@ CCI, JDBC, PHP, ODBC, OLE DB, ADO.NET, Ruby, Python, Node.js 등의 인터페이
 
 CUBRID 매니저 등의 도구는 http://www.cubrid.org/downloads. 에서 최신 정보를 확인할 수 있고 관련 파일을 내려받아 설치할 수 있다.
 
-CUBRID 웹매니저는 CUBRID 설치 시 같이 설치된다. 자세한 설명은 `CUBRID 웹 매니저 매뉴얼 <http://www.cubrid.org/wiki_tools/entry/cubrid-web-manager-manual>`_\ 을 참고한다.
+.. FIXME CUBRID 웹매니저는 CUBRID 설치 시 같이 설치된다. 자세한 설명은 `CUBRID 웹 매니저 매뉴얼 <http://www.cubrid.org/wiki_tools/entry/cubrid-web-manager-manual>`_\ 을 참고한다.
     
 .. _Installing-and-Running-on-Windows:
 
