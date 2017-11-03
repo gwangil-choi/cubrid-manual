@@ -112,6 +112,8 @@ The below adds a comment of a table with ALTER statement.
 
 The below includes an index comment when you create a table.
 
+.. code-block:: sql
+
     CREATE TABLE tbl (a INT, index i_t_a (a) COMMENT 'index comment');
 
 .. note:: **A CHECK constraint in the table schema**
