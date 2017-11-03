@@ -295,7 +295,7 @@ CURDATE, CURRENT_DATE
 
 .. warning::
 
-    :red:`10.0에서는 **CURDATE** (), **CURRENT_DATE**, **CURRENT_DATE** ()가 **SYS_DATE** 및 **SYSDATE**와 다르다. 9.x 및 그 이전 버전에서는 동일하다.`
+    :red:`10.0 이후로 **CURDATE** (), **CURRENT_DATE**, **CURRENT_DATE** ()가 **SYS_DATE** 및 **SYSDATE**와 다르다. 9.x 및 그 이전 버전에서는 동일하다.`
 
 CURRENT_DATETIME, NOW
 =====================
@@ -357,7 +357,7 @@ CURRENT_DATETIME, NOW
 
 .. warning::
 
-    :red:`10.0에서는 **CURRENT_DATETIME** (), **NOW** ()가 **SYS_DATEIME**, **SYSDATETIME**과 다르다. 9.x 및 그 이전 버전에서는 동일하다.`
+    :red:`10.0 이후로 **CURRENT_DATETIME** (), **NOW** ()가 **SYS_DATEIME**, **SYSDATETIME**과 다르다. 9.x 및 그 이전 버전에서는 동일하다.`
 
 CURTIME, CURRENT_TIME
 =====================
@@ -410,7 +410,7 @@ CURTIME, CURRENT_TIME
 
 .. warning::
 
-    :red:`10.0에서는 **CURTIME** (), **CURRENT_TIME** ()이 **SYS_TIME**, **SYSTIME**과 다르다.  9.x 및 그 이전 버전에서는 동일하다.`
+    :red:`10.0 이후로 **CURTIME** (), **CURRENT_TIME** ()이 **SYS_TIME**, **SYSTIME**과 다르다.  9.x 및 그 이전 버전에서는 동일하다.`
 
 CURRENT_TIMESTAMP, LOCALTIME, LOCALTIMESTAMP
 ============================================
@@ -465,7 +465,7 @@ CURRENT_TIMESTAMP, LOCALTIME, LOCALTIMESTAMP
 
 .. warning::
 
-    :red:`10.0에서는 **CURRENT_TIMESTAMP**, **CURRENT_TIMESTAMP** (), **LOCALTIME**, **LOCALTIME** (), **LOCALTIMESTAMP** 및 **LOCALTIMESTAMP** ()가 **SYS_TIMESTAMP** (), **SYSTIMESTAMP**와 다르다.  9.x 및 그 이전 버전에서는 동일하다.` 
+    :red:`10.0 이후로 **CURRENT_TIMESTAMP**, **CURRENT_TIMESTAMP** (), **LOCALTIME**, **LOCALTIME** (), **LOCALTIMESTAMP** 및 **LOCALTIMESTAMP** ()가 **SYS_TIMESTAMP** (), **SYSTIMESTAMP**와 다르다.  9.x 및 그 이전 버전에서는 동일하다.` 
 
 DATE
 ====
@@ -1568,7 +1568,7 @@ SYS_DATE, SYSDATE
 
 .. warning::
     
-    :red:`10.0에서는 **SYS_DATE** 및 **SYSDATE**가 **CURDATE** (), **CURRENT_DATE**, **CURRENT_DATE** ()와 다르다. 9.x 및 그 이전 버전에서는 동일하다.`
+    :red:`10.0 이후로 **SYS_DATE** 및 **SYSDATE**가 **CURDATE** (), **CURRENT_DATE**, **CURRENT_DATE** ()와 다르다. 9.x 및 그 이전 버전에서는 동일하다.`
 
 SYS_DATETIME, SYSDATETIME
 =========================
@@ -1629,7 +1629,7 @@ SYS_DATETIME, SYSDATETIME
   
 .. warning::
 
-    :red:`10.0에서는 **SYS_DATEIME**, **SYSDATETIME**이 **CURRENT_DATETIME** (), **NOW** ()와 다르다. 9.x 및 그 이전 버전에서는 동일하다.`    
+    :red:`10.0 이후로 **SYS_DATEIME**, **SYSDATETIME**이 **CURRENT_DATETIME** (), **NOW** ()와 다르다. 9.x 및 그 이전 버전에서는 동일하다.`    
  
 SYS_TIME, SYSTIME
 =================
@@ -1681,7 +1681,7 @@ SYS_TIME, SYSTIME
 
 .. warning::
 
-    :red:`10.0에서는 **SYS_TIME**, **SYSTIME**이 **CURTIME** (), **CURRENT_TIME** ()과 다르다.  9.x 및 그 이전 버전에서는 동일하다.`    
+    :red:`10.0 이후로 **SYS_TIME**, **SYSTIME**이 **CURTIME** (), **CURRENT_TIME** ()과 다르다.  9.x 및 그 이전 버전에서는 동일하다.`    
  
 SYS_TIMESTAMP, SYSTIMESTAMP
 ===========================
@@ -1732,7 +1732,7 @@ SYS_TIMESTAMP, SYSTIMESTAMP
 
 .. warning::
 
-    :red:`10.0에서는 **SYS_TIMESTAMP** (), **SYSTIMESTAMP**가 **CURRENT_TIMESTAMP**, **CURRENT_TIMESTAMP** (), **LOCALTIME**, **LOCALTIME** (), **LOCALTIMESTAMP** 및 **LOCALTIMESTAMP** ()와 다르다.  9.x 및 그 이전 버전에서는 동일하다.` 
+    :red:`10.0 이후로  **SYS_TIMESTAMP** (), **SYSTIMESTAMP**가 **CURRENT_TIMESTAMP**, **CURRENT_TIMESTAMP** (), **LOCALTIME**, **LOCALTIME** (), **LOCALTIMESTAMP** 및 **LOCALTIMESTAMP** ()와 다르다.  9.x 및 그 이전 버전에서는 동일하다.` 
 
 TIME
 ====
