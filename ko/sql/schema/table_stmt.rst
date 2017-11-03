@@ -114,6 +114,8 @@ CREATE TABLE
 
 다음은 테이블 생성 시 인덱스 커멘트를 포함하는 예제이다.
 
+.. code-block:: sql
+
     CREATE TABLE tbl (a INT, index i_t_a (a) COMMENT 'index comment');
 
 .. note:: **테이블 스키마의 CHECK 제약 조건**
