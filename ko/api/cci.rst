@@ -25,7 +25,7 @@ CCI 드라이버는 CUBRID에서 제공되는 C 언어 인터페이스로, CUBRI
 
 .. image:: /images/image54.jpg
 
-별도로 CCI 드라이버를 다운로드하거나 CCI 드라이버에 대한 최신 정보를 확인하려면 `http://www.cubrid.org/wiki_apis/entry/cubrid-cci-driver <http://www.cubrid.org/wiki_apis/entry/cubrid-cci-driver>`_ 에 접속한다.
+.. FIXME: 별도로 CCI 드라이버를 다운로드하거나 CCI 드라이버에 대한 최신 정보를 확인하려면 `http://www.cubrid.org/wiki_apis/entry/cubrid-cci-driver <http://www.cubrid.org/wiki_apis/entry/cubrid-cci-driver>`_ 에 접속한다.
 
 CCI 프로그래밍
 ==============

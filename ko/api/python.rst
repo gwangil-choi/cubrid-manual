@@ -44,7 +44,9 @@ Linux, Unix 및 유사 운영체제에서는 다음과 같은 세 가지 방법�
 
 **소스코드로 설치(Linux)**
 
-소스코드를 컴파일하여 CUBRID Python 드라이버를 설치하려면 Python Development Package가 필요하다. Python Development Package가 설치되어 있지 않다면 http://www.cubrid.org/wiki_apis/entry/install-python-development-package\ 를 참고하여 설치한다.
+소스코드를 컴파일하여 CUBRID Python 드라이버를 설치하려면 Python Development Package가 필요하다. 
+
+.. FIXME: Python Development Package가 설치되어 있지 않다면 http://www.cubrid.org/wiki_apis/entry/install-python-development-package\ 를 참고하여 설치한다.
 
 #.  소스 코드를 http://www.cubrid.org/?mid=downloads&item=python_driver\에서 다운로드한다.
 

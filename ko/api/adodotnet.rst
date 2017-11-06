@@ -8,7 +8,7 @@ ADO.NET 드라이버
 
 ADO.NET은 .NET 개발자에게 데이터 액세스 서비스를 제공하는 클래스 집합이다. ADO.NET은 분산된 데이터를 분산된 데이터 공유 응용 프로그램을 개발할 때 사용할 수 있는 다양한 구성 요소를 제공한다. 또한 관계형, XML 및 응용 프로그램 데이터에 대한 액세스를 제공하는 .NET Framework의 핵심 부분이다. ADO.NET은 응용 프로그램, 도구, 언어 또는 웹 브라우저에서 사용되는 중간 계층 비즈니스 개체 및 프런트 엔드 데이터베이스 클라이언트 개발을 비롯하여 다양한 개발 요구 사항을 지원한다.
 
-별도로 ADO.NET 드라이버를 다운로드하거나 ADO.NET 드라이버에 대한 최신 정보를 확인하려면 http://www.cubrid.org/wiki_apis/entry/cubrid-ado-net-driver\에 접속한다.
+.. FIXME: 별도로 ADO.NET 드라이버를 다운로드하거나 ADO.NET 드라이버에 대한 최신 정보를 확인하려면 http://www.cubrid.org/wiki_apis/entry/cubrid-ado-net-driver\에 접속한다.
 
 ADO.NET 설치 및 설정
 ====================

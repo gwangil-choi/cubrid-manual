@@ -10,7 +10,7 @@
 
 :red:`이 장에서는 시스템 성능에 영향을 미칠 수 있는 시스템 파라미터를 설정하는 방법에 대한 정보를 제공한다. 시스템 파라미터는 시스템의 전체적인 성능과 동작을 결정한다. 데이터베이스 서버 및 브로커에 설정 파일을 사용하는 방법과 각 파라미터에 대해서도 설명한다.`
 
-CUBRID 매니저 서버 환경 설정과 관련해서는 `CUBRID Manager Manual <http://www.cubrid.org/wiki_tools/entry/cubrid-manager-manual>`_ 을 참고한다.
+.. FIXME: CUBRID 매니저 서버 환경 설정과 관련해서는 `CUBRID Manager Manual <http://www.cubrid.org/wiki_tools/entry/cubrid-manager-manual>`_ 을 참고한다.
 
 이 장에서 설명하는 주요 내용은 다음과 같다.
 
