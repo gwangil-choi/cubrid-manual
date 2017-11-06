@@ -21,7 +21,8 @@ Node.js는 다음의 특징을 가지고 있다.
 큐브리드 Node.js 드라이버를 다운로그하거나 최신의 정보를 찾고자 할 때는 아래의 사이트를 참고한다. 
 
 .. FIXME: *   Introducing project: http://www.cubrid.org/wiki_apis/entry/cubrid-node-js-driver
-*   소스코드 메인 저장소: https://github.com/CUBRID/node-cubrid 
+
+*   소스코드 메인 저장소: https://github.com/CUBRID/node-cubrid
 
 Node.js 설치
 ============
