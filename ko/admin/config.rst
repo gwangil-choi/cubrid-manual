@@ -8,7 +8,7 @@
 시스템 설정
 ***********
 
-:red:`이 장에서는 시스템 성능에 영향을 미칠 수 있는 시스템 파라미터를 설정하는 방법에 대한 정보를 제공한다. 시스템 파라미터는 시스템의 전체적인 성능과 동작을 결정한다. 데이터베이스 서버 및 브로커에 설정 파일을 사용하는 방법과 각 파라미터에 대해서도 설명한다.`
+:red:`성능과 동작에 영향을 미칠 수 있는 시스템 파라미터의 설정 정보를 제공한다. 시스템 파라미터는 시스템의 전체적인 성능과 동작을 결정한다. 이 장에서는 데이터베이스 서버, 브로커에 적용하는 설정 파일의 사용법과 개별 파라미터의 의미를 설명한다.`
 
 .. FIXME: CUBRID 매니저 서버 환경 설정과 관련해서는 `CUBRID Manager Manual <http://www.cubrid.org/wiki_tools/entry/cubrid-manager-manual>`_ 을 참고한다.
 
@@ -325,14 +325,14 @@ CUBRID는 데이터베이스 서버, 브로커, CUBRID 매니저로 구성된다
 |                               +-------------------------------------+-------------------------+---------+----------+--------------------------------+-----------------+
 |                               | use_orderby_sort_limit              | 서버                    | O       | bool     | yes                            | DBA만 가능      |
 |                               +-------------------------------------+-------------------------+---------+----------+--------------------------------+-----------------+
-|                               | vacuum_prefetch_log_mode            | server parameter        |         | int      | 1                              | DBA only        |
+|                               | vacuum_prefetch_log_mode            | 서버                    |         | int      | 1                              | DBA only        |
 |                               +-------------------------------------+-------------------------+---------+----------+--------------------------------+-----------------+
-|                               | vacuum_prefetch_log_buffer_size     | server parameter        |         | int      | 3200 *                         | DBA only        |
+|                               | vacuum_prefetch_log_buffer_size     | 서버                    |         | int      | 3200 *                         | DBA only        |
 |                               |                                     |                         |         |          | :ref:`log_page_size <lpg>`     |                 |
 |                               +-------------------------------------+-------------------------+---------+----------+--------------------------------+-----------------+
-|                               | data_buffer_neighbor_flush_pages    | server parameter        |         | int      | 8                              | DBA only        |
+|                               | data_buffer_neighbor_flush_pages    | 서버                    |         | int      | 8                              | DBA only        |
 |                               +-------------------------------------+-------------------------+---------+----------+--------------------------------+-----------------+
-|                               | data_buffer_neighbor_flush_nondirty | server parameter        |         | bool     | no                             | DBA only        |
+|                               | data_buffer_neighbor_flush_nondirty | 서버                    |         | bool     | no                             | DBA only        |
 +-------------------------------+-------------------------------------+-------------------------+---------+----------+--------------------------------+-----------------+
 
 .. _lpg:
@@ -636,15 +636,15 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **dont_reuse_heap_file**
 
-        **dont_reuse_heap_file** :red:`은 새 테이블을 생성할 때(**CREATE TABLE**) 테이블 삭제 시(**DROP TABLE**) 삭제되는 힙 파일을 재사용할지 여부를 설정하는 파라미터이다. 이 파라미터를 no로 설정하면 삭제된 힙 파일이 재사용되며, 이를 yes로 설정하면 새 테이블을 생성할 때 삭제된 힙 파일이 사용되지 않는다. 기본값은 **no**이다.`
+        **dont_reuse_heap_file** :red:`은 테이블 삭제(**DROP TABLE**)로 인해 삭제된 힙 파일을 새로운 테이블 생성(**CREATE TABLE**) 시 재사용하지 않도록 설정하는 파라미터로, no로 설정되면 삭제된 힙 파일을 재사용하고, yes로 설정되면 삭제된 힙 파일을 새로운 테이블 생성 시 재사용하지 않는다. 기본값은 **no** 이다.`
 
 **log_volume_size**
 
-    **log_volume_size**\ :red:`는 **--log-volume-size** 옵션 없이 **cubrid createdb** 유틸리티를 사용할 때 로그 볼륨 파일의 기본 크기를 설정하는 파라미터이다. 단위는 B, K, M, G 또는 T로 설정할 수 있으며, 이는 각각 바이트, 킬로바이트(KB), 메가바이트(MB), 기가바이트(GB) 및 테라바이트(TB)를 나타낸다. 단위를 생략하면 바이트 단위가 적용된다. 기본값은 **512M**이다.`
+    **log_volume_size**\ :red:`는 **cubrid createdb** 유틸리티에서 **--log-volume-size** 옵션이 생략되었을 때 로그 볼륨 파일의 기본 크기를 설정하는 파라미터이다. 값 뒤에 B, K, M, G, T로 단위를 붙일 수 있으며, 각각 Bytes, Kilobytes, Megabytes, Gigabytes, Terabytes를 의미한다. 단위를 생략하면 바이트 단위가 적용된다. 기본값은 **512M** 이다.`
 
 **temp_file_max_size_in_pages**
 
-    **temp_file_max_size_in_pages** :red:`는 일시적 볼륨을 확장할 수 있는 최대 페이지 수를 설정하는 파라미터이다. 기본값은 일시적 볼륨이 무제한 디스크 공간을 차지할 수 있음을 뜻하는 **-1**이다. 제한을 두기 위해서는 양수 값으로 설정한다(설정된 값을 초과하면 오류가 표시되고 일부 큰 질의가 취소될 수 있음).`
+    **temp_file_max_size_in_pages** :red:`는 일시적 볼륨을 확장할 수 있는 최대 페이지 수를 설정하는 파라미터이다. 기본값은 **-1** 이며 일시적 볼륨이 무제한 디스크 공간을 차지할 수 있음을 뜻한다. 제한을 두기 위해서는 양수 값으로 설정할 수 있으며 설정된 값을 초과하면 오류가 표시되고 일부 큰 질의가 취소될 수 있다.`
 
     :red:`이 파라미터를 **0**으로 설정하면 일시적 볼륨이 자동으로 생성되지 않으며 관리자가 **cubrid addvoldb** 유틸리티를 사용해 일시적 데이터를 저장하기 위한 용도로 영구적 볼륨을 생성해야 한다.`
 
@@ -1185,7 +1185,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
 **cte_max_recursions**
 
-    **cte_max_recursions** :red:`는 CTE(Common Table Expressions) 질의문의 반복되는 부분을 수행할 때 최대 반복 횟수를 제한하는 파라미터이다. 이 파라미터는 무한 반복과 일시적 목록의 크기로 인해 발생할 수 있는 이슈를 예방한다.`
+    **cte_max_recursions** :red:`는 CTE(Common Table Expressions) 질의문의 반복되는 부분을 수행할 때 최대 반복 횟수를 제한하는 파라미터이다. 이 파라미터는 무한 반복과 임시 결과의 크기로 인해 발생할 수 있는 이슈를 예방한다.`
 
 **default_week_format**
 
@@ -1525,7 +1525,7 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
 
     *   CUBRID에서 유니코드 정규화를 위한 결합(composition)과 분해(decomposition)는 별개로 동작하지 않는다.
 
-        :red:`보통은 **unicode_input_normalization** 와 **unicode_output_normalization** 의 값을 yes로 사용한다. 이 경우 클라이언트로부터 입력된 코드는 결합 모드로 저장되고 출력은 분해 모드로 저장된다.`
+        :red:`일반적으로 **unicode_input_normalization** 와 **unicode_output_normalization** 의 값을 yes로 사용한다. 이 경우 클라이언트로부터 입력된 코드는 결합 모드로 저장되고 출력은 분해 모드로 저장된다.`
 
     클라이언트 응용 프로그램이 텍스트 데이터를 분해된 형태로 CUBRID에 보낸다면, **unicode_input_normalization** 을 **yes** 로 설정하여 CUBRID가 결합된 코드로 다루게 한다.
     
@@ -1602,10 +1602,10 @@ CUBRID 설치 시 생성되는 기본 데이터베이스 환경 설정 파일(**
     :red:`운영 체제의 타임존은 운영 체제와 운영 체제 설정 파일에 있는 정보에 따라 다를 수 있다.`
 
      - :red:`Windows의 경우, tzset() 함수와 tzname[0] 변수를 사용해 Windows 스타일 타임존명을 검색한다. 이 이름은 CUBRID 매핑 데이터를 사용하는 IANA/CUBRID 스타일명으로 변환된다(매핑 파일은 %CUBRID%\\timezones\\tzdata\\windowsZones.xml임).`
-     - :red:`Linux의 경우, CUBRID에서 "/etc/sysconfig/clock" 파일을 읽고 구문을 분석하려 시도한다. 이 파일이 없는 경우 링크 "/etc/localtime"의 값을 읽고 사용한다.`
+     - :red:`Linux의 경우, CUBRID에서 "/etc/sysconfig/clock" 파일을 읽고 구문을 분석하려 시도한다. 이 파일이 없는 경우 "/etc/localtime"의 값을 읽고 사용한다.`
      - :red:`AIX의 경우, "TZ" 운영 체제 환경 변수의 값을 사용한다.`
 
-    :red:`모든 운영 체제에서 server_timezone이 지정되어 있지 않은 경우 운영 체제의 타임존 값을 읽을 수 없어 "Asia/Seoul" 타임존을 서버 타임존으로 사용한다.`
+    :red:`모든 운영 체제에서 server_timezone이 지정되지 않은 경우 "Asia/Seoul" 타임존을 서버 타임존으로 사용한다.`
 
 
 *   **tz_leap_second_support**
@@ -1789,7 +1789,7 @@ HA 관련 파라미터
 
 **enable_string_compression**
 
-    **enable_string_compression** :red:`은 문자열 타입 값을 힙, 인덱스 또는 리스트로 저장할 때 문자열 압축을 사용할지 설정하는 파라미터이다. **enable_string_compression** 값을 **yes**로 설정하면 문자열 크기가 255바이트 이상이고, 압축된 문자열이 원래 문자열의 크기보다 작을 경우 압축된 문자열로 저장된다.`
+    **enable_string_compression** :red:`은 문자열 타입 값을 힙, 인덱스 또는 리스트로 저장할 때 문자열 압축을 사용여부를 설정하는 파라미터이다. **enable_string_compression** 값을 **yes**로 설정하면 문자열 크기가 255바이트 이상이고, 압축된 문자열이 원래 문자열의 크기보다 작을 경우 압축된 문자열로 저장된다.`
 
 **index_scan_in_oid_order**
 
@@ -1879,13 +1879,13 @@ HA 관련 파라미터
 
 **vacuum_prefetch_log_mode**
 
- **vacuum_prefetch_log_mode** :red:`는 vacuum을 대신하여 로그 페이지의 프리페치(prefetch) 모드를 설정하는 파라미터이다.`
+ **vacuum_prefetch_log_mode** :red:`는 vacuum을 위하여 로그 페이지의 프리패치(prefetch) 모드를 설정하는 파라미터이다.`
        
- :red:`모드 0에서는 vacuum 마스터 스레드가 공유 버퍼에서 필요한 로그 페이지를 프리페치한다. 모드 1(기본값)에서는 각 vacuum 작업자가 자체 버퍼에서 필요한 로그 페이지를 프리페치한다. 또한 모드 0에서는 **vacuum_prefetch_log_buffer_size** 시스템 파라미터를 설정해야 하지만, 모드 1에서는 이 파라미터를 무시하고 각 vacuum 작업자가 전체 vacuum 로그 블록(기본 32개의 로그 페이지)을 프리페치한다.`
+ :red:`모드 0에서는 vacuum 마스터 스레드가 공유 버퍼에서 필요한 로그 페이지를 프리패치한다. 모드 1(기본값)에서는 각 vacuum 작업자가 자체 버퍼에서 필요한 로그 페이지를 프리패치한다. 또한 모드 0에서는 **vacuum_prefetch_log_buffer_size** 시스템 파라미터를 설정해야 하지만, 모드 1에서는 이 파라미터를 무시하고 각 vacuum 작업자가 전체 vacuum 로그 블록(기본 32개의 로그 페이지)을 프리패치한다.`
        
 **vacuum_prefetch_log_buffer_size**
 
-    **vacuum_prefetch_log_buffer_size** :red:`는 vacuum의 로그 프리페치 버퍼 크기를 설정하는 파라미터이다. 이 파라미터는 **vacuum_prefetch_log_mode**를 0으로 설정한 경우에만 사용한다.`
+    **vacuum_prefetch_log_buffer_size** :red:`는 vacuum의 로그 프리패치 버퍼 크기를 설정하는 파라미터이다. 이 파라미터는 **vacuum_prefetch_log_mode**를 0으로 설정한 경우에만 사용한다.`
 
 **data_buffer_neighbor_flush_pages**
     
