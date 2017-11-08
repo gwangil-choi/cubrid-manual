@@ -13,9 +13,9 @@
 
 CUBRID 10.1은 CUBRID 10.0에서 발견된 오류 수정 및 기능 개선과 이전 버전들에 반영된 모든 오류 수정 및 기능 개선을 포함한다.
 
-CUBRID 10.0에 대한 정보는 http://www.cubrid.org/manual/en/10.0/release_note/index.html에서 확인할 수 있다.
+CUBRID 10.0에 대한 정보는 http://www.cubrid.org/manual/en/10.0/release_note/index.html 에서 확인할 수 있다.
 
-CUBRID 9.3 또는 그 이전 버전에 대한 정보는 http://www.cubrid.org/documentation/manuals/other-versions에서 확인할 수 있다.
+CUBRID 9.3 또는 그 이전 버전에 대한 정보는 http://www.cubrid.org/documentation/manuals/other-versions 에서 확인할 수 있다.
 
 릴리즈 개요
 ===========
