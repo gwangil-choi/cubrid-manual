@@ -494,17 +494,16 @@ CUBRID에서는 위치 기반 파라미터만 지원하며 명명된 파라미�
 | 23             | ER_UNKNOWN             | "Error"                                                               |
 +----------------+------------------------+-----------------------------------------------------------------------+
 
-NHibernate
-----------
+.. FIXME: NHibernate
+.. FIXME: ----------
 
-CUBRID ADO.NET Data Provider를 사용하면 NHibernate에서 CUBRID 데이터베이스를 사용할 수 있다. 이에 대한 자세한 내용은
+.. FIXME: CUBRID ADO.NET Data Provider를 사용하면 NHibernate에서 CUBRID 데이터베이스를 사용할 수 있다. 이에 대한 자세한 내용은
 http://www.cubrid.org/wiki_apis/entry/cubrid-nhibernate-support\ 를 참고한다.
 
-Java 저장 프로시저
-------------------
+.. FIXME: Java 저장 프로시저
+.. FIXME: ------------------
 
-.NET에서 Java 저장 프로시저를 사용하는 방법은
-http://www.cubrid.org/wiki_apis/entry/how-to-calling-java-stored-functionprocedurec\ 를 참고한다.
+.. FIXME: .NET에서 Java 저장 프로시저를 사용하는 방법은 http://www.cubrid.org/wiki_apis/entry/how-to-calling-java-stored-functionprocedurec\ 를 참고한다.
 
 ADO.NET API
 ===========
