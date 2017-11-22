@@ -2179,7 +2179,7 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
                                                       기본값               
       ========= ===================================== =========== ====================================================================
       **1**     **Detailed b-tree pages**             Yes         | B- 트리 페이지를 3 가지 카테고리로 분류한다.: 루트, 비단말,단말
-                                                                  | 영향을 받는 통계수치:
+                                                                  | 관련 통계수치:
                                                                   | - Num_data_page_fix_ext
                                                                   | - Time_data_page_lock_acquire_time
                                                                   | - Time_data_page_hold_acquire_time
@@ -2187,15 +2187,15 @@ CSQL의 해당 연결에 대해서만 통계 정보를 확인하려면 CSQL의 �
                                                                   | - Num_data_page_promote_ext
                                                                   | - Num_data_page_promote_time_ext
                                                                   | - Num_data_page_unfix_ext
-      **2**     **MVCC Snapshot**                     Yes         | MVCC 스냅샷에 대한 통계 수집 활성화:
+      **2**     **MVCC Snapshot**                     Yes         | MVCC 스냅샷에 대한 통계 수집 :
                                                                   | - Num_mvcc_snapshot_ext
-      **4**     **Time locks**                        Yes         | 타이밍 잠금 대기에 대한 통계 수집 활성화:
+      **4**     **Time locks**                        Yes         | 타이밍 잠금 대기에 대한 통계 수집 :
                                                                   | - Num_object_locks_time_waited_usec
-      **8**     **Hash anchor waits**                 Yes         | 해시 앵커 대기에 대한 통계 수집 활성화:
+      **8**     **Hash anchor waits**                 Yes         | 해시 앵커 대기에 대한 통계 수집 :
                                                                   | - Num_data_page_hash_anchor_waits
                                                                   | - Time_data_page_hash_anchor_wait
-      **16**    **Extended victimization**            No          | 확장 페이지 버퍼 I/O 및 희생화 모듈에 대한 
-                                                                  | 통계 수집 활성화:
+      **16**    **Extended victimization**            No          | 확장 페이지 버퍼 I/O 및 victim  대한 
+                                                                  | 통계 수집 :
                                                                   | - Num_data_page_writes
                                                                   | - flush_collect_per_page
                                                                   | - flush_flush_per_page
