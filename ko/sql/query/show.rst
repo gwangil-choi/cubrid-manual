@@ -216,7 +216,7 @@ Packed                                              키가 어떻게 팩되었�
 Null                                VARCHAR         칼럼이 **NULL** 을 포함할 수 있으면 YES, 그렇지 않으면 NO.
 Index_type                          VARCHAR         사용되는 인덱스(현재 BTREE만 지원한다).
 Func                                VARCHAR         함수 인덱스에서 사용되는 함수
-Comment                             VARCHAR         Comment to describe the index
+Comment                             VARCHAR         인덱스를 설명하기 위한 주석
 =================================== =============== ======================================================================================================================================
 
 다음은 이 구문을 수행한 예이다.
@@ -355,10 +355,10 @@ FULL이 명시되면 4개의 칼럼을 가진 타임존 정보를 출력한다.
 =================== =============== ===================================================
 칼럼 이름           타입            설명
 =================== =============== ===================================================
-timezone_region     VARCHAR(32)     타임존 영역
+timezone_region     VARCHAR(32)     타임존 영역 이름
 region_offset       VARCHAR(32)     일광 절약 시간을 고려하지 않은 타임존 영역의 오프셋
-dst_offset          VARCHAR(32)     타임존 영역에 적용되는 일광 절약 시간 규칙을 고려한 오프셋
-dst_abbreviation    VARCHAR(32)     일광 절약 시간 규칙이 적용된 지역의 약어
+dst_offset          VARCHAR(32)     일광 절약 시간을 고려한 타임존 영역의 오프셋
+dst_abbreviation    VARCHAR(32)     일광 절약 시간이 적용된 영역의 약어
 =================== =============== ===================================================
 
 두 번째, 세 번째, 네 번째 칼럼에서 출력되는 정보는 현재 날짜와 시간에 관한 것이다.
@@ -762,15 +762,15 @@ Num_avg_trans                       INT             평균 트랜잭션 개수
 Num_avg_locks                       INT             평균 객체 잠금 개수
 Num_active_log_pages                INT             활성로그 부분에서 페이지 개수
 Db_charset                          INT             DB의 문자셋 번호
-First_active_log_page               BIGINT          활성 로그에서 물리적 위치 1에 대한 놀리 페이지 
+First_active_log_page               BIGINT          활성 로그에서 물리적 위치 1에 대한 논리 페이지 
 Current_append                      VARCHAR(64)     현재의 추가된 위치 
 Checkpoint                          VARCHAR(64)     복구 프로세스를 시작하는 가장 작은 로그 일련 주소 
 Next_archive_page_id                BIGINT          보관할 다음 논리 페이지 
 Active_physical_page_id             INT             보관할 논리 페이지의 물리직 위치 
-Next_archive_num                    INT             다음 보관 로그 번호 Next log archive number
-Last_archive_num_for_syscrashes     INT             시스템 비정상 종료의 마지막 로그 보관 번호 
-Last_deleted_archive_num            INT             지워진 보관 로그의 마지막번호 
-Backup_lsa_level0                   VARCHAR(64)     백업 수준 0의 LSA
+Next_archive_num                    INT             다음 보관 로그 번호 
+Last_archive_num_for_syscrashes     INT             시스템 비정상 종료 대비하여 필요한 최종 보관 로그 번호 
+Last_deleted_archive_num            INT             최종 삭제된 보관 로그 번호 
+Backup_lsa_level0                   VARCHAR(64)     백업 수준 0의 LSA(log sequence number)
 Backup_lsa_level1                   VARCHAR(64)     백업 수준 1의 LSA 
 Backup_lsa_level2                   VARCHAR(64)     백업 수준 2의 LSA
 Log_prefix                          VARCHAR(256)    로그 prefix 이름
@@ -782,9 +782,9 @@ Backup_info_level2                  VARCHAR(128)    백업 수준 2의 상세 �
 Ha_server_state                     VARCHAR(32)     HA 서버 상태. 다음 값 중 하나: na, idle, active, to-be-active, standby, to-be-standby, maintenance, dead
 Ha_file                             VARCHAR(32)     HA 복제 상태. 다음 값 중 하나: clear, archived, sync
 Eof_lsa                             VARCHAR(64)     LSA 파일의 끝
-Smallest_lsa_at_last_checkpoint     VARCHAR(64)     맨 마지막 체크포인트의 가장 작은 LSA, NULL LSA가 될 수 있음
+Smallest_lsa_at_last_checkpoint     VARCHAR(64)     맨 마지막 체크포인트의 가장 작은 LSA, NULL 값이 될 수 있음
 Next_mvcc_id                        BIGINT          다음 트랜잭션에서 사용될 다음 MVCCID 값 
-Mvcc_op_log_lsa                     VARCHAR(32)     MVCC 동작에 대한 로그 시작점에 사용되는 LSA
+Mvcc_op_log_lsa                     VARCHAR(32)     MVCC 작업을 위한 로그 항목을 연결하는 데 사용되는 LSA
 Last_block_oldest_mvcc_id           BIGINT          로그 데이터 블록에서 가장 오래된 MVCC 를 찾기 위한 ID 값, NULL 값이 될 수 있음 
 Last_block_newest_mvcc_id           BIGINT          로그 데이터 블록에서 가장 최신의 MVCC 를 찾기 위한 ID 값, NULL 값이 될 수 있음
 =================================== =============== ======================================================================================================================================
