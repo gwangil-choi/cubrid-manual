@@ -956,10 +956,12 @@ Unfill_space                        INT             페이지 공간이 이 값�
 Estimates_num_pages                 BIGINT          힙 페이지 개수의 추정치
 Estimates_num_recs                  BIGINT          힙 내 객체 개수의 추정치
 Estimates_avg_rec_len               INT             레코드 전체 길이의 추정치
-Estimates_num_high_best             INT             최소의 HEAP_DROP_FREE_SPACE를 가진 것으로 추정되는 베스트 페이지의 배열에 있는 페이지 개수. 이 숫자가 0이고 최소한 다른 
-                                                    HEAP_NUM_BEST_SPACESTATS 개수만큼의 베스트 페이지가 있으면, 그것을 찾는다.
-Estimates_num_others_high_best      INT             베스트 페이지로 알려진 것으로 추정되는 전체 개수. 이 베스트 페이지는 베스트 배열에는 포함되어 있지 않고 
-                                                    최소한 HEAP_DROP_FREE_SPACE를 가진 것으로 추정한다.
+Estimates_num_high_best             INT             최소의 HEAP_DROP_FREE_SPACE를 가진 것으로 추정되는 베스트 페이지의 배열에 있는 페이지 개수. 
+
+                                                    이 숫자가 0이고 최소한 다른 HEAP_NUM_BEST_SPACESTATS 개수만큼의 베스트 페이지가 있으면, 그것을 찾는다.
+Estimates_num_others_high_best      INT             베스트 페이지로 알려진 것으로 추정되는 전체 개수. 
+
+                                                    이 베스트 페이지는 베스트 배열에는 포함되어 있지 않고 최소한 HEAP_DROP_FREE_SPACE를 가진 것으로 추정한다.
 Estimates_head                      INT             베스트 순환 배열의 헤드
 Estimates_best_list                 VARCHAR(512)    포맷: '((best[0].vpid.volid|best[0].vpid.pageid), best[0].freespace), ... , ((best[9].vpid.volid|best[9].vpid.pageid), best[9].freespace)'
 Estimates_num_second_best           INT             두번째 베스트 힌트의 개수. 이 힌트는 두번째 베스트 배열에 존재한다. 이들은 새로운 베스트 페이지를 찾을 때 사용됨.
@@ -1271,7 +1273,9 @@ Volume_id                           INT             페이지의 볼륨 식별�
 Page_id                             INT             페이지 식별자
 Num_slots                           INT             페이지에 할당된 슬롯 개수
 Num_records                         INT             페이지에 대한 레코드 개수
-Anchor_type                         VARCHAR(32)     다음 값 중 하나: ANCHORED, ANCHORED_DONT_REUSE_SLOTS, UNANCHORED_ANY_SEQUENCE, UNANCHORED_KEEP_SEQUENCE
+Anchor_type                         VARCHAR(32)     다음 값 중 하나: 
+                                                    
+                                                    ANCHORED, ANCHORED_DONT_REUSE_SLOTS, UNANCHORED_ANY_SEQUENCE, UNANCHORED_KEEP_SEQUENCE
 Alignment                           VARCHAR(8)      레코드에 대한 정렬(alignment), 다음 값 중 하나: CHAR, SHORT, INT, DOUBLE
 Total_free_area                     INT             페이지 전체 여유 공간
 Contiguous_free_area                INT             페이지 내 연속된 여유 공간
@@ -1321,7 +1325,9 @@ Volume_id                           INT             페이지의 볼륨 식별�
 Page_id                             INT             페이지 식별자
 Slot_id                             INT             슬롯 식별자
 Offset                              INT             페이지의 시작부터 레코드의 시작까지의 바이트 오프셋
-Type                                VARCHAR(32)     레코드 타입, 다음 값 중 하나: REC_UNKNOWN, REC_ASSIGN_ADDRESS, REC_HOME, REC_NEWHOME, REC_RELOCATION, REC_BIGONE, REC_MARKDELETED, REC_DELETED_WILL_REUSE
+Type                                VARCHAR(32)     레코드 타입, 다음 값 중 하나: 
+
+                                                    REC_UNKNOWN, REC_ASSIGN_ADDRESS, REC_HOME, REC_NEWHOME, REC_RELOCATION, REC_BIGONE, REC_MARKDELETED, REC_DELETED_WILL_REUSE
 Length                              INT             레코드 길이
 Waste                               INT             버릴 것인지 여부
 =================================== =============== ======================================================================================================================================
@@ -1612,9 +1618,13 @@ Tran_index               INT             트랜잭션 테이블의 인덱스 또
 Tran_id                  INT             트랜잭션 식별자 
 Is_loose_end             INT             0 : 완료된 트랜잭션일 경우 , 1 : 완료되지 않은 트랜잭션
 State                    VARCHAR(64)     트랜잭션의 상태. 다음 값 중 하나의 상태:
+
                                          'TRAN_RECOVERY', 'TRAN_ACTIVE', 'TRAN_UNACTIVE_COMMITTED', 'TRAN_UNACTIVE_WILL_COMMIT', 'TRAN_UNACTIVE_COMMITTED_WITH_POSTPONE', 
+
                                          'TRAN_UNACTIVE_ABORTED', 'TRAN_UNACTIVE_UNILATERALLY_ABORTED', 'TRAN_UNACTIVE_2PC_PREPARE', 'TRAN_UNACTIVE_2PC_COLLECTING_PARTICIPANT_VOTES',
+
                                          'TRAN_UNACTIVE_2PC_ABORT_DECISION', 'TRAN_UNACTIVE_2PC_COMMIT_DECISION', 'TRAN_UNACTIVE_COMMITTED_INFORMING_PARTICIPANTS', 
+
                                          'TRAN_UNACTIVE_ABORTED_INFORMING_PARTICIPANTS','TRAN_STATE_UNKNOWN'
 Isolation                VARCHAR(64)     트랜잭션의 격리 수준. 다음 중 하나의 상태: 'SERIALIZABLE', 'REPEATABLE READ', 'COMMITTED READ', 'TRAN_UNKNOWN_ISOLATION'
 Wait_msecs               INT             잠금 상태로 대기(milliseconds)
@@ -1626,9 +1636,13 @@ Savepoint_lsa            VARCHAR(64)     마지막 저장 포인트의 주소
 Topop_lsa                VARCHAR(64)     마지막 최상위 동작의 주소 
 Tail_top_result_lsa      VARCHAR(64)     마지막 부분 취소 또는 커밋의 주소
 Client_id                INT             클라이언트의 트랜잭션 고유 식별자
-Client_type              VARCHAR(40)     클라이언트 타입. 다음 중 하나 값 'SYSTEM_INTERNAL', 'DEFAULT', 'CSQL', 'READ_ONLY_CSQL', 'BROKER', 'READ_ONLY_BROKER', 'SLAVE_ONLY_BROKER',
-                                         'ADMIN_UTILITY', 'ADMIN_CSQL', 'LOG_COPIER', 'LOG_APPLIER', 'RW_BROKER_REPLICA_ONLY', 'RO_BROKER_REPLICA_ONLY', 'SO_BROKER_REPLICA_ONLY', 
-                                         'ADMIN_CSQL_WOS', 'UNKNOWN'
+Client_type              VARCHAR(40)     클라이언트 타입. 다음 중 하나 값 
+
+                                         'SYSTEM_INTERNAL', 'DEFAULT', 'CSQL', 'READ_ONLY_CSQL', 'BROKER', 'READ_ONLY_BROKER', 'SLAVE_ONLY_BROKER',
+
+                                         'ADMIN_UTILITY', 'ADMIN_CSQL', 'LOG_COPIER', 'LOG_APPLIER', 'RW_BROKER_REPLICA_ONLY', 'RO_BROKER_REPLICA_ONLY', 
+
+                                         'SO_BROKER_REPLICA_ONLY','ADMIN_CSQL_WOS', 'UNKNOWN'
 Client_info              VARCHAR(256)    클라이언트의 정보 
 Client_db_user           VARCHAR(40)     클라이언트의 데이터베이스 로그인 계정
 Client_program           VARCHAR(256)    클라이언트의 프로그램명 
@@ -1659,7 +1673,9 @@ Query_start_time         DATETIME        질의 시작 시간,  NULL 일 경우 
 Tran_start_time          DATETIME        트랜잭션 시작 시간,  NULL 일 경우 트랜잭션이 끝날 때 
 Xasl_id                  VARCHAR(64)     vpid:(volid|pageid),vfid:(volid|pageid) or NULL for query completed.
 Disable_modifications    INT             0보다 클 경우 수정을 금지 
-Abort_reason             VARCHAR(40)     트랜잭션 중지 사유, 다음 중 하나이다. 'NORMAL', 'ABORT_DUE_TO_DEADLOCK', 'ABORT_DUE_ROLLBACK_ON_ESCALATION'
+Abort_reason             VARCHAR(40)     트랜잭션 중지 사유, 다음 중 하나이다. 
+
+                                         'NORMAL', 'ABORT_DUE_TO_DEADLOCK', 'ABORT_DUE_ROLLBACK_ON_ESCALATION'
 ======================== =============== ==============================================================================================================================================================
 
 다음은 이 구문을 수행한 예이다.
