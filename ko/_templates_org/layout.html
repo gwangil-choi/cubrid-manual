@@ -57,14 +57,14 @@
     <!-- naver analytics end-->
     
     <!-- meta-tags -->
-      {% set my_keys = u'title' + u', ' + u'docstitle' %}
-      {% set my_desc = u'title' + u' &mdash; ' + u'docstitle' + u'.' %}
+      {% set my_keys = title + ', ' + docstitle %}
+      {% set my_desc = title + ' &mdash; ' + docstitle + '.' %}
       {% if meta is defined %}
         {% if 'meta-keywords' in meta.viewkeys() %}
-          {% set my_keys = my_keys + u', ' + meta.get(u'meta-keywords') %}
+          {% set my_keys = my_keys + ', ' + meta.get('meta-keywords') %}
         {% endif %}
         {%if 'meta-description' in meta.viewkeys() %}
-          {% set my_desc = my_desc + u' ' + meta.get(u'meta-description') %}
+          {% set my_desc = my_desc + ' ' + meta.get('meta-description') %}
         {% endif %}
       {% endif %}
       <!-- keywords & description -->
