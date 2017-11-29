@@ -1556,16 +1556,16 @@ SHOW CRITICAL SECTIONS
 =================================== =============== ======================================================================================================================================
 칼럼 이름                           타입            설명
 =================================== =============== ======================================================================================================================================
-Index                               INT             CS의인덱스 
+Index                               INT             CS 인덱스 
 Name                                VARCHAR(32)     CS 이름
 Num_holders                         VARCHAR(16)     해당 CS 보유자의 개수. 다음 값 중 하나: 'N readers', '1 writer', 'none'
 Num_waiting_readers                 INT             읽기 대기자의 개수
 Num_waiting_writers                 INT             쓰기 대기자의 개수
-Owner_thread_index                  INT             CS 쓰기 소유자의 스레드 인덱스. 소유자 없으면 NULL
+Owner_thread_index                  INT             CS 쓰기 소유자의 쓰레드 인덱스. 소유자 없으면 NULL
 Owner_tran_index                    INT             CS 쓰기 소유자의 트랜잭션 인덱스. 소유자 없으면 NULL
 Total_enter_count                   BIGINT          진입자의 전체 개수
 Total_waiter_count                  BIGINT          대기자의 전체 개수     
-Waiting_promoter_thread_index       INT             승격 대기자의 스레드 인덱스. 승격 대기자 없으면 NULL
+Waiting_promoter_thread_index       INT             승격 대기자의 쓰레드 인덱스. 승격 대기자 없으면 NULL
 Max_waiting_msecs                   NUMERIC(10,3)   최대 대기 시간(밀리 초)
 Total_waiting_msecs                 NUMERIC(10,3)   전체 대기 시간(밀리초)
 =================================== =============== ======================================================================================================================================
