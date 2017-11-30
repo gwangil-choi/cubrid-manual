@@ -1803,9 +1803,9 @@ JDBC에서 i18n 문자 사용
 리눅스
 ^^^^^^
 
-1.  Download the recent data from http://www.iana.org/time-zones 에서 최신의 타임존 데이터를 내려 받는다.
+1.  http://www.iana.org/time-zones 에서 최신의 타임존 데이터를 내려 받는다.
 
-    Download the linked file in "Latest version"'의 "Time Zone Data"에 링크된 파일을 다운로드 한다.
+    "Latest version"'의 "Time Zone Data"에 링크된 파일을 다운로드 한다.
 
 2.  압축된 파일을 **$CUBRID/timezones/tzdata** directory에 푼다.
 
