@@ -903,6 +903,9 @@ cci_connect_with_url_ex
     
     :param err_buf: Database error buffer    
 
+cci_cursor
+----------
+
 .. c:function:: int cci_cursor(int req_handle, int offset, T_CCI_CURSOR_POS origin, T_CCI_ERROR *err_buf)
 
     The **cci_cursor** function moves the cursor specified in the request handle to access the specific record in the query result executed by :c:func:`cci_execute`. The position of cursor is moved by the values specified in the *origin* and *offset* values. If the position to be moved is not valid, **CCI_ER_NO_MORE_DATA** is returned.
