@@ -1916,7 +1916,7 @@ The following shows [options] available with the **cubrid statdump** utility.
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
     |                  | Num_unfix_lru1_private_keep              | Accumulator    | Unfix data page and keep it in zone 1 of private list                 |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_lru2_shared_keep               | Accumulator    | Unfix data page and keep it in zone 2 of shared  list                 |
+    |                  | Num_unfix_lru1_shared_keep               | Accumulator    | Unfix data page and keep it in zone 1 of shared  list                 |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
     |                  | Num_unfix_void_to_private_mid_vacuum     | Accumulator    | | Unfix newly loaded data page and add to middle of private LRU list  |
     |                  |                                          |                | | (vacuum thread)                                                     |
