@@ -3,7 +3,6 @@
 
 :tocdepth: 3
 
-.. role:: red
 
 *********
 정보 함수
@@ -234,9 +233,9 @@ DISK_SIZE
 
 .. function:: DISK_SIZE(expr)
 
-    :red:`이 함수는 *expr* 값을 저장하는 데 필요한 바이트 크기를 반환한다. 주로 데이터베이스 힙 파일에 값을 저장하는 데 필요한 크기를 확인할 때 사용한다.`
+    이 함수는 *expr* 값을 저장하는 데 필요한 바이트 크기를 반환한다. 주로 데이터베이스 힙 파일에 값을 저장하는 데 필요한 크기를 확인할 때 사용한다.
 
-    :param expr: :red:`연산식`
+    :param expr: 연산식
 
     :rtype: INTEGER
 
@@ -251,7 +250,7 @@ DISK_SIZE
                       7              4
 
 
-:red:`값의 실제 내용에 따라 크기가 다르며, :ref:`문자열 압축<string_compression>`도 고려한다.`
+값의 실제 내용에 따라 크기가 다르며, :ref:`문자열 압축<string_compression>` 도 고려한다.
 
 .. code-block:: sql
 

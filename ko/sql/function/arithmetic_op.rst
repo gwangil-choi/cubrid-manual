@@ -2,7 +2,6 @@
 :meta-keywords: cubrid type cast
 :meta-description: CUBRID Arithmetic Operations and Type Casting of Numeric and DATE/TIME Data Types
 
-.. role:: red
 
 :tocdepth: 3
 
@@ -381,7 +380,7 @@
 타임존 파라미터들과 관련된 동작
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-:red:`TIMESTAMP 및 TIMESTAMP WITH LOCAL TIME ZONE 데이터 타입은 내부적으로 UNIX epoch 값(1970년 이후 경과한 시간(초))으로 저장되며, 윤초를 사용(tz_leap_second_support가 yes로 설정, :ref:`timezone-parameters` 참고)할 경우 가상 날짜-시간 값을 포함할 수 있다.`
+TIMESTAMP 및 TIMESTAMP WITH LOCAL TIME ZONE 데이터 타입은 내부적으로 UNIX epoch 값(1970년 이후 경과한 시간(초))으로 저장되며, 윤초를 사용(tz_leap_second_support가 yes로 설정, :ref:`timezone-parameters` 참고)할 경우 가상 날짜-시간 값을 포함할 수 있다.
 
 .. code-block:: sql
 
@@ -393,7 +392,7 @@
     2009-01-01 00:00:01  -> 79399955
 
 
-:red:`TIMESTAMP 및 TIMESTAMPLTZ 값이 포함된 산술 연산은 Unix epoch 값에서 바로 수행되며, 존재하지 않는 날짜/시간 값에 해당하는 Unix epoch 값이 허용된다. 따라서, 다음 비교는`
+TIMESTAMP 및 TIMESTAMPLTZ 값이 포함된 산술 연산은 Unix epoch 값에서 바로 수행되며, 존재하지 않는 날짜/시간 값에 해당하는 Unix epoch 값이 허용된다. 따라서, 다음 비교는
 
 .. code-block:: sql
 
@@ -405,7 +404,7 @@
     =================================================================================
                                                                                 0   
 
-:red:`Unix 타임스탬프 79399952와 79399953을 비교하는 것과 같지만 동일한 값이 TIMESTAMPTZ로 사용되면 다음과 같이 동일하다.`
+Unix 타임스탬프 79399952와 79399953을 비교하는 것과 같지만 동일한 값이 TIMESTAMPTZ로 사용되면 다음과 같이 동일하다.
 
 
 .. code-block:: sql
@@ -419,7 +418,7 @@
                                                                                 1
 
                                                                                 
-:red:`화면에는 다음과 같은 불일치가 나타난다.`
+화면에는 다음과 같은 불일치가 나타난다.
 
 .. code-block:: sql
 
@@ -432,11 +431,11 @@
     11:59:59 PM 12/31/2008 Etc/UTC UTC
 
 
-:red:`Unix 타임스탬프 값 79399953과 관련된 '2008-12-31 23:59:60 UTC는 실제 날짜가 아니기 때문에 바로 이전 값이 사용되지만 내부적으로는 '2008-12-31 23:59:60 UTC’ 값과 동일하다.`
+Unix 타임스탬프 값 79399953과 관련된 '2008-12-31 23:59:60 UTC는 실제 날짜가 아니기 때문에 바로 이전 값이 사용되지만 내부적으로는 '2008-12-31 23:59:60 UTC’ 값과 동일하다.
 
-:red:`TIMESTAMP WITH TIME ZONE 데이터 타입은 UNIX 타임스탬프와 타임존 식별자를 모두 포함한다. UNIX 타임스탬프 부분 값에서도 TIMESTAMPTZ에 대한 연산을 수행할 수 있으나, 이 경우 자동 조정 연산이 이어서 수행된다. 지역, 오프셋, 서머타임 등의 타임존 식별자를 포함하려면 TIMESTAMPTZ 객체의 날짜-시간이 유효해야 한다. timestamptz'2008-12-31 23:59:59 UTC'+1의 경우 유효하지 않은 날짜-시간(79399953,UTC) 대신  '2008-12-31 23:59:59 UTC'에 해당하는 (79399952,UTC)로 자동 변환된다.`
+TIMESTAMP WITH TIME ZONE 데이터 타입은 UNIX 타임스탬프와 타임존 식별자를 모두 포함한다. UNIX 타임스탬프 부분 값에서도 TIMESTAMPTZ에 대한 연산을 수행할 수 있으나, 이 경우 자동 조정 연산이 이어서 수행된다. 지역, 오프셋, 서머타임 등의 타임존 식별자를 포함하려면 TIMESTAMPTZ 객체의 날짜-시간이 유효해야 한다. timestamptz'2008-12-31 23:59:59 UTC'+1의 경우 유효하지 않은 날짜-시간(79399953,UTC) 대신  '2008-12-31 23:59:59 UTC'에 해당하는 (79399952,UTC)로 자동 변환된다.
 
-:red:`DATETIMETZ 및 TIMESTAMPTZ를 포함하는 산술 연산 후에는, CUBRID에서 다음과 관련된 결과 값의 자동 조정을 수행한다.`
-  - :red:`타임존 식별자 조정: 타임존이 포함된 날짜에 시간(초)을 더하면 내부적으로 저장된 오프셋 규칙과 서머타임 규칙이 변경될 수 있으므로, 이에 따라 타임존 식별자를 갱신 한다.`
-  - :red:`Unix 타임스탬프 조정(TIMESTAMPTZ에만 해당): 가상의 날짜-시간 값(윤초가 활성화된 경우)이 항상 바로 이전 Unix 타임스탬프 값으로 변환된다.`
+DATETIMETZ 및 TIMESTAMPTZ를 포함하는 산술 연산 후에는, CUBRID에서 다음과 관련된 결과 값의 자동 조정을 수행한다.
+  - 타임존 식별자 조정: 타임존이 포함된 날짜에 시간(초)을 더하면 내부적으로 저장된 오프셋 규칙과 서머타임 규칙이 변경될 수 있으므로, 이에 따라 타임존 식별자를 갱신 한다.
+  - Unix 타임스탬프 조정(TIMESTAMPTZ에만 해당): 가상의 날짜-시간 값(윤초가 활성화된 경우)이 항상 바로 이전 Unix 타임스탬프 값으로 변환된다.
 

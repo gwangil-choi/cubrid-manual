@@ -2,8 +2,6 @@
 :meta-keywords: high availability, cubrid node, cubrid replication, cubrid slave, database replication, database slave
 :meta-description: CUBRID HA is an implementation of High Availability. CUBRID HA ensures database synchronization among multiple servers when providing service. When an unexpected failure occurs in the system which is operating services, this feature minimizes the service down time by allowing the other system to carry out the service automatically.
 
-.. role:: red
-
 *********
 CUBRID HA
 *********
@@ -2185,7 +2183,7 @@ CUBRID HA에서 **LOB** 칼럼 메타 데이터(Locator)는 복제되고, **LOB*
 restoreslave
 ------------
 
-**cubrid restoreslave** :red:`는 백업본으로부터 데이터베이스를 복구하는 **cubrid restoredb**와 동일하지만 슬레이브(slave)나 레플리카(replica)를 재구성할 때 편리한 기능이 포함되어 있다. **cubrid restoreslave**를 사용하면 사용자가 **db_ha_apply_info**에 저장되는 복제 카탈로그 생성을 위해 백업 출력에서 복제 관련 정보를 수동으로 수집하지 않아도 된다. 이 명령은 백업 이미지와 활성 로그로부터 필요한 정보를 모두 자동으로 읽어서 관련 복제 카탈로그를 **db_ha_apply_info**에 추가한다. 사용자는 백업 이미지가 생성된 노드의 상태와 현재 마스터 노드의 호스트명, 이 두 가지 필수 옵션만 제공하면 된다. 자세한 내용은 :ref:`restoredb`를 참고한다.` ::
+**cubrid restoreslave** 는 백업본으로부터 데이터베이스를 복구하는 **cubrid restoredb** 와 동일하지만 슬레이브(slave)나 레플리카(replica)를 재구성할 때 편리한 기능이 포함되어 있다. **cubrid restoreslave** 를 사용하면 사용자가 **db_ha_apply_info** 에 저장되는 복제 카탈로그 생성을 위해 백업 출력에서 복제 관련 정보를 수동으로 수집하지 않아도 된다. 이 명령은 백업 이미지와 활성 로그로부터 필요한 정보를 모두 자동으로 읽어서 관련 복제 카탈로그를 **db_ha_apply_info** 에 추가한다. 사용자는 백업 이미지가 생성된 노드의 상태와 현재 마스터 노드의 호스트명, 이 두 가지 필수 옵션만 제공하면 된다. 자세한 내용은 :ref:`restoredb` 를 참고한다. ::
 
     cubrid restoreslave [OPTION] database-name
 
@@ -2193,7 +2191,7 @@ restoreslave
 
 .. option:: -s, --source-state=STATE
 
-    :red:`백업 이미지가 생성된 노드의 상태를 지정해야 한다. STATE는 'master', 'slave' 또는 'replica'일 수 있다.`
+    백업 이미지가 생성된 노드의 상태를 지정해야 한다. STATE는 'master', 'slave' 또는 'replica'일 수 있다.
 
 .. option:: -m, --master-host-name=NAME
 
@@ -3480,37 +3478,37 @@ HA 서비스 운영 중 슬레이브를 새로 추가하려면 기존의 마스�
 checksumdb
 ----------
 
-**checksumdb** :red:`를 통해 간단하게 복제 무결성을 확인할 수 있다. 기본적으로 이 유틸리티는 마스터 노드의 각 테이블을 청크(chunk)로 분할한 후 CRC32 값을 계산한다. 계산된 값이 아닌 계산 방법이 CUBRID HA를 통해 복제된다. 결과적으로 마스터 노드와 슬레이브 노드에서 계산된 CRC32 값을 비교함으로써 **checksumdb** 는 복제 무결성을 보고할 수 있다. **checksumdb** 는 성능 저하를 최소화하도록 설계되었으나 마스터의 성능에 영향을 미칠 수 있어 사용시 유의해야 한다.` ::
+**checksumdb** 를 통해 간단하게 복제 무결성을 확인할 수 있다. 기본적으로 이 유틸리티는 마스터 노드의 각 테이블을 청크(chunk)로 분할한 후 CRC32 값을 계산한다. 계산된 값이 아닌 계산 방법이 CUBRID HA를 통해 복제된다. 결과적으로 마스터 노드와 슬레이브 노드에서 계산된 CRC32 값을 비교함으로써 **checksumdb** 는 복제 무결성을 보고할 수 있다. **checksumdb** 는 성능 저하를 최소화하도록 설계되었으나 마스터의 성능에 영향을 미칠 수 있어 사용시 유의해야 한다. ::
 
         cubrid checksumdb [options] <database-name>@<hostname>
 
 .. program:: checksumdb
 
-*   *<hostname>* : :red:`체크섬(checksum) 계산을 시작할 때 마스터 노드의 호스트명을 지정해야 한다. 계산이 완료된 후 결과를 가져올 때 확인할 노드의 호스트명을 지정한다.`
+*   *<hostname>* : 체크섬(checksum) 계산을 시작할 때 마스터 노드의 호스트명을 지정해야 한다. 계산이 완료된 후 결과를 가져올 때 확인할 노드의 호스트명을 지정한다.
 
 .. option:: -c, --chunk-size=NUMBER
 
-     :red:`CRC32 계산에 사용할 행 수를 지정한다. (기본값: 500행, 최소값: 100행)`
+     CRC32 계산에 사용할 행 수를 지정한다. (기본값: 500행, 최소값: 100행)
 
 .. option:: -s, --sleep=NUMBER
 
-     :red:`청크를 계산하는 도중  checksumdb가 쉬는 시간을 설정한다.(기본값: 100ms)`
+     청크를 계산하는 도중  checksumdb가 쉬는 시간을 설정한다.(기본값: 100ms)
 
 .. option:: -i, --include-class-file=FILE
 
-     :red:`-i 옵션을 지정해 복제 불일치를 확인할 테이블을 지정한다. 테이블을 지정하지 않으면 전체 테이블을 확인한다. 파일 내용의 테이블명 구분자로 사용할 수 있는 기호는 빈 문자열, 탭, 개행문자 및 쉼표이다.`
+     -i 옵션을 지정해 복제 불일치를 확인할 테이블을 지정한다. 테이블을 지정하지 않으면 전체 테이블을 확인한다. 파일 내용의 테이블명 구분자로 사용할 수 있는 기호는 빈 문자열, 탭, 개행문자 및 쉼표이다.
 
 .. option:: -e, --exclude-class-file=FILE
 
-     -e :red:`옵션을 지정하여 복제 불일치 확인에서 제외할 테이블을 지정한다. -i와 -e 중 하나만 사용할 수 있다.`
+     -e 옵션을 지정하여 복제 불일치 확인에서 제외할 테이블을 지정한다. -i와 -e 중 하나만 사용할 수 있다.
 
 .. option:: -t, --timeout=NUMBER
 
-     :red:`이 옵션으로 계산 시간 제한을 지정한다. (기본값: 1000ms) 이 시간 제한에 도달하면 계산이 취소되고 잠시 후에 다시 시작된다.`
+     이 옵션으로 계산 시간 제한을 지정한다. (기본값: 1000ms) 이 시간 제한에 도달하면 계산이 취소되고 잠시 후에 다시 시작된다.
 
 .. option:: -n, --table-name=STRING
 
-     :red:`체크섬 결과를 저장할 테이블명을 지정한다. (기본값: db_ha_checksum)`
+     체크섬 결과를 저장할 테이블명을 지정한다. (기본값: db_ha_checksum)
 
 .. option:: -r, --report-only
 

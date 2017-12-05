@@ -2,8 +2,6 @@
 :meta-keywords: install systemtap, systemtap marker, systemtap probe, systemtap event, systemtap script, connection markers, query markers, object operation markers, index operation markers, locking markers, transaction markers, I/O markers
 :meta-description: SystemTap is a tool that can be used to dynamically monitor and track the process of running, to find and diagnose performance bottlenecks; learn how to use CUBRID markers in SystemTap scripts.
 
-.. role:: red
-
 *********
 SystemTap
 *********
@@ -149,13 +147,13 @@ CUBRID에서 SystemTap 사용하기
 CUBRID 소스 빌드
 ----------------
 
-:red:`SystemTap 은 리눅스에서만 사용할 수 있다.`
+SystemTap 은 리눅스에서만 사용할 수 있다.
 
-:red:`CUBRID 소스를 빌드해 SystemTap을 사용하려면 **ENABLE_SYSTEMTAP**을 **ON**(기본값)으로 설정한다.`
+CUBRID 소스를 빌드해 SystemTap을 사용하려면 **ENABLE_SYSTEMTAP** 을 **ON** (기본값)으로 설정한다.
 
-:red:`이 옵션은 릴리즈 빌드에 포함되어 있으며, CUBRID 소스 파일을 빌드하지 않고 인스톨 패키지를 이용하여 설치한 사용자라도 SystemTap 스크립트를 이용할 수 있다.`
+이 옵션은 릴리즈 빌드에 포함되어 있으며, CUBRID 소스 파일을 빌드하지 않고 인스톨 패키지를 이용하여 설치한 사용자라도 SystemTap 스크립트를 이용할 수 있다.
 
-:red:`다음은 CUBRID의 소스를 빌드하는 예이다.`
+다음은 CUBRID의 소스를 빌드하는 예이다.
 
 ::
 

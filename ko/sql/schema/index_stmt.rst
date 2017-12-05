@@ -2,7 +2,6 @@
 :meta-keywords: index definition, unique index, create index, alter index, drop index
 :meta-description: Define table indexes using create index, alter index, drop index statements.
 
-.. role:: red
 
 *************
 인덱스 정의문
@@ -31,7 +30,7 @@ CREATE INDEX
 *   *column_name*: 인덱스를 적용할 칼럼의 이름을 명시한다. 다중 칼럼 인덱스를 생성할 경우 둘 이상의 칼럼 이름을 명시한다.
 *   **ASC** | **DESC**: 칼럼의 정렬 방향을 설정한다.
 
-*   <*filter_predicate*>: :red:`필터링된 인덱스를 만드는 조건을 명시한다. 컬럼과 상수 간 비교 조건이 여러 개인 경우 **AND**로 연결된 경우에만 필터링이 될 수 있다. 자세한 내용은 :ref:`filtered-index`를 참고한다.`
+*   <*filter_predicate*>: 필터링된 인덱스를 만드는 조건을 명시한다. 컬럼과 상수 간 비교 조건이 여러 개인 경우 **AND** 로 연결된 경우에만 필터링이 될 수 있다. 자세한 내용은 :ref:`filtered-index` 를 참고한다.
 
 *   *function_name* (*argument_list*): 함수 기반 인덱스를 만드는 조건을 명시한다. 이와 관련하여 :ref:`function-index`\ 를 반드시 참고한다.
 
@@ -43,9 +42,9 @@ CREATE INDEX
 
     *   prefix 인덱스 기능은 제거될 예정(deprecated)이므로, 더 이상 사용을 권장하지 않는다.
 
-    *   :red:`데이터베이스의 TIMESTAMP, TIMESTAMP WITH LOCAL TIME ZONE 또는 DATETIME WITH LOCAL TIME ZONE 타입 컬럼에 인덱스 또는 함수 인덱스가 포함되어 있는 경우 세션 및 서버 타임존(:ref:`timezone-parameters`)을 변경하면 안 된다.`
+    *   데이터베이스의 TIMESTAMP, TIMESTAMP WITH LOCAL TIME ZONE 또는 DATETIME WITH LOCAL TIME ZONE 타입 컬럼에 인덱스 또는 함수 인덱스가 포함되어 있는 경우 세션 및 서버 타임존(:ref:`timezone-parameters`)을 변경하면 안 된다.
     
-    *   :red:`데이터베이스의 TIMESTAMP 또는 TIMESTAMP WITH LOCAL TIME ZONE 타입 컬럼에 인덱스 또는 함수 인덱스가 포함되어 있는 경우 윤초를 지원하는 파라미터(:ref:`timezone-parameters`)를 변경하면 안 된다.`
+    *   데이터베이스의 TIMESTAMP 또는 TIMESTAMP WITH LOCAL TIME ZONE 타입 컬럼에 인덱스 또는 함수 인덱스가 포함되어 있는 경우 윤초를 지원하는 파라미터(:ref:`timezone-parameters`)를 변경하면 안 된다.
 
 다음은 내림차순으로 정렬된 인덱스를 생성하는 예제이다.
 
@@ -95,7 +94,7 @@ CREATE INDEX
 ALTER INDEX
 ===========
 
-:red:`**ALTER INDEX** 질의문은 인덱스를 재생성하거나 인덱스의 커멘트를 추가/변경한다. 인덱스 재생성은 인덱스를 삭제하고 다시 생성하는 작업이다.`
+**ALTER INDEX** 질의문은 인덱스를 재생성하거나 인덱스의 커멘트를 추가/변경한다. 인덱스 재생성은 인덱스를 삭제하고 다시 생성하는 작업이다.
 
 다음은 인덱스를 재생성하는 구문이다.
 
@@ -125,7 +124,7 @@ ALTER INDEX
     CREATE INDEX i_game_medal ON game(medal);
     ALTER INDEX i_game_medal ON game COMMENT 'rebuild index comment' REBUILD ;
 
-:red:`인덱스를 재생성하지 않고 인덱스의 커멘트를 추가하거나 변경하려는 경우 다음과 같이 **COMMENT** 절을 추가하고 **REBUILD** 키워드를 제거한다.`
+인덱스를 재생성하지 않고 인덱스의 커멘트를 추가하거나 변경하려는 경우 다음과 같이 **COMMENT** 절을 추가하고 **REBUILD** 키워드를 제거한다.
 
 ::
 

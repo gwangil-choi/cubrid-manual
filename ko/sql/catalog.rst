@@ -2,7 +2,6 @@
 :meta-keywords: cubrid catalog
 :meta-description: With CUBRID you can easily obtain schema information using SQL statements on system catalog virtual classes.
 
-.. role:: red
 
 ***************
 시스템 카탈로그
@@ -138,7 +137,7 @@ _db_class
 _db_attribute
 -------------
 
-:red:`속성에 대한 정보를 표현하며 class_of, attr_name 및 attr_type 에 대한 인덱스가 생성되어 있다.`
+속성에 대한 정보를 표현하며 class_of, attr_name 및 attr_type 에 대한 인덱스가 생성되어 있다.
 
 +----------------+------------------------+-----------------------------------------------------------------------------------------------------------------+
 | 속성명         | 데이터 타입            | 설명                                                                                                            |
@@ -308,7 +307,7 @@ char_size           INTEGER                  한 문자의 바이트 크기
 _db_collation
 -------------
 
-:red:`콜레이션(collation)에 있는 정보.`
+콜레이션(collation)에 있는 정보.
 
 +--------------+-------------+------------------------------------------------------------------+
 | 속성명       | 데이터 타입 | 설명                                                             |

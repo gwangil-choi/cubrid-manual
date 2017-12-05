@@ -3,7 +3,6 @@
 
 :tocdepth: 3
 
-.. role:: red
 
 ******************************
 데이터 타입 변환 함수와 연산자
@@ -84,9 +83,9 @@ CUBRID에서 **CAST** 연산자를 사용한 명시적인 타입 변환에 대�
   *   **D**: **DATE**
   *   **T**: **TIME**
   *   **DT**: **DATETIME**
-  *   **DTZ**: :red:`**DATETIME WITH TIME ZONE** 및 **DATETIME WITH LOCAL TIME ZONE** 데이터 타입`
+  *   **DTZ**: **DATETIME WITH TIME ZONE** 및 **DATETIME WITH LOCAL TIME ZONE** 데이터 타입
   *   **UT**: **TIMESTAMP**
-  *   **UTZ**: :red:`**TIMESTAMP WITH TIME ZONE** 및 **TIMESTAMP WITH LOCAL TIME ZONE** 데이터 타입`
+  *   **UTZ**: **TIMESTAMP WITH TIME ZONE** 및 **TIMESTAMP WITH LOCAL TIME ZONE** 데이터 타입
   *   **S**: **SET**
   *   **MS**: **MULTISET**
   *   **SQ**: **LIST** (= **SEQUENCE**)

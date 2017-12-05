@@ -2,8 +2,6 @@
 :meta-keywords: cubrid logging, slow query, error log, deadlock detect, cubrid fail-over, cubrid fail-back
 :meta-description: Troubleshoot CUBRID database and High Availability nodes by consulting logs.
 
-.. role:: red
-
 **********
 트러블슈팅
 **********
@@ -94,7 +92,7 @@ CUBRID는 응용 프로그램-브로커-DB 서버의 3 계층 구조로 되어 �
 서버 에러 로그
 ==============
 
-:red:`cubrid.conf에서 **error_log_level** 을 설정해서 서버 오류 로그로부터 다양한 정보를 얻을 수 있다. **error_log_level** 의 기본값은 **NOTIFICATION** 이다. 이 파라미터를 설정하는 방법은 :ref:`error-parameters` 를 참고한다.`
+cubrid.conf에서 **error_log_level** 을 설정해서 서버 오류 로그로부터 다양한 정보를 얻을 수 있다. **error_log_level** 의 기본값은 **NOTIFICATION** 이다. 이 파라미터를 설정하는 방법은 :ref:`error-parameters` 를 참고한다.
 
 .. 4957
 
@@ -138,7 +136,7 @@ DB 서버 시작이나 백업 볼륨 복구 시 서버 에러 로그 또는 rest
 교착 상태 감지
 --------------
 
-:red:`교착 상태 관련 잠금 정보는 서버 오류 로그에 기록된다.`
+교착 상태 관련 잠금 정보는 서버 오류 로그에 기록된다.
 
 ::
 

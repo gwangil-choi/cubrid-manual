@@ -2,8 +2,6 @@
 :meta-keywords: cubrid install, cubrid compatibility, cubrid service, cubrid manager, run cubrid
 :meta-description: CUBRID supported platforms, hardware and software requirements, how to install and run CUBRID engine and CUBRID manager.
 
-.. role:: red
-
 .. _install-execute:
 
 설치와 실행
@@ -229,7 +227,7 @@ Windows 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항
 
     CUBRID는 32비트 버전과 64비트 버전을 각각 지원한다. [내 컴퓨터] > [시스템 등록 정보] 창을 활성화하여 Windows 버전 비트를 확인할 수 있다. 32비트 Windows에서는 CUBRID 32비트 버전을 설치하고, 64비트 Windows에서는 CUBRID 64비트 버전을 설치한다.
 
-    .. warning:: :red:`10.1이 32비트 Windows의 마지막 릴리즈이다. 이후 릴리즈에서는 64비트 버전만 제공한다.`
+    .. warning:: 10.1이 32비트 Windows의 마지막 릴리즈이다. 이후 릴리즈에서는 64비트 버전만 제공한다.
 
 **설치 과정**
 
@@ -286,7 +284,7 @@ Windows 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항
 
 **CUBRID 인터페이스 설치**
 
-:red:`http://www.cubrid.org/downloads에서 CCI, JDBC, PHP, ODBC, OLE DB, ADO.NET, Ruby, Python 및 Node.js와 같은 인터페이스 모듈을 다운로드할 수 있다.`
+http://www.cubrid.org/downloads에서 CCI, JDBC, PHP, ODBC, OLE DB, ADO.NET, Ruby, Python 및 Node.js와 같은 인터페이스 모듈을 다운로드할 수 있다.
 
 .. FIXME: You can see the latest information on interface modules such as JDBC, PHP, ODBC, and OLE DB and install them by downloading files from `<http://www.cubrid.org/wiki_apis>`_.
 
@@ -294,7 +292,7 @@ Windows 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항
 
 **CUBRID 도구 설치**
 
-:red:`http://www.cubrid.org/downloads에서 CUBRID Manager 및 CUBRID Migration Toolkit을 비롯한 다양한 도구를 다운로드할 수 있다.`
+http://www.cubrid.org/downloads에서 CUBRID Manager 및 CUBRID Migration Toolkit을 비롯한 다양한 도구를 다운로드할 수 있다.
 
 .. FIXME: You can see the latest information on interface modules such as JDBC, PHP, ODBC, and OLE DB and install them by downloading files from `<http://www.cubrid.org/wiki_apis>`_.
 
@@ -350,7 +348,7 @@ Linux 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항�
 
     #.  사용자의 홈 디렉터리(/home1/cub_user) 이하에서 자동으로 실행되는 셸 스크립트에 아래의 환경 변수를 추가한다.
     
-        :red:`**$CUBRID_DATABASES** 변수에 설정된 디렉토리 생성이 필요하다. 적절한 권한이 있는 임의의 디렉토리를 지정할 수 있다.`
+        **$CUBRID_DATABASES** 변수에 설정된 디렉토리 생성이 필요하다. 적절한 권한이 있는 임의의 디렉토리를 지정할 수 있다.
 
         다음은 bash 셸로 수행하는 경우 .bash_profile에 다음을 추가하는 예이다.
 
@@ -412,7 +410,7 @@ Windows 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항
 
     CUBRID는 32비트 버전과 64비트 버전을 각각 지원한다. [내 컴퓨터] > [시스템 등록 정보] 창을 활성화하여 Windows 버전 비트를 확인할 수 있다. 32비트 Windows에서는 CUBRID 32비트 버전을 설치하고, 64비트 Windows에서는 CUBRID 64비트 버전을 설치한다.
 
-    .. warning:: :red:`10.1이 32비트 Windows의 마지막 릴리즈이다. 이후 릴리즈에서는 64비트 버전만 제공한다.`
+    .. warning:: 10.1이 32비트 Windows의 마지막 릴리즈이다. 이후 릴리즈에서는 64비트 버전만 제공한다.
 
 **설치 과정**
 
@@ -423,7 +421,7 @@ Windows 버전의 CUBRID 데이터베이스를 설치하기 전에 다음 사항
         ::
         
             C:\CUBRID
-    *   :red:`**$CUBRID_DATABASES** 변수에 설정된 디렉토리 생성이 필요하다. 적절한 권한이 있는 임의의 디렉터리를 지정할 수 있다.`
+    *   **$CUBRID_DATABASES** 변수에 설정된 디렉토리 생성이 필요하다. 적절한 권한이 있는 임의의 디렉터리를 지정할 수 있다.
 
     **환경 변수 설정**
 

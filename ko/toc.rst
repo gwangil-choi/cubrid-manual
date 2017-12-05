@@ -2,8 +2,6 @@
 :meta-keywords: cubrid introduction, cubrid glossary, cubrid manual conventions, cubrid versions
 :meta-description: The contents of the CUBRID Database Management System (CUBRID DBMS) product manual, Glossary, Manual Conventions, Version Name and Version String Conventions.
 
-.. role:: red
-
 ===========
 매뉴얼 소개
 ===========
@@ -21,7 +19,7 @@ CUBRID 데이터베이스 관리 시스템(Database Management System, DBMS) 매
 
 *   :doc:`sql/index`: 데이터 타입, 함수와 연산자, 데이터 조회나 테이블 조작 등, CUBRID에서 사용할 수 있는 SQL 구문에 대해 설명한다. 인덱스나 트리거, 분할, 시리얼 및 사용자 정보 변경 등의 작업을 위한 SQL 구문도 찾아볼 수 있다.
 
-*   :doc:`admin/index`: :red:`이 장에서는 데이터베이스를 생성, 삭제, 백업, 복구 및 마이그레이션하는 방법, 다국어(globalization)를 설정하는 방법 및 CUBRID HA를 수행하는 방법에 대한 지침을 제공한다. 서버, 브로커 및 CUBRID Manager 서버 등을 시작하고 중지하는 **cubrid** 유틸리티의 사용법에 대한 지침도 포함한다. 또한 이 장에서는 성능에 영향을 미칠 수 있는 시스템 파라미터를 설정하는 방법도 설명한다. 서버와 브로커 설정 파일을 사용하는 방법을 제공하며 각 파라미터의 의미도 설명한다.`
+*   :doc:`admin/index`: 이 장에서는 데이터베이스를 생성, 삭제, 백업, 복구 및 마이그레이션하는 방법, 다국어(globalization)를 설정하는 방법 및 CUBRID HA를 수행하는 방법에 대한 지침을 제공한다. 서버, 브로커 및 CUBRID Manager 서버 등을 시작하고 중지하는 **cubrid** 유틸리티의 사용법에 대한 지침도 포함한다. 또한 이 장에서는 성능에 영향을 미칠 수 있는 시스템 파라미터를 설정하는 방법도 설명한다. 서버와 브로커 설정 파일을 사용하는 방법을 제공하며 각 파라미터의 의미도 설명한다.
 
 *   :doc:`api/index`: JDBC API, ODBC API, OLE DB API, PHP API 및 CCI API에 대해 설명한다.
 
@@ -110,30 +108,30 @@ CUBRID는 상속의 개념을 사용하는 객체 관계형 데이터베이스 �
 버전 명 및 버전 스트링 규약
 ---------------------------
 
-:red:`CUBRID 10.1 이후의 버전명 및 버전 문자열은 다음과 같이 표기한다. :`
+CUBRID 10.1 이후의 버전명 및 버전 문자열은 다음과 같이 표기한다. :
 
-*  :red:`버전명: CUBRID M.m Patch p (Major 버전, Minor 버전, Patch 버전(필요한 경우) 표기)`
-   CUBRID 10.1 Patch 1 (:red:`줄여서 CUBRID 10.1 P1로 표기)`
+*  버전명: CUBRID M.m Patch p (Major 버전, Minor 버전, Patch 버전(필요한 경우) 표기)
+   CUBRID 10.1 Patch 1 (줄여서 CUBRID 10.1 P1로 표기)
 
-*  :red:`버전 문자열: M.m.p.build_number (Major 버전, Minor 버전, Patch 버전, 빌드 번호 표기)`
+*  버전 문자열: M.m.p.build_number (Major 버전, Minor 버전, Patch 버전, 빌드 번호 표기)
    10.1.0.7595-d652d64
 
-   :red:`빌드 번호는 하이픈으로 구분되는 두 부분으로 구성된다. 앞 부분은 기본 리비전에서 변경된 횟수를 나타내며 일정하게 증가한다. 뒷 부분은 작성된 빌드의 SHA-1 해시값이다.`
+   빌드 번호는 하이픈으로 구분되는 두 부분으로 구성된다. 앞 부분은 기본 리비전에서 변경된 횟수를 나타내며 일정하게 증가한다. 뒷 부분은 작성된 빌드의 SHA-1 해시값이다.
 
-:red:`CUBRID 9.0 이후의 버전명 및 버전 문자열은 다음과 같이 표기한다. :`
+CUBRID 9.0 이후의 버전명 및 버전 문자열은 다음과 같이 표기한다. :
 
-*  :red:`버전명: CUBRID M.m Patch p (Major 버전, Minor 버전, Patch 버전(필요한 경우) 표기)`
-   CUBRID 9.2 Patch 1 (:red:`줄여서 CUBRID 9.2 P1로 표기)`
+*  버전명: CUBRID M.m Patch p (Major 버전, Minor 버전, Patch 버전(필요한 경우) 표기)
+   CUBRID 9.2 Patch 1 (줄여서 CUBRID 9.2 P1로 표기)
 
-*  :red:`버전 문자열: M.m.p.build_number (Major 버전, Minor 버전, Patch 버전, 빌드 번호 표기)`
+*  버전 문자열: M.m.p.build_number (Major 버전, Minor 버전, Patch 버전, 빌드 번호 표기)
    9.2.1.0012
 
-:red:`CUBRID 9.0 이전의 버전명 및 버전 문자열은 다음과 같이 표기한다. :`
+CUBRID 9.0 이전의 버전명 및 버전 문자열은 다음과 같이 표기한다. :
 
-*  :red:`버전명: CUBRID 2008 RM.m Patch p (Major 버전은 2008, Minor 버전, Patch 버전, 빌드 번호 일부 표기)`
+*  버전명: CUBRID 2008 RM.m Patch p (Major 버전은 2008, Minor 버전, Patch 버전, 빌드 번호 일부 표기)
    CUBRID 2008 R4.1 Patch 1
 
-*  :red:`버전 문자열: 8.m.p.build_number (Major 버전, Minor 버전, Patch 버전, 빌드 번호 표기)`
+*  버전 문자열: 8.m.p.build_number (Major 버전, Minor 버전, Patch 버전, 빌드 번호 표기)
    8.4.1.1001
 
 

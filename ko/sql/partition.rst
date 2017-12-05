@@ -2,7 +2,6 @@
 :meta-keywords: cubrid partition, partitioning key, range partition, hash partition, list partition, partition pruning
 :meta-description: Partitioning is a method by which a table is divided into multiple independent physical units called partitions. In CUBRID, each partition is a table implemented as a subclass of the partitioned table.
 
-.. role:: red
 
 ****
 분할
@@ -54,8 +53,8 @@
     *   :c:macro:`USER` 
     *   :ref:`PRIOR <prior-operator>` 
     *   :func:`WIDTH_BUCKET`
-*       :red:`각각의 고유 인덱스 키 또는  기본 키는 분할 키를 포함해야 한다.  이에 대한 자세한 내용은 :ref:`여기<index-partitions>`를 참고한다.`
-*       :red:`분할 표현식의 길이는 1024바이트를 초과하면 안 된다.`
+*       각각의 고유 인덱스 키 또는  기본 키는 분할 키를 포함해야 한다.  이에 대한 자세한 내용은 :ref:`여기<index-partitions>` 를 참고한다.
+*       분할 표현식의 길이는 1024바이트를 초과하면 안 된다.
 
 .. _range-partitioning:
 
@@ -602,13 +601,13 @@
 분할 테이블의 인덱스
 ====================
 
-:red:`분할 테이블에서 생성되는 모든 인덱스는 로컬 인덱스이다. 로컬 인덱스의 경우 각 분할에 대한 데이터가 별도의(로컬) 인덱스로 저장된다. 다른 분할의 데이터에 액세스하는 트랜잭션이 다른 로컬 인덱스에도 액세스하므로 분할 테이블 인덱스의 동시성을 향상시킨다.`
+분할 테이블에서 생성되는 모든 인덱스는 로컬 인덱스이다. 로컬 인덱스의 경우 각 분할에 대한 데이터가 별도의(로컬) 인덱스로 저장된다. 다른 분할의 데이터에 액세스하는 트랜잭션이 다른 로컬 인덱스에도 액세스하므로 분할 테이블 인덱스의 동시성을 향상시킨다.
 
-:red:`고유 인덱스를 생성할 때 다음 제약 사항을 충족해야 한다.`
+고유 인덱스를 생성할 때 다음 제약 사항을 충족해야 한다.
 
-*  :red:`고유 인덱스 키 또는  기본 키는 분할 키를 포함해야 한다.`
+*  고유 인덱스 키 또는  기본 키는 분할 키를 포함해야 한다.
 
-:red:`이를 충족하지 않으면 CUBRID에서 오류가 반환된다.`
+이를 충족하지 않으면 CUBRID에서 오류가 반환된다.
 
 .. code-block:: sql
 
@@ -629,7 +628,7 @@
 
         0 command(s) successfully processed.
 
-:red:`로컬 인덱스의 이점을 이해하는 것이 중요하다. 글로벌 인덱스 스캔의 경우 프루닝(pruning)되지 않은 분할에 대해 각각 별도의 인덱스 스캔이 수행된다. 디스크에서 다른 분할에 있는 데이터(지금 스캔 중인 분할이 아닌 다른 분할에 속한 데이터)를 가져온 다음 버리기 때문에 로컬 인덱스 스캔보다 성능이 저하된다. **INSERT** 질의문도 글로벌 인덱스보다 크기가 더 작은 로컬 인덱스에서 향상된 성능을 보인다.`
+로컬 인덱스의 이점을 이해하는 것이 중요하다. 글로벌 인덱스 스캔의 경우 프루닝(pruning)되지 않은 분할에 대해 각각 별도의 인덱스 스캔이 수행된다. 디스크에서 다른 분할에 있는 데이터(지금 스캔 중인 분할이 아닌 다른 분할에 속한 데이터)를 가져온 다음 버리기 때문에 로컬 인덱스 스캔보다 성능이 저하된다. **INSERT** 질의문도 글로벌 인덱스보다 크기가 더 작은 로컬 인덱스에서 향상된 성능을 보인다.
 
 .. _partitioning-notes:
 
@@ -676,7 +675,7 @@ CUBRID 9.0에서 부터, **ALTER** 문의 **ANALYZE PARTITION** 절은 더 이�
 
     ERROR: Invalid codeset '_iso88591' for partition value. Expecting '_utf8' codeset.
 
-:red:`분할 키에서 비교 작업을 수행할 때 분할 테이블에 정의된 콜레이션을 사용한다. 다음 예제에서 utf8_en_ci 콜레이션의 'test'는 'TEST'와 같으므로 오류를 반환한다.`
+분할 키에서 비교 작업을 수행할 때 분할 테이블에 정의된 콜레이션을 사용한다. 다음 예제에서 utf8_en_ci 콜레이션의 'test'는 'TEST'와 같으므로 오류를 반환한다.
 
 .. code-block:: sql
 

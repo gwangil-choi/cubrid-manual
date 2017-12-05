@@ -3,7 +3,6 @@
 
 :tocdepth: 3
 
-.. role:: red
 
 ****
 SHOW
@@ -114,7 +113,7 @@ SHOW COLUMNS
 
     SHOW [FULL] COLUMNS {FROM | IN} tbl_name [LIKE 'pattern' | WHERE expr];
 
-**FULL** :red:`키워드를 사용하면  **collation** 및 **comment**를 추가로 출력한다.`
+**FULL** 키워드를 사용하면  **collation** 및 **comment**를 추가로 출력한다.
 
 **SHOW FIELDS** 는 **SHOW COLUMNS** 와 같은 구문이다.
 
@@ -350,7 +349,7 @@ FULL이 명시되지 않으면 타임 존의 영역 이름을 가진 하나의 �
 
 FULL이 명시되면 4개의 칼럼을 가진 타임존 정보를 출력한다.
 
-:red:`LIKE 절을 사용하면 이와 매칭되는  timezone_region 을 검색할 수 있다.`
+LIKE 절을 사용하면 이와 매칭되는  timezone_region 을 검색할 수 있다.
 
 =================== =============== ===================================================
 칼럼 이름           타입            설명
@@ -1603,7 +1602,7 @@ Total_waiting_msecs                 NUMERIC(10,3)   전체 대기 시간(밀리�
 SHOW TRANSACTION TABLES
 -----------------------
 
-:red:`각 트랜잭션을 관리하는 데이터 구조인 트랜잭션 디스크립터(transcation descriptor)의 내부 정보를 출력한다. 유효한 트랜잭션만 출력되므로, 출력되는 트랜잭션 디스크립터의 스냅샷이 일관되지 않을 수도 있다.`
+각 트랜잭션을 관리하는 데이터 구조인 트랜잭션 디스크립터(transcation descriptor)의 내부 정보를 출력한다. 유효한 트랜잭션만 출력되므로, 출력되는 트랜잭션 디스크립터의 스냅샷이 일관되지 않을 수도 있다.
 
 .. code-block:: sql
 
@@ -1739,7 +1738,7 @@ Abort_reason             VARCHAR(40)     트랜잭션 중지 사유, 다음 중 
 SHOW THREADS
 ------------
 
-:red:`각 스레드의 내부 정보를 출력한다. 반환 결과는 "Index" 칼럼의 오름차순으로 정렬되며, 출력되는 스레드 엔트리의 스냅샷이 일관되지 않을 수도 있다.`
+각 스레드의 내부 정보를 출력한다. 반환 결과는 "Index" 칼럼의 오름차순으로 정렬되며, 출력되는 스레드 엔트리의 스냅샷이 일관되지 않을 수도 있다.
 SA MODE일 경우 이 구문은 아무런 결과도 출력하지 않는다.
 
 .. code-block:: sql

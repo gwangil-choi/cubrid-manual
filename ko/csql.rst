@@ -2,13 +2,11 @@
 :meta-keywords: csql, cubrid csql, cubrid commands, executing csql, csql options
 :meta-description: CUBRID CSQL is an application that allows users to use SQL statements through a command-driven interface. This section briefly explains how to use the CSQL Interpreter and associated commands.
 
-.. role:: red
-
 ***************
 CSQL 인터프리터
 ***************
 
-:red:`CUBRID에서 SQL 질의문을 수행하려면 그래픽 사용자 인터페이스(GUI) 기반 CUBRID Manager나 콘솔 기반 CSQL 인터프리터를 사용해야 한다.`
+CUBRID에서 SQL 질의문을 수행하려면 그래픽 사용자 인터페이스(GUI) 기반 CUBRID Manager나 콘솔 기반 CSQL 인터프리터를 사용해야 한다.
 
 CSQL은 CUBRID에서 명령어 방식으로 SQL 문을 사용할 수 있는 프로그램이다. 여기에서는 CSQL 인터프리터의 간단한 사용법과 관련 명령어를 설명한다.
 
@@ -213,13 +211,13 @@ CSQL 시작 옵션
 
 .. option:: -r, --read-only
 
-    :red:`**-r** 옵션을 이용하여 읽기 전용으로 데이터베이스에 접속한다. 데이터베이스에 읽기 전용으로 접속하면 테이블을 만들거나 데이터를 입력할 수 없고 데이터를 조회만 할 수 있다.` ::
+    **-r** 옵션을 이용하여 읽기 전용으로 데이터베이스에 접속한다. 데이터베이스에 읽기 전용으로 접속하면 테이블을 만들거나 데이터를 입력할 수 없고 데이터를 조회만 할 수 있다. ::
 
         csql -r demodb
 
 .. option:: -t, --plain-output
  
-    :red:`컬럼명과 값만 표시되며 **-c** 또는 **-i** 옵션과 함께 작동된다. 각 컬럼과 값이 탭과 줄 바꿈으로 구분되며, 결과에 포함된 탭과 백슬래시는 '\n', '\t' 및 '\\'으로 각각 대체된다. 이 옵션은 **-l** 옵션과 함께 지정된 경우에는 무시된다.`
+    컬럼명과 값만 표시되며 **-c** 또는 **-i** 옵션과 함께 작동된다. 각 컬럼과 값이 탭과 줄 바꿈으로 구분되며, 결과에 포함된 탭과 백슬래시는 '\n', '\t' 및 '\\'으로 각각 대체된다. 이 옵션은 **-l** 옵션과 함께 지정된 경우에는 무시된다.
 
     ::
     
@@ -239,7 +237,7 @@ CSQL 시작 옵션
  
 .. option:: -N, --skip-column-names
  
-    :red:`결과에서 컬럼명을 숨긴다. **-c** 또는 **-i** 옵션을 사용하는 경우에만 작동하며 일반적으로 **-t** 옵션과 함께 사용된다. 이 옵션은 **-l** 옵션과 함께 지정된 경우에는 무시된다.`
+    결과에서 컬럼명을 숨긴다. **-c** 또는 **-i** 옵션을 사용하는 경우에만 작동하며 일반적으로 **-t** 옵션과 함께 사용된다. 이 옵션은 **-l** 옵션과 함께 지정된 경우에는 무시된다.
  
     ::
  

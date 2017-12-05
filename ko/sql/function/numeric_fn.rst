@@ -1,6 +1,5 @@
 :tocdepth: 3
 
-.. role:: red
 
 **************
 수치 연산 함수
@@ -218,9 +217,8 @@ CRC32
 
 .. function:: CRC32 ( string )
 
-    :red:`**CRC32** 함수는 32비트 정수로 순환 중복 검사 값을 반환한다. NULL을 입력하면 NULL을 반환한다.`
-
-    :param string: :red:`문자열 값을 반환하는 표현식`
+    **CRC32** 함수는 32비트 정수로 순환 중복 검사 값을 반환한다. NULL을 입력하면 NULL을 반환한다.
+    :param string: 문자열 값을 반환하는 표현식
     :rtype: INTEGER
 
 .. code-block:: sql
