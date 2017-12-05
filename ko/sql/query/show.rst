@@ -113,7 +113,7 @@ SHOW COLUMNS
 
     SHOW [FULL] COLUMNS {FROM | IN} tbl_name [LIKE 'pattern' | WHERE expr];
 
-**FULL** 키워드를 사용하면  **collation** 및 **comment**를 추가로 출력한다.
+**FULL** 키워드를 사용하면  **collation** 및 **comment** 를 추가로 출력한다.
 
 **SHOW FIELDS** 는 **SHOW COLUMNS** 와 같은 구문이다.
 

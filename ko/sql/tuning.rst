@@ -993,7 +993,7 @@ USE, FORCE, IGNORE INDEX 구문은 시스템에 의해 자동적으로 적절한
     FROM bugs FORCE INDEX (idx_open_bugs)
     WHERE CreationDate > CURRENT_DATE - 10 AND Closed = 0;
 
-위의 예에서 "**USING INDEX** *idx_open_bugs*" 또는 "**USE INDEX**(*idx_open_bugs*)" 를 사용하는 경우, *idx_open_bugs* 인덱스를 사용하지 않고 질의를 수행하게 된다.
+위의 예에서 "**USING INDEX** *idx_open_bugs*" 또는 "**USE INDEX** (*idx_open_bugs*)" 를 사용하는 경우, *idx_open_bugs* 인덱스를 사용하지 않고 질의를 수행하게 된다.
     
 .. warning::
 

@@ -1101,7 +1101,7 @@ FOR UPDATE
          
 * <*spec_name_comma_list*>: **FROM** 절에서 참조하는 테이블/뷰들의 목록
 
-<*spec_name_comma_list*>에 참조된 테이블/뷰만 잠긴다. <*spec_name_comma_list*>가 누락되었지만 **FOR UPDATE**가 있는 경우 **SELECT** 질의문의 **FROM** 절에 있는 모든 테이블/뷰가 참조된다고 가정한다. 행은 **X_LOCK**을 사용하여 잠근다.
+<*spec_name_comma_list*>에 참조된 테이블/뷰만 잠긴다. <*spec_name_comma_list*>가 누락되었지만 **FOR UPDATE** 가 있는 경우 **SELECT** 질의문의 **FROM** 절에 있는 모든 테이블/뷰가 참조된다고 가정한다. 행은 **X_LOCK** 을 사용하여 잠근다.
 
 .. note:: 제약 사항 
 
