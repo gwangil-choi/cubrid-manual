@@ -183,7 +183,7 @@ The recursive part should be defined in such way, that no cycle will be generate
       'Frame'                      4700
       'Wheel'                       100
 
-Using CTE in DDLs (**UPDATE** or **DELETE** data):
+Using CTE in DMLs (**UPDATE** or **DELETE** data):
       
 .. code-block:: sql
 
