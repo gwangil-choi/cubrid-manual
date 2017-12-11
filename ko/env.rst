@@ -362,14 +362,14 @@ master 노드에서 slave 노드로의 복제 과정 파악이 용이하게 하�
 #.  copylogdb(slave)는 slave 노드에 있는 cubrid.conf의 cubrid_port_id에 설정된 포트를 통해 cub_master(master)에게 master DB로의 연결을 요청하여, 최종적으로 cub_server(master)와 연결하게 된다.
 #.  applylogdb(slave)는 slave 노드에 있는 cubrid.conf의 cubrid_port_id에 설정된 포트를 통해 cub_master(slave)에게 slave DB로의 연결을 요청하여, 최종적으로 cub_server(slave)와 연결하게 된다.
 
-master 노드에서도 applylogdb와 copylogdb가 동작하는데, master 노드가 절체로 인해 slave 노드로 변경될 때를 대비하기 위함이다.
+master 노드에서도 applylogdb와 copylogdb가 동작하는데, master 노드가 절체(failover)로 인해 slave 노드로 변경될 때를 대비하기 위함이다.
 
 .. _cwm-cm-ports:
 
 CUBRID 매니저 서버 사용 포트
 ----------------------------
 
-다음 표는 접속 요청을 기다리는(listening) 프로세스들을 기준으로 CUBRID Manager 서버가 사용하는 포트이며, 이것은 OS의 종류와 관계없이 동일하다.
+다음 표는 접속 요청을 기다리는(listening) 프로세스들을 기준으로 CUBRID Manager 서버가 사용하는 포트이며, 이것은 OS의 종류와 상관없이 동일하다.
 
 +--------------------------+--------------+----------------+--------------------------+
 | listener                 | requester    | port           | 방화벽 존재 시 포트 설정 |

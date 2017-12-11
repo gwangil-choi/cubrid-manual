@@ -588,7 +588,7 @@ LIMIT 절
     <limit_term> ::= <limit_factor> | <limit_term> * <limit_factor> | <limit_term> / <limit_factor>
     <limit_factor> ::= <unsigned int> | <input_hostvar> | ( <limit_expression> )
 
-*   *offset*: 출력할 렏코드의 시작 행의 오프셋을 지정한다. 결과 셋에 있는 시작 행의 오프셋은 0이다. 생략할 수 있으며 기본값은 **0** 이다. 부호 없는 정수, 호스트 변수 또는 간단한 표현식 중 하나일 수 있다.
+*   *offset*: 출력할 레코드의 시작 행의 오프셋을 지정한다. 결과 셋에 있는 시작 행의 오프셋은 0이다. 생략할 수 있으며 기본값은 **0** 이다. 부호 없는 정수, 호스트 변수 또는 간단한 표현식 중 하나일 수 있다.
 *   *row_count*: 출력하고자 하는 레코드 개수를 명시한다.  부호 없는 정수, 호스트 변수 또는 간단한 표현식 중 하나일 수 있다.
 
 .. code-block:: sql

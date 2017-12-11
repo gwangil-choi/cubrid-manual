@@ -184,7 +184,7 @@ CTE에 컬럼명이 없으면 CTE의 첫 번째 내부 Select 문에서 컬럼�
       'Frame'                      4700
       'Wheel'                       100
 
-DDL에서 CTE 사용(**UPDATE** 또는 **DELETE** 데이터) :
+DML에서 CTE 사용(**UPDATE** 또는 **DELETE** 데이터) :
       
 .. code-block:: sql
 

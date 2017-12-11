@@ -63,7 +63,7 @@ SQL 문을 이용하여 CSQL 인터프리터나 CUBRID 매니저의 질의 편�
 
     SET SYSTEM PARAMETERS 'index_scan_in_oid_order=1; csql_history_num=70';
 
-*value* 파라미터명에 **DEFAULT** 값을 주면 **call_stack_dump_activation_list** 파라미터를 제외하고 해당 파라미터를 기본값으로 재설정한다.
+*value* 에 **DEFAULT** 값을 주면 **call_stack_dump_activation_list** 파라미터를 제외하고 해당 파라미터를 기본값으로 재설정한다.
 
 .. code-block:: sql
 
