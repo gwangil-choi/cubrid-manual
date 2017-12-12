@@ -238,7 +238,7 @@ CURDATE, CURRENT_DATE
 .. function:: CURRENT_DATE ()
 .. c:macro:: CURRENT_DATE
 
-    **CURDATE** (), **CURRENT_DATE** 및 **CURRENT_DATE** () 는 서로 바꿔 사용할 수 있으며 세션의 현재 날짜를 **DATE** 타입(*MM*/*DD*/*YYYY* 또는 *YYYY*-*MM*-*DD*)으로 반환한다. 산술연산의 단위는 일이다.
+    **CURDATE** (), **CURRENT_DATE** 및 **CURRENT_DATE** () 는 서로 바꿔 사용할 수 있으며 세션의 현재 날짜를 **DATE** 타입(*MM*/*DD*/*YYYY* 또는 *YYYY*-*MM*-*DD*)으로 반환한다. 산술 연산의 단위는 일이다.
     현재 세션의 타임존이 서버의 타임존과 동일하면 함수는 :c:macro:`SYS_DATE`, :c:macro:`SYSDATE`와 동일하다. 차이점은 :c:macro:`SYS_DATE`, :c:macro:`SYSDATE` 및 다음 예를 참고하고, 함수에 대한 자세한 내용은 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE` 을 참고한다.
  
     입력 인자의 연, 월, 일이 모두 0이면 반환되는 값은 **return_null_on_function_errors** 시스템 변수에 의해서 결정된다.  그 변수가 yes로 설정되었으면 **NULL** 이 반환된다. 그 변수가 no로 설정되었으면 오류가 반환된다. 기본값은 **no** 이다.
@@ -303,7 +303,7 @@ CURRENT_DATETIME, NOW
 .. c:macro:: CURRENT_DATETIME
 .. function:: NOW ()
 
-    **CURRENT_DATETIME**, **CURRENT_DATETIME** () 및 **NOW** ()는 서로 바꿔 사용할 수 있으며 세션의 현재 날짜와 시간을 **DATETIME** 타입으로 반환한다. 산술연산의  단위는 밀리초(msec)이다.
+    **CURRENT_DATETIME**, **CURRENT_DATETIME** () 및 **NOW** ()는 서로 바꿔 사용할 수 있으며 세션의 현재 날짜와 시간을 **DATETIME** 타입으로 반환한다. 산술 연산의 단위는 밀리초(msec)이다.
     현재 세션의 타임존이 서버의 타임존과 동일하면 함수는 :c:macro:`SYS_DATETIME`, :c:macro:`SYSDATETIME` 과 동일하다. 차이점은 :c:macro:`SYS_DATETIME`, :c:macro:`SYSDATETIME` 을 참고하고, 함수에 대한 자세한 내용은 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE` 을 참고한다.
 
     :rtype: DATETIME
@@ -365,7 +365,7 @@ CURTIME, CURRENT_TIME
 .. c:macro:: CURRENT_TIME
 .. function:: CURRENT_TIME ()
 
-    **CURTIME** (), **CURRENT_TIME** 및 **CURRENT_TIME** ()은 서로 바꿔 사용할 수 있으며 세션의 현재 시간을 **TIME** 타입(*HH*:*MI*:*SS*)으로 반환한다. 산술연산의 단위는 초(sec)이다.
+    **CURTIME** (), **CURRENT_TIME** 및 **CURRENT_TIME** ()은 서로 바꿔 사용할 수 있으며 세션의 현재 시간을 **TIME** 타입(*HH*:*MI*:*SS*)으로 반환한다. 산술 연산의 단위는 초(sec)이다.
     현재 세션의 타임존이 서버의 타임존과 동일하면 함수는 :c:macro:`SYS_TIME`, :c:macro:`SYSTIME` 과 동일하다. 차이점은 :c:macro:`SYS_TIME`, :c:macro:`SYSTIME` 을 참고하고, 함수에 대한 자세한 내용은 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE` 을 참고한다.
 
     :rtype: TIME
@@ -1511,7 +1511,7 @@ SYS_DATE, SYSDATE
 .. c:macro:: SYS_DATE
 .. c:macro:: SYSDATE
 
-    **SYS_DATE** 및 **SYSDATE** 는 서로 바꿔 사용할 수 있으며 서버의 현재 날짜를 **DATE** 타입(*MM*/*DD*/*YYYY* 또는 *YYYY*-*MM*-*DD*)으로 반환한다. 산술연산의 단위는 일(day)이다.
+    **SYS_DATE** 및 **SYSDATE** 는 서로 바꿔 사용할 수 있으며 서버의 현재 날짜를 **DATE** 타입(*MM*/*DD*/*YYYY* 또는 *YYYY*-*MM*-*DD*)으로 반환한다. 산술 연산의 단위는 일(day)이다.
     현재 세션의 타임존이 서버의 타임존과 동일하면 함수는 :func:`CURDATE`, :func:`CURRENT_DATE` 및 :c:macro:`CURRENT_DATE` 와 동일하다. 차이점은 :func:`CURDATE`, :func:`CURRENT_DATE` 를 참고하고, 함수에 대한 자세한 내용은 :func:`DBTIMEZONE`, :func:`SESSIONTIMEZONE` 을 참고한다.
 
     입력 인자의 년, 월, 일 값이 모두 0이면 **return_null_on_function_errors** 시스템 파라미터에 의해 반환 값이 결정된다. 이 파라미터가 yes이면 **NULL** 을 반환하고 no이면 오류를 반환한다. 기본값은 **no** 이다.
