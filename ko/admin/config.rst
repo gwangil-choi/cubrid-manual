@@ -7,6 +7,7 @@
 ***********
 
  이 장에서는 시스템의 전체적인 성능과 동작을 결정하는 시스템 파라미터의 설정 정보에 대해 설명하며, 데이터베이스 서버 및 브로커에 적용할 설정 파일의 사용법과 개별 파라미터의 의미에 대해 설명한다.
+
 .. FIXME: CUBRID 매니저 서버 환경 설정과 관련해서는 `CUBRID Manager Manual <http://www.cubrid.org/wiki_tools/entry/cubrid-manager-manual>`_ 을 참고한다.
 
 이 장에서 설명하는 주요 내용은 다음과 같다.
