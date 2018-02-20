@@ -9,7 +9,7 @@
 릴리즈 노트 정보
 ================
 
-본 문서는 CUBRID 10.1(빌드 번호: 10.1.0.7663-1ca0ab8)에 관한 정보를 포함한다.
+본 문서는 CUBRID 10.1 Patch 1(빌드 번호: 10.1.1.7691-47d2437)에 관한 정보를 포함한다.
 
 CUBRID 10.1은 CUBRID 10.0에서 발견된 오류 수정 및 기능 개선과 이전 버전들에 반영된 모든 오류 수정 및 기능 개선을 포함한다.
 
@@ -21,6 +21,8 @@ CUBRID 9.3 또는 그 이전 버전에 대한 정보는 http://www.cubrid.org/do
 ===========
 
 CUBRID 10.1은 CUBRID 10.0의 중요 업그레이드이며 안정적인 버전이다. 
+
+CUBRID 10.1 Patch 1 includes many critical fixes of 10.1. All users of CUBRID 10.1 are kindly requested to upgrade to 10.1 Patch 1.
 
 .. TODO: UPDATE WITH DETAILS.
 
@@ -54,6 +56,14 @@ CUBRID 10.1의 데이터베이스 볼륨은 CUBRID 10.0 및 그 이전 버전의
 또한 TIMEZONE 데이터 타입과 같은 새로운 기능은 10.0 및 그 이후 드라이버에서만 지원되므로, CUBRID 10.1 사용자는 드라이버를 업그레이드할 것을 강력히 권고한다.
 
 변경 사항에 대한 자세한 내용은 :ref:`10_1_changes` 절을 참고한다. 이전 버전의 사용자는 :ref:`10_1_changes` 및 :ref:`10_1_new_cautions` 절을 확인해야 한다.
+
+.. _10_1_p1_changes:
+
+10.1 Patch 1 Changes 
+====================
+
+.. include:: changes_10_1_patch.rst 
+
 
 .. _10_1_changes:
 
