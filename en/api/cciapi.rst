@@ -903,6 +903,9 @@ cci_connect_with_url_ex
     
     :param err_buf: Database error buffer    
 
+cci_cursor
+----------
+
 .. c:function:: int cci_cursor(int req_handle, int offset, T_CCI_CURSOR_POS origin, T_CCI_ERROR *err_buf)
 
     The **cci_cursor** function moves the cursor specified in the request handle to access the specific record in the query result executed by :c:func:`cci_execute`. The position of cursor is moved by the values specified in the *origin* and *offset* values. If the position to be moved is not valid, **CCI_ER_NO_MORE_DATA** is returned.
@@ -3001,8 +3004,8 @@ cci_schema_info
     +--------------------------------------------------------------------------------------------------------------------+------------------+--------------------+---------------------+
     | CCI_SCH_CLASS_ATTRIBUTE                                                                                            |                  |                    |                     |
     |                                                                                                                    |                  |                    |                     |
-    | When the attribute of the CCI_SCH_CLASS_ATTRIBUTE column is INSTANCE or SHARED,                                    |                  |                    |                     |
-    | the order and the name values are identical to those of the column of CCI_SCH_ATTRIBUTE.                           |                  |                    |                     |
+    | | When the attribute of the CCI_SCH_CLASS_ATTRIBUTE column is INSTANCE or SHARED,                                  |                  |                    |                     |
+    | | the order and the name values are identical to those of the column of CCI_SCH_ATTRIBUTE.                         |                  |                    |                     |
     +--------------------------------------------------------------------------------------------------------------------+------------------+--------------------+---------------------+
     | CCI_SCH_CLASS_METHOD                                                                                               | 1                | NAME               | char \*             |
     |                                                                                                                    +------------------+--------------------+---------------------+
@@ -3095,15 +3098,11 @@ cci_schema_info
     +--------------------------------------------------------------------------------------------------------------------+------------------+--------------------+---------------------+
     | CCI_SCH_IMPORTED_KEYS                                                                                              | 1                | PKTABLE_NAME       | char \*             |
     |                                                                                                                    |                  |                    |                     |
-    | Used to retrieve primary key columns that are referred by a foreign key column in a given table.                   |                  |                    |                     |
-    | The results are sorted by PKTABLE_NAME and KEY_SEQ.                                                                |                  |                    |                     |
+    | | Used to retrieve primary key columns that are referred by a foreign key column in a given table.                 |                  |                    |                     |
+    | | The results are sorted by PKTABLE_NAME and KEY_SEQ.                                                              |                  |                    |                     |
     |                                                                                                                    |                  |                    |                     |
-    | If this type is specified as a parameter, a foreign key table is specified for                                     |                  |                    |                     |
-    | class_name                                                                                                         |                  |                    |                     |
-    | , and                                                                                                              |                  |                    |                     |
-    | NULL                                                                                                               |                  |                    |                     |
-    | is specified for                                                                                                   |                  |                    |                     |
-    | attr_name.                                                                                                         |                  |                    |                     |
+    | | If this type is specified as a parameter, a foreign key table is specified for                                   |                  |                    |                     |
+    | | class_name,and NULL is specified for attr_name                                                                   |                  |                    |                     |
     |                                                                                                                    +------------------+--------------------+---------------------+
     |                                                                                                                    | 2                | PKCOLUMN_NAME      | char \*             |
     |                                                                                                                    +------------------+--------------------+---------------------+
@@ -3133,14 +3132,10 @@ cci_schema_info
     +--------------------------------------------------------------------------------------------------------------------+------------------+--------------------+---------------------+
     | CCI_SCH_EXPORTED_KEYS                                                                                              | 1                | PKTABLE_NAME       | char \*             |
     |                                                                                                                    |                  |                    |                     |
-    | Used to retrieve primary key columns that are referred by all foreign key columns.                                 |                  |                    |                     |
-    | The results are sorted by FKTABLE_NAME and KEY_SEQ.                                                                |                  |                    |                     |
-    | If this type is specified as a parameter, a primary key table is specified for                                     |                  |                    |                     |
-    | class_name                                                                                                         |                  |                    |                     |
-    | , and                                                                                                              |                  |                    |                     |
-    | NULL                                                                                                               |                  |                    |                     |
-    | is specified for                                                                                                   |                  |                    |                     |
-    | attr_name.                                                                                                         |                  |                    |                     |
+    | | Used to retrieve primary key columns that are referred by all foreign key columns.                               |                  |                    |                     |
+    | | The results are sorted by FKTABLE_NAME and KEY_SEQ.                                                              |                  |                    |                     |
+    | | If this type is specified as a parameter, a primary key table is specified for                                   |                  |                    |                     |
+    | | class_name, and NULL is specified for attr_name.                                                                 |                  |                    |                     |
     |                                                                                                                    +------------------+--------------------+---------------------+
     |                                                                                                                    | 2                | PKCOLUMN_NAME      | char \*             |
     |                                                                                                                    +------------------+--------------------+---------------------+
@@ -3170,13 +3165,12 @@ cci_schema_info
     +--------------------------------------------------------------------------------------------------------------------+------------------+--------------------+---------------------+
     | CCI_SCH_CROSS_REFERENCE                                                                                            | 1                | PKTABLE_NAME       | char \*             |
     |                                                                                                                    |                  |                    |                     |
-    | Used to retrieve foreign key information when primary keys and foreign keys in a given table are cross referenced. |                  |                    |                     |
-    | The results are sorted by FKTABLE_NAME and KEY_SEQ.                                                                |                  |                    |                     |
+    | | Used to retrieve foreign key information when primary keys and foreign keys                                      |                  |                    |                     |
+    | | in a given table are cross referenced.                                                                           |                  |                    |                     |
+    | | The results are sorted by FKTABLE_NAME and KEY_SEQ.                                                              |                  |                    |                     |
     |                                                                                                                    |                  |                    |                     |
-    | If this type is specified as a parameter, a primary key is specified for                                           |                  |                    |                     |
-    | class_name                                                                                                         |                  |                    |                     |
-    | , and a foreign key table is specified for                                                                         |                  |                    |                     |
-    | attr_name.                                                                                                         |                  |                    |                     |
+    | | If this type is specified as a parameter, a primary key is specified for                                         |                  |                    |                     |
+    | | class_name, and a foreign key table is specified for attr_name.                                                  |                  |                    |                     |
     |                                                                                                                    +------------------+--------------------+---------------------+
     |                                                                                                                    | 2                | PKCOLUMN_NAME      | char \*             |
     |                                                                                                                    +------------------+--------------------+---------------------+

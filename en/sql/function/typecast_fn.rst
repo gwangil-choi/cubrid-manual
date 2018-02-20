@@ -441,6 +441,7 @@ The following example outputs the value of DATETIMETZ type which includes timezo
     SELECT DATE_FORMAT(datetimetz'2012-02-02 10:10:10 Europe/Zurich CET', '%TZR %TZD %TZH %TZM');
 
 ::
+
     'Europe/Zurich CET 01 00'
 
 FORMAT

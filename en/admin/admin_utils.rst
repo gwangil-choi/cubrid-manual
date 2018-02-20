@@ -194,9 +194,8 @@ The following shows [options] available with the **cubrid** **createdb** utility
 
     *   *volpurp*: The purpose for which the volume will be used. It can be either permanent data (default option) or temporary. 
 
-	.. note:: 
-		For backward compatibility, all old keywords, **data**, **index**, **temp**, or **generic** are accepted. **temp** stands for temporary data purpose, while the rest stand for permanent data purpose.
-
+    .. note::
+      For backward compatibility, all old keywords, **data**, **index**, **temp**, or **generic** are accepted. **temp** stands for temporary data purpose, while the rest stand for permanent data purpose.
 
     *   *volnpgs*: The number of pages of the additional volume to be created. The specification of the number of pages of the volume cannot be omitted; it must be specified. The actual volume size is rounded up to the next multiple of **64 sectors**.
 
@@ -942,7 +941,7 @@ The following shows [options] available with the **cubrid statdump** utility.
     
         cubrid statdump demodb
         
-    The following outputs the same values with the above. **-c** option doesn't work if it is not used with **-i** option together.
+    The following outputs the same values with the above. **-c** option doesn't work if it is not used with **-i** option together. ::
     
         cubrid statdump -c demodb
 
@@ -1917,7 +1916,7 @@ The following shows [options] available with the **cubrid statdump** utility.
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
     |                  | Num_unfix_lru1_private_keep              | Accumulator    | Unfix data page and keep it in zone 1 of private list                 |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
-    |                  | Num_unfix_lru2_shared_keep               | Accumulator    | Unfix data page and keep it in zone 2 of shared  list                 |
+    |                  | Num_unfix_lru1_shared_keep               | Accumulator    | Unfix data page and keep it in zone 1 of shared  list                 |
     |                  +------------------------------------------+----------------+-----------------------------------------------------------------------+
     |                  | Num_unfix_void_to_private_mid_vacuum     | Accumulator    | | Unfix newly loaded data page and add to middle of private LRU list  |
     |                  |                                          |                | | (vacuum thread)                                                     |
@@ -2734,7 +2733,7 @@ The following shows [options] available with the **cubrid diagdb** utility.
 
 .. option:: --emergency
 
-    Use **--emergency** option to suppress recovery. **This option is meant ONLY for debugging, if there are recovery issues. It is recommended to backup your database before using this option.**
+    Use **--emergency** option to suppress recovery. **This option is meant ONLY for debugging. if there are recovery issues, it is recommended to backup your database before using this option.**
 
 .. _paramdump:
 
