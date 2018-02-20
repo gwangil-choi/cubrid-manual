@@ -1,10 +1,10 @@
-Enhancements
-------------
+개선 사항
+---------
 
 * `[965] <https://github.com/CUBRID/cubrid/pull/965>`_ `[CBRD-21558] <http://jira.cubrid.org/browse/CBRD-21558>`_ inline functions for string compression
 * `[964] <https://github.com/CUBRID/cubrid/pull/964>`_ `[CBRD-21558] <http://jira.cubrid.org/browse/CBRD-21558>`_ Set HFID in heap_get_context when it is already available in the scan_cache
 
-Bug Fixes
+수정 사항
 ---------
 
 * `[978] <https://github.com/CUBRID/cubrid/pull/978>`_ `[CBRD-21540] <http://jira.cubrid.org/browse/CBRD-21540>`_ order by list might be already expanded

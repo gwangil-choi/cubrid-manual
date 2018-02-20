@@ -22,7 +22,7 @@ CUBRID 9.3 또는 그 이전 버전에 대한 정보는 http://www.cubrid.org/do
 
 CUBRID 10.1은 CUBRID 10.0의 중요 업그레이드이며 안정적인 버전이다. 
 
-CUBRID 10.1 Patch 1 includes many critical fixes of 10.1. All users of CUBRID 10.1 are kindly requested to upgrade to 10.1 Patch 1.
+CUBRID 10.1 Patch 1에는 10.1의 중요한 수정 사항이 포함되어있다. CUBRID 10.1의 모든 사용자는 10.1 Patch 1로 업그레이드 할 것을 권장한다.
 
 .. TODO: UPDATE WITH DETAILS.
 
@@ -59,8 +59,8 @@ CUBRID 10.1의 데이터베이스 볼륨은 CUBRID 10.0 및 그 이전 버전의
 
 .. _10_1_p1_changes:
 
-10.1 Patch 1 Changes 
-====================
+10.1 Patch 1 변경사항 
+=====================
 
 .. include:: changes_10_1_patch.rst 
 
